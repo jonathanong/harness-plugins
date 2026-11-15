@@ -23,6 +23,18 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | `bounded-iteration`                | Writing a sweep, backfill, dispatcher, or list read that must stay bounded. |
 | `glide-mq`                         | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.     |
 | `evals`                            | Documenting an eval suite: current scores, run history, and rules.          |
+| `pr-description`                   | Writing a pull request description: problem, change, impact, before/after.  |
+| `documentation`                    | Deciding what goes in docs, comments, and agent instruction files.          |
+| `test-authoring`                   | Choosing which tests to write, and building fixtures, helpers, and guards.  |
+| `playwright-authoring`             | Writing browser tests: what needs a browser, locators, and test ids.        |
+| `typescript-authoring`             | Writing TypeScript without aliases, shims, or hidden calls.                 |
+| `react-app-structure`              | Structuring API calls, links, redirects, and config in a React app.         |
+| `native-app-architecture`          | Structuring a native app around a portable core with thin views.            |
+| `rust-authoring`                   | Laying out Rust tests and caches, and running heavy cargo builds.           |
+| `http-api-design`                  | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.        |
+| `service-boundaries`               | Calling another service or a partner API, or handling a webhook.            |
+| `feature-rollout`                  | Adding a feature flag and separating deploy from enable.                    |
+| `structured-logging`               | Writing log lines with a static message and structured fields.              |
 
 ## Install
 
@@ -79,6 +91,18 @@ pnpm run lint
 pnpm run format:check
 pnpm run evals:check
 ```
+
+## Related plugins
+
+Other plugins by the same author. Each is installed on its own.
+
+| Plugin                                                              | What it does                                                                             |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [no-mistakes](https://github.com/jonathanong/no-mistakes)           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
+| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)           | Takes a pull request through CI, review comments, and merge.                             |
+| [agent-blackboard](https://github.com/jonathanong/agent-blackboard) | Records agent telemetry so agents can improve from their own sessions.                   |
+| [service-status](https://github.com/jonathanong/service-status)     | Tells an agent when a failure is a third-party outage and not its bug.                   |
+| [hook-harness](https://github.com/jonathanong/hook-harness)         | Turns GitHub events into agent runs.                                                     |
 
 ## License
 
