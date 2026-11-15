@@ -60,6 +60,10 @@ codex plugin marketplace add jonathanong/skills --ref main
 codex plugin add skills@jonathanong-skills
 ```
 
+The manifests set no `version`, so there are no releases to track. Claude Code treats each commit
+on `main` as an update. Codex picks up new commits when you run
+`codex plugin marketplace upgrade jonathanong-skills`.
+
 ## Layout
 
 ```
