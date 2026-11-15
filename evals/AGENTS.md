@@ -17,6 +17,8 @@ python3 scripts/eval-summary.py                           # the table for README
 - Sonnet is the agent and Opus is the judge. Measure with three attempts, the default.
 - The default run has no no-plugin arm. Run that arm once for a new case, to check that the model
   does not already pass it without the skill, and record what it scored in `HISTORY.md`.
+- A two-arm run leaves `skill-fired` out of the score. Take the score for `README.md` from a run
+  with the plugin only.
 - The run needs model credentials and executes each case's `fixture.sh` on the machine. Run it
   only on a checkout you trust. It does not run in CI.
 

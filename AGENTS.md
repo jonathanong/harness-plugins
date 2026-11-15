@@ -8,6 +8,10 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
   to pick and why.
 - Do not add a rule that depends on one repository's tooling, file layout, service names, or
   product policy. Leave that to the consuming repository's `AGENTS.md`.
+- This repository holds prose only. Anything that needs code to work, such as a hook, a CLI
+  tool, an MCP server, or a script a skill runs, belongs in its own repository. A skill may tell
+  the reader to use such a tool. The scripts under `scripts/` only check and run this
+  repository's evals.
 - Do not name a private organization, repository, product, or person in a skill, an eval case, a
   commit, or a pull request.
 
@@ -50,6 +54,8 @@ pnpm run lint
 pnpm run format:check
 pnpm run evals:check
 ```
+
+CI also checks every Markdown link with `lychee`.
 
 ## Pull requests
 
