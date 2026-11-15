@@ -8,15 +8,20 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 
 ## Skills
 
-| Skill                       | Use it when                                                                 |
-| --------------------------- | --------------------------------------------------------------------------- |
-| `static-code-analysis`      | Creating a repository: which static checks to add and how strict to start.  |
-| `static-analysis-checklist` | Adding or changing one static-analysis invariant.                           |
-| `github-actions-authoring`  | Designing workflows that react to events instead of polling.                |
-| `dependabot`                | Configuring Dependabot coverage, grouping, cooldowns, auto-merge, and runs. |
-| `package-json-checklist`    | Changing `package.json`, a lockfile, or a package entry point.              |
-| `npm-publishing`            | Preparing a first npm publish and trusted publishing for a human to run.    |
-| `triage-codex-security`     | Triaging Codex Security findings into explicitly approved actions.          |
+| Skill                              | Use it when                                                                 |
+| ---------------------------------- | --------------------------------------------------------------------------- |
+| `static-code-analysis`             | Creating a repository: which static checks to add and how strict to start.  |
+| `static-analysis-checklist`        | Adding or changing one static-analysis invariant.                           |
+| `github-actions-authoring`         | Designing workflows that react to events instead of polling.                |
+| `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, auto-merge, and runs. |
+| `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.              |
+| `npm-publishing`                   | Preparing a first npm publish and trusted publishing for a human to run.    |
+| `triage-codex-security`            | Triaging Codex Security findings into explicitly approved actions.          |
+| `postgres-schema-design`           | Designing tables, relations, history, retention, and row locking.           |
+| `postgres-node-performance-tuning` | Writing or tuning a query: shape, indexes, plans, round trips.              |
+| `postgres-partitioning-uuid-v7`    | Partitioning and pruning a table keyed by UUIDv7.                           |
+| `bounded-iteration`                | Writing a sweep, backfill, dispatcher, or list read that must stay bounded. |
+| `glide-mq`                         | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.     |
 
 ## Install
 

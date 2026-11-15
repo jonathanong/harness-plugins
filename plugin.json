@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "skills",
   "version": "0.1.0",
-  "description": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, and security triage.",
+  "description": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, security triage, PostgreSQL, and queues.",
   "author": {
     "name": "Jonathan Ong"
   },

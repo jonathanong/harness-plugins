@@ -22,3 +22,9 @@ and package layout, and override these defaults.
    checks required by the affected package. Do not publish or alter registry state without explicit
    authorization.
 5. Review the lockfile and generated metadata for unrelated churn before committing.
+6. Add a dependency at its latest release, or its LTS release when it has one. Look the version up;
+   do not recall it. An old version starts the package behind on fixes the update bot then has to
+   deliver.
+7. Do not use package-manager version overrides to work around a dependency. An override silently
+   pins every consumer and outlives its reason. When a package declares wrong metadata, correct
+   that declaration with `packageExtensions`.
