@@ -28,6 +28,11 @@ permissions, pins, and timeouts; this skill covers the design those rules do not
 - Prefer a provider-native completion event, callback, queue, or state-machine transition for a
   deployment or service.
 - A scheduled reconciliation workflow may repair a missed event. It inspects one snapshot and exits.
+- Do not gate on another workflow by reading its status through `gh` or the API, even once. On a
+  tag or branch push that workflow may still be running, so a single lookup races it. Call it with
+  `workflow_call` and `needs`, or trigger on a validated `workflow_run`. A manually dispatched
+  run, such as promoting an operator-chosen SHA, may look up a run that already completed when it
+  validates the workflow, repository, SHA, and successful conclusion.
   It does not wait for convergence.
 
 ## Persistent workspaces
@@ -50,11 +55,23 @@ apply only when a job runs on a self-hosted or otherwise persistent runner.
   and warm image stores. Replace each assumption with a keyed cache step, and re-derive
   `timeout-minutes` from a real passing run on the new runner.
 
+## Keep jobs inspectable
+
+- Move a long inline `run:` script to a tracked file with tests. Inline scripts are not linted
+  beyond syntax, cannot be run locally, and are reviewed as YAML strings.
+- Check out the whole tree for a job whose checks read the whole tree. A sparse checkout makes a
+  repository-wide lint or graph check pass on the files it happened to fetch.
+- Do not cancel in-progress runs on the default branch. Each commit there needs its own result;
+  cancelling leaves a gap in which a failure cannot be traced to its commit. Cancel superseded
+  runs on pull requests only.
+
 ## Reject polling designs
 
 - Do not add a sleep-and-read loop, a repeated query of a run, check, deployment, lease, or
   service, a CLI waiter, or a recursive redispatch whose purpose is to watch remote state change.
 - A timeout caps cost. It does not make polling event-driven.
+- A job that outgrows its timeout is split, not given a longer one. A raised timeout hides which
+  part became slow and lets the next regression through.
 - If the producer cannot emit a usable event, add the bridge at the producer or provider boundary
   and let that bridge dispatch the correlated completion event.
 - Bounded retries are allowed only for the same failed operation, and only when the failure is

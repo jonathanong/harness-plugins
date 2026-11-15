@@ -1,7 +1,7 @@
 {
   "name": "skills",
   "version": "0.1.0",
-  "description": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, and security triage.",
+  "description": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, security triage, PostgreSQL, and queues.",
   "author": {
     "name": "Jonathan Ong",
     "url": "https://github.com/jonathanong"
@@ -22,7 +22,7 @@
   "interface": {
     "displayName": "Skills",
     "shortDescription": "Generic skills that explain a design or a procedure.",
-    "longDescription": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, and security triage.",
+    "longDescription": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, security triage, PostgreSQL, and queues.",
     "developerName": "Jonathan Ong",
     "category": "Productivity",
     "capabilities": [],
