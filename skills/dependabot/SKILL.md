@@ -90,6 +90,8 @@ groups:
   least 1. Majors, pre-1.0 minors, prereleases, downgrades, malformed or inconsistent metadata, and
   locally declared manual ecosystems need a human. The workflow never merges majors.
 - Enable platform auto-merge. Do not auto-approve. Required checks and branch rules remain the gate.
+- Run the eligibility check again on every new head (`synchronize`). Disable auto-merge when the
+  new head is not eligible; auto-merge enabled for an earlier head otherwise carries over to it.
 - Store `DEPENDABOT_AUTOMERGE_TOKEN` as a Dependabot secret, not only as an Actions secret. Grant
   only the Contents and Pull requests access needed to enable or disable auto-merge. Fail an
   eligible mutation visibly when the token is missing or underprivileged.
