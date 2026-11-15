@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: `structured-logging` case replaced again, skill extended
+
+Sonnet agent, Opus judge, three attempts per arm.
+
+| Case                                           | With | Without | Cost  |
+| ---------------------------------------------- | ---- | ------- | ----- |
+| `structured-logging/add-refund-logs`           | 1.00 | 1.00    | $0.79 |
+| `structured-logging/log-identifier-not-lookup` | 1.00 | 0.00    | $0.76 |
+
+- A review pointed out that `review-refund-batch-logs`, the skill's only case, passed without the
+  plugin. A second attempt, `add-refund-logs`, also passed without it: the model writes a static
+  message with fields on its own. Both are removed.
+- What the model does not do on its own is decline a lookup when asked to log a value behind one.
+  The skill gained a section for that (log the identifier, add no queries for a log line, keep
+  personal data out of logs), and `log-identifier-not-lookup` uses the prompt of the first,
+  abandoned case. With the earlier skill text that prompt scored 0.00 in both arms.
+- The `structured-logging` row in `README.md` is from this run. It was not part of the 33-case
+  run below, which measured `review-refund-batch-logs`.
+
 ## 2026-11-15: full single-arm run, 33 cases
 
 Sonnet agent, Opus judge, three attempts, with the plugin only. Claude Code 2.1.325, 99 attempts,

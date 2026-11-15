@@ -44,7 +44,7 @@ plugin installed. 33 cases, 99 attempts, $15.38. Every case passed every attempt
 | `static-analysis-checklist/parses-yaml-with-fixtures`         | 1.00  | 3 of 3 |
 | `static-code-analysis/new-rust-service`                       | 1.00  | 3 of 3 |
 | `static-code-analysis/new-typescript-library`                 | 1.00  | 3 of 3 |
-| `structured-logging/review-refund-batch-logs`                 | 1.00  | 3 of 3 |
+| `structured-logging/log-identifier-not-lookup`                | 1.00  | 3 of 3 |
 | `test-authoring/fixture-files-not-inline`                     | 1.00  | 3 of 3 |
 | `triage-codex-security/approval-wave-cap`                     | 1.00  | 3 of 3 |
 | `triage-codex-security/repository-mismatch`                   | 1.00  | 3 of 3 |
@@ -85,7 +85,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `static-analysis-checklist/parses-yaml-with-fixtures`         | Parses YAML instead of matching text, and tests the check with fixtures.                          |
 | `static-code-analysis/new-rust-service`                       | Picks the static checks for a new Rust service.                                                   |
 | `static-code-analysis/new-typescript-library`                 | Picks the static checks for a new TypeScript library.                                             |
-| `structured-logging/review-refund-batch-logs`                 | Asks for a static message with fields and objects to lookups made only for a log line.            |
+| `structured-logging/log-identifier-not-lookup`                | Logs the customer id with a static message instead of looking up an email for the log.            |
 | `test-authoring/fixture-files-not-inline`                     | Reads saved fixture files instead of writing them in the test body.                               |
 | `triage-codex-security/approval-wave-cap`                     | Treats approval given before a wave was shown as not approving that wave.                         |
 | `triage-codex-security/repository-mismatch`                   | Stops when the findings belong to a different repository.                                         |
@@ -97,10 +97,12 @@ passed, so 1.00 means every grader passed on every attempt.
   weight. Treat a single miss as something to re-run, not a finding.
 - **These scores have no baseline.** The default run has only the with-plugin arm, so a 1.00 says
   the agent did the right thing with the plugin, not that the plugin was needed. The last
-  measured no-plugin scores are in [HISTORY.md](HISTORY.md). Four cases scored 1.00 without the
+  measured no-plugin scores are in [HISTORY.md](HISTORY.md). Three cases scored 1.00 without the
   plugin there and need harder prompts: `postgres-schema-design/review-parent-row-lock`,
-  `postgres-node-performance-tuning/new-query-shape-gets-index`,
-  `bounded-iteration/review-sweep-until-empty`, and `structured-logging/review-refund-batch-logs`.
+  `postgres-node-performance-tuning/new-query-shape-gets-index`, and
+  `bounded-iteration/review-sweep-until-empty`.
+- **One row was re-measured after the full run.** `structured-logging/log-identifier-not-lookup`
+  replaced an earlier case; its score is from its own run, recorded in [HISTORY.md](HISTORY.md).
 - **The loaded-the-skill grader counts toward the score.** A good answer from an agent that did
   not load the skill scores below 1.00.
 

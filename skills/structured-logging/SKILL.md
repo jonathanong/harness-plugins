@@ -37,7 +37,16 @@ to every call for the sake of a log line, and runs them even when the level is d
 - Select the identifiers the log needs in the query that already runs.
 - Bind request-wide context (request id, tenant, user) once to a child logger and pass that down.
 
+## When the requested value is not at hand
+
+When asked to log a value the code does not already hold, such as a customer's email or name that
+sits behind one or two lookups, log the identifier that leads to it (`customerId`) and say so. Do
+not add queries to the code path to fill a log line, even only on the failure path: the lookup can
+fail too, and it then hides the error being logged. Whoever reads the log can look the record up
+by its identifier.
+
 ## What not to log
 
-Do not put secrets, tokens, or full request bodies in fields. Log identifiers, and look the
-record up when it is needed.
+- Do not put secrets, tokens, or full request bodies in fields.
+- Keep personal data such as email addresses and names out of logs. Logs are kept longer, copied
+  further, and read by more people than the tables the data came from. Log the identifier.
