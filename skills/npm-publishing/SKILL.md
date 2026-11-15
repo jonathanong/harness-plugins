@@ -28,6 +28,9 @@ release workflow, build commands, and whether a laptop may publish, and override
   `npm publish <package-directory> --access public --dry-run`. Stop if it includes secrets,
   environment files, source maps, unrelated workspace files, or a missing runtime or type
   entrypoint. The dry run must include `prepublishOnly`. A pack-only check misses that script.
+- Read the package's `prepublishOnly`, `prepare`, `prepack`, `publish`, and `postpublish` scripts
+  before the dry run, which executes the pre-publish ones. Hand off any script that changes
+  something outside the working tree instead of running it.
 - If the package already exists, have the human run `npm trust list <package-name>` before any
   mutation. Omit the initial publish command. If trust already exists, report it and omit trust
   creation. Do not revoke or replace it.
@@ -44,6 +47,8 @@ release workflow, build commands, and whether a laptop may publish, and override
   the second command if the code has expired. Tell them not to share or record the code. Warn that
   `--otp` still exposes the code in process arguments while the command runs, and to follow local
   secret-handling policy. Never ask for the code or put a value in the commands.
+- An account that signs in with a security key has no code to type. Tell that human to drop
+  `--otp=$OTP` and complete the browser prompt npm opens.
 - Give the applicable commands with resolved values, in this order:
 
 ```sh

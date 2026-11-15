@@ -126,4 +126,5 @@ GitHub exposes no REST or GraphQL endpoint and no `gh` command that starts a ver
   give the user the URL and the entries to check, and say that the check was not requested.
 - Do not push a no-op edit to `dependabot.yml` to force a run.
 - To rebuild one existing pull request, comment `@dependabot recreate` or `@dependabot rebase` on
-  it. That does not check for new versions.
+  it. That does not check for new versions. `recreate` discards commits other people pushed to the
+  pull request, so save those first.

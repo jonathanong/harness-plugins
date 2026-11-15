@@ -24,13 +24,13 @@ first appears, not when it first causes a problem.
 
 ## Baseline for every repository
 
-| Check             | Tool                   | Start from                                                                                                          |
-| ----------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Formatting        | the language formatter | Check mode in CI (`--check`), never a rewrite. Covers Markdown, JSON, YAML.                                         |
-| Workflow syntax   | `actionlint`           | Every push that touches `.github/workflows`. It runs `shellcheck` on `run:`.                                        |
-| Workflow security | `zizmor`               | `--min-severity high --min-confidence high`. Add with the first workflow that holds a secret or a write permission. |
-| Committed secrets | `gitleaks`             | Default rules, on every push and over history once. Allowlist by path, with a reason.                               |
-| File size         | the linter's own rule  | 200 lines per source file, 500 per test file. Keep tests in separate files.                                         |
+| Check             | Tool                   | Start from                                                                                                                                                     |
+| ----------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Formatting        | the language formatter | Check mode in CI (`--check`), never a rewrite. Covers Markdown, JSON, YAML.                                                                                    |
+| Workflow syntax   | `actionlint`           | Every push that touches `.github/workflows`. It runs `shellcheck` on Bash and sh `run:` steps only when `shellcheck` is installed, so install it in that job.  |
+| Workflow security | `zizmor`               | `--min-severity high --min-confidence high`. Add with the first workflow that holds a secret or a write permission.                                            |
+| Committed secrets | `gitleaks`             | Default rules, on every push and over history once. Allowlist one finding by fingerprint, or a path together with the rule, with a reason. Never a whole path. |
+| File size         | the linter's own rule  | 200 lines per source file, 500 per test file. Keep tests in separate files.                                                                                    |
 
 ## By what the repository contains
 
@@ -45,7 +45,7 @@ first appears, not when it first causes a problem.
 | More than a handful of modules               | `knip`                     | Unused files, exports, and dependencies. Run it twice: default, and `--production` to find code only tests use. Model entry points in its config instead of tagging exports.                                                                                                                |
 | Two or more packages or layers               | `dependency-cruiser`       | `no-circular` as an error, plus one rule per boundary that must hold, such as "shared code does not import an app".                                                                                                                                                                         |
 | A workspace with several `package.json`      | `syncpack`                 | One version of each dependency across the workspace.                                                                                                                                                                                                                                        |
-| A lockfile                                   | `pnpm dedupe --check`      | Fails when the lockfile holds duplicates that can be collapsed.                                                                                                                                                                                                                             |
+| A pnpm lockfile                              | `pnpm dedupe --check`      | Fails when the lockfile holds duplicates that can be collapsed. Other package managers have their own check, such as `yarn dedupe --check`.                                                                                                                                                 |
 | A codebase past its first few thousand lines | `jscpd`                    | Copy-paste detection. Start near 50 lines and 0.8 similarity.                                                                                                                                                                                                                               |
 | Browser tests                                | the Playwright lint plugin | Missing awaits, hard waits, and focused tests.                                                                                                                                                                                                                                              |
 
@@ -55,13 +55,13 @@ from an entry point, does each source file have a test) belong to a graph-based 
 
 ### Rust
 
-| Trigger     | Tool                | Start from                                                                                                                                                                                                |
-| ----------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Any Rust    | `cargo fmt`         | `cargo fmt --all -- --check`.                                                                                                                                                                             |
-| Any Rust    | `cargo clippy`      | `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`.                                                                                                                          |
-| Any Rust    | `rustc`             | `RUSTFLAGS: "-D warnings"` in CI, so a compiler warning fails the build.                                                                                                                                  |
-| A workspace | `[workspace.lints]` | Declare lint levels once and set `[lints] workspace = true` in each crate. Worth enabling: `clippy::undocumented_unsafe_blocks`, `clippy::allow_attributes_without_reason`, `cargo::unused_dependencies`. |
-| Any Rust    | a file-size check   | 200 lines per source file, 500 per test file, tests in their own files. Clippy has no such lint; use a graph checker rule or a small script.                                                              |
+| Trigger     | Tool                | Start from                                                                                                                                                                                                                           |
+| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Any Rust    | `cargo fmt`         | `cargo fmt --all -- --check`.                                                                                                                                                                                                        |
+| Any Rust    | `cargo clippy`      | `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`. Drop `--locked` when `Cargo.lock` is not tracked. When features exclude each other, run once per supported combination instead of `--all-features`. |
+| Any Rust    | `rustc`             | `RUSTFLAGS: "-D warnings"` in CI, so a compiler warning fails the build.                                                                                                                                                             |
+| A workspace | `[workspace.lints]` | Declare lint levels once and set `[lints] workspace = true` in each crate. Worth enabling: `clippy::undocumented_unsafe_blocks`, `clippy::allow_attributes_without_reason`, `cargo::unused_dependencies`.                            |
+| Any Rust    | a file-size check   | 200 lines per source file, 500 per test file, tests in their own files. Clippy has no such lint; use a graph checker rule or a small script.                                                                                         |
 
 ### Other languages and files
 
@@ -70,7 +70,7 @@ from an entry point, does each source file have a test) belong to a graph-based 
 | Shell scripts                 | `shellcheck`                            | Every tracked `*.sh`. Put `shell=bash` and source paths in `.shellcheckrc`.                                                                                                                 |
 | A Dockerfile                  | `hadolint`                              | Default rules. Ignore a rule in `.hadolint.yaml` with a reason, not inline.                                                                                                                 |
 | A built container image       | `trivy`                                 | Scan the image in the build workflow. Keep ignores in a tracked file with an expiry.                                                                                                        |
-| OpenTofu or Terraform         | `tofu fmt`, `tofu validate`             | `tofu fmt -check -recursive`, and `validate` per root. Run both before any cloud credential is granted to the job.                                                                          |
+| OpenTofu or Terraform         | `tofu fmt`, `tofu validate`             | `tofu fmt -check -recursive`, then `tofu init -backend=false` and `tofu validate` per root. Run them before any cloud credential is granted to the job.                                     |
 | SQL migrations for PostgreSQL | `squawk`                                | Set the server version. Exclude a rule only with a written reason.                                                                                                                          |
 | Swift                         | `swiftformat`, `swiftlint`, `periphery` | `file_length` 200 warning and 250 error, `function_body_length` 50 and 80. `periphery` finds unused code.                                                                                   |
 | .NET                          | `dotnet format`, analyzers              | `dotnet format --verify-no-changes`. `TreatWarningsAsErrors` and `AnalysisMode` `AllEnabledByDefault` in `Directory.Build.props`, plus an analyzer package such as Meziantou or Roslynator. |

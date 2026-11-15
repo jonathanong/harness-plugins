@@ -6,5 +6,6 @@
   "author": {
     "name": "Jonathan Ong"
   },
-  "skills": "./skills/"
+  "repository": "https://github.com/jonathanong/skills",
+  "license": "MIT"
 }

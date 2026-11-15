@@ -1,4 +1,4 @@
 ---
 type: regex
-pattern: 'pnpm (--filter|-F|add|install)'
+pattern: 'pnpm (--filter|-F|-C|--dir|add|install)'
 ---
