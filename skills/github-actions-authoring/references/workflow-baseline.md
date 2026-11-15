@@ -10,6 +10,11 @@ Check these before editing any workflow or composite action. A stricter reposito
 - Do not subscribe a pull-request CI workflow to `ready_for_review` or `converted_to_draft` unless
   a job changes what it does on that transition. Each of those starts another run for the same
   head, and `cancel-in-progress: true` then replaces checks that already passed.
+- Do not put a `branches` or `branches-ignore` filter on the `pull_request` trigger of a workflow
+  that must run on stacked pull requests. The filter matches the pull request's base branch, so
+  `branches: [main]` skips every pull request whose base is another pull request's branch, and
+  the layers above the bottom get no CI. After changing a trigger on the default branch, rebase
+  open stacks so their branches carry the new workflow file.
 - A required check is a real job that runs or aggregates the work it reports.
 - Workflow code must not create check runs or commit statuses to synthesize a required context or
   copy another workflow's conclusion. An external CI or analysis service may report its own result.
