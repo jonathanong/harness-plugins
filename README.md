@@ -22,6 +22,7 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | `postgres-partitioning-uuid-v7`    | Partitioning and pruning a table keyed by UUIDv7.                           |
 | `bounded-iteration`                | Writing a sweep, backfill, dispatcher, or list read that must stay bounded. |
 | `glide-mq`                         | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.     |
+| `evals`                            | Documenting an eval suite: current scores, run history, and rules.          |
 
 ## Install
 
@@ -50,28 +51,25 @@ codex plugin add skills@jonathanong-skills
 plugin.json         Open plugin manifest
 skills/<skill>/     SKILL.md and its references
 evals/<skill>/      Eval cases for that skill, one directory per case
+evals/README.md     Current eval scores and what each case checks
+AGENTS.md           Rules for contributors and agents, including the skill size limit
 ```
 
 To add a skill, create `skills/<skill>/SKILL.md` and at least one case under `evals/<skill>/` that
-asserts the skill fired. `pnpm run evals:check` enforces that, and CI runs it.
+asserts the skill fired. Keep `SKILL.md` to 150 lines and put detail in `references/`.
+`pnpm run evals:check` enforces both, and CI runs it. See [`AGENTS.md`](AGENTS.md).
 
 ## Evals
 
-The plugin carries a [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals) suite.
-Every case runs with the plugin and without it, so the report shows what each skill changes.
+Every skill has eval cases run with [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals).
+The current scores and what each case checks are in [`evals/README.md`](evals/README.md). The run
+log is in [`evals/HISTORY.md`](evals/HISTORY.md), and the rules for cases are in
+[`evals/AGENTS.md`](evals/AGENTS.md).
 
 ```bash
 pnpm run evals                  # every skill
 pnpm run evals npm-publishing   # one skill
 ```
-
-Sonnet runs the cases and Opus judges them. Override with `EVAL_MODEL`, `EVAL_JUDGE_MODEL`,
-`EVAL_CONCURRENCY`, or pass extra flags in `EVAL_FLAGS`. Results land in `evals/results/`, which
-git ignores.
-
-The suite grants the agent `Bash` and runs each case's `fixture.sh` on your machine, so run it only
-on a checkout you trust. Cases that guard an action grade the commands the agent attempts. Their
-fixtures are synthetic and point at a dead local registry, so a failing run cannot publish.
 
 ## Development
 
