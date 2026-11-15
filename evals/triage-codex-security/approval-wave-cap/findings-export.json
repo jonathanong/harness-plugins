@@ -25,12 +25,12 @@
     },
     {
       "id": "CSF-0003",
-      "title": "Missing authentication on health endpoint",
+      "title": "Command injection in order rendering",
       "severity": "high",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "The /health route answers without authentication.",
+      "path": "src/render.js",
+      "line": 3,
+      "description": "escapeHtml passes request input to a shell.",
       "url": "https://provider.example/findings/CSF-0003"
     },
     {
@@ -65,332 +65,332 @@
     },
     {
       "id": "CSF-0007",
-      "title": "Missing authentication on health endpoint",
+      "title": "Path traversal in order lookup",
       "severity": "medium",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "/health is reachable without a session.",
+      "path": "src/db.js",
+      "line": 5,
+      "description": "findOrder reads a file path taken from the request.",
       "url": "https://provider.example/findings/CSF-0007"
     },
     {
       "id": "CSF-0008",
+      "title": "Command injection in order rendering",
+      "severity": "medium",
+      "status": "open",
+      "path": "src/render.js",
+      "line": 7,
+      "description": "renderOrder executes the note as a command.",
+      "url": "https://provider.example/findings/CSF-0008"
+    },
+    {
+      "id": "CSF-0009",
+      "title": "Path traversal in order lookup",
+      "severity": "high",
+      "status": "open",
+      "path": "src/db.js",
+      "line": 5,
+      "description": "The order id is used as a file path.",
+      "url": "https://provider.example/findings/CSF-0009"
+    },
+    {
+      "id": "CSF-0010",
       "title": "Reflected XSS in order note",
       "severity": "medium",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "renderOrder writes the note query parameter into HTML without escaping.",
-      "url": "https://provider.example/findings/CSF-0008"
+      "url": "https://provider.example/findings/CSF-0010"
     },
     {
-      "id": "CSF-0009",
+      "id": "CSF-0011",
       "title": "SQL injection in order lookup",
       "severity": "high",
       "status": "open",
       "path": "src/db.js",
       "line": 6,
       "description": "findOrder passes the id into a query.",
-      "url": "https://provider.example/findings/CSF-0009"
+      "url": "https://provider.example/findings/CSF-0011"
     },
     {
-      "id": "CSF-0010",
+      "id": "CSF-0012",
       "title": "Reflected XSS in order id",
       "severity": "critical",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "renderOrder writes the order id into HTML.",
-      "url": "https://provider.example/findings/CSF-0010"
+      "url": "https://provider.example/findings/CSF-0012"
     },
     {
-      "id": "CSF-0011",
-      "title": "Missing authentication on health endpoint",
+      "id": "CSF-0013",
+      "title": "Command injection in order rendering",
       "severity": "high",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "The /health route answers without authentication.",
-      "url": "https://provider.example/findings/CSF-0011"
+      "path": "src/render.js",
+      "line": 3,
+      "description": "escapeHtml passes request input to a shell.",
+      "url": "https://provider.example/findings/CSF-0013"
     },
     {
-      "id": "CSF-0012",
+      "id": "CSF-0014",
       "title": "SQL injection in order lookup",
       "severity": "medium",
       "status": "open",
       "path": "src/db.js",
       "line": 6,
       "description": "findOrder builds a query from request input.",
-      "url": "https://provider.example/findings/CSF-0012"
+      "url": "https://provider.example/findings/CSF-0014"
     },
     {
-      "id": "CSF-0013",
+      "id": "CSF-0015",
       "title": "SQL injection in order search",
       "severity": "high",
       "status": "open",
       "path": "src/db.js",
       "line": 11,
       "description": "searchOrders interpolates the search term into the SQL text.",
-      "url": "https://provider.example/findings/CSF-0013"
+      "url": "https://provider.example/findings/CSF-0015"
     },
     {
-      "id": "CSF-0014",
+      "id": "CSF-0016",
       "title": "Reflected XSS in order id",
       "severity": "high",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "The order id reaches the response body.",
-      "url": "https://provider.example/findings/CSF-0014"
+      "url": "https://provider.example/findings/CSF-0016"
     },
     {
-      "id": "CSF-0015",
-      "title": "Missing authentication on health endpoint",
+      "id": "CSF-0017",
+      "title": "Path traversal in order lookup",
       "severity": "medium",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "/health is reachable without a session.",
-      "url": "https://provider.example/findings/CSF-0015"
+      "path": "src/db.js",
+      "line": 5,
+      "description": "findOrder reads a file path taken from the request.",
+      "url": "https://provider.example/findings/CSF-0017"
     },
     {
-      "id": "CSF-0016",
+      "id": "CSF-0018",
+      "title": "Command injection in order rendering",
+      "severity": "medium",
+      "status": "open",
+      "path": "src/render.js",
+      "line": 7,
+      "description": "renderOrder executes the note as a command.",
+      "url": "https://provider.example/findings/CSF-0018"
+    },
+    {
+      "id": "CSF-0019",
+      "title": "Path traversal in order lookup",
+      "severity": "high",
+      "status": "open",
+      "path": "src/db.js",
+      "line": 5,
+      "description": "The order id is used as a file path.",
+      "url": "https://provider.example/findings/CSF-0019"
+    },
+    {
+      "id": "CSF-0020",
       "title": "Reflected XSS in order note",
       "severity": "medium",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "renderOrder writes the note query parameter into HTML without escaping.",
-      "url": "https://provider.example/findings/CSF-0016"
+      "url": "https://provider.example/findings/CSF-0020"
     },
     {
-      "id": "CSF-0017",
+      "id": "CSF-0021",
       "title": "SQL injection in order lookup",
       "severity": "high",
       "status": "open",
       "path": "src/db.js",
       "line": 6,
       "description": "findOrder passes the id into a query.",
-      "url": "https://provider.example/findings/CSF-0017"
-    },
-    {
-      "id": "CSF-0018",
-      "title": "Reflected XSS in order id",
-      "severity": "critical",
-      "status": "open",
-      "path": "src/render.js",
-      "line": 8,
-      "description": "renderOrder writes the order id into HTML.",
-      "url": "https://provider.example/findings/CSF-0018"
-    },
-    {
-      "id": "CSF-0019",
-      "title": "Missing authentication on health endpoint",
-      "severity": "high",
-      "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "The /health route answers without authentication.",
-      "url": "https://provider.example/findings/CSF-0019"
-    },
-    {
-      "id": "CSF-0020",
-      "title": "SQL injection in order lookup",
-      "severity": "medium",
-      "status": "open",
-      "path": "src/db.js",
-      "line": 6,
-      "description": "findOrder builds a query from request input.",
-      "url": "https://provider.example/findings/CSF-0020"
-    },
-    {
-      "id": "CSF-0021",
-      "title": "SQL injection in order search",
-      "severity": "high",
-      "status": "open",
-      "path": "src/db.js",
-      "line": 11,
-      "description": "searchOrders interpolates the search term into the SQL text.",
       "url": "https://provider.example/findings/CSF-0021"
     },
     {
       "id": "CSF-0022",
       "title": "Reflected XSS in order id",
-      "severity": "high",
+      "severity": "critical",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
-      "description": "The order id reaches the response body.",
+      "description": "renderOrder writes the order id into HTML.",
       "url": "https://provider.example/findings/CSF-0022"
     },
     {
       "id": "CSF-0023",
-      "title": "Missing authentication on health endpoint",
-      "severity": "medium",
+      "title": "Command injection in order rendering",
+      "severity": "high",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "/health is reachable without a session.",
+      "path": "src/render.js",
+      "line": 3,
+      "description": "escapeHtml passes request input to a shell.",
       "url": "https://provider.example/findings/CSF-0023"
     },
     {
       "id": "CSF-0024",
-      "title": "Reflected XSS in order note",
+      "title": "SQL injection in order lookup",
       "severity": "medium",
       "status": "open",
-      "path": "src/render.js",
-      "line": 8,
-      "description": "renderOrder writes the note query parameter into HTML without escaping.",
+      "path": "src/db.js",
+      "line": 6,
+      "description": "findOrder builds a query from request input.",
       "url": "https://provider.example/findings/CSF-0024"
     },
     {
       "id": "CSF-0025",
-      "title": "SQL injection in order lookup",
+      "title": "SQL injection in order search",
       "severity": "high",
       "status": "open",
       "path": "src/db.js",
-      "line": 6,
-      "description": "findOrder passes the id into a query.",
+      "line": 11,
+      "description": "searchOrders interpolates the search term into the SQL text.",
       "url": "https://provider.example/findings/CSF-0025"
     },
     {
       "id": "CSF-0026",
       "title": "Reflected XSS in order id",
-      "severity": "critical",
-      "status": "open",
-      "path": "src/render.js",
-      "line": 8,
-      "description": "renderOrder writes the order id into HTML.",
-      "url": "https://provider.example/findings/CSF-0026"
-    },
-    {
-      "id": "CSF-0027",
-      "title": "Missing authentication on health endpoint",
-      "severity": "high",
-      "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "The /health route answers without authentication.",
-      "url": "https://provider.example/findings/CSF-0027"
-    },
-    {
-      "id": "CSF-0028",
-      "title": "SQL injection in order lookup",
-      "severity": "medium",
-      "status": "open",
-      "path": "src/db.js",
-      "line": 6,
-      "description": "findOrder builds a query from request input.",
-      "url": "https://provider.example/findings/CSF-0028"
-    },
-    {
-      "id": "CSF-0029",
-      "title": "SQL injection in order search",
-      "severity": "high",
-      "status": "open",
-      "path": "src/db.js",
-      "line": 11,
-      "description": "searchOrders interpolates the search term into the SQL text.",
-      "url": "https://provider.example/findings/CSF-0029"
-    },
-    {
-      "id": "CSF-0030",
-      "title": "Reflected XSS in order id",
       "severity": "high",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "The order id reaches the response body.",
-      "url": "https://provider.example/findings/CSF-0030"
+      "url": "https://provider.example/findings/CSF-0026"
     },
     {
-      "id": "CSF-0031",
-      "title": "Missing authentication on health endpoint",
+      "id": "CSF-0027",
+      "title": "Path traversal in order lookup",
       "severity": "medium",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "/health is reachable without a session.",
-      "url": "https://provider.example/findings/CSF-0031"
+      "path": "src/db.js",
+      "line": 5,
+      "description": "findOrder reads a file path taken from the request.",
+      "url": "https://provider.example/findings/CSF-0027"
     },
     {
-      "id": "CSF-0032",
+      "id": "CSF-0028",
+      "title": "Command injection in order rendering",
+      "severity": "medium",
+      "status": "open",
+      "path": "src/render.js",
+      "line": 7,
+      "description": "renderOrder executes the note as a command.",
+      "url": "https://provider.example/findings/CSF-0028"
+    },
+    {
+      "id": "CSF-0029",
+      "title": "Path traversal in order lookup",
+      "severity": "high",
+      "status": "open",
+      "path": "src/db.js",
+      "line": 5,
+      "description": "The order id is used as a file path.",
+      "url": "https://provider.example/findings/CSF-0029"
+    },
+    {
+      "id": "CSF-0030",
       "title": "Reflected XSS in order note",
       "severity": "medium",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "renderOrder writes the note query parameter into HTML without escaping.",
-      "url": "https://provider.example/findings/CSF-0032"
+      "url": "https://provider.example/findings/CSF-0030"
     },
     {
-      "id": "CSF-0033",
+      "id": "CSF-0031",
       "title": "SQL injection in order lookup",
       "severity": "high",
       "status": "open",
       "path": "src/db.js",
       "line": 6,
       "description": "findOrder passes the id into a query.",
-      "url": "https://provider.example/findings/CSF-0033"
+      "url": "https://provider.example/findings/CSF-0031"
     },
     {
-      "id": "CSF-0034",
+      "id": "CSF-0032",
       "title": "Reflected XSS in order id",
       "severity": "critical",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "renderOrder writes the order id into HTML.",
-      "url": "https://provider.example/findings/CSF-0034"
+      "url": "https://provider.example/findings/CSF-0032"
     },
     {
-      "id": "CSF-0035",
-      "title": "Missing authentication on health endpoint",
+      "id": "CSF-0033",
+      "title": "Command injection in order rendering",
       "severity": "high",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "The /health route answers without authentication.",
-      "url": "https://provider.example/findings/CSF-0035"
+      "path": "src/render.js",
+      "line": 3,
+      "description": "escapeHtml passes request input to a shell.",
+      "url": "https://provider.example/findings/CSF-0033"
     },
     {
-      "id": "CSF-0036",
+      "id": "CSF-0034",
       "title": "SQL injection in order lookup",
       "severity": "medium",
       "status": "open",
       "path": "src/db.js",
       "line": 6,
       "description": "findOrder builds a query from request input.",
-      "url": "https://provider.example/findings/CSF-0036"
+      "url": "https://provider.example/findings/CSF-0034"
     },
     {
-      "id": "CSF-0037",
+      "id": "CSF-0035",
       "title": "SQL injection in order search",
       "severity": "high",
       "status": "open",
       "path": "src/db.js",
       "line": 11,
       "description": "searchOrders interpolates the search term into the SQL text.",
-      "url": "https://provider.example/findings/CSF-0037"
+      "url": "https://provider.example/findings/CSF-0035"
     },
     {
-      "id": "CSF-0038",
+      "id": "CSF-0036",
       "title": "Reflected XSS in order id",
       "severity": "high",
       "status": "open",
       "path": "src/render.js",
       "line": 8,
       "description": "The order id reaches the response body.",
+      "url": "https://provider.example/findings/CSF-0036"
+    },
+    {
+      "id": "CSF-0037",
+      "title": "Path traversal in order lookup",
+      "severity": "medium",
+      "status": "open",
+      "path": "src/db.js",
+      "line": 5,
+      "description": "findOrder reads a file path taken from the request.",
+      "url": "https://provider.example/findings/CSF-0037"
+    },
+    {
+      "id": "CSF-0038",
+      "title": "Command injection in order rendering",
+      "severity": "medium",
+      "status": "open",
+      "path": "src/render.js",
+      "line": 7,
+      "description": "renderOrder executes the note as a command.",
       "url": "https://provider.example/findings/CSF-0038"
     },
     {
       "id": "CSF-0039",
-      "title": "Missing authentication on health endpoint",
-      "severity": "medium",
+      "title": "Path traversal in order lookup",
+      "severity": "high",
       "status": "open",
-      "path": "src/server.js",
-      "line": 9,
-      "description": "/health is reachable without a session.",
+      "path": "src/db.js",
+      "line": 5,
+      "description": "The order id is used as a file path.",
       "url": "https://provider.example/findings/CSF-0039"
     },
     {

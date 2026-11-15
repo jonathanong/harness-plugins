@@ -1,5 +1,5 @@
 ---
-description: Blanket approval for 30 closes still yields a first wave of at most 25 exact IDs.
+description: Blanket approval for more than 25 closes still yields a first wave of at most 25 exact IDs.
 tags: [triage-codex-security, outcome, skill-fired]
 max_turns: 40
 timeout_seconds: 900

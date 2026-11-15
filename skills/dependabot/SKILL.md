@@ -117,16 +117,13 @@ GitHub exposes no REST or GraphQL endpoint and no `gh` command that starts a ver
 
 1. Open `https://github.com/<owner>/<repository>/network/updates` in an authenticated browser. The
    same page is under Insights, Dependency graph, Dependabot.
-2. The page lists one row per update entry in `dependabot.yml`. Choose "Check for updates" on each
-   row that should run. One click starts one run for that ecosystem and directory.
-3. Open "Recent update jobs" on a row to read the log of the run. Read it once after the run
-   finishes. Do not reload the page in a loop to watch it.
+2. The page lists one row per update entry in `dependabot.yml`. Choose "Check for updates" for
+   each entry that should run.
+3. Open "Recent update jobs" on a row and read the log once the run has finished. Do not reload the
+   page in a loop to watch it.
 
 - Use a browser tool only when one is available with the user's own signed-in session. Otherwise
-  give the user the URL and the rows to click, and say that the check was not requested.
-- Editing `dependabot.yml` on the default branch also starts a run for the changed entries. Do not
-  push a no-op edit to force one.
-- A manual check does not bypass `cooldown` or `open-pull-requests-limit`. A release still inside
-  its cooldown window opens no pull request.
+  give the user the URL and the entries to check, and say that the check was not requested.
+- Do not push a no-op edit to `dependabot.yml` to force a run.
 - To rebuild one existing pull request, comment `@dependabot recreate` or `@dependabot rebase` on
   it. That does not check for new versions.
