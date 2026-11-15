@@ -12,7 +12,7 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | ---------------------------------- | ------------------------------------------------------------------------------ |
 | `static-code-analysis`             | Creating a repository: which static checks to add and how strict to start.     |
 | `static-analysis-checklist`        | Adding or changing one static-analysis invariant.                              |
-| `github-actions-authoring`         | Designing workflows that react to events instead of polling.                   |
+| `github-actions-authoring`         | Writing workflows: events not polling, triggers, timeouts, runners, pins.      |
 | `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.       |
 | `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.                 |
 | `npm-publishing`                   | Preparing a first npm publish and trusted publishing for a human to run.       |
@@ -35,6 +35,12 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | `service-boundaries`               | Calling another service or a partner API, or handling a webhook.               |
 | `feature-rollout`                  | Adding a feature flag and separating deploy from enable.                       |
 | `structured-logging`               | Writing log lines with a static message and structured fields.                 |
+| `agent-workflow`                   | Implementing, handing off, reviewing, and answering review comments.           |
+| `planning`                         | Planning a change: options, what it touches, steps, where the plan lives.      |
+| `git-commit-checklist`             | Committing, and rebasing or force-pushing a branch others also push to.        |
+| `github-issue`                     | Filing, editing, closing, and linking GitHub issues.                           |
+| `review-ci-logs`                   | Diagnosing a CI failure or noisy CI output from the logs.                      |
+| `revisit-followups`                | Sweeping merged work for deferred follow-ups that are still needed.            |
 
 ## Install
 

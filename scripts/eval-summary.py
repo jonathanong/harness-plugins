@@ -18,8 +18,13 @@ print("| Case | Score | Passed |" + (" Without plugin |" if baseline else ""))
 print("| --- | --- | --- |" + (" --- |" if baseline else ""))
 for case in cases:
     runs = case["arms"]["with"]
-    passed = sum(1 for run in runs if run["passed"])
-    row = f"| `{case['dir'].removeprefix('evals/')}` | {case['aggregates']['score']:.2f} "
+    # A two-arm run leaves skill-fired out of its own score, so count every grader here.
+    passed = sum(1 for run in runs if all(grader["passed"] for grader in run["graders"]))
+    shares = [
+        sum(1 for grader in run["graders"] if grader["passed"]) / len(run["graders"])
+        for run in runs
+    ]
+    row = f"| `{case['dir'].removeprefix('evals/')}` | {sum(shares) / len(shares):.2f} "
     row += f"| {passed} of {len(runs)} |"
     if baseline:
         row += f" {case['aggregates'].get('scoreWithout', 0):.2f} |"

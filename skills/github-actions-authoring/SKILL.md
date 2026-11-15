@@ -1,6 +1,6 @@
 ---
 name: github-actions-authoring
-description: Design event-driven GitHub Actions without remote-state polling.
+description: Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, and pins. Use when writing, editing, or reviewing a workflow or composite action.
 ---
 
 # GitHub Actions authoring
@@ -10,6 +10,10 @@ first. Repository-local policy owns runner labels, permissions, action pins, con
 and required-check names, and overrides these defaults. When the `no-mistakes-rules` plugin is
 installed, `no-mistakes-rules:github-actions-rules` is the optional rule list for triggers,
 permissions, pins, and timeouts; this skill covers the design those rules do not prescribe.
+
+Before editing any workflow, read the [workflow baseline](references/workflow-baseline.md):
+trigger types that restart passed checks, concurrency and cancellation, the 30-minute job bound,
+runner choice, and pinning.
 
 ## Design the event graph
 

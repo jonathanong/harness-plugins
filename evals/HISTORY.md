@@ -4,6 +4,56 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: six workflow skills added, with seven cases
+
+Sonnet agent, Opus judge. Two one-attempt pilots with both arms ($2.52, $1.12), a three-attempt
+run with both arms ($10.48), a three-attempt run with the plugin only ($5.37), six attempts of
+`test-authoring` on this change and on the commit before it ($3.10, $3.18), and a three-attempt
+rerun of two changed cases ($0.98).
+
+| Case                                                    | With          | Without |
+| ------------------------------------------------------- | ------------- | ------- |
+| `agent-workflow/review-round-dispositions`              | 0.67 (2 of 3) | 0.00    |
+| `git-commit-checklist/stages-only-task-files`           | 1.00          | 0.33    |
+| `github-actions-authoring/required-check-is-a-real-job` | 1.00          | 0.00    |
+| `github-issue/search-before-filing`                     | 0.83 (2 of 3) | 0.00    |
+| `planning/plan-saved-outside-repo`                      | 1.00          | 0.00    |
+| `review-ci-logs/quiet-log-keeps-errors`                 | 1.00          | 1.00    |
+| `revisit-followups/only-verified-deferred-work`         | 1.00          | 0.00    |
+| `test-authoring/dotnet-private-field-not-reflected`     | 0.83 (4 of 6) | 0.33    |
+| `test-authoring/fake-routes-by-request`                 | 1.00 (6 of 6) | 0.00    |
+| `test-authoring/fixture-files-not-inline`               | 1.00 (6 of 6) | 0.00    |
+| `test-authoring/review-helper-holds-assertions`         | 0.75 (3 of 6) | 0.00    |
+
+- **New skills:** `agent-workflow`, `git-commit-checklist`, `github-issue`, `planning`,
+  `review-ci-logs`, `revisit-followups`. `github-actions-authoring` gained a workflow baseline
+  reference and a wider description. `test-authoring` gained three rules on failure paths,
+  evidence, and docs contracts.
+- **Adding skills lowered how often `test-authoring` loads.** Six attempts per case, same hour:
+  on the commit before, the skill loaded on 23 of 24 attempts; with the six skills added, 19 of 24. The drop is on the review case (6 of 6 to 3 of 6). On the attempts where it did not load,
+  no skill was loaded at all, and the answer still passed. The sample is small.
+- **`review-ci-logs` has no case the model fails unaided.** Two were tried: a retry that would
+  mask a port collision, and a noisy log quieted by discarding stderr. Both scored 1.00 without
+  the plugin. The second is kept so the skill has a case.
+- **`git-commit-checklist`:** a case on a force push that names the expected remote tip scored
+  1.00 without the plugin in the pilot and was replaced by the staging case.
+- **`github-actions-authoring`:** a review case on a draft-transition trigger and cancellation
+  on the default branch scored 1.00 without the plugin in the pilot and was replaced.
+- **`agent-workflow` prompt changed after the first measured run.** It now says the repository
+  has no job queue and that the teammate's comment was checked, because answers hedged on both.
+  The "Without" score predates that edit. In the rerun the one failed attempt did not load the
+  skill and implemented more than the blocking item.
+- **`github-issue`:** its description lost the label and project wording after the two-arm run.
+  One of three attempts in the rerun loaded the skill and still failed the answer grader.
+- **`fake-routes-by-request` grader:** it failed two answers that routed the fake by path and
+  also asserted which paths were requested. That assertion is now allowed; asserting call order
+  still fails.
+- **`pr-description`** gained rules for diagrams, activation, cost, schema inventories, folded
+  detail, and local check gaps, plus an examples reference. Its case was rerun with the plugin
+  only ($0.28): 1.00, 3 of 3. The new rules have no case of their own.
+- **`scripts/eval-summary.py`** now counts every grader in the score, so a two-arm run and a
+  plugin-only run report the same thing.
+
 ## 2026-11-15: three `test-authoring` cases added, `dependabot` skill trimmed
 
 Sonnet agent, Opus judge. Two one-attempt pilots with both arms ($1.28, $0.84), a three-attempt
