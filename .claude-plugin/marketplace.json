@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "skills",
-      "description": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, security triage, PostgreSQL, and queues.",
+      "description": "Generic agent skills that explain a design or a procedure: CI and dependencies, PostgreSQL and queues, testing, TypeScript, Rust, React and native apps, HTTP APIs, rollout, logging, pull requests, docs, and evals.",
       "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/jonathanong/skills"

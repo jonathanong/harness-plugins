@@ -4,6 +4,55 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: full single-arm run, 33 cases
+
+Sonnet agent, Opus judge, three attempts, with the plugin only. Claude Code 2.1.325, 99 attempts,
+$15.38. Run on the change that added the twelve rule skills.
+
+- All 33 cases scored 1.00, 3 of 3.
+- `glide-mq/never-enqueue-and-wait` and `static-code-analysis/new-typescript-library`, which each
+  missed one attempt in the 21-case run, passed all three here. Nothing about them changed.
+
+## 2026-11-15: twelve rule skills, with and without the plugin
+
+Sonnet agent, Opus judge, three attempts per arm. First run of the twelve new cases ($8.26), then
+a rerun of the five that changed ($3.22). Rows marked "rerun" are from the second run.
+
+| Case                                                  | With | Without | Run   |
+| ----------------------------------------------------- | ---- | ------- | ----- |
+| `documentation/review-readme-drift`                   | 1.00 | 0.00    | rerun |
+| `feature-rollout/flag-defaults-on`                    | 1.00 | 0.00    | rerun |
+| `http-api-design/action-body-and-raw-tokens`          | 1.00 | 0.33    | first |
+| `native-app-architecture/core-tests-and-web-view`     | 1.00 | 0.00    | first |
+| `playwright-authoring/metadata-is-not-a-browser-test` | 1.00 | 0.00    | rerun |
+| `pr-description/perf-change-with-flag`                | 1.00 | 0.00    | first |
+| `react-app-structure/review-profile-card`             | 1.00 | 0.33    | first |
+| `rust-authoring/tests-in-separate-file`               | 1.00 | 0.00    | rerun |
+| `service-boundaries/partner-webhook`                  | 1.00 | 0.33    | first |
+| `structured-logging/review-refund-batch-logs`         | 1.00 | 1.00    | rerun |
+| `test-authoring/fixture-files-not-inline`             | 1.00 | 0.00    | first |
+| `typescript-authoring/rename-without-alias`           | 1.00 | 0.00    | first |
+
+Changes between the first run and the rerun:
+
+- **`structured-logging` case replaced.** The first case, `refund-failure-log`, scored 0.00 in
+  both arms. Its prompt asked for the customer's email in the log line, which the skill tells the
+  agent not to fetch, so the agent followed the request. That was a badly posed case, not a skill
+  failure. The replacement is a review of a diff. It scores 1.00 without the plugin, so it is a
+  ceiling case and needs a harder prompt.
+- **`playwright-authoring` case replaced.** `redirect-is-not-a-browser-test` scored 1.00 without
+  the plugin: a prompt that says "301" leads to an HTTP test on its own. The replacement adds page
+  metadata checks and does not say how to test them.
+- **`rust-authoring/tests-in-separate-file` prompt shortened.** The sentence "Show me exactly what
+  goes in which file" hinted at a separate file; the case scored 1.00 without the plugin. Without
+  the sentence it scores 0.00.
+- **`feature-rollout/flag-defaults-on` grader narrowed.** It required the answer to say the deploy
+  is "confirmed healthy" before enabling. One attempt set the flag off, kept the fallback off, and
+  separated deployed from enabled, and failed on that wording alone. The grader now asks only that
+  enabling is a separate step.
+- **`documentation` description extended.** The skill did not load on 2 of 3 attempts of a diff
+  review. The description now names a diff that changes docs or comments. It loaded 3 of 3 after.
+
 ## 2026-11-15: no-plugin arm for the two `evals` cases
 
 Sonnet agent, Opus judge, three attempts per arm, `EVAL_ABLATION=with-without`, $2.10.
