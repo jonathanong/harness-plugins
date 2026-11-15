@@ -30,6 +30,10 @@ run with both arms ($4.65), then a three-attempt run of `test-authoring` with th
   real exports, and tests for a module-private function.
 - **The .NET prompt was softened after the first pilot.** It said "I want to check the
   dictionary itself this time", and both arms used reflection as asked. That sentence is gone.
+- **Three graders were tightened in review, then re-run** with the plugin only ($1.35, 12 of 12).
+  The .NET grader accepts a `Count` check only when the test also shows the live session
+  remains. The fake grader no longer asks the fake to survive a new request. The review grader
+  no longer claims to know the production formula. The "Without" column predates these edits.
 - **`vitest.md`, `storybook.md`, and `swift.md` still have no case.**
 - **Scoring in a two-arm run:** `claude plugin eval` leaves the `skill-fired` grader out of the
   score when it runs both arms. In the two-arm run the skill did not load on one of three
