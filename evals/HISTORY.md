@@ -48,6 +48,9 @@ rerun of two changed cases ($0.98).
 - **`fake-routes-by-request` grader:** it failed two answers that routed the fake by path and
   also asserted which paths were requested. That assertion is now allowed; asserting call order
   still fails.
+- **`pr-description`** gained rules for diagrams, activation, cost, schema inventories, folded
+  detail, and local check gaps, plus an examples reference. Its case was rerun with the plugin
+  only ($0.28): 1.00, 3 of 3. The new rules have no case of their own.
 - **`scripts/eval-summary.py`** now counts every grader in the score, so a two-arm run and a
   plugin-only run report the same thing.
 

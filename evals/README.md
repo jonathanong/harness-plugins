@@ -13,10 +13,10 @@ skill, and that its answer made the decision the skill asks for.
 
 Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 43 cases.
 
-- 25 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
+- 24 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
-- 18 rows are from later targeted runs, after a case or its skill was added or changed: the
-  three replaced cases, `structured-logging`, `playwright-authoring`, both `dependabot` rows,
+- 19 rows are from later targeted runs, after a case or its skill was added or changed: the
+  three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows,
   and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
   `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
   plus `github-actions-authoring/required-check-is-a-real-job`.

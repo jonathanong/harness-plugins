@@ -64,8 +64,8 @@ case the guard exists for.
 - Add a focused failing test before a behavior change when the behavior can be tested.
 - Test the failure paths, authorization, and security-relevant validation, not only the path
   that succeeds.
-- For each acceptance criterion, keep evidence that could have failed: a focused test, a review,
-  or a manual check with a stated reason.
+- A test counts as evidence for an acceptance criterion only when it could have failed. The
+  `agent-workflow` skill owns mapping each criterion to its evidence before handoff.
 - For a contract about docs or instructions, test real paths, links, or executable behavior. Do
   not freeze prose wording unless a consumer parses that exact text.
 

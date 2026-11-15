@@ -39,7 +39,32 @@ Use a table whenever the change moves something a reader can compare.
 - Give measured numbers with the method and sample size. Do not claim a speedup without them.
 - For each flag, say what it covers and what happens when it is off. A reviewer needs to know
   which code paths the flag does not protect.
-- Keep one row per case. Leave out rows that did not change.
+- Keep one row per case. Leave out rows that did not change, except a case a reviewer would
+  worry about: show that one as unchanged.
+
+## Detail the change warrants
+
+- When a request or event crosses components, add a Mermaid `sequenceDiagram` of the new flow.
+  Use a `flowchart` for decision logic.
+- Say when the change takes effect: the flag, plan, environment, or rollout step that turns it
+  on, and whether current deployments already meet it.
+- For a cost change, give the direction and scope. Label each figure measured or estimated, with
+  the workload and assumptions. Say unmeasured when there is no defensible figure.
+- For a schema change, list the tables, columns, constraints, and indexes added, removed, and
+  changed, and which readers and writers change with them.
+- Put long inventories, secondary diagrams, and calculations in a collapsed `<details>` block.
+  Keep the problem, the main table, and material risks outside it. Leave a blank line after
+  `</summary>` and before `</details>`, or the Markdown inside does not render.
+- A one-line fix needs only prose.
+
+Read [examples](references/examples.md) when choosing between a table, a diagram, and prose.
+
+## When CI caught what local checks missed
+
+Add a short section only when a CI failure was traced to a local check that was skipped, or one
+that passed locally in a different scope. Link the first failing run and its commit, say what was
+run locally and why it missed the failure, and name the correction. Keep the section after CI
+turns green. An outage or a failure that can only happen in CI is not a gap; do not record one.
 
 ## What to leave out
 
