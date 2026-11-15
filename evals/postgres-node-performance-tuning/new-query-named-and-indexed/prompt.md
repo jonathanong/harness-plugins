@@ -1,5 +1,5 @@
 ---
-description: A new query shape ships with explicit columns, a bound, and the index it needs.
+description: A new query shape ships with explicit columns, a bound, an operation-name comment, and the index it needs.
 tags: [postgres-node-performance-tuning, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
