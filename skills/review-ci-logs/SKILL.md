@@ -26,6 +26,5 @@ these defaults.
    transient outside reason.
 6. Add a focused regression check, run the workflow checker, and compare the output before and
    after where that means something. Report what was left alone. Do not file issues unless asked.
-7. When a local check was skipped or did not match CI, say so in the pull request description:
-   the first failed run and its commit, what was run locally, why it missed the failure, and the
-   correction. Keep that note after CI turns green.
+7. When a local check was skipped or did not match CI, say so in the pull request description.
+   The `pr-description` skill owns what that note holds.
