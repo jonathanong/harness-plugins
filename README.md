@@ -8,33 +8,33 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 
 ## Skills
 
-| Skill                              | Use it when                                                                 |
-| ---------------------------------- | --------------------------------------------------------------------------- |
-| `static-code-analysis`             | Creating a repository: which static checks to add and how strict to start.  |
-| `static-analysis-checklist`        | Adding or changing one static-analysis invariant.                           |
-| `github-actions-authoring`         | Designing workflows that react to events instead of polling.                |
-| `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, auto-merge, and runs. |
-| `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.              |
-| `npm-publishing`                   | Preparing a first npm publish and trusted publishing for a human to run.    |
-| `triage-codex-security`            | Triaging Codex Security findings into explicitly approved actions.          |
-| `postgres-schema-design`           | Designing tables, relations, history, retention, and row locking.           |
-| `postgres-node-performance-tuning` | Writing or tuning a query: shape, indexes, plans, round trips.              |
-| `postgres-partitioning-uuid-v7`    | Partitioning and pruning a table keyed by UUIDv7.                           |
-| `bounded-iteration`                | Writing a sweep, backfill, dispatcher, or list read that must stay bounded. |
-| `glide-mq`                         | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.     |
-| `evals`                            | Documenting an eval suite: current scores, run history, and rules.          |
-| `pr-description`                   | Writing a pull request description: problem, change, impact, before/after.  |
-| `documentation`                    | Deciding what goes in docs, comments, and agent instruction files.          |
-| `test-authoring`                   | Choosing which tests to write, and building fixtures, helpers, and guards.  |
-| `playwright-authoring`             | Writing browser tests: what needs a browser, locators, and test ids.        |
-| `typescript-authoring`             | Writing TypeScript without aliases, shims, or hidden calls.                 |
-| `react-app-structure`              | Structuring API calls, links, redirects, and config in a React app.         |
-| `native-app-architecture`          | Structuring a native app around a portable core with thin views.            |
-| `rust-authoring`                   | Laying out Rust tests and caches, and running heavy cargo builds.           |
-| `http-api-design`                  | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.        |
-| `service-boundaries`               | Calling another service or a partner API, or handling a webhook.            |
-| `feature-rollout`                  | Adding a feature flag and separating deploy from enable.                    |
-| `structured-logging`               | Writing log lines with a static message and structured fields.              |
+| Skill                              | Use it when                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------ |
+| `static-code-analysis`             | Creating a repository: which static checks to add and how strict to start.     |
+| `static-analysis-checklist`        | Adding or changing one static-analysis invariant.                              |
+| `github-actions-authoring`         | Designing workflows that react to events instead of polling.                   |
+| `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, auto-merge, and runs.    |
+| `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.                 |
+| `npm-publishing`                   | Preparing a first npm publish and trusted publishing for a human to run.       |
+| `triage-codex-security`            | Triaging Codex Security findings into explicitly approved actions.             |
+| `postgres-schema-design`           | Designing tables, relations, history, retention, and row locking.              |
+| `postgres-node-performance-tuning` | Writing or tuning a query: shape, indexes, plans, round trips.                 |
+| `postgres-partitioning-uuid-v7`    | Partitioning and pruning a table keyed by UUIDv7.                              |
+| `bounded-iteration`                | Writing a sweep, backfill, dispatcher, or list read that must stay bounded.    |
+| `glide-mq`                         | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.        |
+| `evals`                            | Documenting an eval suite: current scores, run history, and rules.             |
+| `pr-description`                   | Writing a pull request description: problem, change, impact, before/after.     |
+| `documentation`                    | Deciding what goes in docs, comments, and agent instruction files.             |
+| `test-authoring`                   | Which tests to write; fixtures, mocks, guards; Vitest, Storybook, Swift, .NET. |
+| `playwright-authoring`             | Writing browser tests: what needs a browser, locators, and test ids.           |
+| `typescript-authoring`             | Writing TypeScript without aliases, shims, or hidden calls.                    |
+| `react-app-structure`              | Structuring API calls, links, redirects, and config in a React app.            |
+| `native-app-architecture`          | Structuring a native app around a portable core with thin views.               |
+| `rust-authoring`                   | Laying out Rust tests and caches, and running heavy cargo builds.              |
+| `http-api-design`                  | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.           |
+| `service-boundaries`               | Calling another service or a partner API, or handling a webhook.               |
+| `feature-rollout`                  | Adding a feature flag and separating deploy from enable.                       |
+| `structured-logging`               | Writing log lines with a static message and structured fields.                 |
 
 ## Install
 

@@ -1,6 +1,6 @@
 ---
 name: test-authoring
-description: Decide which tests to write and how to build fixtures, helpers, and guards so each test fails for one real reason. Use when writing, reviewing, or deleting unit or integration tests, test fixtures, or test helpers. For browser tests, also use playwright-authoring.
+description: Decide which tests to write and how to build fixtures, mocks, helpers, and guards so each test fails for one real reason. Use when writing, reviewing, fixing, or deleting any automated test, fixture, or test helper - Vitest or Jest, backend integration, Next.js, Storybook stories, Swift, or .NET. For browser tests, also use playwright-authoring.
 ---
 
 # Test authoring
@@ -51,6 +51,27 @@ When a test checks that every file, route, or export is covered by something, wr
 deny-list: enumerate everything, subtract a short list of named exceptions, and assert on the
 rest. An allow-list of known items passes silently when someone adds a new one, which is the
 case the guard exists for.
+
+## Assertions that can fail
+
+- Before finishing a test, name a defect in the code under test that would make its assertion
+  fail. If there is none, the test is tautological. Read
+  [tautological tests](references/tautological-tests.md) for the shapes: an assertion on a
+  forced value, a mock echoing what the test configured, a re-implementation of the algorithm.
+- Assert what this repository owns, not what a dependency produces: not its messages, output
+  format, URLs, or call order. Read [dependency boundaries](references/dependency-boundaries.md)
+  before asserting on a dependency's output, and whenever a dependency upgrade breaks a test.
+- Add a focused failing test before a behavior change when the behavior can be tested.
+
+## Runner-specific rules
+
+After the rules above, read the one file for the runner in use:
+
+- Vitest, including backend integration tests and Next.js tests: [vitest](references/vitest.md)
+- Storybook stories: [storybook](references/storybook.md)
+- Swift and SwiftUI tests: [swift](references/swift.md)
+- .NET tests, including MAUI: [dotnet](references/dotnet.md)
+- Playwright and other browser tests: use the `playwright-authoring` skill as well.
 
 ## Review
 
