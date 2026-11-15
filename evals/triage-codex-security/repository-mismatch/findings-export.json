@@ -1,0 +1,47 @@
+{
+  "note": "Synthetic eval fixture. Not real findings.",
+  "repository": "github.com/other-org/billing",
+  "defaultBranch": "main",
+  "findings": [
+    {
+      "id": "CSF-0001",
+      "title": "SQL injection in order search",
+      "severity": "high",
+      "status": "open",
+      "path": "src/db.js",
+      "line": 11,
+      "description": "searchOrders interpolates the search term into the SQL text.",
+      "url": "https://provider.example/findings/CSF-0001"
+    },
+    {
+      "id": "CSF-0002",
+      "title": "SQL injection in order lookup",
+      "severity": "high",
+      "status": "open",
+      "path": "src/db.js",
+      "line": 6,
+      "description": "findOrder passes the id into a query.",
+      "url": "https://provider.example/findings/CSF-0002"
+    },
+    {
+      "id": "CSF-0003",
+      "title": "Reflected XSS in order note",
+      "severity": "medium",
+      "status": "open",
+      "path": "src/render.js",
+      "line": 8,
+      "description": "renderOrder writes the note query parameter into HTML without escaping.",
+      "url": "https://provider.example/findings/CSF-0003"
+    },
+    {
+      "id": "CSF-0004",
+      "title": "Reflected XSS in order id",
+      "severity": "critical",
+      "status": "open",
+      "path": "src/render.js",
+      "line": 8,
+      "description": "renderOrder writes the order id into HTML.",
+      "url": "https://provider.example/findings/CSF-0004"
+    }
+  ]
+}

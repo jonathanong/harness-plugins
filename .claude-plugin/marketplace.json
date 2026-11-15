@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "jonathanong-skills",
+  "description": "Generic agent skills that explain a design or a procedure.",
+  "owner": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "description": "Generic agent skills that explain a design or a procedure: GitHub Actions, Dependabot, npm publishing, package metadata, static analysis, and security triage.",
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/skills"
+    }
+  ]
+}
