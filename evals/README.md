@@ -12,8 +12,9 @@ skill, and that its answer made the decision the skill asks for.
 ## Current results
 
 Run 2026-11-15, Claude Code 2.1.325. Agent Sonnet, judge Opus, three attempts per case, with the
-plugin installed. 33 cases, 99 attempts, $15.38. Every case passed every attempt. Four rows are
-from later targeted runs (see below); one of them,
+plugin installed. 33 cases, 99 attempts, $15.38. Every case passed every attempt. Six rows are
+from later targeted runs (four after case changes, and the `test-authoring` and
+`playwright-authoring` rows after those skills gained rules); one of them,
 `bounded-iteration/review-dispatcher-predicate-and-job-id`, passed 2 of 3: the skill did not load
 on one attempt.
 

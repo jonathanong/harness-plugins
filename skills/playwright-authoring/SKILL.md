@@ -43,6 +43,17 @@ Select elements the way a user or an assistive tool finds them, in this order:
 - For a repeated row, put a literal test id on the row and narrow by its content:
   `page.getByTestId('invoice-row').filter({ hasText: 'INV-1042' })`.
 
+## Waiting, state, and network
+
+- Never wait an arbitrary time. Use an auto-waiting assertion, or wait for a precise URL,
+  request, response, or visible completion signal. Register a response wait before the action
+  that triggers it.
+- Seed data and establish authentication through a supported fixture or API, not through the
+  interface. Keep each scenario independent of test order and of earlier state.
+- Mock the network only for third-party behavior, fault injection, streaming, or a condition that
+  cannot be seeded.
+- Capture diagnostics (trace, screenshot) on failure.
+
 ## Review
 
 For each new browser test, ask whether an HTTP test or a component test would catch the same

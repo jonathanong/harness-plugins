@@ -4,6 +4,30 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: runner rules folded into `test-authoring`
+
+Sonnet agent, Opus judge, three attempts. Two runs: one with both arms ($5.44), then one with the
+plugin only ($0.85) after the layout changed.
+
+| Case                                                  | With | Without |
+| ----------------------------------------------------- | ---- | ------- |
+| `test-authoring/fixture-files-not-inline`             | 1.00 | 0.00    |
+| `playwright-authoring/metadata-is-not-a-browser-test` | 1.00 | 0.00    |
+
+- Rules for Vitest (including backend and Next.js), Storybook, Swift, and .NET tests were added.
+  The first layout was four new skills, one per runner, each with one case.
+- That layout was abandoned. All four new cases scored 1.00 with the plugin and 1.00 without, so
+  they showed nothing. And `fixture-files-not-inline` fell to 0.33 (1 of 3): on two attempts
+  `test-authoring` did not load, because a runner skill matched the prompt instead.
+- The runner rules are now reference files under `skills/test-authoring/references/`, and
+  `test-authoring` is the one skill that fires for any test. Its description names the runners.
+  The four runner skills and their four cases are removed.
+- `fixture-files-not-inline` is back to 3 of 3 in the second run. The "Without" column is from the
+  first run; the second run had no no-plugin arm.
+- The runner reference files have no case of their own. A case needs a decision the model gets
+  wrong unaided, and the four tried (shared-database test identity, a story for a server
+  component, a delayed `URLProtocol` double, a separate portable test project) were not that.
+
 ## 2026-11-15: review fixes to two replaced cases, re-measured
 
 Sonnet agent, Opus judge, three attempts per arm, $1.73.
