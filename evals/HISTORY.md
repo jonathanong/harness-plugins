@@ -4,6 +4,17 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: no-plugin arm for the two `evals` cases
+
+Sonnet agent, Opus judge, three attempts per arm, `EVAL_ABLATION=with-without`, $2.10.
+
+| Case                         | With | Without |
+| ---------------------------- | ---- | ------- |
+| `evals/document-new-suite`   | 1.00 | 0.00    |
+| `evals/record-partial-rerun` | 1.00 | 0.00    |
+
+Both cases fail without the plugin on all three attempts, so neither is a ceiling case.
+
 ## 2026-11-15: first full single-arm run, 21 cases
 
 Sonnet agent, Opus judge, three attempts, with the plugin only. Claude Code 2.1.325, 63 attempts,
@@ -19,7 +30,7 @@ $10.55. Run on the change that added the `evals` skill, on top of `baf9931`.
 - `static-code-analysis/new-typescript-library` 0.89 (2 of 3). On one attempt the judge voted
   1 pass to 2 fails on the list of checks. Not changed.
 - New cases `evals/document-new-suite` and `evals/record-partial-rerun` scored 1.00. Their
-  no-plugin arm was not run.
+  no-plugin arm is in the entry above.
 - The new Markdown files under `evals/` were not picked up as cases: the runner found 21.
 
 ## 2026-11-15: default run drops the no-plugin arm
