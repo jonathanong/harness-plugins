@@ -1,13 +1,13 @@
 ---
 name: dependabot
-description: Configure Dependabot coverage, grouping, cooldowns, and trusted auto-merge, and start a Dependabot update check on demand. Use when writing or reviewing dependabot.yml or a Dependabot auto-merge workflow, or when asked to trigger, re-run, or force a Dependabot run.
+description: Configure Dependabot coverage, grouping, cooldowns, and secrets, and start a Dependabot update check on demand. Use when writing or reviewing dependabot.yml or a workflow that runs on Dependabot pull requests, or when asked to trigger, re-run, or force a Dependabot run.
 ---
 
 # Dependabot policy
 
 Read every applicable `AGENTS.md`, then the repository's dependency, CI, release,
 and branch-protection docs. Repository-local policy owns the accepted cooldown, package roots,
-first-party publishers, manual-update exceptions, runner policy, required checks, and secret
+first-party publishers, runner policy, required checks, and secret
 source, and overrides these defaults.
 
 ## Cover the dependency graph
@@ -56,16 +56,15 @@ groups:
 - Do not add generic groups such as `other-minor-and-patch`, `minor-and-patch`,
   `security-minor-and-patch`, or `security-updates`. Do not use `patterns: ['*']` to force every
   update into a group. Narrow family wildcards are expected. Leave unrelated packages ungrouped.
-- Omit `update-types` so a family receives major, minor, and patch updates. Major updates are never
-  auto-merged by the workflow. Leaving majors out of the group splits the release train.
+- Omit `update-types` so a family receives major, minor, and patch updates. Leaving majors out of
+  the group splits the release train.
 - Groups default to `applies-to: version-updates`. When the same family is also safe to upgrade
   together for security fixes, add a separate group such as `react-security` with the same patterns
   and `applies-to: security-updates`. Do not combine unrelated vulnerability fixes into one group.
 - Keep verified first-party packages in a `first-party` group. For a namespace the owner wholly
   controls, use its scoped wildcard, such as `@acme/*`. List unscoped packages by exact name.
 - Keep first-party patterns in `cooldown.exclude` so those updates have zero-day eligibility, while
-  third-party packages keep the release delay. A grouped pull request is auto-mergeable only when
-  every included update is eligible.
+  third-party packages keep the release delay.
 
 ## Exempt verified first-party releases
 
@@ -78,23 +77,10 @@ groups:
 - Keep the repository-owned registry, documentation, cooldown exclusions, and `first-party` group in
   sync.
 
-## Preserve the trust boundary
+## Checks on Dependabot pull requests
 
-- Use a trusted default-branch `pull_request_target` workflow only for metadata inspection and the
-  minimal auto-merge mutation.
-- Revalidate the live pull request, Dependabot identity, default base, same-repository
-  `dependabot/` head, and immutable base and head SHAs.
-- Do not check out or execute pull-request code in that privileged workflow. Pin external actions
-  per local policy.
-- Auto-merge only a verified semver patch, or a stable minor whose old and new majors are both at
-  least 1. Majors, pre-1.0 minors, prereleases, downgrades, malformed or inconsistent metadata, and
-  locally declared manual ecosystems need a human. The workflow never merges majors.
-- Enable platform auto-merge. Do not auto-approve. Required checks and branch rules remain the gate.
-- Run the eligibility check again on every new head (`synchronize`). Disable auto-merge when the
-  new head is not eligible; auto-merge enabled for an earlier head otherwise carries over to it.
-- Store `DEPENDABOT_AUTOMERGE_TOKEN` as a Dependabot secret, not only as an Actions secret. Grant
-  only the Contents and Pull requests access needed to enable or disable auto-merge. Fail an
-  eligible mutation visibly when the token is missing or underprivileged.
+- Do not check out or execute pull-request code in a `pull_request_target` workflow. Pin external
+  actions per local policy.
 - A Dependabot-triggered workflow cannot assume ordinary Actions secrets or trusted OIDC access.
   Copy only the narrow credentials mandatory tests need into Dependabot secret scope.
 - For cloud, deployment, production, or other privileged checks, keep credential-free validation
@@ -106,10 +92,10 @@ groups:
 - Parse the YAML. Run the repository's workflow checker and policy tests.
 - Inspect the diff for uncovered manifests, overlapping groups, broad exemptions, secret exposure,
   and pull-request code crossing a privileged boundary.
-- Verify repository settings for dependency security updates and auto-merge.
+- Verify the repository setting for dependency security updates.
 - After the configuration reaches the default branch, read Dependabot logs for every configured
-  root. Check a representative patch, minor, major, security update, manual update, and
-  missing-secret path.
+  root. Check a representative patch, minor, major, and security update, and a check that runs
+  without its secret.
 
 ## Request a fresh update check
 

@@ -4,6 +4,43 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: three `test-authoring` cases added, `dependabot` skill trimmed
+
+Sonnet agent, Opus judge. Two one-attempt pilots with both arms ($1.28, $0.84), a three-attempt
+run with both arms ($4.65), then a three-attempt run of `test-authoring` with the plugin only
+($1.50). One earlier `dependabot` run is discarded: the skill file changed under it.
+
+| Case                                                | With | Without |
+| --------------------------------------------------- | ---- | ------- |
+| `dependabot/groups-by-family`                       | 1.00 | 0.33    |
+| `dependabot/request-update-check`                   | 1.00 | 0.67    |
+| `test-authoring/dotnet-private-field-not-reflected` | 1.00 | 0.33    |
+| `test-authoring/fake-routes-by-request`             | 1.00 | 0.00    |
+| `test-authoring/fixture-files-not-inline`           | 1.00 | 0.00    |
+| `test-authoring/review-helper-holds-assertions`     | 1.00 | 0.00    |
+
+- **`dependabot` skill:** the rules for an auto-merge workflow are removed, and the description
+  no longer mentions one. No case or grader changed. Both cases were re-measured in the two-arm
+  run; the skill loaded on all six with-plugin attempts.
+- **New cases** cover the reference files that had none: `dotnet.md` (no reflection on a private
+  field), `dependency-boundaries.md` (a fake that answers by request, not by call order), and
+  the helper and re-implementation rules in `SKILL.md` and `tautological-tests.md`.
+- **Tried and dropped,** each 1.00 without the plugin in the first pilot: a test broken by a
+  dependency upgrade that pinned the dependency's message, a Vitest module mock that keeps the
+  real exports, and tests for a module-private function.
+- **The .NET prompt was softened after the first pilot.** It said "I want to check the
+  dictionary itself this time", and both arms used reflection as asked. That sentence is gone.
+- **Three graders were tightened in review, then re-run** with the plugin only ($1.35, 12 of 12).
+  The .NET grader accepts a `Count` check only when the test also shows the live session
+  remains. The fake grader no longer asks the fake to survive a new request. The review grader
+  no longer claims to know the production formula. The "Without" column predates these edits.
+- **`vitest.md`, `storybook.md`, and `swift.md` still have no case.**
+- **Scoring in a two-arm run:** `claude plugin eval` leaves the `skill-fired` grader out of the
+  score when it runs both arms. In the two-arm run the skill did not load on one of three
+  attempts for the .NET case and for the review case, and both still scored 1.00. The "With"
+  column for `test-authoring` is from the plugin-only run, where the skill loaded on all 12
+  attempts. Earlier "With" scores taken from two-arm runs may hide a skill that did not load.
+
 ## 2026-11-15: runner rules folded into `test-authoring`
 
 Sonnet agent, Opus judge, three attempts. Two runs: one with both arms ($5.44), then one with the

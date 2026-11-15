@@ -12,9 +12,10 @@ skill, and that its answer made the decision the skill asks for.
 ## Current results
 
 Run 2026-11-15, Claude Code 2.1.325. Agent Sonnet, judge Opus, three attempts per case, with the
-plugin installed. 33 cases, 99 attempts, $15.38. Every case passed every attempt. Six rows are
-from later targeted runs (four after case changes, and the `test-authoring` and
-`playwright-authoring` rows after those skills gained rules); one of them,
+plugin installed. 33 cases, 99 attempts, $15.38. Every case passed every attempt. Eleven rows are
+from later targeted runs, after a case or its skill changed: the three replaced cases,
+`structured-logging`, `playwright-authoring`, both `dependabot` rows, and the four
+`test-authoring` rows, three of which are new cases. That makes 36 cases. One row,
 `bounded-iteration/review-dispatcher-predicate-and-job-id`, passed 2 of 3: the skill did not load
 on one attempt.
 
@@ -22,7 +23,7 @@ on one attempt.
 | -------------------------------------------------------------- | ----- | ------ | -------------- |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`     | 0.67  | 2 of 3 | 0.33           |
 | `dependabot/groups-by-family`                                  | 1.00  | 3 of 3 | 0.33           |
-| `dependabot/request-update-check`                              | 1.00  | 3 of 3 | 0.33           |
+| `dependabot/request-update-check`                              | 1.00  | 3 of 3 | 0.67           |
 | `documentation/review-readme-drift`                            | 1.00  | 3 of 3 | 0.00           |
 | `evals/document-new-suite`                                     | 1.00  | 3 of 3 | 0.00           |
 | `evals/record-partial-rerun`                                   | 1.00  | 3 of 3 | 0.00           |
@@ -49,7 +50,10 @@ on one attempt.
 | `static-code-analysis/new-rust-service`                        | 1.00  | 3 of 3 | 0.83           |
 | `static-code-analysis/new-typescript-library`                  | 1.00  | 3 of 3 | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                 | 1.00  | 3 of 3 | 0.00           |
+| `test-authoring/dotnet-private-field-not-reflected`            | 1.00  | 3 of 3 | 0.33           |
+| `test-authoring/fake-routes-by-request`                        | 1.00  | 3 of 3 | 0.00           |
 | `test-authoring/fixture-files-not-inline`                      | 1.00  | 3 of 3 | 0.00           |
+| `test-authoring/review-helper-holds-assertions`                | 1.00  | 3 of 3 | 0.00           |
 | `triage-codex-security/approval-wave-cap`                      | 1.00  | 3 of 3 | 0.50           |
 | `triage-codex-security/repository-mismatch`                    | 1.00  | 3 of 3 | 0.78           |
 | `typescript-authoring/rename-without-alias`                    | 1.00  | 3 of 3 | 0.00           |
@@ -93,7 +97,10 @@ passed, so 1.00 means every grader passed on every attempt.
 | `static-code-analysis/new-rust-service`                        | Picks the static checks for a new Rust service.                                                   |
 | `static-code-analysis/new-typescript-library`                  | Picks the static checks for a new TypeScript library.                                             |
 | `structured-logging/log-identifier-not-lookup`                 | Logs the customer id with a static message instead of looking up an email for the log.            |
+| `test-authoring/dotnet-private-field-not-reflected`            | Proves a private dictionary was emptied through the public method, without reflection.            |
+| `test-authoring/fake-routes-by-request`                        | Has a fake HTTP client answer by request path, not by a queue of replies in call order.           |
 | `test-authoring/fixture-files-not-inline`                      | Reads saved fixture files instead of writing them in the test body.                               |
+| `test-authoring/review-helper-holds-assertions`                | Flags an expected value recomputed with the production formula and assertions kept in a helper.   |
 | `triage-codex-security/approval-wave-cap`                      | Treats approval given before a wave was shown as not approving that wave.                         |
 | `triage-codex-security/repository-mismatch`                    | Stops when the findings belong to a different repository.                                         |
 | `typescript-authoring/rename-without-alias`                    | Updates every caller instead of keeping an alias, and adds the missing `await`.                   |
@@ -106,10 +113,10 @@ passed, so 1.00 means every grader passed on every attempt.
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
   as a precise difference. Every case scores below 1.00 without the plugin.
-- **Four rows were re-measured after the full run.** The three cases above that replaced earlier
-  ones (`review-dispatcher-predicate-and-job-id`, `new-query-named-and-indexed`,
-  `review-last-admin-advisory-lock`) and `structured-logging/log-identifier-not-lookup` have
-  scores from their own runs, recorded in [HISTORY.md](HISTORY.md).
+- **Eleven rows were measured after the full run**, each in its own targeted run recorded in
+  [HISTORY.md](HISTORY.md). The paragraph above the table lists them.
+- **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
+  on the answer alone. The "Score" column here always comes from a run with the plugin only.
 - **The loaded-the-skill grader counts toward the score.** A good answer from an agent that did
   not load the skill scores below 1.00.
 
