@@ -70,4 +70,4 @@ script inside a string literal gets no syntax highlighting, no linting, and no t
 
 ## Comments
 
-Comment only a non-obvious local invariant. See `documentation` for what goes in docs instead.
+For what a code comment should and should not say, use `documentation`.
