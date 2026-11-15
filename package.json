@@ -1,0 +1,23 @@
+{
+  "name": "skills",
+  "private": true,
+  "description": "Generic agent skills that explain a design or a procedure.",
+  "license": "MIT",
+  "repository": "github:jonathanong/skills",
+  "type": "module",
+  "scripts": {
+    "evals": "./scripts/run-evals.sh",
+    "evals:check": "./scripts/check-evals.sh",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint --no-error-on-unmatched-pattern"
+  },
+  "devDependencies": {
+    "oxfmt": "0.78.0",
+    "oxlint": "1.93.0"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.18.0"
+}

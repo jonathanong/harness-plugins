@@ -1,0 +1,4 @@
+schema_version: '1.1'
+name: approval-wave-cap
+context:
+  scaffold_script: fixture.sh

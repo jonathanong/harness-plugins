@@ -1,0 +1,12 @@
+{
+  "name": "@acme-evals/widget",
+  "version": "0.1.0",
+  "description": "Synthetic eval fixture package.",
+  "license": "MIT",
+  "repository": "github:acme-evals/widgets",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": "./dist/index.js"
+}

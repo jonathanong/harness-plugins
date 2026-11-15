@@ -1,0 +1,32 @@
+skills:
+  - changed-files:
+      - any-glob-to-any-file: 'skills/**'
+
+evals:
+  - changed-files:
+      - any-glob-to-any-file: 'evals/**'
+
+plugin:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'plugin.json'
+          - '.claude-plugin/**'
+          - '.codex-plugin/**'
+          - '.agents/**'
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file: 'README.md'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'pnpm-lock.yaml'
+          - '.oxlintrc.json'
+          - '.oxfmtrc.json'
+          - 'scripts/**'
