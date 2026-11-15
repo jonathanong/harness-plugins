@@ -16,7 +16,7 @@ Review this diff. It adds a dispatcher that our scheduler runs every 5 minutes (
 +      LIMIT 500`,
 +  )
 +  for (const row of rows) {
-+    await queue.add('sync-account', { accountId: row.id }, { jobId: `sync-account:${row.id}` })
++    await queue.add('sync-account', { accountId: row.id }, { jobId: `sync-account-${row.id}` })
 +  }
 +  return { dispatched: rows.length, more: rows.length === 500 }
 +}

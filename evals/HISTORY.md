@@ -4,6 +4,24 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: review fixes to two replaced cases, re-measured
+
+Sonnet agent, Opus judge, three attempts per arm, $1.73.
+
+| Case                                                           | With          | Without |
+| -------------------------------------------------------------- | ------------- | ------- |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`     | 0.67 (2 of 3) | 0.33    |
+| `postgres-node-performance-tuning/new-query-named-and-indexed` | 1.00          | 0.00    |
+
+- The dispatcher prompt's job id used a colon, which the queue library rejects in a custom id. It
+  now uses a hyphen.
+- The query grader now also requires the account and status filters, newest-first ordering, and
+  `id` as a tie-breaker in the ordering and the cursor.
+- On the dispatcher case the `bounded-iteration` skill did not load on one of three attempts, and
+  that attempt's review missed the job id. Across the three with-plugin runs of this case the
+  skill loaded on 7 of 9 attempts. The description was not changed; watch it on the next full
+  run. `README.md` carries this run's row.
+
 ## 2026-11-15: three ceiling cases replaced
 
 Sonnet agent, Opus judge, three attempts per arm, five targeted runs ($2.80, $2.64, $1.59, $0.86,
