@@ -6,12 +6,12 @@ scores are in [README.md](README.md).
 
 ## 2026-11-15: three ceiling cases replaced
 
-Sonnet agent, Opus judge, three attempts per arm, four targeted runs ($2.80, $2.64, $1.59, and one
-stopped early). The three cases that scored 1.00 without the plugin are replaced.
+Sonnet agent, Opus judge, three attempts per arm, five targeted runs ($2.80, $2.64, $1.59, $0.86,
+and one stopped early). The three cases that scored 1.00 without the plugin are replaced.
 
 | Case                                                           | With | Without |
 | -------------------------------------------------------------- | ---- | ------- |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`     | 1.00 | 0.33    |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`     | 1.00 | 0.00    |
 | `postgres-node-performance-tuning/new-query-named-and-indexed` | 1.00 | 0.00    |
 | `postgres-schema-design/review-last-admin-advisory-lock`       | 1.00 | 0.00    |
 
@@ -22,7 +22,10 @@ stopped early). The three cases that scored 1.00 without the plugin are replaced
   already asks for a cap on an unbounded loop. The new diff is capped and tests two things the
   model misses: a predicate no index can serve, and a job id keyed only by the entity. The first
   version of the prompt described the queue's deduplication and scored 1.00 without the plugin;
-  naming the queue library instead brought that to 0.33.
+  naming the queue library instead brought that to 0.33. A review then pointed out that the
+  grader's claim "no index can serve the predicate" is wrong: a partial index with the same
+  predicate can. The grader now accepts that remedy, the prompt states the table's indexes, and
+  a fifth run ($0.86) scored 1.00 with and 0.00 without.
 - **`review-last-admin-advisory-lock`** replaces `review-parent-row-lock`. Two things changed
   before it passed:
   - The skill did not load on any of the first three attempts, and the agent approved the lock.
