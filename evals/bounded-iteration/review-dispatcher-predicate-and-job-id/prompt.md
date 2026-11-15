@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Review this diff. It adds a dispatcher that our scheduler runs every 5 minutes (PostgreSQL 17, Node with `pg`, BullMQ). `accounts` has about 30 million rows.
+Review this diff. It adds a dispatcher that our scheduler runs every 5 minutes (PostgreSQL 17, Node with `pg`, BullMQ). `accounts` has about 30 million rows, with indexes on `id` and `updated_at`.
 
 ```diff
 +export async function dispatchAccountSyncs(pool: Pool, queue: Queue) {

@@ -31,7 +31,8 @@ python3 scripts/eval-summary.py                           # the table for README
 - Write the prompt as a person would ask it. Do not use the skill's own wording, and do not name
   the skill.
 - Build a case on a decision the model gets wrong without the skill.
-- Keep prompts and fixtures free of real organization, repository, and product names.
+- Keep prompts and fixtures free of the names of real organizations and of private repositories
+  and products. Naming a public library or tool the case is about is fine.
 
 ## Graders
 
