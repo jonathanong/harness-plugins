@@ -62,6 +62,12 @@ case the guard exists for.
   format, URLs, or call order. Read [dependency boundaries](references/dependency-boundaries.md)
   before asserting on a dependency's output, and whenever a dependency upgrade breaks a test.
 - Add a focused failing test before a behavior change when the behavior can be tested.
+- Test the failure paths, authorization, and security-relevant validation, not only the path
+  that succeeds.
+- For each acceptance criterion, keep evidence that could have failed: a focused test, a review,
+  or a manual check with a stated reason.
+- For a contract about docs or instructions, test real paths, links, or executable behavior. Do
+  not freeze prose wording unless a consumer parses that exact text.
 
 ## Runner-specific rules
 
