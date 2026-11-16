@@ -54,7 +54,10 @@ drops every entry the other side added.
    `pnpm install --no-frozen-lockfile`. pnpm merges both sides.
 3. A package manager that cannot parse a conflicted lockfile needs a different step. Check its
    documentation. When it has no merge, restore the lockfile from the branch being rebased onto
-   and rerun its lock command, so the resolved manifest adds this branch's changes back.
+   and rerun its lock command, so the resolved manifest adds this branch's changes back. That
+   loses an update the branch made in the lockfile alone, within an unchanged manifest range.
+   Rerun the branch's update command for each, and compare versions against the branch's old
+   lockfile.
 4. Check that no markers remain, `git add` the manifest and the lockfile, and continue the rebase
    or merge.
 
