@@ -1,6 +1,6 @@
 ---
 name: feature-rollout
-description: Ship new behavior behind a flag that starts off, and treat deploying and enabling as separate steps. Use when adding or reviewing a feature flag, choosing a flag's default, planning how a change reaches users, or writing rollout and rollback steps.
+description: Ship new behavior behind a flag that starts off, treat deploying and enabling as separate steps, and add no table or service that no entry point reaches. Use when adding or reviewing a feature flag, a flag's default, rollout or rollback steps, or a change that adds a table, migration, service, or write path.
 ---
 
 # Feature rollout
@@ -27,6 +27,23 @@ watched, and undone alone.
   updates. "Shipped" for code that is merged but off misleads whoever reads it.
 - The rollback for a behavior problem is turning the flag off. Check before enabling that off
   still works: the old path is still present and still tested.
+
+## Reachable from an entry point
+
+Do not add a table, a service, or a write path that no entry point reaches. Build the entry
+point in the same change: an API route, an MCP tool, a CLI command, or a job.
+
+- An entry point is registered: the route is mounted, the tool is listed, the job is scheduled. A
+  handler that nothing mounts does not count, and neither does a test.
+- Test the new code through the entry point, so the test covers the registration too.
+- An entry point that nothing calls yet is fine. An API with no page that uses it is reachable;
+  a service with no route is not.
+- When the entry point must not be used yet, put it behind a flag that starts off. The flag is
+  for that case only; a route that is safe to call needs none.
+
+Code that nothing reaches cannot run in production, so its schema and its interface are guesses
+about a caller that does not exist yet, and a review cannot check them against real use. Ship
+one thin path from entry point to table instead of the schema first and the callers later.
 
 ## Scope of a flag
 

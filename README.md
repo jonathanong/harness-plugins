@@ -33,7 +33,7 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | `rust-authoring`                   | Laying out Rust tests and caches, and running heavy cargo builds.              |
 | `http-api-design`                  | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.           |
 | `service-boundaries`               | Calling another service or a partner API, or handling a webhook.               |
-| `feature-rollout`                  | Adding a feature flag and separating deploy from enable.                       |
+| `feature-rollout`                  | Adding a feature flag, or a table or service that needs an entry point.        |
 | `structured-logging`               | Writing log lines with a static message and structured fields.                 |
 | `agent-workflow`                   | Implementing, handing off, reviewing, and answering review comments.           |
 | `planning`                         | Planning a change: options, what it touches, steps, where the plan lives.      |

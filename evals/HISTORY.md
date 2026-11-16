@@ -4,6 +4,37 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-16: entry point rule added to `feature-rollout`, with two cases
+
+Sonnet agent, Opus judge. A one-attempt pilot of the three `feature-rollout` cases passed ($0.31).
+Then one three-attempt run with both arms, five cases, 30 attempts, $3.44.
+
+| Case                                                     | With | Without |
+| -------------------------------------------------------- | ---- | ------- |
+| `feature-rollout/dark-route-without-caller`              | 1.00 | 1.00    |
+| `feature-rollout/flag-defaults-on`                       | 1.00 | 0.00    |
+| `feature-rollout/table-and-service-without-entry-point`  | 1.00 | 0.00    |
+| `postgres-schema-design/exact-cap-no-lock`               | 0.67 | 0.00    |
+| `postgres-schema-design/review-last-admin-advisory-lock` | 1.00 | 0.00    |
+
+- **`feature-rollout` gained a section:** do not add a table, a service, or a write path that no
+  registered entry point reaches. Its description now names a change that adds a table, a
+  migration, a service, or a write path.
+- **New case `table-and-service-without-entry-point`.** The prompt and the paths do not mention
+  a flag or a rollout, so `skill-fired` checks the new trigger. Without the plugin no attempt
+  asked for an entry point before merging.
+- **New case `dark-route-without-caller` is a guard, not a discriminator.** It scores 1.00
+  without the plugin. It is there so the new rule does not make a review reject a mounted,
+  flagged route for having no caller. That bends the rule that a case is one the model gets
+  wrong without the skill.
+- **`postgres-schema-design` was run because the new trigger words overlap its description.**
+  `exact-cap-no-lock` passed 1 of 3. In both failures the skill loaded and the answer still
+  offered an exact cap (a `SERIALIZABLE` transaction, or an exact variant beside the best-effort
+  one). A rerun of the two `postgres-schema-design` cases on the same commit, with the plugin
+  only, passed 3 of 3 each ($1.04). No run on the commit before was made, so this does not show
+  whether the description change had a part. The row in `README.md` is from the rerun.
+- The full suite was not rerun.
+
 ## 2026-11-15: lockfile conflict rule added to `git-commit-checklist`, with one case
 
 Sonnet agent, Opus judge. One three-attempt run with both arms, four cases, 24 attempts, $2.56.
