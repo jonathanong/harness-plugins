@@ -1,6 +1,6 @@
 ---
 name: npm-publishing
-description: Prepare npm bootstrap and trusted publishing commands for a human.
+description: Prepare a first npm publish and trusted publishing (OIDC) for a human to run, and set up the GitHub Actions job that publishes. Use when publishing a new package, moving a package to trusted publishing, or fixing a CI publish that fails with E404 or ENEEDAUTH.
 ---
 
 # npm publishing bootstrap
@@ -18,8 +18,11 @@ release workflow, build commands, and whether a laptop may publish, and override
   commands.
 - Confirm npm 11.15 or newer, account-level two-factor authentication, and write access to the
   package or scope.
-- On the default branch, the workflow must grant `id-token: write`, use a supported runner, install
-  an npm version that can trusted-publish, and publish this package.
+- On the default branch, the workflow must grant `id-token: write`, use a supported runner, set
+  `registry-url` on `actions/setup-node`, run npm 11.5.1 or newer (Node 24 bundles it; Node 22
+  bundles npm 10, which cannot), and publish this package with no npm token.
+  [references/release-workflow.md](references/release-workflow.md) has the job and explains the
+  `E404` and `ENEEDAUTH` failures; read it when writing or fixing that workflow.
 - When the package does not exist in the registry, create the smallest useful stub in its intended
   directory. Follow neighboring packages for metadata, source, exports, types, license, README,
   build output, and workspace registration.

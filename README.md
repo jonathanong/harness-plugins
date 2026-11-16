@@ -15,7 +15,7 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | `github-actions-authoring`         | Writing workflows: events not polling, triggers, timeouts, runners, pins.      |
 | `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.       |
 | `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.                 |
-| `npm-publishing`                   | Preparing a first npm publish and trusted publishing for a human to run.       |
+| `npm-publishing`                   | Preparing a first npm publish, trusted publishing, and the release workflow.   |
 | `triage-codex-security`            | Triaging Codex Security findings into explicitly approved actions.             |
 | `postgres-schema-design`           | Designing tables, relations, history, retention, and row locking.              |
 | `postgres-node-performance-tuning` | Writing or tuning a query: shape, indexes, plans, round trips.                 |
