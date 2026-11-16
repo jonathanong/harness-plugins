@@ -26,7 +26,7 @@ Then one three-attempt run with both arms, five cases, 30 attempts, $3.44.
 - **New case `dark-route-without-caller` is a guard, not a discriminator.** It scores 1.00
   without the plugin. It is there so the new rule does not make a review reject a mounted,
   flagged route for having no caller. That bends the rule that a case is one the model gets
-  wrong without the skill.
+  wrong without the skill, so `AGENTS.md` now allows a guard case beside a discriminating one.
 - **`postgres-schema-design` was run because the new trigger words overlap its description.**
   `exact-cap-no-lock` passed 1 of 3. In both failures the skill loaded and the answer still
   offered an exact cap (a `SERIALIZABLE` transaction, or an exact variant beside the best-effort

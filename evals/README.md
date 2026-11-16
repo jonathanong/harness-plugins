@@ -95,7 +95,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `documentation/review-readme-drift`                            | Flags restated config values, history and plans in a README, and a comment that explains history. |
 | `evals/document-new-suite`                                     | Proposes a README, a history log, and an agent rules file for a new eval suite.                   |
 | `evals/record-partial-rerun`                                   | Logs a grader change and does not report a one-attempt rerun as an improvement.                   |
-| `feature-rollout/dark-route-without-caller`                    | Accepts a mounted route behind an off flag that no page calls yet.                                |
+| `feature-rollout/dark-route-without-caller`                    | Guard: accepts a mounted route behind an off flag that no page calls yet.                         |
 | `feature-rollout/flag-defaults-on`                             | Defaults a new flag to off and reports deployed separately from enabled.                          |
 | `feature-rollout/table-and-service-without-entry-point`        | Asks for a registered entry point before a table and a service merge.                             |
 | `git-commit-checklist/lockfile-conflict-on-rebase`             | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.           |
