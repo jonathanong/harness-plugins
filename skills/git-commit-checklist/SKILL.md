@@ -1,6 +1,6 @@
 ---
 name: git-commit-checklist
-description: Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work. Use before every git commit, and before any rebase, reset, or force push of a branch that another person or agent may also push to.
+description: Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work. Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile.
 ---
 
 # Git commit checklist
@@ -39,6 +39,29 @@ editor. The push then overwrites commits you never read.
 - Name the remote and the branch in the push, so a configured push remote cannot change where it
   goes.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
+- Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
+  say which hook is broken and ask.
+
+## A lockfile conflict
+
+A lockfile is generated, so do not edit its hunks by hand, and do not settle the conflict by
+taking one side with `git checkout --ours` or `--theirs` and committing that. One side alone
+drops every entry the other side added.
+
+1. Resolve the manifest (`package.json`) by meaning first. Keep both sides' changes; where they
+   contradict, such as a removal against a bump, find which one was intended.
+2. With pnpm, leave the conflict markers in the lockfile and run
+   `pnpm install --no-frozen-lockfile`. pnpm merges both sides.
+3. A package manager that cannot parse a conflicted lockfile needs a different step. Check its
+   documentation. When it has no merge, restore the lockfile from the branch being rebased onto
+   and rerun its lock command, so the resolved manifest adds this branch's changes back. That
+   loses an update the branch made in the lockfile alone, within an unchanged manifest range.
+   Rerun the branch's update command for each, and compare versions against the branch's old
+   lockfile.
+4. Check that no markers remain, `git add` the manifest and the lockfile, and continue the rebase
+   or merge.
+
+This holds for a dependency-update pull request and for any other branch.
 
 Read [rebase and lease push](references/rebase-and-lease-push.md) before rebasing a branch whose
 remote may hold commits you do not have. It says how to compare the two sides and what to do in

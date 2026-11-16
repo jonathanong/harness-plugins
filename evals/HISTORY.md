@@ -4,6 +4,32 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-15: lockfile conflict rule added to `git-commit-checklist`, with one case
+
+Sonnet agent, Opus judge. One three-attempt run with both arms, four cases, 24 attempts, $2.56.
+
+| Case                                               | With | Without |
+| -------------------------------------------------- | ---- | ------- |
+| `dependabot/groups-by-family`                      | 1.00 | 0.33    |
+| `dependabot/request-update-check`                  | 1.00 | 0.50    |
+| `git-commit-checklist/lockfile-conflict-on-rebase` | 1.00 | 0.00    |
+| `git-commit-checklist/stages-only-task-files`      | 1.00 | 0.33    |
+
+- **`git-commit-checklist` gained two rules:** let the package manager merge a conflicted
+  lockfile and take neither side, and do not commit or push with `--no-verify`. Its description
+  now names the lockfile conflict. `dependabot` gained one line that points to it.
+- **New case `lockfile-conflict-on-rebase`.** Without the plugin, all three attempts pushed with
+  `--no-verify` because the prompt asked to skip the hook, and at least one also took one side of
+  the lockfile before reinstalling.
+- **No pilot was run** before the measured run.
+- **Edited after the run, not re-measured:** a review asked for a fallback when the package
+  manager cannot parse a conflicted lockfile. The pnpm step the case checks is unchanged.
+- The other three rows are reruns after the skill text changed. `dependabot/request-update-check`
+  scored 0.50 without the plugin, against 0.67 in the entry before; nothing in that case changed.
+- This is the first run of these skills since two earlier text changes that were not measured: a
+  stacked pull request trigger rule in `github-actions-authoring` (not rerun here) and a wording
+  change in `review-ci-logs` (not rerun here).
+
 ## 2026-11-15: six workflow skills added, with seven cases
 
 Sonnet agent, Opus judge. Two one-attempt pilots with both arms ($2.52, $1.12), a three-attempt
