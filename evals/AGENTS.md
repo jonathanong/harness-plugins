@@ -33,6 +33,9 @@ python3 scripts/eval-summary.py                           # the table for README
 - Write the prompt as a person would ask it. Do not use the skill's own wording, and do not name
   the skill.
 - Build a case on a decision the model gets wrong without the skill.
+- The exception is a guard case: one that checks a rule is not applied where it does not hold.
+  It may pass without the skill. Add one only beside a case for the same rule that the model
+  fails without the skill, and call it a guard in `README.md` and `HISTORY.md`.
 - Keep prompts and fixtures free of the names of real organizations and of private repositories
   and products. Naming a public library or tool the case is about is fine.
 

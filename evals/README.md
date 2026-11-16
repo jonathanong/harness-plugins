@@ -11,12 +11,12 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 44 cases.
+Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 46 cases.
 
 - 24 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
-- 20 rows are from later targeted runs, after a case or its skill was added or changed: the
-  three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows,
+- 22 rows are from later targeted runs, after a case or its skill was added or changed: the
+  three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows, all three `feature-rollout` rows,
   and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
   `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
   plus `github-actions-authoring/required-check-is-a-real-job`.
@@ -25,6 +25,9 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 44 cas
   19 of 24 attempts, against 23 of 24 on the commit before. See [HISTORY.md](HISTORY.md).
 - Rows below 1.00: the skill did not load on some attempts, or, for `github-issue` and one
   `agent-workflow` attempt, the answer failed.
+- `postgres-schema-design/exact-cap-no-lock` passed 1 of 3 in the run before its row's run, on
+  the same commit: the skill loaded and the answer still offered an exact cap. Over both runs
+  it passed 4 of 6.
 
 | Case                                                           | Score | Passed | Without plugin |
 | -------------------------------------------------------------- | ----- | ------ | -------------- |
@@ -35,7 +38,9 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 44 cas
 | `documentation/review-readme-drift`                            | 1.00  | 3 of 3 | 0.00           |
 | `evals/document-new-suite`                                     | 1.00  | 3 of 3 | 0.00           |
 | `evals/record-partial-rerun`                                   | 1.00  | 3 of 3 | 0.00           |
+| `feature-rollout/dark-route-without-caller`                    | 1.00  | 3 of 3 | 1.00           |
 | `feature-rollout/flag-defaults-on`                             | 1.00  | 3 of 3 | 0.00           |
+| `feature-rollout/table-and-service-without-entry-point`        | 1.00  | 3 of 3 | 0.00           |
 | `git-commit-checklist/lockfile-conflict-on-rebase`             | 1.00  | 3 of 3 | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                  | 1.00  | 3 of 3 | 0.33           |
 | `github-actions-authoring/publish-gated-on-ci`                 | 1.00  | 3 of 3 | 0.00           |
@@ -73,8 +78,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 44 cas
 | `triage-codex-security/repository-mismatch`                    | 1.00  | 3 of 3 | 0.78           |
 | `typescript-authoring/rename-without-alias`                    | 1.00  | 3 of 3 | 0.00           |
 
-"Without plugin" is the case's last measured score with no plugin installed. Those come from
-separate, earlier runs with three attempts each; [HISTORY.md](HISTORY.md) has the run for each.
+"Without plugin" is the case's last measured score with no plugin installed. Most come from
+separate, earlier runs with three attempts each, and some from the same two-arm run as the score; [HISTORY.md](HISTORY.md) has the run for each.
 
 A score is the mean over a case's attempts. An attempt's score is the share of its graders that
 passed, so 1.00 means every grader passed on every attempt.
@@ -90,7 +95,9 @@ passed, so 1.00 means every grader passed on every attempt.
 | `documentation/review-readme-drift`                            | Flags restated config values, history and plans in a README, and a comment that explains history. |
 | `evals/document-new-suite`                                     | Proposes a README, a history log, and an agent rules file for a new eval suite.                   |
 | `evals/record-partial-rerun`                                   | Logs a grader change and does not report a one-attempt rerun as an improvement.                   |
+| `feature-rollout/dark-route-without-caller`                    | Guard: accepts a mounted route behind an off flag that no page calls yet.                         |
 | `feature-rollout/flag-defaults-on`                             | Defaults a new flag to off and reports deployed separately from enabled.                          |
+| `feature-rollout/table-and-service-without-entry-point`        | Asks for a registered entry point before a table and a service merge.                             |
 | `git-commit-checklist/lockfile-conflict-on-rebase`             | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.           |
 | `git-commit-checklist/stages-only-task-files`                  | Stages the files of the fix by name and leaves unrelated and generated changes out.               |
 | `github-actions-authoring/publish-gated-on-ci`                 | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                        |
@@ -135,8 +142,9 @@ passed, so 1.00 means every grader passed on every attempt.
 - **The two score columns are not from the same run.** The default run has only the with-plugin
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
-  as a precise difference. One case, `review-ci-logs/quiet-log-keeps-errors`, scores 1.00
-  without the plugin; every other case scores below it.
+  as a precise difference. Two cases score 1.00 without the plugin:
+  `review-ci-logs/quiet-log-keeps-errors`, and the guard case
+  `feature-rollout/dark-route-without-caller`. Every other case scores below that.
 - **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
   on the answer alone. `scripts/eval-summary.py` counts that grader again, so the "Score"
   column means the same thing from either kind of run.
