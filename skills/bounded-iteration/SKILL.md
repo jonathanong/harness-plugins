@@ -83,6 +83,17 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
 
+17. **Give each sweep, stage, and phase its own job.** Each has its own job name, cursor in
+    job data, per-run cap, retry policy, and failure boundary. Do not share a mutable budget,
+    tally, error list, or cursor map across them. Bound aggregate load through the queue's
+    ordering lane and concurrency. Independent stages read committed state only and do not
+    chain one another. When phases must run sequentially, such as deleting children before
+    parents in foreign-key order, enqueue the next phase after the completing transaction
+    commits and only when the earlier walk has finished. Deduplicate that next-phase enqueue
+    by the phase and the walk's start tick; preserve that tick across continuations. Give
+    continuation jobs distinct ids that also include their cursor or page so a retained earlier
+    job cannot suppress progress.
+
 For work-item, lease, and cursor tables, read [postgres-schema-design](../postgres-schema-design/SKILL.md).
 For query shape and streaming, read [performance patterns](../postgres-node-performance-tuning/references/performance-patterns.md).
 For UUIDv7 windows and pruning, use [UUIDv7 partitioning](../postgres-partitioning-uuid-v7/SKILL.md).

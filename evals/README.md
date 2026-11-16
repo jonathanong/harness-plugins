@@ -34,6 +34,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 46 cas
   licenses, vulnerabilities, React, published packages, Python, and Go.
 - Not re-measured: `postgres-partitioning-uuid-v7/range-not-hash` predates the 2026-11-16
   retention rule for whole-partition drops and selective row survival.
+- Not re-measured: `bounded-iteration/review-dispatcher-predicate-and-job-id` predates the
+  2026-11-16 guidance on independent sweep jobs and sequential phases.
 
 | Case                                                           | Score | Passed | Without plugin |
 | -------------------------------------------------------------- | ----- | ------ | -------------- |

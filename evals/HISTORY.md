@@ -4,6 +4,16 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-16: `bounded-iteration` separates sweep jobs and phases; not re-measured
+
+No run. The skill now gives each sweep, stage, and phase its own job and continuation state,
+cap, retries, and failure boundary. Queue ordering and concurrency bound aggregate load;
+independent stages read committed state, while dependent phases enqueue after commit when the
+previous walk finishes. Next-phase enqueue ids include the phase and walk start tick; continuation
+ids also distinguish the cursor or page so retained earlier pages cannot suppress successors. The existing
+`review-dispatcher-predicate-and-job-id` row in `README.md` is not re-measured; its case does not
+cover these sweep boundaries.
+
 ## 2026-11-16: `postgres-partitioning-uuid-v7` clarifies retention; not re-measured
 
 No run. The skill now chooses UUIDv7 `RANGE` partitions and whole-partition drops for age-based
