@@ -7,7 +7,8 @@ scores are in [README.md](README.md).
 ## 2026-11-16: `npm-publishing` covers the release workflow; not re-measured
 
 No run. `npm-publishing` now states what the publishing job needs for trusted publishing (npm
-11.5.1 or newer, which Node 24 bundles; `registry-url` on `actions/setup-node`; no npm token) and
+11.5.1 or newer, checked in the job; `id-token: write`; `registry-url` on `actions/setup-node`; no
+npm token) and
 links a new reference, `references/release-workflow.md`, with the job and the meaning of `E404`
 and `ENEEDAUTH`. Its description now names fixing a CI publish that fails with either error. The
 two `npm-publishing` rows in `README.md` are not re-measured. No case covers the new reference
