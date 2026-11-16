@@ -4,6 +4,16 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-16: `npm-publishing` covers the release workflow; not re-measured
+
+No run. `npm-publishing` now states what the publishing job needs for trusted publishing (npm
+11.5.1 or newer, checked in the job; `id-token: write`; `registry-url` on `actions/setup-node`; no
+npm token) and
+links a new reference, `references/release-workflow.md`, with the job and the meaning of `E404`
+and `ENEEDAUTH`. Its description now names fixing a CI publish that fails with either error. The
+two `npm-publishing` rows in `README.md` are not re-measured. No case covers the new reference
+yet.
+
 ## 2026-11-16: entry point rule added to `feature-rollout`, with two cases
 
 Sonnet agent, Opus judge. A one-attempt pilot of the three `feature-rollout` cases passed ($0.31).

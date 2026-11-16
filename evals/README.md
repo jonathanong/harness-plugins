@@ -28,6 +28,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 46 cas
 - `postgres-schema-design/exact-cap-no-lock` passed 1 of 3 in the run before its row's run, on
   the same commit: the skill loaded and the answer still offered an exact cap. Over both runs
   it passed 4 of 6.
+- Not re-measured: the two `npm-publishing` rows predate the 2026-11-16 change to that skill's
+  description and its new release-workflow reference.
 
 | Case                                                           | Score | Passed | Without plugin |
 | -------------------------------------------------------------- | ----- | ------ | -------------- |
