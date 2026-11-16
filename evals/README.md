@@ -32,6 +32,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 46 cas
   description and its new release-workflow reference.
 - Not re-measured: the two `static-code-analysis` rows predate the 2026-11-16 rows for complexity,
   licenses, vulnerabilities, React, published packages, Python, and Go.
+- Not re-measured: `postgres-partitioning-uuid-v7/range-not-hash` predates the 2026-11-16
+  retention rule for whole-partition drops and selective row survival.
 
 | Case                                                           | Score | Passed | Without plugin |
 | -------------------------------------------------------------- | ----- | ------ | -------------- |

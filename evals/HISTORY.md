@@ -4,6 +4,13 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-16: `postgres-partitioning-uuid-v7` clarifies retention; not re-measured
+
+No run. The skill now chooses UUIDv7 `RANGE` partitions and whole-partition drops for age-based
+retention, with bounded `DELETE` sweeps reserved for rows that must survive inside an old range.
+It requires the table `COMMENT` to explain that exception. The existing `range-not-hash` row in
+`README.md` is not re-measured; its case does not cover selective row survival.
+
 ## 2026-11-16: `static-code-analysis` adds complexity and five more checks; not re-measured
 
 No run. `static-code-analysis` gained baseline rows for per-file complexity (`scc`, over 50
