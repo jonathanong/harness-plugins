@@ -4,6 +4,29 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-16: partition retention with survivors, and one job per reconciler stage
+
+Sonnet agent, Opus judge. One three-attempt run with both arms of every `bounded-iteration` and
+`postgres-partitioning-uuid-v7` case: four cases, 24 attempts, $3.34.
+
+| Case                                                       | With | Without |
+| ---------------------------------------------------------- | ---- | ------- |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id` | 1.00 | 1.00    |
+| `bounded-iteration/review-staged-reconciler`               | 1.00 | 0.00    |
+| `postgres-partitioning-uuid-v7/range-not-hash`             | 1.00 | 0.67    |
+| `postgres-partitioning-uuid-v7/retention-with-survivors`   | 1.00 | 0.00    |
+
+- **`postgres-partitioning-uuid-v7` gained a rule:** age-based retention drops whole UUIDv7 range
+  partitions; a bounded `DELETE` sweep is allowed only when rows in an old range must survive, and
+  the table comment says why.
+- **`bounded-iteration` gained item 16 and a reference section:** each reconciler stage is its
+  own job, with no shared mutable budget, error list, or cursor map, and ordered phases enqueue
+  the next phase after commit.
+- **New cases `retention-with-survivors` and `review-staged-reconciler`.** Without the plugin
+  every attempt failed the outcome grader.
+- The two older cases scored higher without the plugin than in their last two-arm runs (0.33 and
+  0.00). Their skills changed in this commit, so the runs are not comparable.
+
 ## 2026-11-16: `static-code-analysis` adds complexity and five more checks; not re-measured
 
 No run. `static-code-analysis` gained baseline rows for per-file complexity (`scc`, over 50
