@@ -30,6 +30,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 46 cas
   it passed 4 of 6.
 - Not re-measured: the two `npm-publishing` rows predate the 2026-11-16 change to that skill's
   description and its new release-workflow reference.
+- Not re-measured: the two `static-code-analysis` rows predate the 2026-11-16 rows for complexity,
+  licenses, vulnerabilities, React, published packages, Python, and Go.
 
 | Case                                                           | Score | Passed | Without plugin |
 | -------------------------------------------------------------- | ----- | ------ | -------------- |
