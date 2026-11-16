@@ -1,6 +1,6 @@
 ---
 name: git-commit-checklist
-description: Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work. Use before every git commit, and before any rebase, reset, or force push of a branch that another person or agent may also push to.
+description: Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work. Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile.
 ---
 
 # Git commit checklist
@@ -39,6 +39,20 @@ editor. The push then overwrites commits you never read.
 - Name the remote and the branch in the push, so a configured push remote cannot change where it
   goes.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
+- Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
+  say which hook is broken and ask.
+
+## A lockfile conflict
+
+A lockfile is generated, so do not resolve its conflict with `git checkout --ours` or `--theirs`,
+and do not edit its hunks by hand. Taking one side drops every entry the other side added.
+
+1. Resolve the manifest (`package.json`) by meaning first: keep both sides' changes.
+2. Leave the conflict markers in the lockfile and let the package manager merge it. With pnpm,
+   run `pnpm install --no-frozen-lockfile`.
+3. Check that no markers remain, `git add` the lockfile, and continue the rebase or merge.
+
+This holds for a dependency-update pull request and for any other branch.
 
 Read [rebase and lease push](references/rebase-and-lease-push.md) before rebasing a branch whose
 remote may hold commits you do not have. It says how to compare the two sides and what to do in

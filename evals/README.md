@@ -11,11 +11,11 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 43 cases.
+Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 44 cases.
 
 - 24 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
-- 19 rows are from later targeted runs, after a case or its skill was added or changed: the
+- 20 rows are from later targeted runs, after a case or its skill was added or changed: the
   three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows,
   and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
   `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
@@ -31,11 +31,12 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 43 cas
 | `agent-workflow/review-round-dispositions`                     | 0.67  | 2 of 3 | 0.00           |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`     | 0.67  | 2 of 3 | 0.33           |
 | `dependabot/groups-by-family`                                  | 1.00  | 3 of 3 | 0.33           |
-| `dependabot/request-update-check`                              | 1.00  | 3 of 3 | 0.67           |
+| `dependabot/request-update-check`                              | 1.00  | 3 of 3 | 0.50           |
 | `documentation/review-readme-drift`                            | 1.00  | 3 of 3 | 0.00           |
 | `evals/document-new-suite`                                     | 1.00  | 3 of 3 | 0.00           |
 | `evals/record-partial-rerun`                                   | 1.00  | 3 of 3 | 0.00           |
 | `feature-rollout/flag-defaults-on`                             | 1.00  | 3 of 3 | 0.00           |
+| `git-commit-checklist/lockfile-conflict-on-rebase`             | 1.00  | 3 of 3 | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                  | 1.00  | 3 of 3 | 0.33           |
 | `github-actions-authoring/publish-gated-on-ci`                 | 1.00  | 3 of 3 | 0.00           |
 | `github-actions-authoring/rejects-polling`                     | 1.00  | 3 of 3 | 0.67           |
@@ -90,6 +91,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `evals/document-new-suite`                                     | Proposes a README, a history log, and an agent rules file for a new eval suite.                   |
 | `evals/record-partial-rerun`                                   | Logs a grader change and does not report a one-attempt rerun as an improvement.                   |
 | `feature-rollout/flag-defaults-on`                             | Defaults a new flag to off and reports deployed separately from enabled.                          |
+| `git-commit-checklist/lockfile-conflict-on-rebase`             | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.           |
 | `git-commit-checklist/stages-only-task-files`                  | Stages the files of the fix by name and leaves unrelated and generated changes out.               |
 | `github-actions-authoring/publish-gated-on-ci`                 | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                        |
 | `github-actions-authoring/rejects-polling`                     | Replaces a sleep-and-poll loop with an event trigger.                                             |

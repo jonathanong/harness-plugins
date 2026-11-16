@@ -116,3 +116,5 @@ GitHub exposes no REST or GraphQL endpoint and no `gh` command that starts a ver
 - To rebuild one existing pull request, comment `@dependabot recreate` or `@dependabot rebase` on
   it. That does not check for new versions. `recreate` discards commits other people pushed to the
   pull request, so save those first.
+- When rebasing a dependency pull request by hand, a lockfile conflict is not resolved by taking
+  one side. The `git-commit-checklist` skill owns that procedure.
