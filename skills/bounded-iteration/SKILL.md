@@ -79,7 +79,13 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
 15. **External listings carry the provider's continuation token.** Cap pages per run and enqueue a
     continuation with the token; restarting at page one lets failing front items starve the rest.
     See [external listing](references/sweep-patterns.md#external-listing-with-a-continuation-token).
-16. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
+16. **Each stage is its own job.** A reconciler with several sweeps, stages, or phases enqueues one
+    job per stage, with its own name, cursor in job data, cap, retry, and failure. Stages share no
+    mutable budget, tally, error list, or cursor map; the queue's lane and concurrency bound the
+    total load. Independent stages read committed state and do not chain. Ordered phases enqueue
+    the next phase after commit. See
+    [separate stage jobs](references/sweep-patterns.md#separate-stage-jobs).
+17. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
 

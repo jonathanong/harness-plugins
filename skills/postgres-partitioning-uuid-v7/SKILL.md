@@ -12,6 +12,13 @@ For schema names, references, and canonical table shapes, read
 
 Partition only after lifecycle, retention, and query predicates show that it helps.
 
+- Age-based retention of time-ordered rows uses UUIDv7 range partitions and drops whole
+  partitions. A bounded `DELETE` sweep is allowed only when rows inside an old range must survive:
+  rows referenced through `RESTRICT` foreign keys, latest-per-parent pointers, or legal holds. The
+  table `COMMENT` states that reason. Survivors spread across every range mean no old partition can
+  ever be dropped; for example, a run table where each parent keeps its latest run and the run
+  behind its saved draft.
+
 - Treat a UUIDv7 as time ordered. Where the meaning matters, keep an explicit business timestamp.
 - Partition time-ordered data by `RANGE` on the UUIDv7 id, with a default partition. `HASH`
   spreads every time window across all partitions, so nothing prunes and nothing can be dropped.

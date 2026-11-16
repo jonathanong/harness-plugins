@@ -505,6 +505,38 @@ a trigger take effect exactly once needs a durable event ledger, not job ids. If
 good and its record is retained, the same id is still claimed, so retrying it needs an explicit
 reactivate-or-remove step before the next add.
 
+## Separate stage jobs
+
+A reconciler that runs several stages inside one job shares their fate. One stage's failure
+retries all of them, a page budget or error tally passed between stages becomes mutable state
+that every stage writes, and no stage can be capped, scheduled, or observed alone.
+
+```ts
+// One job, seven stages, one shared budget: a failure in stage 5 reruns stages 1 to 4.
+const budget = { pages: 50 }
+const errors: Error[] = []
+for (const stage of stages) await stage.run(budget, errors)
+```
+
+Make each stage its own job instead:
+
+- Each job has its own name, its cursor in job data, its own cap, and its own retry and failure.
+- Stages share no mutable budget, tally, error list, or cursor map. The queue's ordering lane and
+  concurrency bound the total load, not a counter the stages pass around.
+- Independent stages read committed state only and do not enqueue each other. A row committed
+  after a stage read its page is picked up on the next tick.
+- Sequential phases, such as children before parents in foreign-key order, enqueue the next phase
+  after the earlier walk finishes and commits. Its job id is the phase plus the tick the walk
+  started on, so a retried finish enqueues the next phase once.
+
+```ts
+await queue.add(
+  'reconcileParents',
+  { cursor: null, startedAt: walkStartedAt },
+  { jobId: `reconcile__parents__${walkStartedAt}` },
+)
+```
+
 ## Repair through an existing reconciler
 
 When a side effect after commit is fire-and-forget (a cache fill, a filter add, an enqueue), repair
