@@ -44,13 +44,17 @@ editor. The push then overwrites commits you never read.
 
 ## A lockfile conflict
 
-A lockfile is generated, so do not resolve its conflict with `git checkout --ours` or `--theirs`,
-and do not edit its hunks by hand. Taking one side drops every entry the other side added.
+A lockfile is generated, so do not edit its hunks by hand, and do not settle the conflict by
+taking one side with `git checkout --ours` or `--theirs` and committing that. One side alone
+drops every entry the other side added.
 
 1. Resolve the manifest (`package.json`) by meaning first: keep both sides' changes.
-2. Leave the conflict markers in the lockfile and let the package manager merge it. With pnpm,
-   run `pnpm install --no-frozen-lockfile`.
-3. Check that no markers remain, `git add` the lockfile, and continue the rebase or merge.
+2. With pnpm, leave the conflict markers in the lockfile and run
+   `pnpm install --no-frozen-lockfile`. pnpm merges both sides.
+3. A package manager that cannot parse a conflicted lockfile needs a different step. Check its
+   documentation. When it has no merge, restore the lockfile from the branch being rebased onto
+   and rerun its lock command, so the resolved manifest adds this branch's changes back.
+4. Check that no markers remain, `git add` the lockfile, and continue the rebase or merge.
 
 This holds for a dependency-update pull request and for any other branch.
 

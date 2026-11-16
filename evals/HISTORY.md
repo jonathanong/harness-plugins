@@ -22,6 +22,8 @@ Sonnet agent, Opus judge. One three-attempt run with both arms, four cases, 24 a
   `--no-verify` because the prompt asked to skip the hook, and at least one also took one side of
   the lockfile before reinstalling.
 - **No pilot was run** before the measured run.
+- **Edited after the run, not re-measured:** a review asked for a fallback when the package
+  manager cannot parse a conflicted lockfile. The pnpm step the case checks is unchanged.
 - The other three rows are reruns after the skill text changed. `dependabot/request-update-check`
   scored 0.50 without the plugin, against 0.67 in the entry before; nothing in that case changed.
 - This is the first run of these skills since two earlier text changes that were not measured: a
