@@ -45,10 +45,10 @@ build.
 
 ## Failures
 
-| Error                   | Meaning                                   | Check, in order                                                                                                                                       |
-| ----------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `E404 Not Found` on PUT | The registry rejected the token npm sent. | `npm --version` is 11.5.1 or newer. Then the trusted publisher on npmjs.com names this owner, repository, workflow filename, and environment exactly. |
-| `ENEEDAUTH`             | npm found no credentials to send.         | The job grants `id-token: write`. Then `registry-url` is set on `actions/setup-node`.                                                                 |
+| Error                   | Meaning                                   | Check, in order                                                                                                                                                        |
+| ----------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `E404 Not Found` on PUT | The registry rejected the token npm sent. | `npm --version` is 11.5.1 or newer. Then the trusted publisher on npmjs.com names this owner, repository, workflow filename, and environment exactly.                  |
+| `ENEEDAUTH`             | npm found no credentials to send.         | The job grants `id-token: write`. Then `registry-url` is set on `actions/setup-node`; jobs without it have failed this way. Then the trusted publisher, as for `E404`. |
 
 The `E404` is misleading: the package exists. With `registry-url` set and no token provided,
 `actions/setup-node` writes a placeholder `NODE_AUTH_TOKEN` (`XXXXX-XXXXX-XXXXX-XXXXX`) so npm does
