@@ -4,6 +4,14 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-16: `static-code-analysis` adds complexity and five more checks; not re-measured
+
+No run. `static-code-analysis` gained baseline rows for per-file complexity (`scc`, over 50
+fails), dependency licenses, and known vulnerabilities (`osv-scanner`); JavaScript rows for React
+lint plugins and for `publint` and `attw` on a published package; and rows for Python and Go. The
+two `static-code-analysis` rows in `README.md` are not re-measured, and no case checks the new rows
+yet.
+
 ## 2026-11-16: `npm-publishing` covers the release workflow; not re-measured
 
 No run. `npm-publishing` now states what the publishing job needs for trusted publishing (npm
