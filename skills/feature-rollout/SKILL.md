@@ -33,8 +33,9 @@ watched, and undone alone.
 Do not add a table, a service, or a write path that no entry point reaches. Build the entry
 point in the same change: an API route, an MCP tool, a CLI command, or a job.
 
-- An entry point is registered: the route is mounted, the tool is listed, the job is scheduled. A
-  handler that nothing mounts does not count, and neither does a test.
+- An entry point is registered: the route is mounted, the tool is listed, the job is scheduled or
+  its worker subscribes to a queue. A handler that nothing mounts does not count, and neither
+  does a test.
 - Test the new code through the entry point, so the test covers the registration too.
 - An entry point that nothing calls yet is fine. An API with no page that uses it is reachable;
   a service with no route is not.

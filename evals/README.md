@@ -78,8 +78,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 46 cas
 | `triage-codex-security/repository-mismatch`                    | 1.00  | 3 of 3 | 0.78           |
 | `typescript-authoring/rename-without-alias`                    | 1.00  | 3 of 3 | 0.00           |
 
-"Without plugin" is the case's last measured score with no plugin installed. Those come from
-separate, earlier runs with three attempts each; [HISTORY.md](HISTORY.md) has the run for each.
+"Without plugin" is the case's last measured score with no plugin installed. Most come from
+separate, earlier runs with three attempts each, and some from the same two-arm run as the score; [HISTORY.md](HISTORY.md) has the run for each.
 
 A score is the mean over a case's attempts. An attempt's score is the share of its graders that
 passed, so 1.00 means every grader passed on every attempt.
@@ -142,8 +142,9 @@ passed, so 1.00 means every grader passed on every attempt.
 - **The two score columns are not from the same run.** The default run has only the with-plugin
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
-  as a precise difference. One case, `review-ci-logs/quiet-log-keeps-errors`, scores 1.00
-  without the plugin; every other case scores below it.
+  as a precise difference. Two cases score 1.00 without the plugin:
+  `review-ci-logs/quiet-log-keeps-errors`, and the guard case
+  `feature-rollout/dark-route-without-caller`. Every other case scores below that.
 - **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
   on the answer alone. `scripts/eval-summary.py` counts that grader again, so the "Score"
   column means the same thing from either kind of run.

@@ -33,6 +33,9 @@ Then one three-attempt run with both arms, five cases, 30 attempts, $3.44.
   one). A rerun of the two `postgres-schema-design` cases on the same commit, with the plugin
   only, passed 3 of 3 each ($1.04). No run on the commit before was made, so this does not show
   whether the description change had a part. The row in `README.md` is from the rerun.
+- **Edited after the run, not re-measured:** both new prompts now say PostgreSQL 18, where
+  `uuidv7()` is built in, and the skill counts a worker that subscribes to a queue as a
+  registered job.
 - The full suite was not rerun.
 
 ## 2026-11-15: lockfile conflict rule added to `git-commit-checklist`, with one case

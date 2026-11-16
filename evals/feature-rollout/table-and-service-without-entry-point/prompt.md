@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Review this pull request before I merge it (Node, Express, PostgreSQL 17 with `pg`).
+Review this pull request before I merge it (Node, Express, PostgreSQL 18 with `pg`).
 
 > **Add usage alert storage**
 >

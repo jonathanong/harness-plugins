@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Review this pull request before I merge it (Node, Express, PostgreSQL 17 with `pg`). A teammate
+Review this pull request before I merge it (Node, Express, PostgreSQL 18 with `pg`). A teammate
 commented that the route is dead code because no page calls it, and that I should hold the table
 and the service back until the settings page is ready. Are they right?
 
