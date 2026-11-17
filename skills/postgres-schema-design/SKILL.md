@@ -26,8 +26,12 @@ Most locks guard nothing. Each one adds waiting, deadlock risk, and a reason for
 keep it. Start with none and add one only for the case below.
 
 - Lock rows (`FOR UPDATE`) only when a concurrent write would corrupt the rows this transaction
-  itself writes. Never lock a read set or a parent row to serialize writers, and never use advisory
-  locks.
+  itself writes. Never lock a read set or a parent row to serialize writers.
+- Avoid advisory locks. Prefer a constraint, a conditional write, or `SERIALIZABLE`, below. When a
+  change does take one, it says why those do not fit, and a review checks the lock itself: it is
+  transaction-scoped (`pg_advisory_xact_lock`), and its key covers exactly the writers that
+  conflict. A key such as `hashtext(org_id)` alone is shared by every other lock keyed on the same
+  id; use the two-key form with a namespace for the operation.
 - A cap or a "don't remove the last X" guard is best effort. Count up to the cap
   (`LIMIT cap + 1`), then write. Two concurrent requests may land one row over; say so and accept
   it. When asked to make a cap exact, answer with this design. Do not add a lock, a counter or
