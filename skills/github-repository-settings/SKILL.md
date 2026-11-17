@@ -21,9 +21,9 @@ gh api -X PATCH repos/<owner>/<repo> -f pull_request_creation_policy=collaborato
 gh api -X PATCH repos/<owner>/<repo> -f pull_request_creation_policy=all   # roll back
 ```
 
-- GitHub does not document whether Dependabot and GitHub Apps count as collaborators. After
-  enabling it, confirm that the next Dependabot pull request still opens, and roll back if it does
-  not.
+- Dependabot still opens pull requests under this setting: one opened about ten minutes after it was
+  set, in November 2026. GitHub does not document this for Dependabot or for GitHub Apps, so after
+  enabling it, confirm the next bot pull request still opens, and roll back if it does not.
 - Do not set `has_pull_requests=false` for this. It turns pull requests off for everyone, bots
   included.
 - Do not rely on interaction limits instead. They expire after at most six months.
