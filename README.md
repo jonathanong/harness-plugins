@@ -14,6 +14,7 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 | `static-analysis-checklist`        | Adding or changing one static-analysis invariant.                              |
 | `github-actions-authoring`         | Writing workflows: events not polling, triggers, timeouts, runners, pins.      |
 | `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.       |
+| `github-repository-settings`       | Limiting pull requests to collaborators and gating outside contributors' CI.   |
 | `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.                 |
 | `npm-publishing`                   | Preparing a first npm publish, trusted publishing, and the release workflow.   |
 | `triage-codex-security`            | Triaging Codex Security findings into explicitly approved actions.             |
