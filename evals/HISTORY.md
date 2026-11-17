@@ -15,8 +15,8 @@ case: six attempts, $0.58.
 
 - The skill covers the collaborators-only pull request setting and approval of every outside
   contributor's workflow runs, with read, set, and rollback commands.
-- After the run, the Dependabot caveat changed from "not documented" to an observation: a
-  Dependabot pull request opened about ten minutes after the setting was applied. The case does
+- After the run, the Dependabot caveat changed from "not documented" to an observation: on two
+  repositories, Dependabot opened a pull request 10 to 14 minutes after the setting was applied. The case does
   not grade that line; not re-measured.
 
 ## 2026-11-16: partition retention with survivors, and one job per reconciler stage
