@@ -1,5 +1,5 @@
 ---
-description: A review of a Dependabot setup whose auto-merge workflow holds a write token asks for the seven-day cooldown on the github-actions entry too.
+description: A review of a Dependabot setup whose auto-merge workflow holds a write token asks for at least seven days on every ecosystem and every semver key.
 tags: [dependabot, skill-fired, review]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
@@ -17,8 +17,17 @@ updates:
       interval: daily
     cooldown:
       default-days: 7
+      semver-patch-days: 2 # patches are low risk; take them sooner
     open-pull-requests-limit: 5
   - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 7
+      semver-patch-days: 1
+    open-pull-requests-limit: 5
+  - package-ecosystem: docker
     directory: /
     schedule:
       interval: daily
