@@ -36,7 +36,7 @@ change ($0.91): `exact-cap-no-lock` 3 of 3, `review-last-admin-advisory-lock` 1 
   and two of three judges failed it for "a different lock key".
 - **Load rate on 2.1.326:** in every failure of `review-last-admin-advisory-lock`, the skill did
   not load and the review grader failed. The commit before this change scored the
-  same 1 of 3, so the drop is the Claude Code version or noise, not the new wording. On 2.1.325
+  same 1 of 3. Three attempts per revision cannot show whether the wording changed the load rate. On 2.1.325
   the case scored 3 of 3.
 
 ## 2026-11-17: a seven-day cooldown on every Dependabot ecosystem

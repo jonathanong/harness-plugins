@@ -164,9 +164,10 @@ passed, so 1.00 means every grader passed on every attempt.
 - **The two score columns are not from the same run.** The default run has only the with-plugin
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
-  as a precise difference. Two cases score 1.00 without the plugin:
-  `review-ci-logs/quiet-log-keeps-errors`, and the guard case
-  `feature-rollout/dark-route-without-caller`. Every other case scores below that.
+  as a precise difference. Four cases score 1.00 without the plugin:
+  `bounded-iteration/review-dispatcher-predicate-and-job-id`, `review-ci-logs/quiet-log-keeps-errors`,
+  and the guard cases `feature-rollout/dark-route-without-caller` and
+  `postgres-schema-design/review-advisory-lock-key`. Every other case scores below that.
 - **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
   on the answer alone. `scripts/eval-summary.py` counts that grader again, so the "Score"
   column means the same thing from either kind of run.
