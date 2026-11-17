@@ -15,9 +15,13 @@ source, and overrides these defaults.
 - Inventory tracked manifests, lockfiles, Dockerfiles, workflow actions, infrastructure roots, and
   any companion dependency bot. Add one Dependabot update entry per supported ecosystem and
   manifest root. Do not create a second owner for a dependency already assigned elsewhere.
-- Schedule version checks daily. Set `cooldown.default-days` to the repository's release delay, or
-  seven days when local policy does not choose another value. Cooldown applies to version updates,
-  not security updates.
+- Schedule version checks daily.
+- Every update entry, in every ecosystem, sets a cooldown of at least seven days. That includes
+  `github-actions` and `docker`, whose bumps run in CI before anyone reviews them. Set
+  `cooldown.default-days: 7`, and set any `semver-major-days`, `semver-minor-days`, or
+  `semver-patch-days` to at least 7. Never lower a longer value already there. Most compromised
+  releases are found and pulled within days, so the delay keeps them out. Cooldown applies to
+  version updates, not security updates; that gap is the known residual risk.
 - Set `open-pull-requests-limit: 5` on every update entry. The limit is per entry and covers
   version updates only. Use a lower value only when a serialized repair or manual validation path
   requires it.
@@ -32,7 +36,7 @@ together.
 
 ```yaml
 cooldown:
-  default-days: 2
+  default-days: 7
   exclude: ['@acme/*', 'acme-cli']
 groups:
   first-party:
@@ -81,6 +85,12 @@ groups:
 
 - Do not check out or execute pull-request code in a `pull_request_target` workflow. Pin external
   actions per local policy.
+- A `pull_request` workflow on a Dependabot pull request runs the bumped code and the bumped actions
+  before review. Give it a write-capable Dependabot secret, such as a token for auto-merge, only
+  when every update entry has the seven-day cooldown above, and first-party exclusions are
+  verified. Without that cooldown, split it in two: credential-free checks on `pull_request`, then
+  a default-branch `workflow_run` or `pull_request_target` job that holds the token, reads only
+  pull-request metadata, and never checks out the pull request.
 - A Dependabot-triggered workflow cannot assume ordinary Actions secrets or trusted OIDC access.
   Copy only the narrow credentials mandatory tests need into Dependabot secret scope.
 - For cloud, deployment, production, or other privileged checks, keep credential-free validation

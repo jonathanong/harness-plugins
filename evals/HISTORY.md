@@ -4,6 +4,26 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-17: a seven-day cooldown on every Dependabot ecosystem
+
+Sonnet agent, Opus judge, Claude Code 2.1.326. Two three-attempt runs with both arms of every
+`dependabot` case, $2.08 and $2.07. The table is the second run.
+
+| Case                                 | With          | Without |
+| ------------------------------------ | ------------- | ------- |
+| `dependabot/groups-by-family`        | 1.00          | 0.33    |
+| `dependabot/request-update-check`    | 1.00          | 0.50    |
+| `dependabot/review-actions-cooldown` | 0.67 (2 of 3) | 0.67    |
+
+- **The rule:** every update entry, including `github-actions` and `docker`, sets at least seven
+  days, and so does every semver day key. A `pull_request` workflow on Dependabot pull requests
+  may hold a write-capable secret only with that cooldown; otherwise split it into two stages.
+- **New case `review-actions-cooldown`:** its first version left only the `github-actions` entry
+  without a cooldown, and passed 3 of 3 without the plugin. The recorded version adds short
+  `semver-patch-days` and a `docker` entry with none. It still separates the arms poorly: the one
+  failure with the plugin is the skill not loading.
+- In the first run, `request-update-check` scored 0.83 without the plugin.
+
 ## 2026-11-17: new skill `github-repository-settings`
 
 Sonnet agent, Opus judge, Claude Code 2.1.326. One three-attempt run with both arms of the new
