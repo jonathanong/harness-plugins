@@ -11,16 +11,17 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 48 cases.
+Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326. 49 cases.
 
 - 22 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
-- 26 rows are from later targeted runs, after a case or its skill was added or changed: the
+- 27 rows are from later targeted runs, after a case or its skill was added or changed: the
   three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows, all three `feature-rollout` rows,
   and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
   `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
   plus `github-actions-authoring/required-check-is-a-real-job` and every row of
-  `bounded-iteration` and `postgres-partitioning-uuid-v7`.
+  `bounded-iteration` and `postgres-partitioning-uuid-v7`, and
+  `github-repository-settings/collaborators-only-prs` (Claude Code 2.1.326).
 - The suite has not been run in full since those six skills were added. The `test-authoring`
   rows were run six times with them present, and the skill loaded less often than before:
   19 of 24 attempts, against 23 of 24 on the commit before. See [HISTORY.md](HISTORY.md).
@@ -53,6 +54,7 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325. 48 cas
 | `github-actions-authoring/rejects-polling`                     | 1.00  | 3 of 3 | 0.67           |
 | `github-actions-authoring/required-check-is-a-real-job`        | 1.00  | 3 of 3 | 0.00           |
 | `github-issue/search-before-filing`                            | 0.83  | 2 of 3 | 0.00           |
+| `github-repository-settings/collaborators-only-prs`            | 1.00  | 3 of 3 | 0.67           |
 | `glide-mq/never-enqueue-and-wait`                              | 1.00  | 3 of 3 | 0.00           |
 | `glide-mq/review-webhook-lane`                                 | 1.00  | 3 of 3 | 0.33           |
 | `http-api-design/action-body-and-raw-tokens`                   | 1.00  | 3 of 3 | 0.33           |
@@ -112,6 +114,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `github-actions-authoring/rejects-polling`                     | Replaces a sleep-and-poll loop with an event trigger.                                              |
 | `github-actions-authoring/required-check-is-a-real-job`        | Builds a combined required check as a fan-in job, not a posted commit status.                      |
 | `github-issue/search-before-filing`                            | Searches for a duplicate before filing, writes a self-contained body, and invents no label.        |
+| `github-repository-settings/collaborators-only-prs`            | Limits pull requests to collaborators and requires approval for every outside contributor's runs.  |
 | `glide-mq/never-enqueue-and-wait`                              | Returns 202 with a job id instead of waiting on the job inside the request.                        |
 | `glide-mq/review-webhook-lane`                                 | Gives a floodable webhook job family its own lane.                                                 |
 | `http-api-design/action-body-and-raw-tokens`                   | Uses resource paths, the public id, and hashed tokens.                                             |

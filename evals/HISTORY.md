@@ -4,6 +4,18 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-17: new skill `github-repository-settings`
+
+Sonnet agent, Opus judge, Claude Code 2.1.326. One three-attempt run with both arms of the new
+case: six attempts, $0.58.
+
+| Case                                                | With | Without |
+| --------------------------------------------------- | ---- | ------- |
+| `github-repository-settings/collaborators-only-prs` | 1.00 | 0.67    |
+
+- The skill covers the collaborators-only pull request setting and approval of every outside
+  contributor's workflow runs, with read, set, and rollback commands.
+
 ## 2026-11-16: partition retention with survivors, and one job per reconciler stage
 
 Sonnet agent, Opus judge. One three-attempt run with both arms of every `bounded-iteration` and
