@@ -22,7 +22,8 @@ them: open `/hooks` in the TUI and trust the two `jong-hooks` entries (a change 
 re-prompts). For an unattended run you vetted yourself, `codex exec --dangerously-bypass-hook-trust`
 skips the prompt for that invocation.
 
-Codex hooks cover `Bash` (shell and `exec_command`) and `apply_patch`, before and after the call.
+Codex `PreToolUse` covers `Bash` (shell and `exec_command`) and `apply_patch`; `PostToolUse` runs
+after `apply_patch`.
 A block is exit 2 with the reason on stderr; Codex refuses the call and shows the reason.
 
 Node 24 or later runs the `.mts` source directly by stripping types, so there is no build.

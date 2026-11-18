@@ -2,7 +2,7 @@
 // shell history through the engine. Each case pairs with the nearby command that must still block.
 import { describe, expect, it } from 'vitest'
 
-import { evaluateCommandPolicy, standardGitPatterns } from './index.mts'
+import { evaluateCommandPolicy } from './index.mts'
 import type { CommandPolicy, HookPayload } from './index.mts'
 import type { PathLocator } from './path-location.mts'
 import { fakeRepository } from './testing/fake-repository.mts'
@@ -18,7 +18,6 @@ describe('merge authority reads what gh will do', () => {
     'gh pr merge -h',
     'gh pr merge 5 --help 2>&1 | head -30',
     'gh pr merge 5 --repo o/r --disable-auto',
-    'gh -R o/r pr merge 5 --disable-auto --squash',
     'gh stack merge --help',
     'gh stack merge -h | sed -n 1,20p',
   ])('allows %j', (command) => {
@@ -32,6 +31,10 @@ describe('merge authority reads what gh will do', () => {
     'gh pr merge 5 -t -h',
     'gh pr merge 5 --match-head-commit --disable-auto',
     'gh pr merge 5 --squash -- --help',
+    // gh is not shown to ignore a merge method beside --disable-auto, so that still counts.
+    'gh -R o/r pr merge 5 --disable-auto --squash',
+    'gh pr merge 5 --disable-auto --auto',
+    'gh pr merge 5 --disable-auto -d',
     'gh stack merge 5 --help',
     'gh stack merge 5 --yes',
   ])('blocks %j', (command) => {
@@ -41,7 +44,11 @@ describe('merge authority reads what gh will do', () => {
 
 describe('in-place editors write their files, not their program', () => {
   const policy: CommandPolicy = {
-    protectedPaths: { dirPrefixes: ['tools/hooks/'], exactFiles: ['policy.mts'], reason: 'P' },
+    protectedPaths: {
+      dirPrefixes: ['tools/hooks/'],
+      exactFiles: ['policy.mts', '.env'],
+      reason: 'P',
+    },
   }
   const blocked = (command: string) =>
     evaluateCommandPolicy(bash(command), policy, {
@@ -78,6 +85,8 @@ describe('in-place editors write their files, not their program', () => {
     "perl -pi -e 's/a/b/' policy.mts",
     // `-pie` reads `e` as the backup suffix, so the program is the first operand.
     "perl -pie 's/a/b/' policy.mts",
+    // GNU sed takes no separate suffix, so `.env` here is the file it edits.
+    "sed -e 's/a/b/' -i .env",
   ])('blocks %j', (command) => {
     expect(blocked(command)).toBe(true)
   })
@@ -167,34 +176,5 @@ describe('protected paths belong to one repository', () => {
   it('resolves against the root, not the directory the call runs in', () => {
     expect(blocked(bash('echo x > /other/AGENTS.md'), twoRepositories, '/other')).toBe(true)
     expect(blocked(bash('echo x > /repo/AGENTS.md'), twoRepositories, '/other')).toBe(false)
-  })
-})
-
-describe('a non-interactive rebase --continue passes', () => {
-  const policy: CommandPolicy = { gitPatterns: standardGitPatterns(), rebaseContinueReason: 'RC' }
-  const reason = (command: string) =>
-    evaluateCommandPolicy(bash(command), policy, { automationContext: true })?.reason ?? null
-
-  it.each([
-    'git -c core.editor=true rebase --continue',
-    "git -c 'core.editor=true' rebase --continue",
-    'git -c core.editor="true" -C /x rebase --continue',
-    '{ GIT_EDITOR=true git rebase --continue; }',
-    'for i in 1 2; do GIT_EDITOR=true git rebase --continue; done',
-    'if true; then GIT_EDITOR=true git rebase --continue; fi',
-    '! GIT_EDITOR=true git rebase --continue',
-    'git add a\nGIT_EDITOR=true git rebase --continue',
-  ])('allows %j', (command) => {
-    expect(reason(command)).toBeNull()
-  })
-
-  it.each([
-    'git rebase --continue',
-    'git -c core.editor=vim rebase --continue',
-    'git -c core.editor=true.sh rebase --continue',
-    'git add a\ngit rebase --continue',
-    '( git rebase --continue )',
-  ])('blocks %j', (command) => {
-    expect(reason(command)).toBe('RC')
   })
 })

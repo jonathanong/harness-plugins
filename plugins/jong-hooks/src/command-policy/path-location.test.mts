@@ -5,18 +5,21 @@ import { join } from 'node:path'
 
 import { afterAll, describe, expect, it } from 'vitest'
 
+import { probeEnv } from './git-process.mts'
 import { createPathLocator, defaultPathLocator } from './path-location.mts'
 
 const base = realpathSync(mkdtempSync(join(tmpdir(), 'jong-hooks-locate-')))
 const repo = join(base, 'repo')
 const linked = join(base, 'linked')
 const outside = join(base, 'outside')
-const git = (...args: string[]) => execFileSync('git', args, { cwd: repo, stdio: 'ignore' })
+// Run by a git hook, the inherited GIT_DIR or GIT_INDEX_FILE would aim these at the real repository.
+const env = probeEnv()
+const git = (...args: string[]) => execFileSync('git', args, { cwd: repo, env, stdio: 'ignore' })
 
 mkdirSync(join(repo, 'src'), { recursive: true })
 mkdirSync(outside)
 writeFileSync(join(repo, 'src', 'a.txt'), 'a')
-execFileSync('git', ['init', '-q', repo])
+execFileSync('git', ['init', '-q', repo], { env })
 const identity = [
   '-c',
   'user.name=t',

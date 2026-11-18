@@ -125,12 +125,12 @@ const LONG_PROGRAM_OPTIONS = /^--(?:expression|file)(=|$)/
 // BSD sed takes the backup suffix as its own word: `sed -i '' ...`, `sed -i .bak ...`.
 const BSD_SUFFIX = /^(?:|\.[\w.-]*)$/
 
-type ShortOption = { program: boolean; consumesNext: boolean }
+type ShortOption = { program: boolean; consumesNext: boolean; suffix: boolean }
 
 // Reads one short-option cluster such as `-ne`, `-pi.bak`, or `-i`.
 function readShortCluster(name: 'perl' | 'sed', cluster: string, next: string | undefined) {
   const options = SHORT_OPTIONS[name]
-  const result: ShortOption = { program: false, consumesNext: false }
+  const result: ShortOption = { program: false, consumesNext: false, suffix: false }
   for (let index = 1; index < cluster.length; index += 1) {
     const letter = cluster[index]!
     const isProgram = options.program.includes(letter)
@@ -138,6 +138,7 @@ function readShortCluster(name: 'perl' | 'sed', cluster: string, next: string | 
     const attached = index < cluster.length - 1
     if (letter === 'i') {
       result.consumesNext = !attached && name === 'sed' && BSD_SUFFIX.test(next ?? '/')
+      result.suffix = result.consumesNext
       return result
     }
     result.program = isProgram
@@ -154,6 +155,8 @@ function readShortCluster(name: 'perl' | 'sed', cluster: string, next: string | 
 function inPlaceFiles(name: string, args: string[]): string[] {
   const editor = name === 'perl' ? 'perl' : 'sed'
   const files: string[] = []
+  // GNU sed reads `-i .npmrc` as no suffix and a file, so a suffix-shaped word is written too.
+  const suffixes: string[] = []
   let programGiven = false
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index]!
@@ -173,10 +176,13 @@ function inPlaceFiles(name: string, args: string[]): string[] {
     else if (!arg.startsWith('--')) {
       const option = readShortCluster(editor, arg, args[index + 1])
       programGiven ||= option.program
-      if (option.consumesNext) index += 1
+      if (option.consumesNext) {
+        index += 1
+        if (option.suffix && args[index] !== '') suffixes.push(args[index]!)
+      }
     }
   }
-  return programGiven ? files : files.slice(1)
+  return [...(programGiven ? files : files.slice(1)), ...suffixes]
 }
 
 function editsInPlace(args: string[]): boolean {

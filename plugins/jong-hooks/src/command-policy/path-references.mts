@@ -1,8 +1,8 @@
 import { tokenizeShellWords } from '../shell-parse/index.mts'
 import { commandsToInspectForGitHubPolicy } from './github-command-context.mts'
 import { isRecord } from './payload.mts'
-import { commandCwd } from './github-command-cwd.mts'
 import { writtenWords } from './path-writes.mts'
+import { writeCwd } from './write-cwd.mts'
 import type { HookPayload } from './types.mts'
 
 const PATCH_BEGIN = '*** Begin Patch'
@@ -101,7 +101,7 @@ function commandReferences(
       matches(
         path,
         scriptIndex === 0 && options.cwd !== undefined
-          ? commandCwd(tokens, commandIndex, options.cwd)
+          ? writeCwd(tokens, commandIndex, options.cwd)
           : undefined,
       ),
     )

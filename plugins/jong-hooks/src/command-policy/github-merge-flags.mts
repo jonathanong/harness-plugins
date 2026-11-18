@@ -27,14 +27,17 @@ function prMergeFlags(optionTokens: readonly string[]): string[] {
   return flags
 }
 
+// Flags that ask gh to merge, or to arm a merge, in some way.
+const MERGING_FLAGS = /^(?:-[mrsd]|--(?:merge|rebase|squash|auto|admin|delete-branch))$/
+
 /**
  * True when a parsed `gh pr merge` does not merge: `--help` prints usage, and `--disable-auto`
- * turns auto-merge off. gh checks both before it merges, whatever else the command passes.
+ * alone turns auto-merge off. `--disable-auto` beside a merging flag still counts as a merge.
  */
 export function prMergeDoesNotMerge(optionTokens: readonly string[]): boolean {
-  return prMergeFlags(optionTokens).some(
-    (flag) => HELP_FLAGS.has(flag) || flag === '--disable-auto',
-  )
+  const flags = prMergeFlags(optionTokens)
+  if (flags.some((flag) => HELP_FLAGS.has(flag))) return true
+  return flags.includes('--disable-auto') && !flags.some((flag) => MERGING_FLAGS.test(flag))
 }
 
 /**

@@ -12,12 +12,13 @@ describe('Codex plugin wiring', () => {
     expect(manifest.hooks).toBe('./hooks/codex-hooks.json')
     const hooks = read(manifest.hooks).hooks
     expect(Object.keys(hooks)).toEqual(['PreToolUse', 'PostToolUse'])
-    for (const [event, flag] of [
-      ['PreToolUse', 'pre-tool-use'],
-      ['PostToolUse', 'post-tool-use'],
+    // Post-tool-use checks edited files, as Claude's does, so it skips shell calls.
+    for (const [event, flag, matcher] of [
+      ['PreToolUse', 'pre-tool-use', 'Bash|apply_patch'],
+      ['PostToolUse', 'post-tool-use', 'apply_patch'],
     ] as const) {
       const group = hooks[event][0]
-      expect(group.matcher).toBe('Bash|apply_patch')
+      expect(group.matcher).toBe(matcher)
       expect(group.hooks[0].command).toContain('${PLUGIN_ROOT}/bin/hook.mts')
       expect(group.hooks[0].command).toContain(`${flag} --harness codex`)
     }

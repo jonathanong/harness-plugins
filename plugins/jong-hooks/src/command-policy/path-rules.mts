@@ -28,9 +28,8 @@ export function findPathTypo(
 
 /**
  * Whether `rawToken` names a protected file or directory. Dot segments collapse
- * (`dir/./hooks/x` -> `dir/hooks/x`) so redundant path noise cannot hide a literal match. The match
- * is deliberately not resolved against the command's cwd, so a `cd` plus a relative path is the
- * indirection this check does not catch.
+ * (`dir/./hooks/x` -> `dir/hooks/x`) so redundant path noise cannot hide a literal match. This is
+ * the loose name match; `referencesProtectedPath` then resolves a matching path to its repository.
  */
 export function protectedPathMatch(rawToken: string, protectedPaths: ProtectedPaths): boolean {
   const token = rawToken === '' ? rawToken : posix.normalize(rawToken)
