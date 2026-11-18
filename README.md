@@ -66,6 +66,19 @@ The manifests set no `version`, so there are no releases to track. Claude Code t
 on `main` as an update. Codex picks up new commits when you run
 `codex plugin marketplace upgrade harness-plugins`.
 
+Moving from the old name: this plugin was `skills@jonathanong-skills`, from the repository
+`jonathanong/skills`. Remove the old plugin and marketplace, then install as above:
+
+```bash
+claude plugin uninstall skills@jonathanong-skills
+claude plugin marketplace remove jonathanong-skills
+codex plugin remove skills@jonathanong-skills
+codex plugin marketplace remove jonathanong-skills
+```
+
+Skills now load as `jong-skills:<skill>`, not `skills:<skill>`, so update any instruction file or
+setting that names a skill with the old prefix.
+
 ## Layout
 
 ```
