@@ -11,19 +11,24 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326. 51 cases.
+Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326 or 2.1.327. 53 cases.
 
-- 19 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
+- 18 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
-- 32 rows are from later targeted runs, after a case or its skill was added or changed: the
+- 35 rows are from later targeted runs, after a case or its skill was added or changed: the
   three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows, all three `feature-rollout` rows,
   and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
   `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
   plus `github-actions-authoring/required-check-is-a-real-job` and every row of
   `bounded-iteration` and `postgres-partitioning-uuid-v7`, every row of `glide-mq`,
-  `postgres-node-performance-tuning`, and `postgres-schema-design`, and
-  `github-repository-settings/collaborators-only-prs` and every `dependabot` row. The last five
-  ran on Claude Code 2.1.326.
+  `postgres-node-performance-tuning`, `postgres-schema-design`, and `typescript-authoring`, and
+  `github-repository-settings/collaborators-only-prs` and every `dependabot` row. Those after
+  `postgres-partitioning-uuid-v7` ran on Claude Code 2.1.326, except `glide-mq` and
+  `typescript-authoring`, which ran on 2.1.327.
+- The three `glide-mq` rows and both `typescript-authoring` rows are from the 2026-11-17 run
+  with the batch-first and own-queue rules (Claude Code 2.1.327).
+  `typescript-authoring/batch-first-wrapper` passed 1 of 3 with the plugin: the skill did not
+  load on two attempts, and the answer failed on those attempts. See [HISTORY.md](HISTORY.md).
 - The suite has not been run in full since those six skills were added. The `test-authoring`
   rows were run six times with them present, and the skill loaded less often than before:
   19 of 24 attempts, against 23 of 24 on the commit before. See [HISTORY.md](HISTORY.md).
@@ -63,6 +68,7 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 | `github-issue/search-before-filing`                            | 0.83  | 2 of 3 | 0.00           |
 | `github-repository-settings/collaborators-only-prs`            | 1.00  | 3 of 3 | 0.67           |
 | `glide-mq/never-enqueue-and-wait`                              | 1.00  | 3 of 3 | 0.00           |
+| `glide-mq/outbox-own-queue`                                    | 1.00  | 3 of 3 | 0.00           |
 | `glide-mq/review-webhook-lane`                                 | 1.00  | 3 of 3 | 0.00           |
 | `http-api-design/action-body-and-raw-tokens`                   | 1.00  | 3 of 3 | 0.33           |
 | `native-app-architecture/core-tests-and-web-view`              | 1.00  | 3 of 3 | 0.00           |
@@ -93,7 +99,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 | `test-authoring/review-helper-holds-assertions`                | 0.75  | 3 of 6 | 0.00           |
 | `triage-codex-security/approval-wave-cap`                      | 1.00  | 3 of 3 | 0.50           |
 | `triage-codex-security/repository-mismatch`                    | 1.00  | 3 of 3 | 0.78           |
-| `typescript-authoring/rename-without-alias`                    | 1.00  | 3 of 3 | 0.00           |
+| `typescript-authoring/batch-first-wrapper`                     | 0.33  | 1 of 3 | 0.00           |
+| `typescript-authoring/rename-without-alias`                    | 0.67  | 2 of 3 | 0.00           |
 
 "Without plugin" is the case's last measured score with no plugin installed. Most come from
 separate, earlier runs with three attempts each, and some from the same two-arm run as the score; [HISTORY.md](HISTORY.md) has the run for each.
@@ -125,6 +132,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `github-issue/search-before-filing`                            | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                    |
 | `github-repository-settings/collaborators-only-prs`            | Limits pull requests to collaborators and requires approval for every outside contributor's runs.              |
 | `glide-mq/never-enqueue-and-wait`                              | Returns 202 with a job id instead of waiting on the job inside the request.                                    |
+| `glide-mq/outbox-own-queue`                                    | Puts an outbox relay and a ledger write on a queue of their own, not a lane on the shared queue.               |
 | `glide-mq/review-webhook-lane`                                 | Gives a floodable webhook job family its own lane.                                                             |
 | `http-api-design/action-body-and-raw-tokens`                   | Uses resource paths, the public id, and hashed tokens.                                                         |
 | `native-app-architecture/core-tests-and-web-view`              | Runs portable core tests once and asks for a written blocker before a web view.                                |
@@ -155,6 +163,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `test-authoring/review-helper-holds-assertions`                | Flags an expected value recomputed with the production formula and assertions kept in a helper.                |
 | `triage-codex-security/approval-wave-cap`                      | Treats approval given before a wave was shown as not approving that wave.                                      |
 | `triage-codex-security/repository-mismatch`                    | Stops when the findings belong to a different repository.                                                      |
+| `typescript-authoring/batch-first-wrapper`                     | Syncs a list with one call per I/O step and makes the single-item function a wrapper of that call.             |
 | `typescript-authoring/rename-without-alias`                    | Updates every caller instead of keeping an alias, and adds the missing `await`.                                |
 
 ## How to read the numbers

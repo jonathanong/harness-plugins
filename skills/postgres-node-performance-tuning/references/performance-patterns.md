@@ -152,9 +152,10 @@ lateral subquery, rather than reading the parent and then the relation.
 `Promise.all` over statements on one transaction client is still serial, because one connection
 runs one statement at a time. Merge them instead: CTEs, `UNNEST`, or one multi-row statement.
 
-Write the batch implementation first: it takes an array of keys and returns a keyed map. The
-single-item function is a thin wrapper over it (`addUrl(url)` calls `addUrls([url])`), with no
-parallel per-item SQL path, for lookups and mutations alike. The batch must give a one-item array the
+Write the batch implementation first, as in
+[batch first](../../typescript-authoring/SKILL.md#batch-first-single-item-second): it takes an array
+of keys and returns a keyed map, with no parallel per-item SQL path, for lookups and mutations
+alike. The batch must give a one-item array the
 same atomicity, partial-failure, ordering, duplicate-key, and result-shape semantics as the single
 call; if it doesn't, fix the batch rather than keep a per-item path. Call the batch from loops, `.map`
 callbacks, and `Promise.all` fan-outs. `no-await-in-loop` misses a helper that queries internally
