@@ -43,22 +43,30 @@ describe('resolveRoot', () => {
   it('prefers --root, then CLAUDE_PROJECT_DIR, over the payload cwd', () => {
     const { top, sub } = repo()
     const payload = { cwd: sub }
-    expect(resolveRoot('/flag', { CLAUDE_PROJECT_DIR: '/env' }, payload, top)).toBe('/flag')
-    expect(resolveRoot(undefined, { CLAUDE_PROJECT_DIR: '/env' }, payload, top)).toBe('/env')
-    expect(resolveRoot('rel', {}, payload, top)).toBe(join(top, 'rel'))
+    expect(resolveRoot('/flag', { CLAUDE_PROJECT_DIR: '/env' }, payload, top, 'claude')).toBe(
+      '/flag',
+    )
+    expect(resolveRoot(undefined, { CLAUDE_PROJECT_DIR: '/env' }, payload, top, 'claude')).toBe(
+      '/env',
+    )
+    // A Codex session started from a Claude session inherits the Claude project's directory.
+    expect(resolveRoot(undefined, { CLAUDE_PROJECT_DIR: '/env' }, payload, top, 'codex')).toBe(top)
+    expect(resolveRoot('rel', {}, payload, top, 'claude')).toBe(join(top, 'rel'))
   })
 
   it('uses the git toplevel of the payload cwd, including tool_input.workdir', () => {
     const { top, sub } = repo()
-    expect(resolveRoot(undefined, {}, { cwd: sub }, '/unrelated')).toBe(top)
-    expect(resolveRoot(undefined, {}, { cwd: 'packages/app' }, top)).toBe(top)
-    expect(resolveRoot(undefined, {}, { tool_input: { workdir: sub } }, '/unrelated')).toBe(top)
+    expect(resolveRoot(undefined, {}, { cwd: sub }, '/unrelated', 'claude')).toBe(top)
+    expect(resolveRoot(undefined, {}, { cwd: 'packages/app' }, top, 'claude')).toBe(top)
+    expect(
+      resolveRoot(undefined, {}, { tool_input: { workdir: sub } }, '/unrelated', 'claude'),
+    ).toBe(top)
   })
 
   it('falls back to the process cwd when the payload names none or is outside any repository', () => {
     const { top, sub } = repo()
-    expect(resolveRoot(undefined, {}, {}, sub)).toBe(top)
-    expect(resolveRoot(undefined, {}, { cwd: '/' }, '/tmp/elsewhere')).toBe(
+    expect(resolveRoot(undefined, {}, {}, sub, 'claude')).toBe(top)
+    expect(resolveRoot(undefined, {}, { cwd: '/' }, '/tmp/elsewhere', 'claude')).toBe(
       resolve('/tmp/elsewhere'),
     )
   })

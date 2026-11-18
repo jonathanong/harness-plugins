@@ -46,11 +46,12 @@ export async function runHook(args: readonly string[], io: HookIo): Promise<numb
   const blocking = parsed.event === 'pre-tool-use'
   try {
     const payload = parseHookPayload(await io.readStdin(), blocking)
+    const harness = resolveHarness(parsed.harness, io.env, payload)
     const context: HookContext = {
-      harness: resolveHarness(parsed.harness, io.env, payload),
+      harness,
       payload,
       env: io.env,
-      root: resolveRoot(parsed.root, io.env, payload, io.cwd),
+      root: resolveRoot(parsed.root, io.env, payload, io.cwd, harness),
     }
     const explicit = parsed.policy ?? io.env.JONG_HOOKS_POLICY
     const specifier = explicit ?? DEFAULT_POLICY

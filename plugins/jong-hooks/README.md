@@ -41,9 +41,14 @@ the reason goes to the model. `PostToolUse` runs on file edits and returns advis
   endpoint or mutation is blocked. Text that only mentions a merge, such as a PR body, does not
   count. In an attended Claude session, one plain `gh pr merge` is allowed without a second prompt.
 - **Protected paths.** In automation, writes to listed files and directories are blocked:
-  redirections, `tee`, `sed -i`, `cp` and `mv` targets, `rm`, editors, and the Write and Edit
-  tools. Reads (`cat`, `git diff`, `ls`) pass. A script that writes from inside an interpreter
-  (`python -c`) is not analyzed.
+  redirections, `tee`, `sed -i` and `perl -pi` files, `cp` and `mv` targets, `rm`, editors, and
+  the Write, Edit, and `apply_patch` tools. Reads (`cat`, `git diff`, `ls`) pass. A written path is
+  followed through the command's `cd`s to the git worktree it lands in, and it counts only in a
+  worktree of the project's repository, at that path from the worktree's top level. So another
+  repository, a scratch directory, a note in your home directory, or `backend/AGENTS.md` when
+  `AGENTS.md` is protected all pass. A path the hook cannot resolve (a `cd "$DIR"`, a variable, a
+  script inside `sh -c`) matches by name alone, so uncertainty blocks. A script that writes from
+  inside an interpreter (`python -c`) is not analyzed.
 - **Typo paths.** A mistyped path segment, such as a misspelled dot-directory, is refused.
 - **GitHub stacks.** Optional `stack` rules keep `gh stack` to a non-interactive allowlist and
   require PRs to root on a configured base branch.
@@ -55,7 +60,8 @@ as automation only under a CI marker (or `--automation-env NAME` on the hook com
 
 The policy file is looked up under the root: `--root`, else `CLAUDE_PROJECT_DIR`, else the git
 toplevel of the payload's `cwd`, else the hook process's directory. Codex sets no project-dir
-variable, so a Codex session started in a subdirectory still finds the repository's policy.
+variable, so a Codex session started in a subdirectory still finds the repository's policy. Codex
+ignores an inherited `CLAUDE_PROJECT_DIR`, which names a parent Claude session's project.
 
 ### What was verified against Codex CLI 0.169
 
