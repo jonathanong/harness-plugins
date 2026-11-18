@@ -84,8 +84,7 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
 
 Dispatchers, paged fan-out, and job-id deduplication follow
 [bounded iteration](../bounded-iteration/SKILL.md). A lease for work that spans an external call
-replaces holding a PostgreSQL transaction open across it, and PostgreSQL advisory locks are never
-used; see
+replaces holding a PostgreSQL transaction or advisory lock open across it; see
 [performance patterns](../postgres-node-performance-tuning/references/performance-patterns.md).
 
 A consuming repository owns queue names, lane keys, caps and their configuration source, the lease

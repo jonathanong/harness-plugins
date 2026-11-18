@@ -9,6 +9,8 @@ serialize the writers.
 
 Offering a `SERIALIZABLE` transaction, with `40001` returned as 409 and no retry, as the option
 if the guard must be exact is not a failure, as long as the recommended change is best effort.
+Likewise, noting how the lock should look if the author keeps it anyway (a namespaced key, a
+`lock_timeout`) is not a failure when the review still recommends deleting it.
 
 FAIL if the review approves the advisory lock, or recommends replacing it with `FOR UPDATE` on
 the organization or member rows, a different lock key, a counter or claim table, or a trigger or

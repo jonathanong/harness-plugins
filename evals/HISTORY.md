@@ -4,6 +4,41 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-17: advisory locks softened from never to avoid, with a guard case
+
+Sonnet agent, Opus judge, Claude Code 2.1.326. Three runs.
+
+First, both arms of every `postgres-schema-design`, `glide-mq`, and
+`postgres-node-performance-tuning` case: six cases, 36 attempts, $4.86.
+
+| Case                                                           | With          | Without |
+| -------------------------------------------------------------- | ------------- | ------- |
+| `glide-mq/never-enqueue-and-wait`                              | 1.00          | 0.00    |
+| `glide-mq/review-webhook-lane`                                 | 1.00          | 0.00    |
+| `postgres-node-performance-tuning/new-query-named-and-indexed` | 1.00          | 0.00    |
+| `postgres-schema-design/exact-cap-no-lock`                     | 1.00          | 0.00    |
+| `postgres-schema-design/review-advisory-lock-key`              | 0.67 (1 of 3) | 1.00    |
+| `postgres-schema-design/review-last-admin-advisory-lock`       | 0.83 (2 of 3) | 0.00    |
+
+Then, after the grader change below, the three `postgres-schema-design` cases with the plugin
+($1.45): `exact-cap-no-lock` 3 of 3, `review-advisory-lock-key` 0 of 3 (0.50),
+`review-last-admin-advisory-lock` 1 of 3 (0.33). Then the same cases on the commit before this
+change ($0.91): `exact-cap-no-lock` 3 of 3, `review-last-admin-advisory-lock` 1 of 3 (0.33).
+
+- **The rule:** `postgres-schema-design` says to avoid advisory locks, not never use them. Prefer a
+  constraint, a conditional write, or `SERIALIZABLE`; a change that takes one says why, and a
+  review checks that it is transaction-scoped and that its key is specific to the operation.
+  `postgres-node-performance-tuning` and `glide-mq` now say avoid and link there.
+- **New guard case `review-advisory-lock-key`:** a justified lock whose key is shared with an
+  unrelated lock. Its answers passed every attempt in both arms; every failure is `skill-fired`.
+- **Grader change, `review-last-admin-advisory-lock`:** a review that recommends deleting the lock
+  may also say how a kept lock should look. The failing attempt in the first run did exactly that,
+  and two of three judges failed it for "a different lock key".
+- **Load rate on 2.1.326:** in every failure of `review-last-admin-advisory-lock`, the skill did
+  not load and the review grader failed. The commit before this change scored the
+  same 1 of 3. Three attempts per revision cannot show whether the wording changed the load rate. On 2.1.325
+  the case scored 3 of 3.
+
 ## 2026-11-17: a seven-day cooldown on every Dependabot ecosystem
 
 Sonnet agent, Opus judge, Claude Code 2.1.326. Two three-attempt runs with both arms of every

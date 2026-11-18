@@ -11,18 +11,19 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326. 50 cases.
+Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326. 51 cases.
 
-- 22 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
+- 19 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
-- 28 rows are from later targeted runs, after a case or its skill was added or changed: the
+- 32 rows are from later targeted runs, after a case or its skill was added or changed: the
   three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows, all three `feature-rollout` rows,
   and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
   `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
   plus `github-actions-authoring/required-check-is-a-real-job` and every row of
-  `bounded-iteration` and `postgres-partitioning-uuid-v7`, and
-  `github-repository-settings/collaborators-only-prs` and every `dependabot` row (Claude Code
-  2.1.326).
+  `bounded-iteration` and `postgres-partitioning-uuid-v7`, every row of `glide-mq`,
+  `postgres-node-performance-tuning`, and `postgres-schema-design`, and
+  `github-repository-settings/collaborators-only-prs` and every `dependabot` row. The last five
+  ran on Claude Code 2.1.326.
 - The suite has not been run in full since those six skills were added. The `test-authoring`
   rows were run six times with them present, and the skill loaded less often than before:
   19 of 24 attempts, against 23 of 24 on the commit before. See [HISTORY.md](HISTORY.md).
@@ -31,6 +32,10 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 - `postgres-schema-design/exact-cap-no-lock` passed 1 of 3 in the run before its row's run, on
   the same commit: the skill loaded and the answer still offered an exact cap. Over both runs
   it passed 4 of 6.
+- On Claude Code 2.1.326 the `postgres-schema-design` skill loads less often on the two
+  advisory-lock cases. `review-last-admin-advisory-lock` passes only when it loads, and scored 1 of
+  3 both with this change and on the commit before it. The guard case's answers passed every
+  time; its score is the skill not loading.
 - Not re-measured: the two `npm-publishing` rows predate the 2026-11-16 change to that skill's
   description and its new release-workflow reference.
 - Not re-measured: the two `static-code-analysis` rows predate the 2026-11-16 rows for complexity,
@@ -58,7 +63,7 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 | `github-issue/search-before-filing`                            | 0.83  | 2 of 3 | 0.00           |
 | `github-repository-settings/collaborators-only-prs`            | 1.00  | 3 of 3 | 0.67           |
 | `glide-mq/never-enqueue-and-wait`                              | 1.00  | 3 of 3 | 0.00           |
-| `glide-mq/review-webhook-lane`                                 | 1.00  | 3 of 3 | 0.33           |
+| `glide-mq/review-webhook-lane`                                 | 1.00  | 3 of 3 | 0.00           |
 | `http-api-design/action-body-and-raw-tokens`                   | 1.00  | 3 of 3 | 0.33           |
 | `native-app-architecture/core-tests-and-web-view`              | 1.00  | 3 of 3 | 0.00           |
 | `npm-publishing/bootstrap-new-package`                         | 1.00  | 3 of 3 | 0.40           |
@@ -70,7 +75,8 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 | `postgres-partitioning-uuid-v7/range-not-hash`                 | 1.00  | 3 of 3 | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`       | 1.00  | 3 of 3 | 0.00           |
 | `postgres-schema-design/exact-cap-no-lock`                     | 1.00  | 3 of 3 | 0.00           |
-| `postgres-schema-design/review-last-admin-advisory-lock`       | 1.00  | 3 of 3 | 0.00           |
+| `postgres-schema-design/review-advisory-lock-key`              | 0.50  | 0 of 3 | 1.00           |
+| `postgres-schema-design/review-last-admin-advisory-lock`       | 0.33  | 1 of 3 | 0.00           |
 | `pr-description/perf-change-with-flag`                         | 1.00  | 3 of 3 | 0.00           |
 | `react-app-structure/review-profile-card`                      | 1.00  | 3 of 3 | 0.33           |
 | `review-ci-logs/quiet-log-keeps-errors`                        | 1.00  | 3 of 3 | 1.00           |
@@ -131,6 +137,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `postgres-partitioning-uuid-v7/range-not-hash`                 | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                          |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`       | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.             |
 | `postgres-schema-design/exact-cap-no-lock`                     | Enforces a cap as best effort, with no lock, counter, or claim table.                                          |
+| `postgres-schema-design/review-advisory-lock-key`              | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.           |
 | `postgres-schema-design/review-last-admin-advisory-lock`       | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                     |
 | `pr-description/perf-change-with-flag`                         | Shows a before/after table, states what a flag does not cover, and omits routine checks.                       |
 | `react-app-structure/review-profile-card`                      | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.               |
@@ -157,9 +164,10 @@ passed, so 1.00 means every grader passed on every attempt.
 - **The two score columns are not from the same run.** The default run has only the with-plugin
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
-  as a precise difference. Two cases score 1.00 without the plugin:
-  `review-ci-logs/quiet-log-keeps-errors`, and the guard case
-  `feature-rollout/dark-route-without-caller`. Every other case scores below that.
+  as a precise difference. Four cases score 1.00 without the plugin:
+  `bounded-iteration/review-dispatcher-predicate-and-job-id`, `review-ci-logs/quiet-log-keeps-errors`,
+  and the guard cases `feature-rollout/dark-route-without-caller` and
+  `postgres-schema-design/review-advisory-lock-key`. Every other case scores below that.
 - **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
   on the answer alone. `scripts/eval-summary.py` counts that grader again, so the "Score"
   column means the same thing from either kind of run.
