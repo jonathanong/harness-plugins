@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import {
-  isAttendedClaudeSession,
   isAutomationContext,
   normalizeCursorShellPayload,
   parseHookArgs,
@@ -118,7 +117,7 @@ describe('payload and harness detection', () => {
     expect(resolveHarness('cursor', {}, {})).toBe('cursor')
   })
 
-  it('reads automation and attended markers strictly', () => {
+  it('reads automation markers strictly', () => {
     expect(isAutomationContext({ GITHUB_ACTIONS: 'true' })).toBe(true)
     expect(isAutomationContext({ CI: 'true' })).toBe(true)
     expect(isAutomationContext({ CI: '1' })).toBe(true)
@@ -129,8 +128,5 @@ describe('payload and harness detection', () => {
     expect(isAutomationContext({ BUILDKITE: ' TRUE ' })).toBe(true)
     expect(isAutomationContext({ CLAUDE_CODE_SESSION_ATTENDED: '1' })).toBe(false)
     expect(isAutomationContext({})).toBe(false)
-    expect(isAttendedClaudeSession({ CLAUDE_CODE_SESSION_ATTENDED: '1' })).toBe(true)
-    expect(isAttendedClaudeSession({ CLAUDE_CODE_SESSION_ATTENDED: '0' })).toBe(false)
-    expect(isAttendedClaudeSession({})).toBe(false)
   })
 })

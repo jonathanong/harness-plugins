@@ -10,7 +10,6 @@ import {
   standardGitPatterns,
 } from './git-patterns.mts'
 import { findGitHubWorkflowBlock } from './github-workflow.mts'
-import { findInteractiveMergeConfirm } from './github-merge-authority.mts'
 import { extractToolCommand, hookCwd } from './payload.mts'
 import { findPathTypo } from './path-rules.mts'
 import type {
@@ -22,9 +21,8 @@ import type {
 } from './types.mts'
 
 /**
- * Decides whether a tool call may run under a caller-supplied rule table. Every check that can
- * block runs first; the interactive lone-merge confirm is the final return, so a block anywhere in
- * the command always beats the merge allow. Returns null when the policy has no opinion.
+ * Decides whether a tool call may run under a caller-supplied rule table. Returns null when the
+ * policy has no opinion.
  */
 export function evaluateCommandPolicy(
   payload: HookPayload,
@@ -51,10 +49,7 @@ export function evaluateCommandPolicy(
   if (workflowBlock !== null) {
     return workflowBlock
   }
-  return (
-    findScriptBlock(command, policy) ??
-    findInteractiveMergeConfirm(command, automationContext, policy.mergeGuidance ?? '')
-  )
+  return findScriptBlock(command, policy)
 }
 
 // The preset first, so its reasons win over a caller rule that matches the same command.

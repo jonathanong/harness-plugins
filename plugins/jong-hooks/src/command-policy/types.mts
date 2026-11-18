@@ -12,16 +12,7 @@ export type HookPayload = {
   [key: string]: unknown
 }
 
-export type BlockDecision = {
-  reason: string
-  /**
-   * 'block' (the default when omitted) rejects the tool call outright. 'confirm' marks an
-   * interactive lone merge, which a caller may render as a silent allow in an attended session.
-   * Only `findInteractiveMergeConfirm` produces 'confirm', and the engine consults it after every
-   * block, so a block anywhere in the command always wins.
-   */
-  disposition?: 'block' | 'confirm'
-}
+export type BlockDecision = { reason: string }
 
 /**
  * A regex rule, or a git config-override rule: `configKey` matches `git -c <key>=...` and

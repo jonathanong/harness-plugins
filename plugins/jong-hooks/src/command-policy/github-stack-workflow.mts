@@ -77,7 +77,7 @@ export function findGitHubStackWorkflowBlock(
   if (action === 'link' && hasNamedFlag(optionTokens, 'open')) {
     return block(`${draftFirst} Use \`gh stack link\` without --open${followUp}.`)
   }
-  // Merge authority itself belongs to findAutomationMergeBlock and findInteractiveMergeConfirm.
+  // Merge authority itself belongs to findAutomationMergeBlock.
   if (action === 'merge' && !hasNumericPrSelector(optionTokens)) {
     return block(
       'gh stack merge requires a PR-number selector. Bare merge is a TUI and lands the whole stack. Use `gh stack merge --squash <pr>`.',

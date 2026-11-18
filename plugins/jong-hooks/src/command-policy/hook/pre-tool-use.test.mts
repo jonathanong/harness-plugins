@@ -30,35 +30,11 @@ describe('preToolUseOutput', () => {
     ).toContain('See merge.md.')
   })
 
-  it('allows an interactive merge silently only for an attended Claude session', () => {
-    const merge = bash('gh pr merge 1')
-    const interactive = { automationContext: false }
-    const allowed = preToolUseOutput(merge, policy, {
-      ...interactive,
-      harness: 'claude',
-      attended: true,
-    })
-    expect(allowed.exitCode).toBe(0)
-    expect(JSON.parse(allowed.stdout).hookSpecificOutput).toMatchObject({
-      hookEventName: 'PreToolUse',
-      permissionDecision: 'allow',
-      permissionDecisionReason: expect.stringContaining('See merge.md.'),
-    })
-    const plain = preToolUseOutput(merge, {}, { ...interactive, harness: 'claude', attended: true })
-    expect(JSON.parse(plain.stdout).hookSpecificOutput.permissionDecisionReason).toMatch(
-      /this session\.$/,
-    )
-    for (const options of [
-      { harness: 'claude' as const, attended: false },
-      { harness: 'codex' as const, attended: true },
-      { attended: true },
-      {},
-    ]) {
-      expect(preToolUseOutput(merge, policy, { ...interactive, ...options })).toEqual({
-        exitCode: 0,
-        stderr: '',
-        stdout: '',
-      })
+  it('has no opinion on an interactive merge', () => {
+    for (const harness of ['claude', 'codex', undefined] as const) {
+      expect(
+        preToolUseOutput(bash('gh pr merge 1'), policy, { automationContext: false, harness }),
+      ).toEqual({ exitCode: 0, stderr: '', stdout: '' })
     }
   })
 
@@ -67,7 +43,6 @@ describe('preToolUseOutput', () => {
     expect(
       preToolUseOutput(bash('gh pr merge 1'), policy, {
         harness: 'cursor',
-        attended: true,
         automationContext: false,
       }),
     ).toEqual({ exitCode: 0, stderr: '', stdout: '{}' })

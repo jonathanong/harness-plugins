@@ -40,7 +40,7 @@ the reason goes to the model. `PostToolUse` runs on file edits and returns advis
   strategies, and every way to skip git hooks.
 - **Merge authority.** In automation, a parsed `gh pr merge`, `gh stack merge`, or `gh api` merge
   endpoint or mutation is blocked. Text that only mentions a merge, such as a PR body, does not
-  count, and neither does `--help` or a `gh pr merge` whose only flag is `--disable-auto`. In an attended Claude session, one plain `gh pr merge` is allowed without a second prompt.
+  count, and neither does `--help` or a `gh pr merge` whose only flag is `--disable-auto`. Interactively the hook has no opinion on merges; use Claude Code permission rules (for example `"ask": ["Bash(gh pr merge:*)"]`) or Codex's own approvals.
 - **Typo paths.** A mistyped path segment, such as a misspelled dot-directory, is refused.
 - **GitHub stacks.** Optional `stack` rules keep `gh stack` to a non-interactive allowlist and
   require PRs to root on a configured base branch.

@@ -78,7 +78,7 @@ describe('stack workflow actions', () => {
 
   it('requires a PR selector for stack merge', () => {
     expect(reason('gh stack merge')).toContain('requires a PR-number selector')
-    expect(reason('gh stack merge --squash 12')).toContain('human decision')
+    expect(reason('gh stack merge --squash 12')).toBeNull()
   })
 
   it('appends guidance to each reason', () => {

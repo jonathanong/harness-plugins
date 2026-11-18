@@ -119,14 +119,6 @@ export function resolveHarness(
   return declared
 }
 
-/**
- * True only when Claude Code marks the session attended (CLAUDE_CODE_SESSION_ATTENDED=1; 0 for
- * `claude -p`). A missing or changed variable fails safe: no silent merge allow.
- */
-export function isAttendedClaudeSession(env: NodeJS.ProcessEnv): boolean {
-  return env.CLAUDE_CODE_SESSION_ATTENDED === '1'
-}
-
 // Cursor documents `stdout`; `output` is kept as a fallback for older payloads.
 function firstString(...values: unknown[]): string {
   return values.find((value): value is string => typeof value === 'string') ?? ''

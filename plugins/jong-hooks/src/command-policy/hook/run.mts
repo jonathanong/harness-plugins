@@ -3,12 +3,7 @@ import { resolve } from 'node:path'
 
 import { hookCwd } from '../payload.mts'
 import { parseHookArgs } from './args.mts'
-import {
-  isAttendedClaudeSession,
-  isAutomationContext,
-  parseHookPayload,
-  resolveHarness,
-} from './harness.mts'
+import { isAutomationContext, parseHookPayload, resolveHarness } from './harness.mts'
 import { loadHookPolicy } from './policy-module.mts'
 import { postToolUseOutput } from './post-tool-use.mts'
 import { preToolUseOutput } from './pre-tool-use.mts'
@@ -61,7 +56,6 @@ export async function runHook(args: readonly string[], io: HookIo): Promise<numb
     if (blocking) {
       const result = preToolUseOutput(payload, policy.command, {
         harness: context.harness,
-        attended: isAttendedClaudeSession(io.env),
         automationContext: isAutomationContext(io.env, parsed.automationEnv),
         // The configured root, not the hook process's directory, when the payload names none.
         cwd: hookCwd(payload, context.root),

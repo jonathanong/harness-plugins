@@ -31,7 +31,7 @@ describe('git push --force-if-includes', () => {
 
 describe('merge authority matches a parsed gh invocation', () => {
   const blocked = (command: string) =>
-    evaluateCommandPolicy(bash(command), {}, { automationContext: true })?.disposition === 'block'
+    evaluateCommandPolicy(bash(command), {}, { automationContext: true }) !== null
 
   it.each([
     'gh pr create --title t --body "run gh pr merge when green"',

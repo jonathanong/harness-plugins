@@ -7,7 +7,7 @@ const blocked = (command: string) =>
     { tool_name: 'Bash', tool_input: { command } },
     {},
     { automationContext: true },
-  )?.disposition === 'block'
+  ) !== null
 
 describe('merge authority and the PR bodies agents write', () => {
   it.each([

@@ -1,7 +1,6 @@
 export { evaluateCommandPolicy } from './engine.mts'
 export { parseHookArgs } from './hook/args.mts'
 export {
-  isAttendedClaudeSession,
   isAutomationContext,
   normalizeCursorShellPayload,
   parseHookPayload,
@@ -37,11 +36,7 @@ export {
 } from './github-configured-base.mts'
 export { parseGhInvocation, parseGhOrGhStackInvocation } from './github-invocation.mts'
 export type { GhInvocation } from './github-invocation.mts'
-export {
-  findAutomationMergeBlock,
-  findInteractiveMergeConfirm,
-  isLoneMergeCommand,
-} from './github-merge-authority.mts'
+export { findAutomationMergeBlock } from './github-merge-authority.mts'
 export { hasNamedFlag, hasNumericPrSelector, lastNamedOption } from './github-option-flags.mts'
 export { isGhCommandSeparator, parseGhOptions } from './github-options.mts'
 export type { GhOptions } from './github-options.mts'

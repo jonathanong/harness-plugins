@@ -119,7 +119,6 @@ describe('evaluateCommandPolicy merge authority', () => {
     'bash -c "gh pr merge 1"',
   ])('blocks %j in automation with the guidance', (command) => {
     const decision = evaluateCommandPolicy(bash(command), policy, { automationContext: true })
-    expect(decision?.disposition).toBe('block')
     expect(decision?.reason).toContain('See docs/merge.md.')
   })
 
@@ -133,46 +132,14 @@ describe('evaluateCommandPolicy merge authority', () => {
     expect(decision?.reason.endsWith('--body-file.')).toBe(true)
   })
 
-  it('confirms one plain interactive merge', () => {
-    const decision = evaluateCommandPolicy(bash('gh pr merge 12 --squash'), policy, {
-      automationContext: false,
-    })
-    expect(decision).toEqual({
-      disposition: 'confirm',
-      reason: expect.stringContaining('Merging is a human decision'),
-    })
-    expect(
-      evaluateCommandPolicy(bash('FOO=1 gh pr merge 1'), {}, { automationContext: false }),
-    ).toMatchObject({
-      disposition: 'confirm',
-    })
-    expect(
-      evaluateCommandPolicy(bash('env A=1 gh-stack merge 7'), {}, { automationContext: false })
-        ?.reason,
-    ).toBe('Merging is a human decision - confirm you want this exact merge before it proceeds.')
-  })
+  it.each(['gh pr merge 12 --squash', 'gh stack merge 7', 'gh pr merge 1 && echo done'])(
+    'has no opinion on the interactive merge %j',
+    (command) => {
+      expect(evaluateCommandPolicy(bash(command), {}, { automationContext: false })).toBeNull()
+    },
+  )
 
-  it('confirms a merge through a path-qualified gh', () => {
-    expect(
-      evaluateCommandPolicy(bash('/usr/local/bin/gh pr merge 3'), {}, { automationContext: false }),
-    ).toMatchObject({ disposition: 'confirm' })
-  })
-
-  it.each([
-    'gh pr merge 1 && echo done',
-    'gh pr merge 1 > out',
-    'gh stack merge --squash',
-    'gh pr view 1',
-    'ls',
-    'env gh pr merge $N',
-    'gh stack merge',
-  ])('does not confirm %j', (command) => {
-    expect(
-      evaluateCommandPolicy(bash(command), {}, { automationContext: false })?.disposition,
-    ).not.toBe('confirm')
-  })
-
-  it('lets any block beat the merge confirm', () => {
+  it('still blocks other rules in an interactive merge command', () => {
     expect(reasonOf(bash('git commit --amend && gh pr merge 1'))).toContain('amend')
   })
 })

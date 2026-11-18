@@ -5,7 +5,7 @@ import { bash, forcePolicy, io, module, useTempPolicyDirs } from './policy-modul
 useTempPolicyDirs()
 
 describe('runHook', () => {
-  it('writes the confirm allow only for an attended Claude session and runs onPayload first', async () => {
+  it('blocks a merge only in automation and runs onPayload first', async () => {
     const root = module(`export default {
       command: {}, onPayload: ctx => { globalThis.__hookSeen = ctx.harness },
     }`)
@@ -13,7 +13,7 @@ describe('runHook', () => {
     const run = io(root, JSON.stringify(bash('gh pr merge 4')), attended)
     const args = ['pre-tool-use', '--harness', 'claude', '--policy', 'policy.mjs']
     expect(await runHook(args, run.harness)).toBe(0)
-    expect(JSON.parse(run.out[0]!).hookSpecificOutput.permissionDecision).toBe('allow')
+    expect(run.out).toEqual([])
     expect((globalThis as { __hookSeen?: string }).__hookSeen).toBe('claude')
     const ci = io(root, JSON.stringify(bash('gh pr merge 4')), { ...attended, CI: 'true' })
     expect(await runHook(args, ci.harness)).toBe(2)

@@ -11,8 +11,6 @@ export type PreToolUseResult = { exitCode: 0 | 2; stderr: string; stdout: string
 
 export type PreToolUseOptions = {
   harness?: HookHarness | undefined
-  /** True only when the harness marked the session attended (see isAttendedClaudeSession). */
-  attended?: boolean | undefined
   /** See EvaluateOptions.automationContext. */
   automationContext?: boolean | undefined
   cwd?: string | undefined
@@ -36,9 +34,6 @@ export function preToolUseOutput(
   if (decision === null) {
     return { exitCode: 0, stderr: '', stdout: noOpinion(options) }
   }
-  if (decision.disposition === 'confirm') {
-    return { exitCode: 0, stderr: '', stdout: renderConfirm(policy, options) }
-  }
   return {
     exitCode: 2,
     stderr: `${decision.reason}\n`,
@@ -55,21 +50,4 @@ export function preToolUseOutput(
 // "no opinion" there is an empty JSON object. Every other harness reads empty stdio as no opinion.
 function noOpinion(options: PreToolUseOptions): string {
   return options.harness === 'cursor' ? '{}' : ''
-}
-
-// Only an attended Claude session gets a silent allow: the human already made the merge decision by
-// asking for it, so a second tool-level click is redundant. Codex, Cursor, Grok, and an unattended
-// Claude session (`claude -p`) get no opinion, so the harness's own prompt or classifier decides.
-function renderConfirm(policy: CommandPolicy, options: PreToolUseOptions): string {
-  if (options.harness !== 'claude' || options.attended !== true) {
-    return noOpinion(options)
-  }
-  const guidance = policy.mergeGuidance === undefined ? '' : ` ${policy.mergeGuidance}`
-  return JSON.stringify({
-    hookSpecificOutput: {
-      hookEventName: 'PreToolUse',
-      permissionDecision: 'allow',
-      permissionDecisionReason: `Interactive merge: proceeding on the human decision already made in this session.${guidance}`,
-    },
-  })
 }
