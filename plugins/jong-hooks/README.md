@@ -40,15 +40,16 @@ the reason goes to the model. `PostToolUse` runs on file edits and returns advis
   strategies, and every way to skip git hooks.
 - **Merge authority.** In automation, a parsed `gh pr merge`, `gh stack merge`, or `gh api` merge
   endpoint or mutation is blocked. Text that only mentions a merge, such as a PR body, does not
-  count. In an attended Claude session, one plain `gh pr merge` is allowed without a second prompt.
+  count, and neither does `--help` or a `gh pr merge` whose only flag is `--disable-auto`. In an attended Claude session, one plain `gh pr merge` is allowed without a second prompt.
 - **Protected paths.** In automation, writes to listed files and directories are blocked:
   redirections, `tee`, `sed -i` and `perl -pi` files, `cp` and `mv` targets, `rm`, editors, and
   the Write, Edit, and `apply_patch` tools. Reads (`cat`, `git diff`, `ls`) pass. A written path is
   followed through the command's `cd`s to the git worktree it lands in, and it counts only in a
   worktree of the project's repository, at that path from the worktree's top level. So another
   repository, a scratch directory, a note in your home directory, or `backend/AGENTS.md` when
-  `AGENTS.md` is protected all pass. A path the hook cannot resolve (a `cd "$DIR"`, a variable, a
-  script inside `sh -c`) matches by name alone, so uncertainty blocks. A script that writes from
+  `AGENTS.md` is protected all pass. A path the hook cannot place (a `cd "$DIR"`, a `cd` that may fail,
+  `pushd`, `git -C`, `cp -t`, a variable, a script inside `sh -c`) matches by name alone, so
+  uncertainty blocks. A script that writes from
   inside an interpreter (`python -c`) is not analyzed.
 - **Typo paths.** A mistyped path segment, such as a misspelled dot-directory, is refused.
 - **GitHub stacks.** Optional `stack` rules keep `gh stack` to a non-interactive allowlist and

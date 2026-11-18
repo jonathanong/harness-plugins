@@ -31,10 +31,11 @@ describe('merge authority reads what gh will do', () => {
     'gh pr merge 5 -t -h',
     'gh pr merge 5 --match-head-commit --disable-auto',
     'gh pr merge 5 --squash -- --help',
-    // gh is not shown to ignore a merge method beside --disable-auto, so that still counts.
+    // gh is not shown to ignore other flags beside --disable-auto, so those still count.
     'gh -R o/r pr merge 5 --disable-auto --squash',
     'gh pr merge 5 --disable-auto --auto',
-    'gh pr merge 5 --disable-auto -d',
+    'gh pr merge 5 --disable-auto -sd',
+    'gh pr merge 5 --disable-auto --squash=true',
     'gh stack merge 5 --help',
     'gh stack merge 5 --yes',
   ])('blocks %j', (command) => {
