@@ -33,7 +33,7 @@ const toolCall = (cwd: string, tool_name: string, command: string, event = 'PreT
 
 const POLICY = `export default { command: {
   commandPatterns: [{ pattern: /\\bforbidden-cmd\\b/, reason: 'blocked by test' }],
-  protectedPaths: { exactFiles: ['policy.config.json'], reason: 'Policy files are edited by a human.' },
+  typoPaths: [{ segment: '.claire', reason: 'Typo: .claire should be .claude.' }],
 } }`
 
 const dirs: string[] = []
@@ -69,14 +69,18 @@ describe('Codex hook payloads', () => {
     expect((await run(top, toolCall(join(top, 'sub'), 'Bash', 'echo ok'))).code).toBe(0)
   })
 
-  it('blocks an apply_patch call that edits a protected file in automation only', async () => {
+  it('reads the patch an apply_patch call carries', async () => {
     const top = project()
-    const patch =
-      '*** Begin Patch\n*** Update File: policy.config.json\n@@\n-a\n+b\n*** End Patch\n'
-    const payload = toolCall(join(top, 'sub'), 'apply_patch', patch)
-    const blocked = await run(top, payload, { CI: 'true' })
+    const patch = '*** Begin Patch\n*** Add File: .claire/x\n+b\n*** End Patch\n'
+    const blocked = await run(top, toolCall(join(top, 'sub'), 'apply_patch', patch))
     expect(blocked.code).toBe(2)
-    expect(blocked.err).toContain('Policy files are edited by a human.')
+    expect(blocked.err).toContain('Typo: .claire should be .claude.')
+  })
+
+  it('blocks a merge in automation only', async () => {
+    const top = project()
+    const payload = toolCall(join(top, 'sub'), 'Bash', 'gh pr merge 5 --squash')
+    expect((await run(top, payload, { CI: 'true' })).code).toBe(2)
     // Without a CI marker Codex counts as attended: no signal separates `codex exec` from a TUI.
     expect((await run(top, payload)).code).toBe(0)
   })

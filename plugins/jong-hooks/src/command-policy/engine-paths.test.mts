@@ -1,15 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { evaluateCommandPolicy, standardGitPatterns } from './index.mts'
 import type { CommandPolicy, HookPayload } from './index.mts'
-import { fakeRepository } from './testing/fake-repository.mts'
 
 const policy: CommandPolicy = {
   typoPaths: [{ segment: '.claire', reason: 'Typo: .claire should be .claude.' }],
-  protectedPaths: {
-    dirPrefixes: ['tools/hooks/', '.agent/rules/'],
-    exactFiles: ['tools/policy.mts', '.agent/config.toml'],
-    reason: 'Protected policy files cannot be edited in automation.',
-  },
   commandPatterns: [
     { pattern: /\bHOOKS=0\b/, reason: 'HOOKS=0 disables hooks.' },
     {
@@ -22,15 +16,12 @@ const policy: CommandPolicy = {
   mergeGuidance: 'See docs/merge.md.',
 }
 
+const TYPO = 'Typo: .claire should be .claude.'
 const bash = (command: string): HookPayload => ({ tool_name: 'Bash', tool_input: { command } })
 const reasonOf = (payload: HookPayload, automationContext = false, p = policy) =>
-  evaluateCommandPolicy(payload, p, {
-    automationContext,
-    cwd: '/repo',
-    locatePath: fakeRepository('/repo'),
-  })?.reason ?? null
+  evaluateCommandPolicy(payload, p, { automationContext, cwd: '/repo' })?.reason ?? null
 
-describe('evaluateCommandPolicy typo and protected paths', () => {
+describe('evaluateCommandPolicy typo paths', () => {
   it('blocks a typo segment in a command, a path field, and a patch header', () => {
     expect(reasonOf(bash('cat .claire/settings.json'))).toBe(policy.typoPaths![0]!.reason)
     expect(reasonOf({ tool_input: { file_path: '/repo/.claire/x' } })).toContain('Typo')
@@ -42,69 +33,52 @@ describe('evaluateCommandPolicy typo and protected paths', () => {
     expect(reasonOf(bash('*** Begin Patch\n*** Update File: ok.txt\n+.claire\n'))).toBeNull()
   })
 
-  it('blocks protected paths only in automation', () => {
-    const edit = { tool_input: { file_path: 'tools/hooks/a.mts' } }
-    expect(reasonOf(edit, true)).toBe(policy.protectedPaths!.reason)
-    expect(reasonOf(edit, false)).toBeNull()
-    expect(evaluateCommandPolicy(edit, policy)?.reason).toBe(policy.protectedPaths!.reason)
+  it.each([
+    'echo x > .claire/a',
+    'cp a /repo/.claire',
+    'cat a/.claire',
+    '*** Begin Patch\n*** Move to: .claire/x\n',
+    '*** Begin Patch\n*** Add File: x/.claire/y\n',
+  ])('blocks the typo in %j, attended or not', (command) => {
+    expect(reasonOf(bash(command), true)).toBe(TYPO)
+    expect(reasonOf(bash(command), false)).toBe(TYPO)
   })
 
   it.each([
-    'echo x > tools/hooks/a.mts',
-    'echo x >tools/hooks/a.mts',
-    'sed -i s/a/b/ ./tools/./policy.mts',
-    'cp a /repo/tools/hooks',
-    '*** Begin Patch\n*** Move to: tools/policy.mts\n',
-    '*** Begin Patch\n*** Add File: .agent/rules/x\n',
-  ])('blocks %j in automation', (command) => {
-    expect(reasonOf(bash(command), true)).toBe(policy.protectedPaths!.reason)
-  })
-
-  it.each([
-    'cat tools/hooks-other/a',
-    '*** Begin Patch\n*** Update File: ok.txt\n+tools/hooks/a\n',
+    'cat .claire-other/a',
+    'echo .claired',
+    '*** Begin Patch\n*** Update File: ok\n+.claire/a\n',
   ])('allows %j', (command) => {
-    expect(reasonOf(bash(command), true)).toBeNull()
+    expect(reasonOf(bash(command))).toBeNull()
   })
 
   it('reads nested payload arrays and skips the command field', () => {
-    const nested = { edits: [{ target_path: 'tools/policy.mts' }, 1, null] }
-    expect(reasonOf({ tool_input: nested }, true)).toBe(policy.protectedPaths!.reason)
-    expect(reasonOf({ tool_input: { command: 'echo' }, list: ['x'] }, true)).toBeNull()
+    expect(reasonOf({ tool_input: { edits: [{ target_path: '.claire/x' }, 1, null] } })).toBe(TYPO)
+    expect(reasonOf({ tool_input: { command: 'echo' }, list: ['x'] })).toBeNull()
     expect(
-      reasonOf(
-        { tool_input: { filePath: '*** Begin Patch\n*** Delete File: .agent/rules/x' } },
-        true,
-      ),
-    ).toContain('Protected')
-    expect(reasonOf({ command: '' }, true)).toBeNull()
+      reasonOf({ tool_input: { filePath: '*** Begin Patch\n*** Delete File: .claire/x' } }),
+    ).toBe(TYPO)
+    expect(reasonOf({ command: '' })).toBeNull()
   })
 
   it('reads patch headers inside an apply_patch heredoc', () => {
     const patch =
-      "apply_patch <<'EOF'\n*** Begin Patch\n*** Update File: tools/policy.mts\n*** End Patch\nEOF"
-    expect(reasonOf(bash(patch), true)).toBe(policy.protectedPaths!.reason)
+      "apply_patch <<'EOF'\n*** Begin Patch\n*** Update File: .claire/x\n*** End Patch\nEOF"
+    expect(reasonOf(bash(patch))).toBe(TYPO)
     const safe = "apply_patch <<'EOF'\n*** Begin Patch\n*** Update File: ok.txt\n*** End Patch\nEOF"
-    expect(reasonOf(bash(safe), true)).toBeNull()
-    expect(reasonOf(bash('  *** Begin Patch\n*** Add File: tools/policy.mts'), true)).toBe(
-      policy.protectedPaths!.reason,
-    )
+    expect(reasonOf(bash(safe))).toBeNull()
+    expect(reasonOf(bash('  *** Begin Patch\n*** Add File: .claire/x'))).toBe(TYPO)
   })
 
   it('reads camelCase path keys and empty shell words', () => {
-    expect(reasonOf({ tool_input: { filePath: 'tools/policy.mts' } }, true)).toBe(
-      policy.protectedPaths!.reason,
-    )
-    expect(reasonOf(bash('cat "" ok'), true)).toBeNull()
-    expect(reasonOf({ tool_input: { file_path: '' } }, true)).toBeNull()
+    expect(reasonOf({ tool_input: { filePath: '.claire/x' } })).toBe(TYPO)
+    expect(reasonOf(bash('cat "" ok'))).toBeNull()
+    expect(reasonOf({ tool_input: { file_path: '' } })).toBeNull()
   })
 
-  it('reads protected paths inside nested shell commands', () => {
-    for (const command of [
-      "sh -c 'printf x > tools/hooks/a.mts'",
-      'echo "$(touch tools/policy.mts)"',
-    ]) {
-      expect(reasonOf(bash(command), true)).toBe(policy.protectedPaths!.reason)
+  it('reads typos inside nested shell commands', () => {
+    for (const command of ["sh -c 'printf x > .claire/a'", 'echo "$(touch .claire/x)"']) {
+      expect(reasonOf(bash(command))).toBe(TYPO)
     }
   })
 

@@ -55,7 +55,7 @@ export {
   hookToolInput,
   hookToolName,
 } from './payload.mts'
-export { findPathTypo, protectedPathMatch, referencesProtectedPath } from './path-rules.mts'
+export { findPathTypo } from './path-rules.mts'
 export type {
   BlockDecision,
   CommandPolicy,
@@ -64,6 +64,5 @@ export type {
   HookPayload,
   PathTypoRule,
   PatternRule,
-  ProtectedPaths,
   StackPolicy,
 } from './types.mts'

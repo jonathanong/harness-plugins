@@ -4,11 +4,6 @@ import type { CommandPolicy, HookPayload } from './index.mts'
 
 const policy: CommandPolicy = {
   typoPaths: [{ segment: '.claire', reason: 'Typo: .claire should be .claude.' }],
-  protectedPaths: {
-    dirPrefixes: ['tools/hooks/', '.agent/rules/'],
-    exactFiles: ['tools/policy.mts', '.agent/config.toml'],
-    reason: 'Protected policy files cannot be edited in automation.',
-  },
   commandPatterns: [
     { pattern: /\bHOOKS=0\b/, reason: 'HOOKS=0 disables hooks.' },
     {

@@ -12,7 +12,7 @@ import {
 import { findGitHubWorkflowBlock } from './github-workflow.mts'
 import { findInteractiveMergeConfirm } from './github-merge-authority.mts'
 import { extractToolCommand, hookCwd } from './payload.mts'
-import { findPathTypo, referencesProtectedPath } from './path-rules.mts'
+import { findPathTypo } from './path-rules.mts'
 import type {
   BlockDecision,
   CommandPolicy,
@@ -37,17 +37,6 @@ export function evaluateCommandPolicy(
   const typo = findPathTypo(payload, command, policy.typoPaths ?? [])
   if (typo !== undefined) {
     return { reason: typo.reason }
-  }
-  if (
-    automationContext &&
-    policy.protectedPaths !== undefined &&
-    referencesProtectedPath(payload, command, policy.protectedPaths, {
-      cwd: options.cwd ?? hookCwd(payload),
-      root: options.root,
-      locatePath: options.locatePath,
-    })
-  ) {
-    return { reason: policy.protectedPaths.reason }
   }
   // An apply_patch payload is path-checked above and carries no shell to inspect.
   if (command === '' || command.startsWith('*** Begin Patch')) {

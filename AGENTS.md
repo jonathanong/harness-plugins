@@ -14,8 +14,8 @@ repository root; each code plugin lives in its own directory under `plugins/`.
   manifest, tests, and 100% test coverage. A skill may tell the reader to use such a plugin. An
   MCP server or a tool with its own release cycle still belongs in its own repository. The
   scripts under `scripts/` only check and run this repository's evals.
-- A code plugin holds mechanism, not policy. Rules that belong to one repository, such as protected
-  paths, banned commands, and guidance text, are configuration the consuming repository supplies.
+- A code plugin holds mechanism, not policy. Rules that belong to one repository, such as path
+  rules, banned commands, and guidance text, are configuration the consuming repository supplies.
 - Do not name a private organization, repository, product, or person in a skill, an eval case, a
   commit, or a pull request.
 

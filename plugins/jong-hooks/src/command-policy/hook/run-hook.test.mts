@@ -102,10 +102,11 @@ describe('runHook', () => {
   })
 
   it('treats --automation-env names as unattended markers', async () => {
-    const root = module(`export default {
-      command: { protectedPaths: { dirPrefixes: ['locked/'], exactFiles: [], reason: 'locked' } },
-    }`)
-    const edit = JSON.stringify({ tool_input: { file_path: 'locked/a' } })
+    const root = module('export default { command: {} }')
+    const edit = JSON.stringify({
+      tool_name: 'Bash',
+      tool_input: { command: 'gh pr merge 5 --squash' },
+    })
     const base = ['pre-tool-use', '--harness', 'codex', '--policy', 'policy.mjs']
     const plain = io(root, edit, { MY_RUN: '1' })
     expect(await runHook(base, plain.harness)).toBe(0)
