@@ -48,6 +48,8 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Plugin source type-checks
+        run: pnpm run typecheck
       - name: Plugin tests with 100% coverage
         run: pnpm run test:coverage
       - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1

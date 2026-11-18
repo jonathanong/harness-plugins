@@ -135,7 +135,7 @@ describe('evaluateCommandPolicy merge authority', () => {
 
   it('omits guidance when none is configured', () => {
     const decision = evaluateCommandPolicy(bash('gh pr merge 1'), {}, { automationContext: true })
-    expect(decision?.reason.endsWith('a human performs the merge.')).toBe(true)
+    expect(decision?.reason.endsWith('--body-file.')).toBe(true)
   })
 
   it('confirms one plain interactive merge', () => {

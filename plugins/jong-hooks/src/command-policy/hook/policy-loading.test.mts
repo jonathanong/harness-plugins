@@ -10,7 +10,7 @@ import {
   io,
   module,
   useTempPolicyDirs,
-} from './hook-support.test-support.mts'
+} from './policy-modules.test-support.mts'
 
 useTempPolicyDirs()
 

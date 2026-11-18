@@ -1,11 +1,13 @@
-import { COMMAND_RUNNERS } from './command-runners.mts'
+import { basename, resolveCommand } from './command-runners.mts'
 import { commandsToInspectForGitHubPolicy } from './github-command-context.mts'
 import { parseGhOrGhStackInvocation } from './github-invocation.mts'
-import { commandPrefixAt, commandSegmentStart } from './github-command-position.mts'
 import { hasNumericPrSelector } from './github-option-flags.mts'
-import { isGhCommandSeparator } from './github-options.mts'
 import { stackInvocation } from './github-stack-workflow.mts'
-import { plainShellAssignment, tokenizeShellWords } from '../shell-parse/index.mts'
+import {
+  isShellCommandSeparator,
+  plainShellAssignment,
+  tokenizeShellWords,
+} from '../shell-parse/index.mts'
 import type { BlockDecision } from './types.mts'
 
 // Paths of the REST merge endpoints (`pulls/<n>/merge`, `merges`), without a query string.
@@ -31,7 +33,7 @@ export function findAutomationMergeBlock(
   if (!automationContext || !runsGhMerge(command)) return null
   return {
     disposition: 'block',
-    reason: `Merge authority is never delegated to an agent in automation. This command runs a merge (\`gh pr merge\`, \`gh stack merge\`, or a \`gh api\` merge endpoint or mutation), so it is blocked in automation; a human performs the merge.${suffix(guidance)}`,
+    reason: `Merge authority is never delegated to an agent in automation. This command runs a merge (\`gh pr merge\`, \`gh stack merge\`, or a \`gh api\` merge endpoint or mutation), so it is blocked in automation; a human performs the merge. If the text is only prose, put it in a --body-file.${suffix(guidance)}`,
   }
 }
 
@@ -39,45 +41,41 @@ function runsGhMerge(command: string): boolean {
   return commandsToInspectForGitHubPolicy(command).some((inspected) => {
     // Tokens, not raw text: a shell-composed name like `g"h"` still runs gh.
     const tokens = tokenizeShellWords(inspected, { splitRedirections: true })
-    return tokens.some((token, index) => runsGhAt(tokens, index) && isMerge(tokens, index))
+    return commandSegments(tokens).some(isMergeCommand)
   })
 }
 
-function runsGhAt(tokens: string[], index: number): boolean {
-  const name = tokens[index]!.split('/').at(-1)
+function commandSegments(tokens: string[]): string[][] {
+  const segments: string[][] = [[]]
+  for (const token of tokens) {
+    if (isShellCommandSeparator(token)) segments.push([])
+    else segments.at(-1)!.push(token)
+  }
+  return segments
+}
+
+// One simple command, read through wrappers and runners to the program it runs.
+function isMergeCommand(segment: string[]): boolean {
+  const words = resolveCommand(segment)
+  if (words === null) return false
+  const name = basename(words[0]!)
+  // `eval` runs its words as a script.
+  if (name === 'eval') return runsGhMerge(words.slice(1).join(' '))
   if (name !== 'gh' && name !== 'gh-stack') return false
-  if (commandPrefixAt(tokens, index) !== null) return true
-  const first = tokens
-    .slice(commandSegmentStart(tokens, index), index)
-    .find((t) => !isAssignment(t))
-  return first !== undefined && COMMAND_RUNNERS.has(first.split('/').at(-1)!)
-}
-
-function isAssignment(token: string): boolean {
-  return plainShellAssignment(token) !== null
-}
-
-function isMerge(tokens: string[], index: number): boolean {
-  const invocation = parseGhOrGhStackInvocation(tokens, index)
+  const invocation = parseGhOrGhStackInvocation(words, 0)
   if (invocation === null) return false
   const stack = stackInvocation(invocation)
   if (stack !== null) return stack.action === 'merge'
   if (invocation.area === 'pr') return invocation.action === 'merge'
-  return invocation.area === 'api' && apiWordsMerge(tokens, index + 1)
+  return invocation.area === 'api' && apiWordsMerge(words)
 }
 
-function apiWordsMerge(tokens: string[], start: number): boolean {
-  for (
-    let index = start;
-    index < tokens.length && !isGhCommandSeparator(tokens[index]!);
-    index += 1
-  ) {
-    const token = tokens[index]!
-    const path = token.split(/[?#]/, 1)[0]!
-    if (MERGE_MUTATION.test(token)) return true
-    if (!token.startsWith('-') && !/[\s=]/.test(path) && MERGE_ENDPOINT_PATH.test(path)) return true
-  }
-  return false
+function apiWordsMerge(words: string[]): boolean {
+  return words.slice(1).some((word) => {
+    const path = word.split(/[?#]/, 1)[0]!
+    if (MERGE_MUTATION.test(word)) return true
+    return !word.startsWith('-') && !/[\s=]/.test(path) && MERGE_ENDPOINT_PATH.test(path)
+  })
 }
 
 /**

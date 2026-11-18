@@ -72,6 +72,7 @@ Every skill has eval cases under `evals/<skill>/`. The rules are in
 pnpm run lint
 pnpm run format:check
 pnpm run evals:check
+pnpm run typecheck
 pnpm run test:coverage
 ```
 

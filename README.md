@@ -125,6 +125,7 @@ pnpm install
 pnpm run lint
 pnpm run format:check
 pnpm run evals:check
+pnpm run typecheck
 pnpm run test:coverage   # plugin tests, 100% coverage required
 ```
 

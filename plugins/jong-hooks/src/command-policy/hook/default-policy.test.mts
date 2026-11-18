@@ -61,6 +61,15 @@ describe('the default policy module', () => {
     expect(err).toEqual(['no force\n'])
   })
 
+  it('roots on CLAUDE_PROJECT_DIR when the hook runs from a subdirectory', async () => {
+    const root = repo(DEFAULT_POLICY)
+    mkdirSync(join(root, 'sub'))
+    const rooted = run(join(root, 'sub'), { CLAUDE_PROJECT_DIR: root })
+    expect(await runHook(ARGS, rooted.io)).toBe(2)
+    const unrooted = run(join(root, 'sub'))
+    expect(await runHook(ARGS, unrooted.io)).toBe(0)
+  })
+
   it('takes the module from JONG_HOOKS_POLICY, and fails closed when it is missing', async () => {
     const root = repo('custom.mjs')
     const set = run(root, { JONG_HOOKS_POLICY: 'custom.mjs' })

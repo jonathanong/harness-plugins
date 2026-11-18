@@ -8,7 +8,7 @@ export type HookContext = {
   harness: HookHarness
   payload: HookPayload
   env: NodeJS.ProcessEnv
-  /** Repository root: `--root`, else the hook process's working directory. */
+  /** Repository root: `--root`, else `CLAUDE_PROJECT_DIR`, else the hook process's working directory. */
   root: string
 }
 

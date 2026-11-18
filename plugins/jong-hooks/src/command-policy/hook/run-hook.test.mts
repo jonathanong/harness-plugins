@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { defineHookPolicy, runHook } from '../index.mts'
-import { bash, forcePolicy, io, module, useTempPolicyDirs } from './hook-support.test-support.mts'
+import { bash, forcePolicy, io, module, useTempPolicyDirs } from './policy-modules.test-support.mts'
 
 useTempPolicyDirs()
 
-describe('loadHookPolicy and runHook', () => {
+describe('runHook', () => {
   it('writes the confirm allow only for an attended Claude session and runs onPayload first', async () => {
     const root = module(`export default {
       command: {}, onPayload: ctx => { globalThis.__hookSeen = ctx.harness },

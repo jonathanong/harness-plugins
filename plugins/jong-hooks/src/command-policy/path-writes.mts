@@ -1,10 +1,9 @@
 import {
   isShellCommandSeparator,
-  readCommandPrefix,
   redirectionOperatorOf,
   tokenizeShellWords,
 } from '../shell-parse/index.mts'
-import { COMMAND_RUNNERS, skipRunnerArguments } from './command-runners.mts'
+import { basename, resolveCommand } from './command-runners.mts'
 
 const REDIRECTION_WORD = /^(?:\d+|\{\w+\})?(?:&>>?|<<<|<<-?|[<>][&|>]?)$/
 const OUTPUT_REDIRECTIONS = new Set(['>', '>>', '>|', '&>', '&>>', '>&', '<>'])
@@ -67,13 +66,12 @@ function splitRedirections(words: string[]): { argv: string[]; targets: string[]
 }
 
 function commandWrites(argv: string[]): string[] {
-  const read = readCommandPrefix(argv)
-  if (read === null || read.commandIndex >= argv.length) return []
-  const name = basename(argv[read.commandIndex]!)
-  if (COMMAND_RUNNERS.has(name)) {
-    return commandWrites(argv.slice(skipRunnerArguments(argv, read.commandIndex)))
-  }
-  return classify(name, argv.slice(read.commandIndex + 1))
+  const words = resolveCommand(argv)
+  if (words === null) return []
+  const name = basename(words[0]!)
+  // `eval` runs its words as a script.
+  if (name === 'eval') return writtenTokens(words.slice(1).join(' '))
+  return classify(name, words.slice(1))
 }
 
 function classify(name: string, args: string[]): string[] {
@@ -115,8 +113,4 @@ function gitWrites(args: string[]): string[] {
     index += GIT_VALUE_OPTIONS.has(args[index]!) ? 2 : 1
   }
   return GIT_WRITING_SUBCOMMANDS.has(args[index] ?? '') ? operands(args.slice(index + 1)) : []
-}
-
-function basename(word: string): string {
-  return word.slice(word.lastIndexOf('/') + 1)
 }

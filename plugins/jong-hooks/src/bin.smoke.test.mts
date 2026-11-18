@@ -33,6 +33,20 @@ describe('bin/hook.mts under plain node', () => {
     expect(blocked.stderr).toBe('nope\n')
   })
 
+  it('finds the policy from a subdirectory through CLAUDE_PROJECT_DIR', () => {
+    mkdirSync(join(root, 'nested'), { recursive: true })
+    const input = JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'forbidden thing' } })
+    const env = { ...process.env, CLAUDE_PROJECT_DIR: root }
+    const args = [BIN, 'pre-tool-use', '--harness', 'claude']
+    const result = spawnSync(process.execPath, args, {
+      cwd: join(root, 'nested'),
+      env,
+      input,
+      encoding: 'utf8',
+    })
+    expect(result.status).toBe(2)
+  })
+
   it('exits 2 on bad arguments for a blocking event', () => {
     expect(hook('ls', ['pre-tool-use']).status).toBe(2)
   })
