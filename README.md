@@ -1,12 +1,13 @@
-# Skills
+# Harness plugins
 
 Generic agent skills that explain a design or a procedure. A skill here may say which approach to
 pick and why. It holds no organization-specific policy; a consuming repository adds its own rules
 on top, in its `AGENTS.md`.
 
-The repository is one plugin, `skills`, for both Claude Code and Codex.
+The repository is one plugin, `jong-skills`, for both Claude Code and Codex. Skills load as
+`jong-skills:<skill>`, for example `jong-skills:dependabot`.
 
-## Skills
+## Harness plugins
 
 | Skill                              | Use it when                                                                    |
 | ---------------------------------- | ------------------------------------------------------------------------------ |
@@ -48,22 +49,22 @@ The repository is one plugin, `skills`, for both Claude Code and Codex.
 Claude Code:
 
 ```bash
-claude plugin marketplace add jonathanong/skills
-claude plugin install skills@jonathanong-skills
+claude plugin marketplace add jonathanong/harness-plugins
+claude plugin install jong-skills@harness-plugins
 ```
 
-Inside a session, `/plugin install skills --marketplace jonathanong/skills` does both steps.
+Inside a session, `/plugin install jong-skills --marketplace jonathanong/harness-plugins` does both steps.
 
 Codex:
 
 ```bash
-codex plugin marketplace add jonathanong/skills --ref main
-codex plugin add skills@jonathanong-skills
+codex plugin marketplace add jonathanong/harness-plugins --ref main
+codex plugin add jong-skills@harness-plugins
 ```
 
 The manifests set no `version`, so there are no releases to track. Claude Code treats each commit
 on `main` as an update. Codex picks up new commits when you run
-`codex plugin marketplace upgrade jonathanong-skills`.
+`codex plugin marketplace upgrade harness-plugins`.
 
 ## Layout
 

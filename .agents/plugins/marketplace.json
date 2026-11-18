@@ -1,11 +1,11 @@
 {
-  "name": "jonathanong-skills",
+  "name": "harness-plugins",
   "interface": {
-    "displayName": "Jonathan Ong's skills"
+    "displayName": "Jonathan Ong's harness plugins"
   },
   "plugins": [
     {
-      "name": "skills",
+      "name": "jong-skills",
       "source": {
         "source": "local",
         "path": "./"
