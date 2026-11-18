@@ -1,6 +1,7 @@
 import { basename, resolveCommand } from './command-runners.mts'
 import { commandsToInspectForGitHubPolicy } from './github-command-context.mts'
 import { parseGhOrGhStackInvocation } from './github-invocation.mts'
+import { prMergeDoesNotMerge, stackMergeOnlyHelp } from './github-merge-flags.mts'
 import { hasNumericPrSelector } from './github-option-flags.mts'
 import { stackInvocation } from './github-stack-workflow.mts'
 import {
@@ -65,8 +66,10 @@ function isMergeCommand(segment: string[]): boolean {
   const invocation = parseGhOrGhStackInvocation(words, 0)
   if (invocation === null) return false
   const stack = stackInvocation(invocation)
-  if (stack !== null) return stack.action === 'merge'
-  if (invocation.area === 'pr') return invocation.action === 'merge'
+  if (stack !== null) return stack.action === 'merge' && !stackMergeOnlyHelp(stack.optionTokens)
+  if (invocation.area === 'pr') {
+    return invocation.action === 'merge' && !prMergeDoesNotMerge(invocation.optionTokens)
+  }
   return invocation.area === 'api' && apiWordsMerge(words)
 }
 

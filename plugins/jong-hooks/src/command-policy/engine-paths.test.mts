@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { evaluateCommandPolicy, standardGitPatterns } from './index.mts'
 import type { CommandPolicy, HookPayload } from './index.mts'
+import { fakeRepository } from './testing/fake-repository.mts'
 
 const policy: CommandPolicy = {
   typoPaths: [{ segment: '.claire', reason: 'Typo: .claire should be .claude.' }],
@@ -23,7 +24,11 @@ const policy: CommandPolicy = {
 
 const bash = (command: string): HookPayload => ({ tool_name: 'Bash', tool_input: { command } })
 const reasonOf = (payload: HookPayload, automationContext = false, p = policy) =>
-  evaluateCommandPolicy(payload, p, { automationContext })?.reason ?? null
+  evaluateCommandPolicy(payload, p, {
+    automationContext,
+    cwd: '/repo',
+    locatePath: fakeRepository('/repo'),
+  })?.reason ?? null
 
 describe('evaluateCommandPolicy typo and protected paths', () => {
   it('blocks a typo segment in a command, a path field, and a patch header', () => {
@@ -48,7 +53,7 @@ describe('evaluateCommandPolicy typo and protected paths', () => {
     'echo x > tools/hooks/a.mts',
     'echo x >tools/hooks/a.mts',
     'sed -i s/a/b/ ./tools/./policy.mts',
-    'cp a /abs/tools/hooks',
+    'cp a /repo/tools/hooks',
     '*** Begin Patch\n*** Move to: tools/policy.mts\n',
     '*** Begin Patch\n*** Add File: .agent/rules/x\n',
   ])('blocks %j in automation', (command) => {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { evaluateCommandPolicy, standardGitPatterns } from './index.mts'
+import { fakeRepository } from './testing/fake-repository.mts'
 import type { CommandPolicy, HookPayload } from './index.mts'
 
 const bash = (command: string): HookPayload => ({ tool_name: 'Bash', tool_input: { command } })
@@ -81,7 +82,11 @@ describe('protected paths block writes, not reads', () => {
     },
   }
   const blocked = (payload: HookPayload) =>
-    evaluateCommandPolicy(payload, policy, { automationContext: true })?.reason === 'protected'
+    evaluateCommandPolicy(payload, policy, {
+      automationContext: true,
+      cwd: '/repo',
+      locatePath: fakeRepository('/repo'),
+    })?.reason === 'protected'
 
   it.each([
     'cat policy.mts',

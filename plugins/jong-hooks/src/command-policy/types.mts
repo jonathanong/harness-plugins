@@ -1,3 +1,5 @@
+import type { PathLocator } from './path-location.mts'
+
 export type HookPayload = {
   tool_input?: unknown
   toolInput?: unknown
@@ -87,4 +89,8 @@ export type EvaluateOptions = {
   automationContext?: boolean
   /** Directory the call runs in. Defaults to the payload's own, else `process.cwd()`. */
   cwd?: string
+  /** Project root: protected paths belong to the repository it is in. Defaults to `cwd`. */
+  root?: string | undefined
+  /** Locator override for tests; defaults to asking git. */
+  locatePath?: PathLocator | undefined
 }

@@ -4,7 +4,8 @@ import type { GitProbe } from './types.mts'
 
 const WORKTREE_OVERRIDE_ENV = new Set(['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE', 'GIT_PREFIX'])
 
-function probeEnv(): NodeJS.ProcessEnv {
+/** The process env without the variables that would point git at another repository. */
+export function probeEnv(): NodeJS.ProcessEnv {
   return Object.fromEntries(
     Object.entries(process.env).filter(([key]) => !WORKTREE_OVERRIDE_ENV.has(key)),
   )

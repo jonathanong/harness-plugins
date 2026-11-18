@@ -41,7 +41,11 @@ export function evaluateCommandPolicy(
   if (
     automationContext &&
     policy.protectedPaths !== undefined &&
-    referencesProtectedPath(payload, command, policy.protectedPaths)
+    referencesProtectedPath(payload, command, policy.protectedPaths, {
+      cwd: options.cwd ?? hookCwd(payload),
+      root: options.root,
+      locatePath: options.locatePath,
+    })
   ) {
     return { reason: policy.protectedPaths.reason }
   }

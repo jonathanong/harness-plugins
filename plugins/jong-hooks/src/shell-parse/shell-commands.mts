@@ -93,8 +93,9 @@ export function shellCommandInheritsEditor(command: string, shellCommandIndex: n
 
 export function isInteractiveRebaseContinue(command: string): boolean {
   let exportedEditor = false
-  for (const rawSegment of command.split(/&&|\|\||[;|]/)) {
-    const segment = rawSegment.trim()
+  for (const rawSegment of command.split(/&&|\|\||[;|\n]/)) {
+    // A group, a negation, or a loop or branch keyword starts the segment's command, not its env.
+    const segment = rawSegment.trim().replace(/^(?:(?:[{(!]|do|then|else)\s+)+/, '')
     if (segment === '') {
       continue
     }

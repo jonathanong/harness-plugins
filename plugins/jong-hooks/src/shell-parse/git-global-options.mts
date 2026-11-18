@@ -9,7 +9,14 @@ const GIT_GLOBAL_OPTIONS_RE = new RegExp(
   'g',
 )
 
-/** Collapse `git -C <path>` / other globals so banned-subcommand regexes still match. */
+const EDITOR_OVERRIDE_RE = /\s-c\s+(["']?)core\.editor=(["']?)true\2\1(?=\s|$)/i
+
+/**
+ * Collapse `git -C <path>` / other globals so banned-subcommand regexes still match. An editor
+ * override of `true` survives as a `GIT_EDITOR=true` prefix, which is what it means to git.
+ */
 export function stripGitGlobalOptionsForPolicy(command: string): string {
-  return command.replace(GIT_GLOBAL_OPTIONS_RE, 'git')
+  return command.replace(GIT_GLOBAL_OPTIONS_RE, (globals) =>
+    EDITOR_OVERRIDE_RE.test(globals) ? 'GIT_EDITOR=true git' : 'git',
+  )
 }

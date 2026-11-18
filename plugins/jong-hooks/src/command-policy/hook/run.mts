@@ -63,6 +63,7 @@ export async function runHook(args: readonly string[], io: HookIo): Promise<numb
         automationContext: isAutomationContext(io.env, parsed.automationEnv),
         // The configured root, not the hook process's directory, when the payload names none.
         cwd: hookCwd(payload, context.root),
+        root: context.root,
       })
       if (result.stdout !== '') io.stdout.write(result.stdout)
       if (result.stderr !== '') io.stderr.write(result.stderr)

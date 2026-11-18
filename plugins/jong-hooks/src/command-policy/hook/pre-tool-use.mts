@@ -16,6 +16,8 @@ export type PreToolUseOptions = {
   /** See EvaluateOptions.automationContext. */
   automationContext?: boolean | undefined
   cwd?: string | undefined
+  /** Project root; see EvaluateOptions.root. */
+  root?: string | undefined
 }
 
 export function preToolUseOutput(
@@ -32,6 +34,7 @@ export function preToolUseOutput(
       ? {}
       : { automationContext: options.automationContext }),
     ...(options.cwd === undefined ? {} : { cwd: options.cwd }),
+    root: options.root,
   })
   if (decision === null) {
     return { exitCode: 0, stderr: '', stdout: noOpinion(options) }

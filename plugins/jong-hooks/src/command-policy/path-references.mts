@@ -1,7 +1,8 @@
 import { tokenizeShellWords } from '../shell-parse/index.mts'
 import { commandsToInspectForGitHubPolicy } from './github-command-context.mts'
 import { isRecord } from './payload.mts'
-import { writtenTokens } from './path-writes.mts'
+import { commandCwd } from './github-command-cwd.mts'
+import { writtenWords } from './path-writes.mts'
 import type { HookPayload } from './types.mts'
 
 const PATCH_BEGIN = '*** Begin Patch'
@@ -11,8 +12,13 @@ const WORKING_DIRECTORY_KEY_RE = /(?:^|_)(?:cwd|workdir|workspace)(?:_|$)/i
 // Tools that read, search, or run shell text: their path-like payload fields are never written.
 const NON_WRITING_TOOLS = new Set(['bash', 'exec_command', 'glob', 'grep', 'ls', 'read', 'shell'])
 
+/** Whether a path names what the caller looks for; `cwd` is the directory it is relative to, if known. */
+export type PathMatcher = (token: string, cwd: string | undefined) => boolean
+
 export type ReferenceOptions = {
   splitRedirections?: boolean
+  /** Directory the call runs in. A relative path in the top-level command resolves through its `cd`s. */
+  cwd?: string | undefined
   /** Count only paths the call writes; a read, a listing, or a working directory is no reference. */
   writesOnly?: boolean
 }
@@ -53,42 +59,53 @@ export function patchResultPaths(patch: string): string[] {
 export function referencesPath(
   payload: HookPayload,
   command: string,
-  matches: (token: string) => boolean,
+  matches: PathMatcher,
   options: ReferenceOptions = {},
 ): boolean {
   const writesOnly = options.writesOnly === true
   const toolName = String(payload.tool_name ?? payload.toolName ?? '').toLowerCase()
   const readsPayload = !(writesOnly && NON_WRITING_TOOLS.has(toolName))
   return (
-    (readsPayload && valueReferences(payload, matches, writesOnly)) ||
+    (readsPayload &&
+      valueReferences(payload, (token) => matches(token, options.cwd), writesOnly)) ||
     commandReferences(command, matches, options)
   )
 }
 
 function commandReferences(
   command: string,
-  matches: (token: string) => boolean,
+  matches: PathMatcher,
   options: ReferenceOptions,
 ): boolean {
+  const atCwd = (token: string) => matches(token, options.cwd)
   if (command.trimStart().startsWith(PATCH_BEGIN)) {
-    return patchHeaderPaths(command).some(matches)
+    return patchHeaderPaths(command).some(atCwd)
   }
   // `apply_patch <<'EOF'` carries its patch in a data heredoc that shell scanning blanks out.
   if (
     command.includes(PATCH_BEGIN) &&
     tokenizeShellWords(command, { splitRedirections: true }).includes('apply_patch') &&
-    patchHeaderPaths(command).some(matches)
+    patchHeaderPaths(command).some(atCwd)
   ) {
     return true
   }
   // Without splitRedirections a no-space redirect like `>dir/file` stays fused to its operator.
-  // Nested scripts (`sh -c`, substitutions, heredoc shell bodies) are read like the outer command.
-  return commandsToInspectForGitHubPolicy(command).some((script) =>
-    (options.writesOnly === true
-      ? writtenTokens(script)
-      : tokenizeShellWords(script, options)
-    ).some(matches),
-  )
+  // Nested scripts (`sh -c`, substitutions, heredoc shell bodies) are read like the outer command,
+  // but only the outer one (the first) follows `cd`: a nested script's directory is unknown.
+  return commandsToInspectForGitHubPolicy(command).some((script, scriptIndex) => {
+    if (options.writesOnly !== true) {
+      return tokenizeShellWords(script, options).some((token) => matches(token, undefined))
+    }
+    const { tokens, written } = writtenWords(script)
+    return written.some(({ path, commandIndex }) =>
+      matches(
+        path,
+        scriptIndex === 0 && options.cwd !== undefined
+          ? commandCwd(tokens, commandIndex, options.cwd)
+          : undefined,
+      ),
+    )
+  })
 }
 
 function valueReferences(
