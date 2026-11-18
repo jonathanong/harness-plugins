@@ -6,6 +6,10 @@ evals:
   - changed-files:
       - any-glob-to-any-file: 'evals/**'
 
+hooks:
+  - changed-files:
+      - any-glob-to-any-file: 'plugins/**'
+
 plugin:
   - changed-files:
       - any-glob-to-any-file:
@@ -27,6 +31,7 @@ config:
       - any-glob-to-any-file:
           - 'package.json'
           - 'pnpm-lock.yaml'
+          - 'vitest.config.mts'
           - '.oxlintrc.json'
           - '.oxfmtrc.json'
           - 'scripts/**'

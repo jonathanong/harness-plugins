@@ -1,6 +1,7 @@
-# Skills repository
+# Harness plugins repository
 
-This repository is one plugin of generic skills for Claude Code and Codex. It is public.
+This repository holds plugins for Claude Code and Codex. It is public. The skills plugin sits at the
+repository root; each code plugin lives in its own directory under `plugins/`.
 
 ## What belongs here
 
@@ -8,12 +9,30 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
   to pick and why.
 - Do not add a rule that depends on one repository's tooling, file layout, service names, or
   product policy. Leave that to the consuming repository's `AGENTS.md`.
-- This repository holds prose only. Anything that needs code to work, such as a hook, a CLI
-  tool, an MCP server, or a script a skill runs, belongs in its own repository. A skill may tell
-  the reader to use such a tool. The scripts under `scripts/` only check and run this
-  repository's evals.
+- Skills are prose only. Anything that needs code to work, such as a hook or a CLI tool, is not a
+  skill: it is a code plugin in its own directory under `plugins/<plugin>/`, with its own
+  manifest, tests, and 100% test coverage. A skill may tell the reader to use such a plugin. An
+  MCP server or a tool with its own release cycle still belongs in its own repository. The
+  scripts under `scripts/` only check and run this repository's evals.
+- A code plugin holds mechanism, not policy. Rules that belong to one repository, such as protected
+  paths, banned commands, and guidance text, are configuration the consuming repository supplies.
 - Do not name a private organization, repository, product, or person in a skill, an eval case, a
   commit, or a pull request.
+
+## Code plugins
+
+- `plugins/<plugin>/` holds the plugin's `.claude-plugin/plugin.json`, its hook or command wiring,
+  its source, and its tests. Register it in `.claude-plugin/marketplace.json` with
+  `"source": "./plugins/<plugin>"`.
+- Source is TypeScript in `.mts` files that Node 24 runs directly by stripping types. Do not add a
+  build step. Use only syntax that type stripping supports: no enums, no namespaces, no
+  constructor parameter properties.
+- Tests are Vitest files next to the source (`*.test.mts`). Coverage is 100% for statements,
+  branches, functions, and lines, enforced by `pnpm run test:coverage` and uploaded to Codecov in
+  CI. Process glue under `plugins/*/bin/` is excluded and exercised by a smoke test that runs it
+  as a child process.
+- `oxlint` limits every file, tests included, to 200 lines. Split a test file by topic.
+- Fix a false positive with a regression test that names the command it wrongly blocked.
 
 ## Skill size: progressive disclosure
 
@@ -53,6 +72,7 @@ Every skill has eval cases under `evals/<skill>/`. The rules are in
 pnpm run lint
 pnpm run format:check
 pnpm run evals:check
+pnpm run test:coverage
 ```
 
 CI also checks every Markdown link with `lychee`.

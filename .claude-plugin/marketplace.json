@@ -13,6 +13,13 @@
       "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/jonathanong/harness-plugins"
+    },
+    {
+      "name": "jong-hooks",
+      "description": "Claude Code hooks that block risky shell commands from a rule table the repository supplies.",
+      "source": "./plugins/jong-hooks",
+      "category": "development",
+      "homepage": "https://github.com/jonathanong/harness-plugins/tree/main/plugins/jong-hooks"
     }
   ]
 }
