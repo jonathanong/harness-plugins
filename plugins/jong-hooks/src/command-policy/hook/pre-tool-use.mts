@@ -45,7 +45,12 @@ export function preToolUseOutput(
   return {
     exitCode: 2,
     stderr: `${decision.reason}\n`,
-    stdout: JSON.stringify({ decision: 'deny', reason: decision.reason }),
+    // Codex reads exit 2 plus stderr; it also parses stdout JSON against its own schema, in which
+    // `{decision: 'deny'}` is not a documented value, so it gets none.
+    stdout:
+      options.harness === 'codex'
+        ? ''
+        : JSON.stringify({ decision: 'deny', reason: decision.reason }),
   }
 }
 

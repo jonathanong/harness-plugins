@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|apply_patch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --disable-warning=ExperimentalWarning \"${PLUGIN_ROOT}/bin/hook.mts\" pre-tool-use --harness codex",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|apply_patch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --disable-warning=ExperimentalWarning \"${PLUGIN_ROOT}/bin/hook.mts\" post-tool-use --harness codex",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

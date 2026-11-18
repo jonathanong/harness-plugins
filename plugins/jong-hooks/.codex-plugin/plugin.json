@@ -1,0 +1,22 @@
+{
+  "name": "jong-hooks",
+  "description": "Hooks that block risky shell commands and patches from a rule table the repository supplies: history rewrites, hook bypasses, merges in automation, writes to protected paths, and hand-rolled GitHub stacks.",
+  "author": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "homepage": "https://github.com/jonathanong/harness-plugins/tree/main/plugins/jong-hooks",
+  "repository": "https://github.com/jonathanong/harness-plugins",
+  "license": "MIT",
+  "keywords": ["hooks", "command-policy", "security", "github"],
+  "hooks": "./hooks/codex-hooks.json",
+  "interface": {
+    "displayName": "Jong hooks",
+    "shortDescription": "Block risky shell commands from rules a repository supplies.",
+    "longDescription": "Hooks that judge each shell command and apply_patch call against a rule table the repository supplies in .claude/jong-hooks.policy.mjs. A repository with no policy file is unaffected.",
+    "developerName": "Jonathan Ong",
+    "category": "Coding",
+    "capabilities": [],
+    "websiteURL": "https://github.com/jonathanong/harness-plugins/tree/main/plugins/jong-hooks"
+  }
+}

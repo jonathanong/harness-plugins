@@ -12,6 +12,7 @@ import {
 import { loadHookPolicy } from './policy-module.mts'
 import { postToolUseOutput } from './post-tool-use.mts'
 import { preToolUseOutput } from './pre-tool-use.mts'
+import { resolveRoot } from './root.mts'
 import type { HookContext, HookPolicy } from './types.mts'
 
 /** The policy module a repository adds to configure the hooks. */
@@ -27,9 +28,9 @@ export type HookIo = {
 
 /**
  * `jong-hooks <event> --harness <h> [--policy <module>]`. Without `--policy` the module is
- * `JONG_HOOKS_POLICY` or `.claude/jong-hooks.policy.mjs` under the root (`--root`, else `CLAUDE_PROJECT_DIR`, else the working
- * directory), and a repository that has no
- * such file gets no opinion. Pre-tool-use fails closed (exit 2) when
+ * `JONG_HOOKS_POLICY` or `.claude/jong-hooks.policy.mjs` under the root (see `resolveRoot`: `--root`,
+ * else `CLAUDE_PROJECT_DIR`, else the git toplevel of the payload's `cwd`, else the working
+ * directory), and a repository that has no such file gets no opinion. Pre-tool-use fails closed (exit 2) when
  * its policy cannot load, because the gates it enforces are a security boundary; post-tool-use is
  * advisory and always exits 0. Bad arguments exit 2 before anything is read.
  */
@@ -49,7 +50,7 @@ export async function runHook(args: readonly string[], io: HookIo): Promise<numb
       harness: resolveHarness(parsed.harness, io.env, payload),
       payload,
       env: io.env,
-      root: resolve(io.cwd, parsed.root ?? io.env.CLAUDE_PROJECT_DIR ?? '.'),
+      root: resolveRoot(parsed.root, io.env, payload, io.cwd),
     }
     const explicit = parsed.policy ?? io.env.JONG_HOOKS_POLICY
     const specifier = explicit ?? DEFAULT_POLICY

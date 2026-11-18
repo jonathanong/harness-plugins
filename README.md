@@ -9,7 +9,7 @@ This repository is a plugin marketplace, `harness-plugins`, with two plugins:
 | Plugin        | What it is                                                                                                                             | Harness               |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
 | `jong-skills` | The skills below, at the repository root. Prose only.                                                                                  | Claude Code and Codex |
-| `jong-hooks`  | Hooks that block risky shell commands from rules a repository supplies. Code, in [`plugins/jong-hooks`](plugins/jong-hooks/README.md). | Claude Code           |
+| `jong-hooks`  | Hooks that block risky shell commands from rules a repository supplies. Code, in [`plugins/jong-hooks`](plugins/jong-hooks/README.md). | Claude Code and Codex |
 
 Skills load as `jong-skills:<skill>`, for example `jong-skills:dependabot`.
 
@@ -64,12 +64,16 @@ Inside a session, `/plugin install jong-skills --marketplace jonathanong/harness
 steps for one plugin. `jong-hooks` does nothing until the repository adds a policy file; see its
 [README](plugins/jong-hooks/README.md).
 
-Codex (skills only):
+Codex:
 
 ```bash
 codex plugin marketplace add jonathanong/harness-plugins --ref main
 codex plugin add jong-skills@harness-plugins
+codex plugin add jong-hooks@harness-plugins
 ```
+
+Codex asks you to trust a plugin's hooks before it runs them; see the `jong-hooks`
+[README](plugins/jong-hooks/README.md#codex).
 
 The manifests set no `version`, so there are no releases to track. Claude Code treats each commit
 on `main` as an update. Codex picks up new commits when you run
