@@ -1,12 +1,12 @@
 {
-  "name": "skills",
+  "name": "jong-skills",
   "description": "Generic agent skills that explain a design or a procedure: CI and dependencies, PostgreSQL and queues, testing, TypeScript, Rust, React and native apps, HTTP APIs, rollout, logging, pull requests, docs, and evals.",
   "author": {
     "name": "Jonathan Ong",
     "url": "https://github.com/jonathanong"
   },
-  "homepage": "https://github.com/jonathanong/skills",
-  "repository": "https://github.com/jonathanong/skills",
+  "homepage": "https://github.com/jonathanong/harness-plugins",
+  "repository": "https://github.com/jonathanong/harness-plugins",
   "license": "MIT",
   "keywords": [
     "skills",
@@ -19,13 +19,13 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Skills",
+    "displayName": "Jong skills",
     "shortDescription": "Generic skills that explain a design or a procedure.",
     "longDescription": "Generic agent skills that explain a design or a procedure: CI and dependencies, PostgreSQL and queues, testing, TypeScript, Rust, React and native apps, HTTP APIs, rollout, logging, pull requests, docs, and evals.",
     "developerName": "Jonathan Ong",
     "category": "Productivity",
     "capabilities": [],
-    "websiteURL": "https://github.com/jonathanong/skills",
+    "websiteURL": "https://github.com/jonathanong/harness-plugins",
     "defaultPrompt": ["Use the matching skill to guide this change."]
   }
 }
