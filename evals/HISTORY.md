@@ -4,6 +4,38 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-17: batch-first I/O and a queue of its own for transactional jobs
+
+Sonnet agent, Opus judge, Claude Code 2.1.327. Two new cases and two rules: per-item I/O takes a
+list and the single-item form wraps it (`typescript-authoring`), and a job that commits with or is
+triggered by a database transaction gets its own queue (`glide-mq`). Both arms, three attempts.
+The `glide-mq` rows are from a $4.67 run of every `glide-mq` and `typescript-authoring` case. The
+`typescript-authoring` rows are from the last of five runs of that skill, $1.41 to $2.10 each,
+made while rewriting the new case.
+
+| Case                                        | With | Without |
+| ------------------------------------------- | ---- | ------- |
+| `glide-mq/outbox-own-queue`                 | 1.00 | 0.00    |
+| `glide-mq/never-enqueue-and-wait`           | 1.00 | 0.00    |
+| `glide-mq/review-webhook-lane`              | 1.00 | 0.00    |
+| `typescript-authoring/batch-first-wrapper`  | 0.33 | 0.00    |
+| `typescript-authoring/rename-without-alias` | 0.67 | 0.00    |
+
+- **Weak result:** `batch-first-wrapper` passes 1 of 3 with the plugin. The skill did not load on
+  two attempts, and those answers failed the outcome grader. Without the skill, answers batch the
+  I/O but leave the single-item function unchanged, so the wrapper requirement is what separates
+  the arms. The skill's description was reworded twice to name per-item I/O, loops that enqueue,
+  and bulk paths; loading did not become reliable.
+- **Case history:** earlier versions let the model pass without the plugin (0.67 for a prompt
+  that said the single-item helpers must keep working, and 1.00 and 0.67 for two others). A
+  review framing loaded the skill on none of three attempts. The recorded version asks for the
+  import in a write request and names the CRM's list-taking calls, so the open choice is the
+  wrapper.
+- `rename-without-alias` scored 1.00, 0.83, 0.67, 0.50, 0.83, and 0.67 across these runs on an
+  unchanged case, while the skill's description changed; its description may load less often now.
+  Not isolated.
+- `glide-mq/review-webhook-lane` scored 0.00 without the plugin here, against 0.33 before.
+
 ## 2026-11-17: advisory locks softened from never to avoid, with a guard case
 
 Sonnet agent, Opus judge, Claude Code 2.1.326. Three runs.

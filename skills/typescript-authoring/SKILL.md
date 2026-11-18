@@ -1,6 +1,6 @@
 ---
 name: typescript-authoring
-description: Keep TypeScript and Node.js code direct - no forwarding aliases, compatibility shims, or dynamic dispatch - with errors handled where they are thrown and packages that respect layer and runtime boundaries. Use when writing, refactoring, or reviewing TypeScript, JavaScript, or Node.js code, especially renames, exports, async error handling, HTTP calls, and shared packages.
+description: Keep TypeScript and Node.js code direct - no forwarding aliases, shims, or dynamic dispatch - with errors handled where thrown, one batch call for per-item I/O, and packages that respect layer and runtime boundaries. Use when writing or reviewing TypeScript or Node.js code, especially renames, async errors, loops that query or enqueue, bulk paths, and HTTP calls.
 ---
 
 # TypeScript authoring
@@ -62,6 +62,25 @@ and the `finally` runs early.
   Node-only APIs. Take them as injected dependencies.
 - A shared package holds mechanism, not product policy. Pass limits, feature rules, and tenant
   decisions in from the application.
+
+## Batch first, single item second
+
+A function that does I/O per item (a database read or write, an enqueue, an outbound API call)
+takes a list and makes one round trip for the whole batch. The single-item form is a thin
+wrapper that calls the batch function with a one-element list, so there is one code path.
+Loops, `.map` callbacks, and `Promise.all` fan-outs call the batch function, never the
+single-item form N times.
+
+```ts
+// One round trip for N jobs; the single form only wraps it.
+export const enqueueReceipts = (orderIds: string[]) =>
+  queue.addBulk(orderIds.map((id) => ({ name: 'receipt', data: { id }, opts: { jobId: id } })))
+export const enqueueReceipt = (orderId: string) => enqueueReceipts([orderId])
+```
+
+The batch must give a one-item list the same semantics as the single call. For the SQL shape
+and its caveats, see
+[round trips](../postgres-node-performance-tuning/references/performance-patterns.md#round-trips).
 
 ## Embedded scripts
 

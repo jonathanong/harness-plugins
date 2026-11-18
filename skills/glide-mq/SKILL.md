@@ -17,6 +17,11 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
 - **Jobs a user is waiting on get their own queue.** A lane protects a family's share of one
   worker pool; it does not protect latency when every slot is busy with background work. A
   separate queue has its own workers, so a backfill cannot delay a signup email.
+- **A job whose work commits with, or is triggered by, a database transaction gets its own
+  queue.** An outbox relay and a payment or ledger write are examples. Slow or bulk jobs on a
+  shared queue can hold every worker slot and delay them, and a stalled relay or ledger write
+  leaves committed rows unpublished or unposted. A queue of its own lets you set its
+  concurrency, retries, backoff, and rate limits for that work alone.
 - **Never enqueue a job and wait for its result.** No `addAndWait`, no `waitUntilFinished`, in a
   request handler or in another job. The caller holds a connection and a request slot for as long
   as the queue is backed up, and a deploy or timeout loses the result. Return the job or resource
