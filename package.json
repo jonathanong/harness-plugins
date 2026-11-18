@@ -10,11 +10,15 @@
     "evals:check": "./scripts/check-evals.sh",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint --no-error-on-unmatched-pattern"
+    "lint": "oxlint --no-error-on-unmatched-pattern",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "5.1.0",
     "oxfmt": "0.78.0",
-    "oxlint": "1.93.0"
+    "oxlint": "1.93.0",
+    "vitest": "5.1.0"
   },
   "engines": {
     "node": ">=24"

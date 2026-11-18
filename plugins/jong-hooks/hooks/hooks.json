@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --disable-warning=ExperimentalWarning \"${CLAUDE_PLUGIN_ROOT}/bin/hook.mts\" pre-tool-use --harness claude",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --disable-warning=ExperimentalWarning \"${CLAUDE_PLUGIN_ROOT}/bin/hook.mts\" post-tool-use --harness claude",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

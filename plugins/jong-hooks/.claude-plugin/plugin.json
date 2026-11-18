@@ -1,0 +1,12 @@
+{
+  "name": "jong-hooks",
+  "description": "Claude Code hooks that block risky shell commands from a rule table the repository supplies: history rewrites, hook bypasses, merges in automation, writes to protected paths, and hand-rolled GitHub stacks.",
+  "author": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "homepage": "https://github.com/jonathanong/harness-plugins/tree/main/plugins/jong-hooks",
+  "repository": "https://github.com/jonathanong/harness-plugins",
+  "license": "MIT",
+  "keywords": ["hooks", "command-policy", "security", "github"]
+}
