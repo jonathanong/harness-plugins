@@ -115,6 +115,7 @@ pnpm install
 pnpm run lint
 pnpm run format:check
 pnpm run evals:check
+pnpm run marketplace:check
 ```
 
 ## Other plugins in this marketplace
