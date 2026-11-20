@@ -8,6 +8,7 @@
   "scripts": {
     "evals": "./scripts/run-evals.sh",
     "evals:check": "./scripts/check-evals.sh",
+    "marketplace:check": "node scripts/check-marketplace.mjs",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint --no-error-on-unmatched-pattern"

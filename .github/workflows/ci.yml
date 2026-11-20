@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
+  # The marketplace points at other repositories, and links point at other sites. Either can break
+  # with no change here, so check once a day as well.
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
@@ -31,6 +36,8 @@ jobs:
       - run: pnpm run format:check
       - name: Every skill has a skill-fired eval case
         run: pnpm run evals:check
+      - name: Marketplaces agree and every plugin source resolves
+        run: pnpm run marketplace:check
 
   links:
     runs-on: ubuntu-slim
@@ -43,6 +50,10 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Relative links between skills and references, and external URLs. `.example` hosts
-          # are placeholders in eval cases.
-          args: --no-progress --exclude '\.example' '*.md' 'skills/**/*.md' 'evals/**/*.md'
+          # are placeholders in eval cases. The marketplace `$schema` URL is an identifier that
+          # Claude Code documents but does not serve.
+          args: >-
+            --no-progress --exclude '\.example' --exclude 'marketplace\.schema\.json'
+            '*.md' 'skills/**/*.md' 'evals/**/*.md'
+            .claude-plugin/marketplace.json .agents/plugins/marketplace.json
           fail: true

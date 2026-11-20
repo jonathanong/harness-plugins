@@ -10,8 +10,8 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
   product policy. Leave that to the consuming repository's `AGENTS.md`.
 - This repository holds prose only. Anything that needs code to work, such as a hook, a CLI
   tool, an MCP server, or a script a skill runs, belongs in its own repository. A skill may tell
-  the reader to use such a tool. The scripts under `scripts/` only check and run this
-  repository's evals.
+  the reader to use such a tool. The scripts under `scripts/` only check this repository's
+  marketplaces and check and run its evals.
 - Do not name a private organization, repository, product, or person in a skill, an eval case, a
   commit, or a pull request.
 
@@ -53,9 +53,14 @@ Every skill has eval cases under `evals/<skill>/`. The rules are in
 pnpm run lint
 pnpm run format:check
 pnpm run evals:check
+pnpm run marketplace:check
 ```
 
-CI also checks every Markdown link with `lychee`.
+`marketplace:check` checks that the Claude Code and Codex marketplaces list the same plugins, that
+the README lists every plugin from another repository, and that every source resolves to a manifest
+with the plugin's name. It fetches from GitHub; pass `-- --offline` to skip that part. CI also checks
+every Markdown link and the marketplace URLs with `lychee`, and runs every check daily, since a
+change in another repository can break a source.
 
 ## Pull requests
 
