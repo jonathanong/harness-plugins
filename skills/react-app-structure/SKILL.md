@@ -20,6 +20,25 @@ and the API readable by a person or a tool without running the app.
   web app. A second place that serves the API splits auth, validation, and versioning across two
   codebases. A thin proxy the platform requires is the exception; keep logic out of it.
 
+## Superseded requests
+
+Abort an in-flight request when a newer one replaces it, such as typeahead search, with an
+`AbortController` aborted in the effect cleanup. Otherwise a slow earlier response can arrive
+after a newer one and overwrite it with stale results.
+
+```tsx
+useEffect(() => {
+  const controller = new AbortController()
+  fetch(`/api/search?q=${query}`, { signal: controller.signal })
+    .then((r) => r.json())
+    .then(setResults)
+    .catch((e) => {
+      if (e.name !== 'AbortError') throw e
+    })
+  return () => controller.abort()
+}, [query])
+```
+
 ## Auth redirects
 
 Decide where signed-out users go in one place: the layout or the middleware that wraps the

@@ -82,6 +82,16 @@ The batch must give a one-item list the same semantics as the single call. For t
 and its caveats, see
 [round trips](../postgres-node-performance-tuning/references/performance-patterns.md#round-trips).
 
+## Cache deletes
+
+Delete Redis or Valkey keys with `UNLINK`, not `DEL`. `UNLINK` frees the memory in a background
+thread, so a large value does not block the server. Pass a set of keys to one `UNLINK` call
+instead of one round trip per key, as in batch first above.
+
+```ts
+await redis.unlink(keys) // one round trip for every key
+```
+
 ## Embedded scripts
 
 Keep a multi-line script in another language (Lua, SQL, shell) in its own file and load it. A
