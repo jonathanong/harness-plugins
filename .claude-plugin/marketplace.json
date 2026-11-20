@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "harness-plugins",
-  "description": "Generic agent skills that explain a design or a procedure.",
+  "description": "Jonathan Ong's agent plugins: generic skills, PR shepherding, GitHub event hooks, code-graph checks, and service status.",
   "owner": {
     "name": "Jonathan Ong",
     "url": "https://github.com/jonathanong"
@@ -13,6 +13,61 @@
       "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/jonathanong/harness-plugins"
+    },
+    {
+      "name": "hook-harness",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/hook-harness.git",
+        "path": "plugins/hook-harness",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/hook-harness"
+    },
+    {
+      "name": "pr-shepherd",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/pr-shepherd.git",
+        "path": "plugins/pr-shepherd",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/pr-shepherd"
+    },
+    {
+      "name": "no-mistakes",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "path": "plugins/no-mistakes",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/no-mistakes"
+    },
+    {
+      "name": "no-mistakes-rules",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "path": "plugins/no-mistakes-rules",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/no-mistakes"
+    },
+    {
+      "name": "service-status",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/service-status.git",
+        "path": "plugins/service-status",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/service-status"
     }
   ]
 }

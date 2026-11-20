@@ -15,6 +15,76 @@
         "authentication": "ON_USE"
       },
       "category": "Productivity"
+    },
+    {
+      "name": "hook-harness",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/hook-harness.git",
+        "path": "plugins/hook-harness",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "pr-shepherd",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/pr-shepherd.git",
+        "path": "plugins/pr-shepherd",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "no-mistakes",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "path": "plugins/no-mistakes",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "no-mistakes-rules",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "path": "plugins/no-mistakes-rules",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "service-status",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/jonathanong/service-status.git",
+        "path": "plugins/service-status",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
     }
   ]
 }
