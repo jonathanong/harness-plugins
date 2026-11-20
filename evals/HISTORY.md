@@ -4,6 +4,48 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-20: locks only for exact quantities, enqueue after commit, database fixtures
+
+Sonnet agent, Opus judge, Claude Code 2.1.329, both arms, three attempts. `postgres-schema-design`
+now allows a row or parent lock only for an exact quantity (money, balances, inventory), requires
+every lock to be short, bounded, ordered, and free of outside calls including an enqueue, asks for
+the try variant or `lock_timeout` on an advisory lock, and allows a version column for exact
+quantities and hand-edited entities. `test-authoring` creates database rows through production
+factories, and inserts directly only for a state production can no longer create.
+
+Two runs. The `test-authoring` rows are from a $7.52 run of both skills. The
+`postgres-schema-design` rows are from a $3.38 run after its new case was rewritten.
+
+| Case                                                     | With | Without |
+| -------------------------------------------------------- | ---- | ------- |
+| `postgres-schema-design/checkout-exact-stock` (guard)    | 1.00 | 1.00    |
+| `postgres-schema-design/exact-cap-no-lock`               | 1.00 | 0.00    |
+| `postgres-schema-design/review-advisory-lock-key`        | 0.83 | 1.00    |
+| `postgres-schema-design/review-last-admin-advisory-lock` | 1.00 | 0.00    |
+| `test-authoring/dotnet-private-field-not-reflected`      | 0.50 | 0.33    |
+| `test-authoring/fake-routes-by-request`                  | 1.00 | 1.00    |
+| `test-authoring/fixture-files-not-inline`                | 1.00 | 0.00    |
+| `test-authoring/review-direct-row-inserts`               | 1.00 | 0.67    |
+| `test-authoring/review-helper-holds-assertions`          | 1.00 | 0.00    |
+
+- **New guard `checkout-exact-stock`:** checkout that must never oversell keeps stock exact
+  without an unbounded lock and enqueues after commit. It first ran as `review-stock-lock-enqueue`,
+  a review of a stock lock added above two unchanged queue calls: 0.67 with the plugin (the skill
+  did not load on two attempts) and 1.00 without, so the model already moves an enqueue out of a
+  locked transaction in review. Rewritten as a write request, a one-attempt pilot ($1.05) also
+  passed without the plugin; the model writes a conditional decrement and enqueues after commit
+  on its own. It is kept as the guard beside `exact-cap-no-lock`: the "avoid locks" rule must not
+  stop protection of an exact quantity.
+- **New case `review-direct-row-inserts`:** passes 3 of 3 with the plugin and 0.67 without, a
+  weak gap.
+- **`fake-routes-by-request` scored 1.00 without the plugin,** against 0.00 when it was added.
+  The model now passes it on its own.
+- **Below 1.00:** every miss was the skill not loading, except one
+  `dotnet-private-field-not-reflected` attempt whose answer also failed.
+- **Fix:** `github-actions-authoring/no-actions-write-with-checked-out-code` had an unquoted
+  description containing `: `, which YAML rejects, so a run that included it stopped loading
+  cases. The description is now quoted. That case is still unmeasured.
+
 ## 2026-11-19: six new rules and cases, not run
 
 No run. Six new cases, one for each new rule: an index change rechecks every dependent query

@@ -37,6 +37,11 @@ remove tests and helpers that cannot do that.
 - Build fixture objects through the same public constructors and factories production uses. A
   fixture cast into shape, or built by setting private fields, keeps passing after the real type
   changes.
+- Create database rows the same way, through the factories or the code path production writes
+  with, so hooks and defaults run. A row inserted directly can hold a state production never
+  creates, and the test passes on it. Insert directly only to reach a state production can no
+  longer create, such as legacy or half-migrated data, or a precondition a hook would overwrite,
+  and say in the test which state it needs.
 - Keep a fixture minimal and typed: only the fields this test reads.
 
 ## Helpers
