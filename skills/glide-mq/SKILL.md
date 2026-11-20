@@ -36,6 +36,11 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
   return reply.code(202).send({ id: reportId })
   ```
 
+- **Every queue has a terminal recovery path for permanently failed jobs, and it is not the
+  dead-letter queue.** A dead-letter queue only holds the failure. Add a reconciler, a sweep, or
+  an owning repair job that finds the rows whose job failed for good and either redoes or
+  explicitly abandons the side effect. A failed job's side effect is then eventually settled
+  instead of left half done.
 - **`limiter` is for an external rate limit only**, such as a provider's requests per minute. It
   pauses fetching for the whole worker, so using it to slow an internal family throttles every
   job on that queue. Shape internal load with `ordering.concurrency`.

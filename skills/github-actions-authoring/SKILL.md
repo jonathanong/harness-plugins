@@ -69,6 +69,13 @@ apply only when a job runs on a self-hosted or otherwise persistent runner.
   cancelling leaves a gap in which a failure cannot be traced to its commit. Cancel superseded
   runs on pull requests only.
 
+## Permissions
+
+Never grant `actions: write` in the job-level `permissions` of a job that runs checked-out code.
+That token can cancel runs, delete caches, and dispatch workflows, so any code the job executes,
+including a dependency install script, can use it. Put the step that needs it in a separate job
+that checks out nothing.
+
 ## Reject polling designs
 
 - Do not add a sleep-and-read loop, a repeated query of a run, check, deployment, lease, or

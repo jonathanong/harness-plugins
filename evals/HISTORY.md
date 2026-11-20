@@ -4,6 +4,17 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-19: six new rules and cases, not run
+
+No run. Six new cases, one for each new rule: an index change rechecks every dependent query
+(`postgres-node-performance-tuning`), a terminal recovery path for permanently failed jobs
+(`glide-mq`), no `actions: write` for a job that runs checked-out code
+(`github-actions-authoring`), edge-verified claims never authorize (`http-api-design`), `UNLINK`
+in one batched call (`typescript-authoring`), and aborting superseded requests
+(`react-app-structure`). The cases and their graders are unmeasured: no check was made that the
+model fails them without the skill, and none that the skill loads. Their `README.md` rows read
+`n/a`.
+
 ## 2026-11-17: batch-first I/O and a queue of its own for transactional jobs
 
 Sonnet agent, Opus judge, Claude Code 2.1.327. Two new cases and two rules: per-item I/O takes a

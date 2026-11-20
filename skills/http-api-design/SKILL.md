@@ -40,6 +40,12 @@ and ordering, invites enumeration, and ties every client to the storage layout.
 - Do both through one shared module. One place then owns the algorithm, key rotation, and
   constant-time comparison, and a search for that module finds every secret the system stores.
 
+## Claims checked at the edge
+
+A claim verified at the edge, such as a JWT checked in a CDN worker, decides only cache bypass or
+routing. It never grants access or a higher rate-limit tier. The edge may hold a stale or
+partial view of the user, so the origin authorizes every request on its own.
+
 ## Cache headers
 
 Set cache headers through one central policy keyed by route or response type. Do not hand-write

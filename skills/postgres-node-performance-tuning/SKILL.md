@@ -19,6 +19,11 @@ it beats that simple query, not merely the previous version; see
 - A new query shape (a new filter, join key, or sort) gets its index in the same change. Check
   the plan at representative cardinality, add the index it needs, and do not wait to be asked. An
   unindexed shape works in tests and fails at production row counts.
+- An index change rechecks the plan of every query that depends on that index's predicate, join,
+  ordering, or selected columns, not only the query being fixed. A changed or dropped index can
+  turn a neighbor's plan into a scan. Find those queries by searching the query builders
+  separately from where queries execute, and include callers that reach a builder through helper
+  functions; a search of call sites alone misses a query assembled elsewhere.
 - Start every statement with an operation-name comment, such as `/* invoices.listByAccount */`, so
   a slow-query log or `pg_stat_activity` row names its call site.
 - Run transactions through one helper that owns `BEGIN`, `COMMIT`, `ROLLBACK`, and client release.
