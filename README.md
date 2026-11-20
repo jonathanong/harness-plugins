@@ -127,21 +127,19 @@ claude plugin install pr-shepherd@harness-plugins
 codex plugin add pr-shepherd@harness-plugins
 ```
 
-| Plugin                                                          | What it does                                                                             |
-| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [no-mistakes](https://github.com/jonathanong/no-mistakes)       | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
-| `no-mistakes-rules` (same repository)                           | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
-| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)       | Takes a pull request through CI, review comments, and merge.                             |
-| [service-status](https://github.com/jonathanong/service-status) | Tells an agent when a failure is a third-party outage and not its bug.                   |
-| [hook-harness](https://github.com/jonathanong/hook-harness)     | Turns GitHub events into agent runs.                                                     |
+| Plugin                                                              | What it does                                                                             |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [no-mistakes](https://github.com/jonathanong/no-mistakes)           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
+| `no-mistakes-rules` (same repository)                               | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
+| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)           | Takes a pull request through CI, review comments, and merge.                             |
+| [service-status](https://github.com/jonathanong/service-status)     | Tells an agent when a failure is a third-party outage and not its bug.                   |
+| [hook-harness](https://github.com/jonathanong/hook-harness)         | Turns GitHub events into agent runs.                                                     |
+| [agent-blackboard](https://github.com/jonathanong/agent-blackboard) | Records agent telemetry so agents can improve from their own sessions.                   |
+| [code-reviewer](https://github.com/jonathanong/code-reviewer)       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
 
 If you added one of these repositories as its own marketplace, remove that marketplace and reinstall
 the plugin from `harness-plugins`, for example
 `claude plugin marketplace remove pr-shepherd` and `codex plugin marketplace remove pr-shepherd`.
-
-[agent-blackboard](https://github.com/jonathanong/agent-blackboard), which records agent telemetry so
-agents can improve from their own sessions, is not in this marketplace yet; install it from its own
-repository.
 
 ## License
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "harness-plugins",
-  "description": "Jonathan Ong's agent plugins: generic skills, PR shepherding, GitHub event hooks, code-graph checks, and service status.",
+  "description": "Jonathan Ong's agent plugins: generic skills, PR shepherding, code review, GitHub event hooks, code-graph checks, agent telemetry, and service status.",
   "owner": {
     "name": "Jonathan Ong",
     "url": "https://github.com/jonathanong"
@@ -68,6 +68,26 @@
       },
       "category": "productivity",
       "homepage": "https://github.com/jonathanong/service-status"
+    },
+    {
+      "name": "agent-blackboard",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jonathanong/agent-blackboard.git",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/agent-blackboard"
+    },
+    {
+      "name": "code-reviewer",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jonathanong/code-reviewer.git",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/jonathanong/code-reviewer"
     }
   ]
 }
