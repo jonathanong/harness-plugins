@@ -11,7 +11,7 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326, 2.1.327, or 2.1.329. 61 cases.
+Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326, 2.1.327, or 2.1.329. 64 cases.
 
 - 18 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
   case passed every attempt.
@@ -37,6 +37,9 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
   `typescript-authoring`. No run was made. See [HISTORY.md](HISTORY.md).
 - Rows below 1.00: the skill did not load on some attempts, or, for `github-issue` and one
   `agent-workflow` attempt, the answer failed.
+- Every `technical-writing` row and the `documentation` row are from the 2026-11-20 run that
+  added `technical-writing` (Claude Code 2.1.329). The two `technical-writing` rows below 1.00
+  failed on the answer, not on the skill loading. See [HISTORY.md](HISTORY.md).
 - Every `postgres-schema-design` and `test-authoring` row is from the 2026-11-20 runs with the
   exact-quantity lock and database-fixture rules (Claude Code 2.1.329). See
   [HISTORY.md](HISTORY.md).
@@ -55,7 +58,7 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 | `dependabot/groups-by-family`                                      | 1.00  | 3 of 3  | 0.33           |
 | `dependabot/request-update-check`                                  | 1.00  | 3 of 3  | 0.50           |
 | `dependabot/review-actions-cooldown`                               | 0.67  | 2 of 3  | 0.67           |
-| `documentation/review-readme-drift`                                | 1.00  | 3 of 3  | 0.00           |
+| `documentation/review-readme-drift`                                | 1.00  | 3 of 3  | 0.67           |
 | `evals/document-new-suite`                                         | 1.00  | 3 of 3  | 0.00           |
 | `evals/record-partial-rerun`                                       | 1.00  | 3 of 3  | 0.00           |
 | `feature-rollout/dark-route-without-caller`                        | 1.00  | 3 of 3  | 1.00           |
@@ -100,6 +103,9 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except
 | `static-code-analysis/new-rust-service`                            | 1.00  | 3 of 3  | 0.83           |
 | `static-code-analysis/new-typescript-library`                      | 1.00  | 3 of 3  | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                     | 1.00  | 3 of 3  | 0.00           |
+| `technical-writing/incident-writeup-from-notes`                    | 0.83  | 2 of 3  | 0.00           |
+| `technical-writing/proposal-for-two-audiences`                     | 0.83  | 2 of 3  | 0.00           |
+| `technical-writing/review-runbook-wall-of-text`                    | 1.00  | 3 of 3  | 0.00           |
 | `test-authoring/dotnet-private-field-not-reflected`                | 0.50  | 1 of 3  | 0.33           |
 | `test-authoring/fake-routes-by-request`                            | 1.00  | 3 of 3  | 1.00           |
 | `test-authoring/fixture-files-not-inline`                          | 1.00  | 3 of 3  | 0.00           |
@@ -119,69 +125,72 @@ passed, so 1.00 means every grader passed on every attempt.
 
 ## What each case checks
 
-| Case                                                               | Checks that the agent                                                                                          |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `agent-workflow/review-round-dispositions`                         | Gives each review comment one disposition and settles the round with a single push.                            |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                         |
-| `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                       |
-| `dependabot/groups-by-family`                                      | Groups updates by package family with a cooldown, not by version type or a catch-all.                          |
-| `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                          |
-| `dependabot/review-actions-cooldown`                               | Asks for at least seven days on every ecosystem and semver key when a Dependabot workflow holds a write token. |
-| `documentation/review-readme-drift`                                | Flags restated config values, history and plans in a README, and a comment that explains history.              |
-| `evals/document-new-suite`                                         | Proposes a README, a history log, and an agent rules file for a new eval suite.                                |
-| `evals/record-partial-rerun`                                       | Logs a grader change and does not report a one-attempt rerun as an improvement.                                |
-| `feature-rollout/dark-route-without-caller`                        | Guard: accepts a mounted route behind an off flag that no page calls yet.                                      |
-| `feature-rollout/flag-defaults-on`                                 | Defaults a new flag to off and reports deployed separately from enabled.                                       |
-| `feature-rollout/table-and-service-without-entry-point`            | Asks for a registered entry point before a table and a service merge.                                          |
-| `git-commit-checklist/lockfile-conflict-on-rebase`                 | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                        |
-| `git-commit-checklist/stages-only-task-files`                      | Stages the files of the fix by name and leaves unrelated and generated changes out.                            |
-| `github-actions-authoring/no-actions-write-with-checked-out-code`  | Keeps `actions: write` out of any job that runs checked-out code.                                              |
-| `github-actions-authoring/publish-gated-on-ci`                     | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                                     |
-| `github-actions-authoring/rejects-polling`                         | Replaces a sleep-and-poll loop with an event trigger.                                                          |
-| `github-actions-authoring/required-check-is-a-real-job`            | Builds a combined required check as a fan-in job, not a posted commit status.                                  |
-| `github-issue/search-before-filing`                                | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                    |
-| `github-repository-settings/collaborators-only-prs`                | Limits pull requests to collaborators and requires approval for every outside contributor's runs.              |
-| `glide-mq/failed-jobs-need-recovery-path`                          | Adds a recovery path for permanently failed jobs beyond the dead-letter queue.                                 |
-| `glide-mq/never-enqueue-and-wait`                                  | Returns 202 with a job id instead of waiting on the job inside the request.                                    |
-| `glide-mq/outbox-own-queue`                                        | Puts an outbox relay and a ledger write on a queue of their own, not a lane on the shared queue.               |
-| `glide-mq/review-webhook-lane`                                     | Gives a floodable webhook job family its own lane.                                                             |
-| `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                         |
-| `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                              |
-| `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                |
-| `npm-publishing/bootstrap-new-package`                             | Prepares a first publish for a person to run, and never publishes itself.                                      |
-| `npm-publishing/existing-package-trust-only`                       | Sets up trusted publishing for an existing package without publishing or changing trust.                       |
-| `package-json-checklist/workspace-dependency-and-export`           | Adds dependencies with pnpm in the right fields and keeps the root export.                                     |
-| `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                     |
-| `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                    |
-| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                        |
-| `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                    |
-| `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                          |
-| `postgres-partitioning-uuid-v7/retention-with-survivors`           | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.             |
-| `postgres-schema-design/checkout-exact-stock`                      | Guard: checkout keeps stock exact without an unbounded lock, and enqueues after commit.                        |
-| `postgres-schema-design/exact-cap-no-lock`                         | Enforces a cap as best effort, with no lock, counter, or claim table.                                          |
-| `postgres-schema-design/review-advisory-lock-key`                  | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.           |
-| `postgres-schema-design/review-last-admin-advisory-lock`           | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                     |
-| `pr-description/perf-change-with-flag`                             | Shows a before/after table, states what a flag does not cover, and omits routine checks.                       |
-| `react-app-structure/abort-superseded-search`                      | Aborts a superseded search request with an `AbortController`.                                                  |
-| `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.               |
-| `review-ci-logs/quiet-log-keeps-errors`                            | Quiets a noisy log at its source and keeps stderr and failing exits.                                           |
-| `revisit-followups/only-verified-deferred-work`                    | Keeps only explicit deferred work and has it verified before any issue is filed.                               |
-| `rust-authoring/tests-in-separate-file`                            | Puts unit tests for a private function in a separate file.                                                     |
-| `service-boundaries/partner-webhook`                               | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                             |
-| `static-analysis-checklist/parses-yaml-with-fixtures`              | Parses YAML instead of matching text, and tests the check with fixtures.                                       |
-| `static-code-analysis/new-rust-service`                            | Picks the static checks for a new Rust service.                                                                |
-| `static-code-analysis/new-typescript-library`                      | Picks the static checks for a new TypeScript library.                                                          |
-| `structured-logging/log-identifier-not-lookup`                     | Logs the customer id with a static message instead of looking up an email for the log.                         |
-| `test-authoring/dotnet-private-field-not-reflected`                | Proves a private dictionary was emptied through the public method, without reflection.                         |
-| `test-authoring/fake-routes-by-request`                            | Has a fake HTTP client answer by request path, not by a queue of replies in call order.                        |
-| `test-authoring/fixture-files-not-inline`                          | Reads saved fixture files instead of writing them in the test body.                                            |
-| `test-authoring/review-direct-row-inserts`                         | Asks for an ordinary user to come from the factory, and accepts a direct insert for legacy data.               |
-| `test-authoring/review-helper-holds-assertions`                    | Flags an expected value recomputed with the production formula and assertions kept in a helper.                |
-| `triage-codex-security/approval-wave-cap`                          | Treats approval given before a wave was shown as not approving that wave.                                      |
-| `triage-codex-security/repository-mismatch`                        | Stops when the findings belong to a different repository.                                                      |
-| `typescript-authoring/batch-first-wrapper`                         | Syncs a list with one call per I/O step and makes the single-item function a wrapper of that call.             |
-| `typescript-authoring/rename-without-alias`                        | Updates every caller instead of keeping an alias, and adds the missing `await`.                                |
-| `typescript-authoring/unlink-batched-cache-delete`                 | Deletes cache keys with one `UNLINK` call, not `DEL` per key.                                                  |
+| Case                                                               | Checks that the agent                                                                                           |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `agent-workflow/review-round-dispositions`                         | Gives each review comment one disposition and settles the round with a single push.                             |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                          |
+| `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                        |
+| `dependabot/groups-by-family`                                      | Groups updates by package family with a cooldown, not by version type or a catch-all.                           |
+| `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                           |
+| `dependabot/review-actions-cooldown`                               | Asks for at least seven days on every ecosystem and semver key when a Dependabot workflow holds a write token.  |
+| `documentation/review-readme-drift`                                | Flags restated config values, history and plans in a README, and a comment that explains history.               |
+| `evals/document-new-suite`                                         | Proposes a README, a history log, and an agent rules file for a new eval suite.                                 |
+| `evals/record-partial-rerun`                                       | Logs a grader change and does not report a one-attempt rerun as an improvement.                                 |
+| `feature-rollout/dark-route-without-caller`                        | Guard: accepts a mounted route behind an off flag that no page calls yet.                                       |
+| `feature-rollout/flag-defaults-on`                                 | Defaults a new flag to off and reports deployed separately from enabled.                                        |
+| `feature-rollout/table-and-service-without-entry-point`            | Asks for a registered entry point before a table and a service merge.                                           |
+| `git-commit-checklist/lockfile-conflict-on-rebase`                 | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                         |
+| `git-commit-checklist/stages-only-task-files`                      | Stages the files of the fix by name and leaves unrelated and generated changes out.                             |
+| `github-actions-authoring/no-actions-write-with-checked-out-code`  | Keeps `actions: write` out of any job that runs checked-out code.                                               |
+| `github-actions-authoring/publish-gated-on-ci`                     | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                                      |
+| `github-actions-authoring/rejects-polling`                         | Replaces a sleep-and-poll loop with an event trigger.                                                           |
+| `github-actions-authoring/required-check-is-a-real-job`            | Builds a combined required check as a fan-in job, not a posted commit status.                                   |
+| `github-issue/search-before-filing`                                | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                     |
+| `github-repository-settings/collaborators-only-prs`                | Limits pull requests to collaborators and requires approval for every outside contributor's runs.               |
+| `glide-mq/failed-jobs-need-recovery-path`                          | Adds a recovery path for permanently failed jobs beyond the dead-letter queue.                                  |
+| `glide-mq/never-enqueue-and-wait`                                  | Returns 202 with a job id instead of waiting on the job inside the request.                                     |
+| `glide-mq/outbox-own-queue`                                        | Puts an outbox relay and a ledger write on a queue of their own, not a lane on the shared queue.                |
+| `glide-mq/review-webhook-lane`                                     | Gives a floodable webhook job family its own lane.                                                              |
+| `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                          |
+| `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                               |
+| `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                 |
+| `npm-publishing/bootstrap-new-package`                             | Prepares a first publish for a person to run, and never publishes itself.                                       |
+| `npm-publishing/existing-package-trust-only`                       | Sets up trusted publishing for an existing package without publishing or changing trust.                        |
+| `package-json-checklist/workspace-dependency-and-export`           | Adds dependencies with pnpm in the right fields and keeps the root export.                                      |
+| `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                      |
+| `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                     |
+| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                         |
+| `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                     |
+| `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                           |
+| `postgres-partitioning-uuid-v7/retention-with-survivors`           | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.              |
+| `postgres-schema-design/checkout-exact-stock`                      | Guard: checkout keeps stock exact without an unbounded lock, and enqueues after commit.                         |
+| `postgres-schema-design/exact-cap-no-lock`                         | Enforces a cap as best effort, with no lock, counter, or claim table.                                           |
+| `postgres-schema-design/review-advisory-lock-key`                  | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.            |
+| `postgres-schema-design/review-last-admin-advisory-lock`           | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                      |
+| `pr-description/perf-change-with-flag`                             | Shows a before/after table, states what a flag does not cover, and omits routine checks.                        |
+| `react-app-structure/abort-superseded-search`                      | Aborts a superseded search request with an `AbortController`.                                                   |
+| `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                |
+| `review-ci-logs/quiet-log-keeps-errors`                            | Quiets a noisy log at its source and keeps stderr and failing exits.                                            |
+| `revisit-followups/only-verified-deferred-work`                    | Keeps only explicit deferred work and has it verified before any issue is filed.                                |
+| `rust-authoring/tests-in-separate-file`                            | Puts unit tests for a private function in a separate file.                                                      |
+| `service-boundaries/partner-webhook`                               | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                              |
+| `static-analysis-checklist/parses-yaml-with-fixtures`              | Parses YAML instead of matching text, and tests the check with fixtures.                                        |
+| `static-code-analysis/new-rust-service`                            | Picks the static checks for a new Rust service.                                                                 |
+| `static-code-analysis/new-typescript-library`                      | Picks the static checks for a new TypeScript library.                                                           |
+| `structured-logging/log-identifier-not-lookup`                     | Logs the customer id with a static message instead of looking up an email for the log.                          |
+| `technical-writing/incident-writeup-from-notes`                    | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.        |
+| `technical-writing/proposal-for-two-audiences`                     | Labels sections by audience, tables every flag and plan combination and the before and after, defines jargon.   |
+| `technical-writing/review-runbook-wall-of-text`                    | Asks for the action first, steps as a list, jargon defined, and changing numbers replaced by how to fetch them. |
+| `test-authoring/dotnet-private-field-not-reflected`                | Proves a private dictionary was emptied through the public method, without reflection.                          |
+| `test-authoring/fake-routes-by-request`                            | Has a fake HTTP client answer by request path, not by a queue of replies in call order.                         |
+| `test-authoring/fixture-files-not-inline`                          | Reads saved fixture files instead of writing them in the test body.                                             |
+| `test-authoring/review-direct-row-inserts`                         | Asks for an ordinary user to come from the factory, and accepts a direct insert for legacy data.                |
+| `test-authoring/review-helper-holds-assertions`                    | Flags an expected value recomputed with the production formula and assertions kept in a helper.                 |
+| `triage-codex-security/approval-wave-cap`                          | Treats approval given before a wave was shown as not approving that wave.                                       |
+| `triage-codex-security/repository-mismatch`                        | Stops when the findings belong to a different repository.                                                       |
+| `typescript-authoring/batch-first-wrapper`                         | Syncs a list with one call per I/O step and makes the single-item function a wrapper of that call.              |
+| `typescript-authoring/rename-without-alias`                        | Updates every caller instead of keeping an alias, and adds the missing `await`.                                 |
+| `typescript-authoring/unlink-batched-cache-delete`                 | Deletes cache keys with one `UNLINK` call, not `DEL` per key.                                                   |
 
 ## How to read the numbers
 
