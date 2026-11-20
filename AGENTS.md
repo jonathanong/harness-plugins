@@ -64,5 +64,5 @@ change in another repository can break a source.
 
 ## Pull requests
 
-- Do not enable auto-merge in this repository, and do not add a workflow that does. Merge with a
-  plain merge once checks pass.
+- Do not add a workflow that auto-merges Dependabot pull requests; a person merges each one.
+  Auto-merge on other pull requests is fine.
