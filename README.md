@@ -138,9 +138,16 @@ codex plugin add pr-shepherd@harness-plugins
 | [agent-blackboard](https://github.com/jonathanong/agent-blackboard) | Records agent telemetry so agents can improve from their own sessions.                   |
 | [code-reviewer](https://github.com/jonathanong/code-reviewer)       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
 
-If you added one of these repositories as its own marketplace, remove that marketplace and reinstall
-the plugin from `harness-plugins`, for example
-`claude plugin marketplace remove pr-shepherd` and `codex plugin marketplace remove pr-shepherd`.
+If you added one of these repositories as its own marketplace, uninstall the plugin first, then
+remove that marketplace and reinstall the plugin from `harness-plugins`. Removing a marketplace does
+not uninstall its plugins, so skipping the first step leaves two copies enabled. For pr-shepherd:
+
+```bash
+claude plugin uninstall pr-shepherd@pr-shepherd
+claude plugin marketplace remove pr-shepherd
+codex plugin remove pr-shepherd@pr-shepherd
+codex plugin marketplace remove pr-shepherd
+```
 
 ## License
 
