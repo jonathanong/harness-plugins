@@ -4,6 +4,29 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-20: new `technical-writing` skill, and no changing numbers in living docs
+
+Sonnet agent, Opus judge, Claude Code 2.1.329, both arms, three attempts, $3.91, after a
+one-attempt pilot ($0.83) in which all three new cases passed with the plugin and failed without.
+The new `technical-writing` skill orders a document from summary to evidence, labels sections by
+audience and intent, prefers tables and Mermaid diagrams, labels unverified facts and states
+assumptions, and defines terms at first use. `documentation` now says not to write changing
+numbers into a living document, but how to fetch them.
+
+| Case                                            | With | Without |
+| ----------------------------------------------- | ---- | ------- |
+| `documentation/review-readme-drift`             | 1.00 | 0.67    |
+| `technical-writing/incident-writeup-from-notes` | 0.83 | 0.00    |
+| `technical-writing/proposal-for-two-audiences`  | 0.83 | 0.00    |
+| `technical-writing/review-runbook-wall-of-text` | 1.00 | 0.00    |
+
+- **New cases:** all three fail every attempt without the plugin.
+- **Misses with the plugin were in the answer.** The skill loaded on every attempt. One incident
+  write-up labeled sections for everyone and engineering but gave the support lead no section of
+  their own. One proposal had a flag-by-plan table but no before and after table.
+- **`documentation/review-readme-drift`** scored 0.67 without the plugin, against 0.00 when it
+  was added.
+
 ## 2026-11-20: locks only for exact quantities, enqueue after commit, database fixtures
 
 Sonnet agent, Opus judge, Claude Code 2.1.329, both arms, three attempts. `postgres-schema-design`

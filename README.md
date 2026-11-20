@@ -27,6 +27,7 @@ The repository is one plugin, `jong-skills`, for both Claude Code and Codex. Ski
 | `evals`                            | Documenting an eval suite: current scores, run history, and rules.             |
 | `pr-description`                   | Writing a pull request description: problem, change, impact, before/after.     |
 | `documentation`                    | Deciding what goes in docs, comments, and agent instruction files.             |
+| `technical-writing`                | Structuring a document for scanning: summary first, audiences, facts, terms.   |
 | `test-authoring`                   | Which tests to write; fixtures, mocks, guards; Vitest, Storybook, Swift, .NET. |
 | `playwright-authoring`             | Writing browser tests: what needs a browser, locators, and test ids.           |
 | `typescript-authoring`             | Writing TypeScript without aliases, shims, or hidden calls.                    |

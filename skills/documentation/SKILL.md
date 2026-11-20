@@ -16,6 +16,10 @@ code cannot say, and link to the code for the rest.
   reader cannot recover from the source.
 - Do not restate code, configuration values, limits, or counts. They change, and the copy does
   not. Name the setting and point at where it is defined.
+- Do not write numbers that change, such as row counts, error rates, latencies, or user counts.
+  Write how to get them: the query, command, or dashboard, so the reader fetches the current
+  value. A point-in-time document may give a number with its date and source. For how a
+  document is structured for its readers, use the `technical-writing` skill.
 - Describe the system as it is. Leave out history ("previously", "we used to"), plans, and
   roadmaps; they belong in the tracker and in commit messages.
 - In a public repository, leave out private detail: internal hostnames, customer names,
