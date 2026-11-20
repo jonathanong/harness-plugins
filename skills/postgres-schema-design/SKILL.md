@@ -22,16 +22,27 @@ Read every applicable `AGENTS.md` first. Repository-local policy overrides these
 
 ## Locks
 
-Most locks guard nothing. Each one adds waiting, deadlock risk, and a reason for the next reader to
-keep it. Start with none and add one only for the case below.
+Most writes need no lock: a comment, a like, a follow, a profile edit. Each lock adds waiting,
+deadlock risk, and a reason for the next reader to keep it, and one held too long stalls every
+writer queued behind it. Start with none.
 
-- Lock rows (`FOR UPDATE`) only when a concurrent write would corrupt the rows this transaction
-  itself writes. Never lock a read set or a parent row to serialize writers.
+- Lock only for an exact quantity: money, a balance, a ledger, inventory, anything that must never
+  drift. Even there, prefer a conditional write
+  (`UPDATE stock SET qty = qty - $1 WHERE sku = $2 AND qty >= $1`) or a constraint. When the rule
+  spans rows those cannot express, a row lock (`FOR UPDATE`) on the rows the transaction writes,
+  or on their parent, is acceptable.
+- Anywhere else, never lock a read set or a parent row to serialize writers.
+- Every lock is transaction-scoped and short, and:
+  - waits a bounded time: `NOWAIT` or `lock_timeout` in a request path, returning 409;
+  - takes rows in a fixed order, parent before child, so two writers cannot deadlock;
+  - covers no outside call. An enqueue is an outside call: commit, then enqueue. A slow queue
+    store inside the transaction stretches every lock it holds.
 - Avoid advisory locks. Prefer a constraint, a conditional write, or `SERIALIZABLE`, below. When a
   change does take one, it says why those do not fit, and a review checks the lock itself: it is
-  transaction-scoped (`pg_advisory_xact_lock`), and its key covers exactly the writers that
-  conflict. A key such as `hashtext(org_id)` alone is shared by every other lock keyed on the same
-  id; use the two-key form with a namespace for the operation.
+  transaction-scoped, its wait is bounded (`pg_try_advisory_xact_lock`, or `lock_timeout`; the
+  blocking form holds a pooled connection while it waits), and its key covers exactly the writers
+  that conflict. A key such as `hashtext(org_id)` alone is shared by every other lock keyed on the
+  same id; use the two-key form with a namespace for the operation.
 - A cap or a "don't remove the last X" guard is best effort. Count up to the cap
   (`LIMIT cap + 1`), then write. Two concurrent requests may land one row over; say so and accept
   it. When asked to make a cap exact, answer with this design. Do not add a lock, a counter or
@@ -42,10 +53,9 @@ keep it. Start with none and add one only for the case below.
   `SERIALIZABLE` transaction whose `40001` is returned as 409 with no retry. A scheduled job leaves
   the work to its next run. Never close a race with a wider lock.
 - Do not add generation, revision, claim, or counter columns to coordinate concurrent writers. Make
-  the write idempotent or use the options above. A lease token on leased work is not a
-  coordination column.
-- A lock that is justified waits a bounded time in a request path: `NOWAIT` or `lock_timeout`,
-  returning 409.
+  the write idempotent or use the options above. Two exceptions: an exact quantity, and an
+  optimistic version column on an entity people edit by hand, so a lost update returns 409. A
+  lease token on leased work is not a coordination column.
 - Remove a lock by deleting it, not by swapping in another serializer.
 
 For query shape, read [performance patterns](../postgres-node-performance-tuning/references/performance-patterns.md).

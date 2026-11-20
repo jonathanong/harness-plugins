@@ -4,7 +4,8 @@ Use pools and release checked-out clients in `finally`, especially for cursors, 
 Route ordinary reads to a replica when its lag is acceptable; route read-after-write, locking, and
 transaction-consistent reads to the writer. Do not hold a client across unrelated application work.
 Avoid advisory locks (see [locks](../../postgres-schema-design/SKILL.md#locks)), and never hold a
-transaction, a connection, or an advisory lock across an external call; take
+transaction, a connection, or an advisory lock across an external call, including an enqueue
+(commit, then enqueue); take
 a token lease in a shared store instead, with a TTL, renewal, and compare-and-delete release. Stop work when
 renewal fails, and guard any write a stale owner could make with the token.
 
