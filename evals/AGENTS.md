@@ -80,7 +80,9 @@ The `evals` skill's `references/eval-types.md` defines each kind. Here:
 ## Record
 
 - After a measured run, add an entry at the top of `HISTORY.md` and rebuild the table in
-  `README.md` with `scripts/eval-summary.py`.
+  `README.md` with `scripts/eval-summary.py`. After a partial run (one skill or `--case`),
+  replace only the rows that ran, mark them "(rerun)", say which run they came from above the
+  table, and keep every other row.
 - A change to a case, grader, or fixture with no run still gets a `HISTORY.md` entry. Mark the
   affected rows in `README.md` as not re-measured.
 - `evals/results/` is ignored by git, so these two files are the only durable record.

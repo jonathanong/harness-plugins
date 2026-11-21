@@ -26,9 +26,10 @@ loaded only when it is needed, and nowhere else.
   Mermaid diagrams, and spend the prose on why a design was chosen and on gotchas a reader would
   not guess. For what belongs in a document, use the `documentation` skill; for how to structure
   one, use `technical-writing`.
-- **Do not document what the code shows.** File lists, function signatures, configuration values,
-  and dependency lists drift the day they are copied. Name the setting, or the folder that holds
-  it, and let the reader open it.
+- **Do not copy what the code shows into rules or written docs.** File lists, function
+  signatures, configuration values, and dependency lists drift the day they are copied. Name the
+  setting, or the folder that holds it, and let the reader open it. Reference docs that users need,
+  such as an API reference, are generated from the source.
 - **Enforce what you can.** A rule in prose is advice an agent may miss. When a pattern can be
   detected, add the check (see `static-analysis-checklist`) and keep at most one line in
   `AGENTS.md` that names it.
@@ -45,9 +46,11 @@ loaded only when it is needed, and nowhere else.
   in a shared skill, so it defers to the repository.
 - Write rules in portable files: `AGENTS.md`, skills, and docs. Do not put rules in one
   harness's own rule format, such as Claude Code's `.claude/rules/` or Cursor-only rules; another
-  agent never sees them. Use a nested `AGENTS.md` for a path-scoped rule.
+  agent never sees them. Use a nested `AGENTS.md` for a path-scoped rule. It scopes by directory,
+  not by file pattern, so a rule for only some files in a directory says which ones.
 - When a harness reads only its own file name, such as `CLAUDE.md`, make that file a symlink to
-  `AGENTS.md` or a one-line import of it. Never keep two copies.
+  `AGENTS.md` or a one-line import of it, beside every `AGENTS.md`, nested ones included. Never
+  keep two copies.
 - When one agent hands work to another, name the `AGENTS.md` files and skills to read instead of
   retyping their rules. A retyped rule is a second copy that drifts.
 

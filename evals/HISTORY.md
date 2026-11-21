@@ -18,6 +18,11 @@ arm, $5.22 over four runs.
   `split-by-trigger` failed two attempts that found the plugin's existing browser-test skill and
   put the guidance there; that is the one-owner rule, so the grader now passes it, and the rerun
   is the row.
+- **After review, no run:** `agent-rules` now says a nested `AGENTS.md` scopes by directory, not
+  file pattern; that a `CLAUDE.md` bridge sits beside every `AGENTS.md`, nested ones included; and
+  that generated reference docs are exempt from "do not copy what the code shows".
+  `evals/AGENTS.md` says how a partial run updates the README table. The `agent-rules` rows above
+  were measured before these edits.
 - **Rebased:** the split was rebuilt on `main` after the six-skill upstream; earlier entries for
   this work follow.
 
