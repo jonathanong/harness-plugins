@@ -19,7 +19,9 @@ syntax, and rollout policy.
    and unsafe writable workspace mounts, and allow unrelated YAML keys and ordinary read-only
    mounts.
 3. Add meaningful accepted and rejected fixtures before the rule. Cover path routing, parser
-   boundaries, equivalent YAML forms, and every allowed exception.
+   boundaries, equivalent YAML forms, and every allowed exception. Before replacing or deleting a
+   security guard, port its old fixture corpus to the replacement and pass it first, so the
+   rewrite cannot quietly stop blocking a case the old guard caught.
 4. Keep discovery limited to tracked, intended files. Make suppressions and allowlists narrow,
    justified, and mechanically checked for freshness where practical.
 5. Run the focused fixture test and analyzer, then the local aggregate checks. Keep diagnostics

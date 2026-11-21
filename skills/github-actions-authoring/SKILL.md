@@ -31,6 +31,9 @@ runner choice, and pinning.
   enabled.
 - Prefer a provider-native completion event, callback, queue, or state-machine transition for a
   deployment or service.
+- Keep the deploys of separate services independent. Do not make one deploy wait for, poll, or
+  read the result of another's. Make each change safe against the other service's old and new
+  version, so any deploy order works and one stuck deploy blocks nothing else.
 - A scheduled reconciliation workflow may repair a missed event. It inspects one snapshot and exits.
 - Do not gate on another workflow by reading its status through `gh` or the API, even once. On a
   tag or branch push that workflow may still be running, so a single lookup races it. Call it with
@@ -63,6 +66,9 @@ apply only when a job runs on a self-hosted or otherwise persistent runner.
 
 - Move a long inline `run:` script to a tracked file with tests. Inline scripts are not linted
   beyond syntax, cannot be run locally, and are reviewed as YAML strings.
+- A script that developers also run locally must work on the macOS system `/bin/bash` (3.2), not
+  only on the Linux runner. Avoid `mapfile`, `declare -A`, `${var,,}`, and GNU-only flags, or
+  state the interpreter and require a newer one explicitly.
 - Check out the whole tree for a job whose checks read the whole tree. A sparse checkout makes a
   repository-wide lint or graph check pass on the files it happened to fetch.
 - Do not cancel in-progress runs on the default branch. Each commit there needs its own result;
@@ -75,6 +81,10 @@ Never grant `actions: write` in the job-level `permissions` of a job that runs c
 That token can cancel runs, delete caches, and dispatch workflows, so any code the job executes,
 including a dependency install script, can use it. Put the step that needs it in a separate job
 that checks out nothing.
+
+Bind a policy check to an immutable commit SHA, not a branch or tag name, and confirm which
+inputs an untrusted pull request cannot rewrite. Read the policy from the base revision, not the
+head that is being checked.
 
 ## Reject polling designs
 
