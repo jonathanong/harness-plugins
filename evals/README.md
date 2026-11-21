@@ -11,24 +11,26 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.330. 76 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
 
-- Every row is from the full run on 2026-11-21 (78 cases, 234 attempts, $35.50), after every
-  skill's description was reordered to open with when to use it. Two cases from that run were
-  dropped afterwards, and `http-api-design/edge-claims-do-not-authorize` and
-  `service-boundaries/topology-in-app-repo` are from a later two-arm run. See [HISTORY.md](HISTORY.md).
-- The skill loaded in 224 of the 234 attempts. The misses were in four cases:
+- **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
+  234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
+  `http-api-design` description named edge workers. Two of its cases were dropped afterwards.
+- **Rows marked "(rerun)"** are from the two-arm run after that change, three attempts per arm.
+- **"Without plugin"** comes from separate runs; see "How to read the numbers".
+- **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
   `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
   of 3, before its description named edge workers), `bounded-iteration/review-dispatcher-predicate-and-job-id`
-  (1 of 3), and `postgres-schema-design/review-advisory-lock-key` (1 of 3). In every miss the agent
-  called no skill at all; it did not pick a wrong one.
-- Rows below 1.00 for other reasons failed on the answer: `git-commit-checklist/lockfile-conflict-on-rebase`,
+  (1 of 3), and `postgres-schema-design/review-advisory-lock-key` (1 of 3). In the rerun,
+  `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no
+  skill at all; it did not pick a wrong one.
+- **Rows below 1.00 for other reasons** failed on the answer: `git-commit-checklist/lockfile-conflict-on-rebase`,
   `github-issue/search-before-filing`, `npm-publishing/bootstrap-new-package`,
   `package-json-checklist/workspace-dependency-and-export`, `revisit-followups/only-verified-deferred-work`,
   and `technical-writing/proposal-for-two-audiences`.
-- The 12 cases added on 2026-11-21 took their "Without plugin" score from a one-attempt pilot,
-  except the two from the later two-arm run.
-- Not measured without the plugin: the five rows marked `n/a`.
+- **The 12 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
+  except the two rerun rows.
+- **Not measured without the plugin:** the five rows marked `n/a`.
 
 | Case                                                               | Score | Passed | Without plugin |
 | ------------------------------------------------------------------ | ----- | ------ | -------------- |
@@ -60,7 +62,7 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.330. 76 cas
 | `glide-mq/outbox-own-queue`                                        | 1.00  | 3 of 3 | 0.00           |
 | `glide-mq/review-webhook-lane`                                     | 1.00  | 3 of 3 | 0.00           |
 | `http-api-design/action-body-and-raw-tokens`                       | 1.00  | 3 of 3 | 0.33           |
-| `http-api-design/edge-claims-do-not-authorize`                     | 1.00  | 3 of 3 | 0.00           |
+| `http-api-design/edge-claims-do-not-authorize` (rerun)             | 1.00  | 3 of 3 | 0.00           |
 | `native-app-architecture/core-tests-and-web-view`                  | 1.00  | 3 of 3 | 0.00           |
 | `native-app-architecture/generated-project-file`                   | 1.00  | 3 of 3 | 0.00           |
 | `npm-publishing/bootstrap-new-package`                             | 0.94  | 2 of 3 | 0.40           |
@@ -88,7 +90,7 @@ Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.330. 76 cas
 | `rust-authoring/parallel-cargo-jobs`                               | 1.00  | 3 of 3 | 0.00           |
 | `rust-authoring/tests-in-separate-file`                            | 1.00  | 3 of 3 | 0.00           |
 | `service-boundaries/partner-webhook`                               | 1.00  | 3 of 3 | 0.33           |
-| `service-boundaries/topology-in-app-repo`                          | 0.33  | 1 of 3 | 0.00           |
+| `service-boundaries/topology-in-app-repo` (rerun)                  | 0.33  | 1 of 3 | 0.00           |
 | `static-analysis-checklist/parses-yaml-with-fixtures`              | 1.00  | 3 of 3 | 0.50           |
 | `static-analysis-checklist/tracked-files-only`                     | 1.00  | 3 of 3 | 0.00           |
 | `static-code-analysis/new-rust-service`                            | 1.00  | 3 of 3 | 0.83           |

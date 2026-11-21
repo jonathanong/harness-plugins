@@ -6,7 +6,9 @@ scores are in [README.md](README.md).
 
 ## 2026-11-21: descriptions open with when to use them, and 12 more cases
 
-Sonnet agent, Opus judge, Claude Code 2.1.330.
+Commit `9f4aaf5` (runs on its working tree), Sonnet agent, Opus judge, Claude Code 2.1.330.
+About $60 across every run below, plus the one-attempt pilots made while writing the cases.
+The description comparison ran both arms in the same session, so neither side is a stored number.
 
 **Why.** A rerun of the five `test-authoring` cases on 2.1.330, with no change, loaded the skill in
 10 of 15 attempts; on 2026-11-20 (2.1.329) the two review cases had loaded it every time. Two
