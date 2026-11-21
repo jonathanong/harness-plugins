@@ -11,7 +11,7 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, Claude Code 2.1.330. 81 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 87 cases.
 
 - **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
   234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
@@ -29,6 +29,11 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 81 cases.
 - **The `agent-rules` and `skill-authoring` rows** are from the two-arm run after the split, three
   attempts per arm. The `documentation` rows marked "(rerun)" are from a plugin-only run after its
   description stopped naming `AGENTS.md`.
+- **The `planning` rows** are from the two-arm run after the levels, handoff, and verification
+  changes, three attempts per arm. `plan-handoff-self-contained` is from a later run of that one
+  case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
+  `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
+  not that it helps.
 - **"Without plugin"** comes from separate runs; see "How to read the numbers".
 - **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
   `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
@@ -84,7 +89,13 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 81 cases.
 | `npm-publishing/existing-package-trust-only`                              | 1.00  | 3 of 3 | 0.73           |
 | `package-json-checklist/review-override-for-peer-warning` (rerun)         | 1.00  | 3 of 3 | 0.67           |
 | `package-json-checklist/workspace-dependency-and-export`                  | 0.89  | 2 of 3 | 0.67           |
-| `planning/plan-saved-outside-repo`                                        | 1.00  | 3 of 3 | 0.00           |
+| `planning/blast-radius-tests-and-flows` (rerun)                           | 1.00  | 3 of 3 | 1.00           |
+| `planning/mechanical-change-skips-plan` (guard, rerun)                    | 1.00  | 3 of 3 | 0.67           |
+| `planning/plan-handoff-self-contained` (rerun)                            | 0.83  | 2 of 3 | 0.00           |
+| `planning/plan-pulls-in-postgres-skill` (rerun)                           | 1.00  | 3 of 3 | 1.00           |
+| `planning/plan-saved-outside-repo` (rerun)                                | 1.00  | 3 of 3 | 0.00           |
+| `planning/plan-states-before-after` (rerun)                               | 0.67  | 2 of 3 | 0.00           |
+| `planning/plan-verification-commands` (rerun)                             | 1.00  | 3 of 3 | 0.00           |
 | `playwright-authoring/metadata-is-not-a-browser-test`                     | 1.00  | 3 of 3 | 0.00           |
 | `playwright-authoring/review-computed-test-ids` (rerun)                   | 1.00  | 3 of 3 | 0.00           |
 | `postgres-node-performance-tuning/index-change-rechecks-neighbors`        | 1.00  | 3 of 3 | n/a            |
@@ -176,7 +187,13 @@ passed, so 1.00 means every grader passed on every attempt.
 | `npm-publishing/existing-package-trust-only`                       | Sets up trusted publishing for an existing package without publishing or changing trust.                           |
 | `package-json-checklist/review-override-for-peer-warning`          | Accepts React 19 for one package with `peerDependencyRules`, not an override.                                      |
 | `package-json-checklist/workspace-dependency-and-export`           | Adds dependencies with pnpm in the right fields and keeps the root export.                                         |
+| `planning/blast-radius-tests-and-flows`                            | Names the affected unit tests, the browser spec, and the user-visible surfaces, not only code callers.             |
+| `planning/mechanical-change-skips-plan`                            | Guard: does a mechanical rename and verifies it, without a plan document; has no skill-fired grader.               |
+| `planning/plan-handoff-self-contained`                             | Writes a plan that stands alone, with decisions and reasons, steps, non-goals, and stop conditions.                |
+| `planning/plan-pulls-in-postgres-skill`                            | Loads a PostgreSQL skill and carries lock and backfill safety into the steps.                                      |
 | `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                         |
+| `planning/plan-states-before-after`                                | States in plain language what users see before and after the change.                                               |
+| `planning/plan-verification-commands`                              | Gives each step a verification command and selects the final tests from the change.                                |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                        |
 | `playwright-authoring/review-computed-test-ids`                    | Asks for literal test ids and `getByTestId` with a row filter, not computed ids.                                   |
 | `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                            |

@@ -98,7 +98,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.        |
 | [`structured-logging`](skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                 |
 | [`agent-workflow`](skills/agent-workflow/SKILL.md)                                     | Implementing, handing off, reviewing, and answering review comments.           |
-| [`planning`](skills/planning/SKILL.md)                                                 | Planning a change: options, what it touches, steps, where the plan lives.      |
+| [`planning`](skills/planning/SKILL.md)                                                 | Planning a non-trivial change: impact, verification, a handoff plan.           |
 | [`git-commit-checklist`](skills/git-commit-checklist/SKILL.md)                         | Committing, and rebasing or force-pushing a branch others also push to.        |
 | [`github-issue`](skills/github-issue/SKILL.md)                                         | Filing, editing, closing, and linking GitHub issues.                           |
 | [`review-ci-logs`](skills/review-ci-logs/SKILL.md)                                     | Diagnosing a CI failure or noisy CI output from the logs.                      |
