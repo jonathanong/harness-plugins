@@ -1,6 +1,6 @@
 ---
 name: react-app-structure
-description: Use when writing or reviewing React components, Next.js pages, layouts, or route handlers, data fetching in pages, auth redirects, entity links, or browser-side configuration. Structure a React or Next.js app so its API calls, links, redirects, and configuration each have one traceable owner.
+description: Use when writing or reviewing React components, Next.js pages, layouts, route handlers, forms, navigation, server/client boundaries, data fetching, auth redirects, entity links, or browser configuration. Structure a React or Next.js app so its API calls, links, redirects, and configuration each have one traceable owner.
 ---
 
 # React app structure
@@ -38,6 +38,40 @@ useEffect(() => {
   return () => controller.abort()
 }, [query])
 ```
+
+Polling and scope-switching hooks (a tab, filter, or workspace switch that refetches) follow the
+same rule: tag each request, ignore a response that is no longer current, and never start a
+refresh while one is in flight or while the user is saving.
+
+## Server and client components
+
+- A server component reads the current user directly. A client component gets it from a client
+  auth hook or context. Do not pass the user as a prop across the boundary: the serialized copy
+  goes stale after sign-in or sign-out and widens what ships to the browser.
+- A client component receives a view model shaped for display, not the API response envelope.
+  Project the fields it renders in the server component, and keep a failed fetch (`null`) distinct
+  from an empty list. Otherwise the client depends on the API's shape and every envelope field
+  ships in the page payload.
+- Render logged-out pages fully on the server; they are what crawlers and first visits see.
+  Logged-in pages may stream secondary asides behind `Suspense`, but await the main content.
+- Give each member of a finite set of route types its own route directory. Use a `[param]`
+  segment only for values that really vary, so each page is findable by its path.
+
+## Forms and refresh
+
+- After a successful mutation, keep the submit button disabled until the navigation or refresh
+  that follows has finished. Wrap `router.push` or `router.refresh()` in `startTransition` and
+  disable on `isPending` as well, or the user can submit twice while the page is still stale.
+- `router.refresh()` re-renders server components but keeps client state. A promise held in
+  client state and read with `use()` is not recreated by it; create a new one when the mutation
+  succeeds.
+
+## Components
+
+- With React Compiler, do not add `useCallback`, `useMemo`, or `memo` only for referential
+  stability. Keep a value that only event handlers read in `useRef`, so it never re-renders.
+- A navigation destination is a link, including inside a dropdown menu; only an action is a
+  button. A link opens in a new tab, shows its target, and is followed by crawlers.
 
 ## Auth redirects
 
