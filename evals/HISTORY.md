@@ -4,6 +4,95 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-21: `agent-rules` and `skill-authoring` measured, two cases replaced
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm, $5.22 over four runs.
+
+- **`agent-rules`:** `root-agents-md-placement` 1.00 with, 0.00 without; `path-scoped-rules`
+  1.00 with, 1.00 without (0.33 without on the earlier run), so it is now a ceiling case.
+- **Replaced:** `skill-authoring/description-opens-with-trigger` and
+  `skill-authoring/move-detail-to-reference` both scored 1.00 without the plugin and were removed.
+- **New:** `skill-authoring/repo-rule-not-in-shared-skill` (1.00 with, 0.00 without) and
+  `skill-authoring/split-by-trigger` (0.83, 2 of 3, with; 0.00 without). The first run of
+  `split-by-trigger` failed two attempts that found the plugin's existing browser-test skill and
+  put the guidance there; that is the one-owner rule, so the grader now passes it, and the rerun
+  is the row.
+- **After review, no run:** `agent-rules` now says a nested `AGENTS.md` scopes by directory, not
+  file pattern; that a `CLAUDE.md` bridge sits beside every `AGENTS.md`, nested ones included; and
+  that generated reference docs are exempt from "do not copy what the code shows".
+  `evals/AGENTS.md` says how a partial run updates the README table. The `agent-rules` rows above
+  were measured before these edits.
+- **Rebased:** the split was rebuilt on `main` after the six-skill upstream; earlier entries for
+  this work follow.
+
+## 2026-11-21: split `agent-instructions` into `agent-rules` and `skill-authoring`
+
+No run was made for this entry. Its parts are triggered by different work.
+
+- **`agent-rules`** (renamed from `agent-instructions`): where a rule lives, `AGENTS.md` and
+  `CLAUDE.md`, links, capturing decisions, and writing and reviewing a rule.
+- **`skill-authoring`** (new): the description, the body and references, splitting a skill, and
+  evals for a skill, generalized from the guidance that was in this repository's root `AGENTS.md`.
+  Its rules about skills left `agent-rules`.
+- **Two new cases,** not yet measured: `skill-authoring/description-opens-with-trigger` and
+  `skill-authoring/move-detail-to-reference`.
+- **Not comparable:** the two `agent-rules` cases carry the scores measured under the old name,
+  with the old description and body, so the earlier entries do not carry over to the new skill
+  until they are rerun. Their tags and `skill-fired` graders now name `agent-rules`, so the old
+  loading rate does not apply either.
+
+## 2026-11-21: more `agent-instructions` and `evals` rules
+
+Commit after the previous entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three
+attempts, $1.25.
+
+- **`agent-instructions`:** enforce the `AGENTS.md` size budget with a check; point at folders,
+  commands, or symbols, not line numbers or file paths; the most specific instruction wins; a
+  handoff names the files and skills to read instead of retyping rules; keep descriptions short
+  and distinct.
+- **`evals` reference:** write a case from a real failure before changing the rule, and consider
+  retiring a rule whose case passes without the skill. The `evals` cases were not rerun.
+
+| Case                                          | With | Passed | Without |
+| --------------------------------------------- | ---- | ------ | ------- |
+| `agent-instructions/path-scoped-rules`        | 1.00 | 3 of 3 | 0.33    |
+| `agent-instructions/root-agents-md-placement` | 1.00 | 3 of 3 | 0.00    |
+
+The without arm passed `path-scoped-rules` once in three, where the previous entry's run passed it
+in none; the case still separates the arms.
+
+## 2026-11-21: new `agent-instructions` skill, and kinds of eval
+
+Commit after `bd25591`, Sonnet agent, Opus judge, Claude Code 2.1.330, about $6 in total.
+
+- **New skill `agent-instructions`:** where an instruction lives (`AGENTS.md`, a skill, docs, a
+  check, or nowhere when the code shows it), portable files over harness-specific rule formats,
+  linked and link-checked docs, capturing decisions outside memory, and evals for skills. The
+  "Agent instruction files" rules moved here from `documentation`, whose description no longer
+  names `AGENTS.md`.
+- **Two cases:** `root-agents-md-placement` and `path-scoped-rules`.
+- **Description A/B on `path-scoped-rules`,** eight attempts each, same session: the first
+  description (naming `AGENTS.md`, `CLAUDE.md`, skills, and docs) loaded the skill in 0 of 8, with
+  4 of 8 correct answers. Adding "rules or instructions for coding agents" and "path-scoped rules
+  such as .claude/rules or Cursor rules" loaded it in 7 of 8, with 8 of 8 correct. The misses
+  called no tool at all.
+- **Final two-arm run,** three attempts per arm, after the rules on decisions, memory, numbers,
+  and evals were added:
+
+| Case                                          | With | Passed | Without |
+| --------------------------------------------- | ---- | ------ | ------- |
+| `agent-instructions/path-scoped-rules`        | 1.00 | 3 of 3 | 0.00    |
+| `agent-instructions/root-agents-md-placement` | 1.00 | 3 of 3 | 0.00    |
+
+- **`documentation` rerun,** plugin only, after its description change: `review-readme-drift`
+  2 of 3 (one attempt called no skill), `write-scale-numbers` 2 of 3. Three attempts cannot tell
+  this from the earlier 3 of 3 and 2 of 3.
+- **`evals` skill:** a new reference lists the kinds of eval a skill suite runs (with vs.
+  without, loading, description A/B, neighbors, guard, regression) with the attempts each needs.
+  `evals/AGENTS.md` maps each kind to its command here, replacing "When the skill does not load". The
+  `evals` description now also names choosing which evals to run; its cases were not rerun.
+
 ## 2026-11-21: generic rules upstreamed into six skills
 
 Commit after `96a15e7`, Sonnet agent, Opus judge, Claude Code 2.1.330, about $16 in total.
