@@ -12,12 +12,12 @@ Read every applicable `AGENTS.md` first. Repository-local policy overrides these
 Pick the lowest level that fits. Move up when tracing finds more than you expected. A change to a
 value users feel, such as a timeout, a limit, or copy, changes behavior and is not mechanical.
 
-| Level       | When                                                                                              | Output                                                                                                               |
-| ----------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Level       | When                                                                                                            | Output                                                                                                               |
+| ----------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Mechanical  | Rename, version bump, typo, or a change whose whole impact one graph query answers, with no change in behavior. | No plan. Do it and verify.                                                                                           |
-| Small       | One area, known approach.                                                                         | A few lines in the issue or PR description: outcome, impact, verification commands.                                  |
-| Substantial | Crosses areas or services, changes user-visible behavior, migrates data, or has open decisions.   | The full plan document below.                                                                                        |
-| Initiative  | Several PRs, services, or a rollout.                                                              | The full document plus phases, each a separately shippable and verifiable PR, and the rollout per `feature-rollout`. |
+| Small       | One area, known approach.                                                                                       | A few lines in the issue or PR description: outcome, impact, verification commands.                                  |
+| Substantial | Crosses areas or services, changes user-visible behavior, migrates data, or has open decisions.                 | The full plan document below.                                                                                        |
+| Initiative  | Several PRs, services, or a rollout.                                                                            | The full document plus phases, each a separately shippable and verifiable PR, and the rollout per `feature-rollout`. |
 
 ## Plan
 
