@@ -24,6 +24,28 @@ and authorization, and means its owner cannot migrate without breaking you.
   inward.
 - When the partner changes its format, the change then stops at one module.
 
+## Inbound events
+
+Route an event by where the sender is and what its auth needs. For a new source, read
+[`references/event-ingress.md`](references/event-ingress.md) for the decision order.
+
+- A check is self-contained only if it reads nothing but the request bytes and local state (your
+  own database or cache). Any outbound network request, such as fetching a key or calling the
+  sender's API, makes it not self-contained, however it looks at the call site.
+- Run self-contained checks on the request path, then enqueue and return. Move a check that needs
+  the network into the worker after a provisional enqueue. A request handler cannot retry or back
+  off, and an outbound call there makes your acknowledgment depend on someone else's uptime.
+- Do not send an event from inside your own cloud out to your public endpoint and back in. It adds
+  latency, a public attack surface, and a shared secret to rotate, for a hop two internal
+  resources can make directly.
+- When the sender is AWS-native (SNS, EventBridge, an S3 event) and can target SQS, deliver to a
+  queue and consume it with a worker. Use a Lambda only when no native queue target exists, and
+  keep it to a self-contained check plus an enqueue; other I/O belongs in a worker.
+  SQS gives at-least-once delivery, a dead-letter queue, and redrive without building them.
+- Push first. Make every source arrive by push or long-poll. A scheduled poll is a safety net that
+  the push path converges on, not the trigger. If a schedule is the only way data arrives, add the
+  missing enqueue path rather than shortening the interval.
+
 ## Raw bodies
 
 Store the raw request or response body from a partner before mapping it, with a retention period
