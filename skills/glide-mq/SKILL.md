@@ -1,6 +1,6 @@
 ---
 name: glide-mq
-description: Design glide-mq queues, jobs, ordering lanes, worker concurrency, rate limits, and cross-job caps. Use when writing or reviewing a queue producer, worker, or dispatcher, choosing which queue or lane a job belongs in, or handling a request that waits on a job's result.
+description: Use when writing or reviewing a queue producer, worker, or dispatcher, choosing which queue or lane a job belongs in, or handling a request that waits on a job's result. Design glide-mq queues, jobs, ordering lanes, worker concurrency, rate limits, and cross-job caps.
 ---
 
 # glide-mq queues

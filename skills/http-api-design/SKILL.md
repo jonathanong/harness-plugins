@@ -1,6 +1,6 @@
 ---
 name: http-api-design
-description: Shape an HTTP API around resources, thin route handlers, user-facing identifiers, and one owner each for secret storage and cache headers. Use when writing or reviewing an endpoint, route handler, or service layer, choosing identifiers in URLs, storing tokens or one-time codes, or setting cache headers.
+description: Use when writing or reviewing an endpoint, route handler, service layer, or an edge or CDN worker in front of an API, choosing identifiers in URLs, storing tokens or one-time codes, or setting cache headers. Shape an HTTP API around resources, thin route handlers, user-facing identifiers, and one owner each for secret storage and cache headers.
 ---
 
 # HTTP API design

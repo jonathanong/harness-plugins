@@ -1,6 +1,6 @@
 ---
 name: revisit-followups
-description: Find deferred work that was promised in merged pull requests, closed issues, and instruction files, check that it is still needed, and draft issues for it. Use when asked to sweep for follow-ups, unfinished checklists, or dropped work over a recent period.
+description: Use when asked to sweep for follow-ups, unfinished checklists, or dropped work over a recent period. Find deferred work that was promised in merged pull requests, closed issues, and instruction files, check that it is still needed, and draft issues for it.
 ---
 
 # Revisit follow-ups

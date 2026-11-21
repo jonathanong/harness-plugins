@@ -4,6 +4,68 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-21: descriptions open with when to use them, and 12 more cases
+
+Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+**Why.** A rerun of the five `test-authoring` cases on 2.1.330, with no change, loaded the skill in
+10 of 15 attempts; on 2026-11-20 (2.1.329) the two review cases had loaded it every time. Two
+attempts each of `postgres-schema-design`, `typescript-authoring`, and `glide-mq` missed 3 of 22.
+In every miss the agent called no skill. Most descriptions opened with what the skill does and put
+"Use when" second.
+
+**Description order, measured.** The three cases that missed most, eight attempts each, with
+main's descriptions and with `test-authoring` and `postgres-schema-design` reordered to open with
+"Use when" ($5.97 in all):
+
+| Case                                                | Old    | Trigger first |
+| --------------------------------------------------- | ------ | ------------- |
+| `test-authoring/dotnet-private-field-not-reflected` | 3 of 8 | 6 of 8        |
+| `test-authoring/review-helper-holds-assertions`     | 5 of 8 | 8 of 8        |
+| `postgres-schema-design/review-advisory-lock-key`   | 0 of 8 | 3 of 8        |
+
+Every skill's description now opens with when to use it. `test-authoring` also names xUnit and
+NUnit and a review of a diff that adds tests; `typescript-authoring` names a review of a diff;
+`package-json-checklist` had no "Use when" and now has one; `http-api-design` names an edge or
+CDN worker in front of an API.
+
+**Rule change.** `typescript-authoring` now says a review asks for the callers to be updated and
+does not offer keeping an alias as a fallback. Two `rename-without-alias` answers argued against
+the alias and then ended "if you still want the alias, keep it".
+
+**New cases.** A second case for 12 skills that had one: `documentation`, `github-issue`,
+`github-repository-settings`, `native-app-architecture`, `package-json-checklist`,
+`playwright-authoring`, `pr-description`, `revisit-followups`, `rust-authoring`,
+`service-boundaries`, `static-analysis-checklist`, and `structured-logging`. Each was piloted with
+one attempt per arm and failed without the plugin.
+
+- **Dropped:** `planning/stale-issue-paths` failed its answer on every attempt, because its grader
+  also required two rules from other steps of the skill. Narrowed to the stale-paths rule, it
+  scored 1.00 without the plugin. `review-ci-logs/passes-locally-fails-in-ci` scored 1.00 without
+  the plugin over three attempts. Neither discriminates.
+- **No case found** for `agent-workflow`: three designs either passed without the plugin or
+  failed with it. `agent-workflow`, `planning`, and `review-ci-logs` still have one case each.
+- **Companion skills:** a `playwright-authoring` pilot checked that `test-authoring` also loaded;
+  it did not, and the grader was removed since the review touched no general test rule.
+
+**Full run** (78 cases, 234 attempts, $35.50). The skill loaded in 224 of 234 attempts. Misses:
+`documentation/write-scale-numbers` 0 of 3 (2 of 3 on a rerun that kept traces),
+`http-api-design/edge-claims-do-not-authorize` 0 of 3, `bounded-iteration/review-dispatcher-predicate-and-job-id`
+1 of 3, `postgres-schema-design/review-advisory-lock-key` 1 of 3. The kept traces show the agent
+answering with no tool call.
+
+**Two-arm rerun** after naming edge workers in `http-api-design`, three attempts per arm:
+
+| Case                                                  | With | Passed | Without |
+| ----------------------------------------------------- | ---- | ------ | ------- |
+| `http-api-design/edge-claims-do-not-authorize`        | 1.00 | 3 of 3 | 0.00    |
+| `service-boundaries/topology-in-app-repo`             | 0.33 | 1 of 3 | 0.00    |
+| `planning/stale-issue-paths` (narrowed, dropped)      | 0.67 | 1 of 3 | 1.00    |
+| `review-ci-logs/passes-locally-fails-in-ci` (dropped) | 1.00 | 3 of 3 | 1.00    |
+
+`service-boundaries/topology-in-app-repo` loaded the skill on 1 of 3 attempts here and 3 of 3 in
+the full run; both misses failed the answer.
+
 ## 2026-11-20: new `technical-writing` skill, and no changing numbers in living docs
 
 Sonnet agent, Opus judge, Claude Code 2.1.329, both arms, three attempts, $3.91, after a

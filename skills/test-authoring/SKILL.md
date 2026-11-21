@@ -1,6 +1,6 @@
 ---
 name: test-authoring
-description: Decide which tests to write and how to build fixtures, mocks, helpers, and guards so each test fails for one real reason. Use when writing, reviewing, fixing, or deleting any automated test, fixture, or test helper - Vitest or Jest, backend integration, Next.js, Storybook stories, Swift, or .NET. For browser tests, also use playwright-authoring.
+description: Use whenever a task writes, reviews, fixes, or deletes an automated test, fixture, mock, or test helper, including a review of a diff that adds tests - Vitest, Jest, backend integration, Next.js, Storybook, Swift, or .NET (xUnit, NUnit). Decides which tests to keep and how to build fixtures and helpers so each test fails for one real reason. For browser tests, also use playwright-authoring.
 ---
 
 # Test authoring

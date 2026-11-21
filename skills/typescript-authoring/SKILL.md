@@ -1,6 +1,6 @@
 ---
 name: typescript-authoring
-description: Keep TypeScript and Node.js code direct - no forwarding aliases, shims, or dynamic dispatch - with errors handled where thrown, one batch call for per-item I/O, and packages that respect layer and runtime boundaries. Use when writing or reviewing TypeScript or Node.js code, especially renames, async errors, loops that query or enqueue, bulk paths, and HTTP calls.
+description: Use whenever a task writes, reviews, or refactors TypeScript or JavaScript in Node.js, including a review of a diff - especially renames, async errors, loops that query or enqueue, bulk paths, and HTTP calls. Keeps code direct: no forwarding aliases, shims, or dynamic dispatch; errors handled where thrown; one batch call for per-item I/O; packages that respect layer and runtime boundaries.
 ---
 
 # TypeScript authoring
@@ -17,6 +17,8 @@ defined and to every place it is used.
 - When something is renamed or moved, change every caller in the same change. Do not leave the
   old path in place "for compatibility" inside one codebase. Two names for one thing double what
   a search returns and hide which is current.
+- In a review, ask for the callers to be updated. Do not offer keeping the alias as a fallback;
+  that reopens the choice the rule settles.
 - A published package with outside consumers is the exception. Keep the old name for a stated
   deprecation window, and say when it goes.
 

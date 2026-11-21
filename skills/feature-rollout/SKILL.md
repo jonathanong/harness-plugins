@@ -1,6 +1,6 @@
 ---
 name: feature-rollout
-description: Ship new behavior behind a flag that starts off, treat deploying and enabling as separate steps, and add no table or service that no entry point reaches. Use when adding or reviewing a feature flag, a flag's default, rollout or rollback steps, or a change that adds a table, migration, service, or write path.
+description: Use when adding or reviewing a feature flag, a flag's default, rollout or rollback steps, or a change that adds a table, migration, service, or write path. Ship new behavior behind a flag that starts off, treat deploying and enabling as separate steps, and add no table or service that no entry point reaches.
 ---
 
 # Feature rollout

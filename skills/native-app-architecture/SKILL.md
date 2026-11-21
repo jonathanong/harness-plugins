@@ -1,6 +1,6 @@
 ---
 name: native-app-architecture
-description: Structure a native app (Swift, Kotlin, .NET MAUI) around a portable core library with thin platform views. Use when writing or reviewing native app code, deciding where logic lives, adding a web view, setting up native project files, or planning native CI.
+description: Use when writing or reviewing native app code, deciding where logic lives, adding a web view, setting up native project files, or planning native CI. Structure a native app (Swift, Kotlin, .NET MAUI) around a portable core library with thin platform views.
 ---
 
 # Native app architecture

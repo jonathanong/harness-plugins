@@ -1,6 +1,6 @@
 ---
 name: github-issue
-description: Search for, write, label, link, and close GitHub issues without filing duplicates or writing where you may not. Use when filing or editing an issue, recording a follow-up, closing an issue, or linking a pull request to an issue.
+description: Use when filing or editing an issue, recording a follow-up, closing an issue, or linking a pull request to an issue. Search for, write, label, link, and close GitHub issues without filing duplicates or writing where you may not.
 ---
 
 # GitHub issues

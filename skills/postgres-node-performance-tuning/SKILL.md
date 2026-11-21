@@ -1,6 +1,6 @@
 ---
 name: postgres-node-performance-tuning
-description: Write, measure, and improve PostgreSQL queries in Node.js services - query shape, indexes, EXPLAIN plans, round trips, transactions, and pooling. Use when writing or reviewing a SQL query or data-access function, adding a query with a new filter or sort, reading a query plan, or fixing a slow query.
+description: Use when writing or reviewing a SQL query or data-access function, adding a query with a new filter or sort, reading a query plan, or fixing a slow query. Write, measure, and improve PostgreSQL queries in Node.js services - query shape, indexes, EXPLAIN plans, round trips, transactions, and pooling.
 ---
 
 # PostgreSQL and Node.js performance

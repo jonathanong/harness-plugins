@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: Structure a document so each reader finds their part fast - summary first, sections by audience and purpose, tables and diagrams over prose, every fact verified or flagged, every assumption stated. Use when writing or reviewing a design doc, proposal, investigation, postmortem, report, runbook, or README section meant for people to read.
+description: Use when writing or reviewing a design doc, proposal, investigation, postmortem, report, runbook, or README section meant for people to read. Structure a document so each reader finds their part fast - summary first, sections by audience and purpose, tables and diagrams over prose, every fact verified or flagged, every assumption stated.
 ---
 
 # Technical writing

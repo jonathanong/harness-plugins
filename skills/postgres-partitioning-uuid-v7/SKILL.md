@@ -1,6 +1,6 @@
 ---
 name: postgres-partitioning-uuid-v7
-description: Design PostgreSQL partitioning and partition pruning around UUIDv7 keys. Use when writing or reviewing a partitioned table, a retention or partition migration, a query against a partitioned table, or a decision on whether to partition.
+description: Use when writing or reviewing a partitioned table, a retention or partition migration, a query against a partitioned table, or a decision on whether to partition. Design PostgreSQL partitioning and partition pruning around UUIDv7 keys.
 ---
 
 # PostgreSQL partitioning with UUIDv7

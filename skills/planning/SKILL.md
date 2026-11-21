@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Plan a repository change - compare the options, trace what the change touches, order the steps, and save the plan where it will be found. Use when asked for a plan, a design, or an approach before implementing, or when a task is large or uncertain enough to need one.
+description: Use when asked for a plan, a design, or an approach before implementing, or when a task is large or uncertain enough to need one. Plan a repository change - compare the options, trace what the change touches, order the steps, and save the plan where it will be found.
 ---
 
 # Planning

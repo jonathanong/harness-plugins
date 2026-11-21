@@ -1,6 +1,6 @@
 ---
 name: package-json-checklist
-description: Check package metadata, dependencies, entrypoints, and lockfiles.
+description: Use when writing or reviewing a package.json, adding, upgrading, or moving a dependency, setting a package's entrypoints or exports, or resolving a lockfile change. Checks package metadata, dependencies, entrypoints, and lockfiles.
 ---
 
 # Package metadata checklist

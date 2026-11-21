@@ -1,6 +1,6 @@
 ---
 name: playwright-authoring
-description: Decide what a browser test should cover and how to locate elements with roles, labels, and test ids. Use when writing, reviewing, or de-flaking Playwright or other browser end-to-end tests, or when adding test ids to interface code.
+description: Use when writing, reviewing, or de-flaking Playwright or other browser end-to-end tests, or when adding test ids to interface code. Decide what a browser test should cover and how to locate elements with roles, labels, and test ids.
 ---
 
 # Playwright authoring

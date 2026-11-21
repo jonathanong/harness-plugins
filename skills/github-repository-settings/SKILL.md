@@ -1,6 +1,6 @@
 ---
 name: github-repository-settings
-description: Restrict who can open pull requests on a GitHub repository and gate outside contributors' workflow runs, with the REST calls to read, set, and roll back each setting. Use when hardening a public repository, limiting pull requests to collaborators, or deciding when fork pull requests may run Actions.
+description: Use when hardening a public repository, limiting pull requests to collaborators, or deciding when fork pull requests may run Actions. Restrict who can open pull requests on a GitHub repository and gate outside contributors' workflow runs, with the REST calls to read, set, and roll back each setting.
 ---
 
 # GitHub repository settings
