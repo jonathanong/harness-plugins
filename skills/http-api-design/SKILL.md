@@ -32,6 +32,14 @@ When a resource has a stable user-facing identifier, such as a slug or a public 
 URLs and responses. Do not expose the internal primary key there. An internal id leaks volume
 and ordering, invites enumeration, and ties every client to the storage layout.
 
+- A UUID is not a user-facing identifier, even a random or a truncated one. Do not use it as the
+  identifier in a route, a visible label, or a field a person types or pastes. Give the resource
+  a slug, a natural key, or a short public id. A UUID in a URL is unreadable, cannot be said
+  aloud, and ties clients to the storage layer.
+- Where a route takes a slug, a UUID may stay as a fallback for old links. Answer it with a
+  permanent redirect to the canonical slug URL, so one resource has one URL for caches, search
+  engines, and bookmarks.
+
 ## Secrets at rest
 
 - Do not store a bearer token, OAuth token, one-time code, or TOTP secret as plain text.
