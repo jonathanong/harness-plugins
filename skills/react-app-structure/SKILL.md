@@ -1,6 +1,6 @@
 ---
 name: react-app-structure
-description: Structure a React or Next.js app so its API calls, links, redirects, and configuration each have one traceable owner. Use when writing or reviewing React components, Next.js pages, layouts, or route handlers, data fetching in pages, auth redirects, entity links, or browser-side configuration.
+description: Use when writing or reviewing React components, Next.js pages, layouts, or route handlers, data fetching in pages, auth redirects, entity links, or browser-side configuration. Structure a React or Next.js app so its API calls, links, redirects, and configuration each have one traceable owner.
 ---
 
 # React app structure

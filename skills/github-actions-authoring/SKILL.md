@@ -1,6 +1,6 @@
 ---
 name: github-actions-authoring
-description: Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, and pins. Use when writing, editing, or reviewing a workflow or composite action.
+description: Use when writing, editing, or reviewing a workflow or composite action. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, and pins.
 ---
 
 # GitHub Actions authoring

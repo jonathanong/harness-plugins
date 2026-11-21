@@ -1,6 +1,6 @@
 ---
 name: git-commit-checklist
-description: Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work. Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile.
+description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile. Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work.
 ---
 
 # Git commit checklist

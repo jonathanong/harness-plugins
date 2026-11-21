@@ -1,6 +1,6 @@
 ---
 name: postgres-schema-design
-description: Design PostgreSQL tables, names, relations, history, work-item and cursor tables, retention, and locking. Use when writing or reviewing a migration, a table, column, or foreign key, or any code that takes a row lock (FOR UPDATE) or an advisory lock, serializes concurrent writers, or enforces a cap, limit, or last-one guard under concurrency.
+description: Use when writing or reviewing a migration, a table, column, or foreign key, or any code that takes a row lock (FOR UPDATE) or an advisory lock, serializes concurrent writers, or enforces a cap, limit, or last-one guard under concurrency. Designs PostgreSQL tables, names, relations, history, work-item and cursor tables, retention, and locking.
 ---
 
 # PostgreSQL schema design

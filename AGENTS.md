@@ -19,8 +19,11 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
 
 An agent pays for every line of a skill it loads, so load detail only when the task needs it.
 
-- The `description` in the frontmatter is the only part always in context. Say what the skill
-  covers and when to use it ("Use when writing or reviewing ..."). Keep it under 400 characters.
+- The `description` in the frontmatter is the only part always in context. Open it with when to
+  use it ("Use when writing or reviewing ..."), then say what the skill covers. Name the plain
+  requests that should trigger it, such as a review of a diff, as well as the topic. Keep it under
+  400 characters. An agent loads a skill far more often when its description opens with the
+  trigger; see `evals/HISTORY.md`, 2026-11-21.
 - `SKILL.md` holds what every use of the skill needs: the decisions, the defaults, and the reasons.
   Keep it to 150 lines. `pnpm run evals:check` enforces that.
 - Put anything only one branch of the work needs in `skills/<skill>/references/<topic>.md`: long

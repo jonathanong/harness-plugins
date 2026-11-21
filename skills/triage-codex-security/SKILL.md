@@ -1,6 +1,6 @@
 ---
 name: triage-codex-security
-description: Triage Codex Security findings for one repository into evidence-backed, explicitly approved outcomes. Use when clearing or reviewing a Codex Security finding queue; leave repository issue management to the consumer.
+description: Use when clearing or reviewing a Codex Security finding queue; leave repository issue management to the consumer. Triage Codex Security findings for one repository into evidence-backed, explicitly approved outcomes.
 ---
 
 # Codex Security triage

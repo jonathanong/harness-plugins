@@ -11,111 +11,105 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, with the plugin installed, Claude Code 2.1.325, except where a row's run says 2.1.326, 2.1.327, or 2.1.329. 64 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 74 cases.
 
-- 18 rows are from the last full run on 2026-11-15 (33 cases, 99 attempts, $15.38), where every
-  case passed every attempt.
-- 35 rows are from later targeted runs, after a case or its skill was added or changed: the
-  three replaced cases, `structured-logging`, `playwright-authoring`, `pr-description`, both `dependabot` rows, all three `feature-rollout` rows,
-  and every row of `test-authoring` and of the six skills added last (`agent-workflow`,
-  `git-commit-checklist`, `github-issue`, `planning`, `review-ci-logs`, `revisit-followups`),
-  plus `github-actions-authoring/required-check-is-a-real-job` and every row of
-  `bounded-iteration` and `postgres-partitioning-uuid-v7`, every row of `glide-mq`,
-  `postgres-node-performance-tuning`, `postgres-schema-design`, and `typescript-authoring`, and
-  `github-repository-settings/collaborators-only-prs` and every `dependabot` row. Those after
-  `postgres-partitioning-uuid-v7` ran on Claude Code 2.1.326, except `glide-mq` and
-  `typescript-authoring`, which ran on 2.1.327.
-- The three `glide-mq` rows and both `typescript-authoring` rows are from the 2026-11-17 run
-  with the batch-first and own-queue rules (Claude Code 2.1.327).
-  `typescript-authoring/batch-first-wrapper` passed 1 of 3 with the plugin: the skill did not
-  load on two attempts, and the answer failed on those attempts. See [HISTORY.md](HISTORY.md).
-- The suite has not been run in full since those six skills were added. Before the 2026-11-20
-  runs, the `test-authoring` cases were run six times with them present, and the skill loaded
-  less often than before: 19 of 24 attempts, against 23 of 24 on the commit before. See [HISTORY.md](HISTORY.md).
-- Not measured: the six rows marked `n/a` are new cases, added with six new rules in `github-actions-authoring`,
-  `glide-mq`, `http-api-design`, `postgres-node-performance-tuning`, `react-app-structure`, and
-  `typescript-authoring`. No run was made. See [HISTORY.md](HISTORY.md).
-- Rows below 1.00: the skill did not load on some attempts, or, for `github-issue` and one
-  `agent-workflow` attempt, the answer failed.
-- Every `technical-writing` row and the `documentation` row are from the 2026-11-20 run that
-  added `technical-writing` (Claude Code 2.1.329). The two `technical-writing` rows below 1.00
-  failed on the answer, not on the skill loading. See [HISTORY.md](HISTORY.md).
-- Every `postgres-schema-design` and `test-authoring` row is from the 2026-11-20 runs with the
-  exact-quantity lock and database-fixture rules (Claude Code 2.1.329). See
-  [HISTORY.md](HISTORY.md).
-- In those runs every attempt below 1.00 was the skill not loading; each answer passed its
-  outcome grader, except one `dotnet-private-field-not-reflected` attempt.
-- Not re-measured: the two `npm-publishing` rows predate the 2026-11-16 change to that skill's
-  description and its new release-workflow reference.
-- Not re-measured: the two `static-code-analysis` rows predate the 2026-11-16 rows for complexity,
-  licenses, vulnerabilities, React, published packages, Python, and Go.
+- **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
+  234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
+  `http-api-design` description named edge workers. Four of its cases were dropped afterwards.
+- **Rows marked "(rerun)"** are from later two-arm runs, three attempts per arm: the edge-claims
+  and topology rows after the `http-api-design` change, and five new cases after their graders
+  were narrowed in review.
+- **"Without plugin"** comes from separate runs; see "How to read the numbers".
+- **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
+  `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
+  of 3, before its description named edge workers), `bounded-iteration/review-dispatcher-predicate-and-job-id`
+  (1 of 3), and `postgres-schema-design/review-advisory-lock-key` (1 of 3). In the rerun,
+  `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no
+  skill at all; it did not pick a wrong one.
+- **Rows below 1.00 for other reasons** failed on the answer: `git-commit-checklist/lockfile-conflict-on-rebase`,
+  `github-issue/search-before-filing`, `npm-publishing/bootstrap-new-package`,
+  `package-json-checklist/workspace-dependency-and-export`, `revisit-followups/only-verified-deferred-work`,
+  and `technical-writing/proposal-for-two-audiences`.
+- **The 10 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
+  except the rerun rows.
+- **Not measured without the plugin:** the five rows marked `n/a`.
 
-| Case                                                               | Score | Passed  | Without plugin |
-| ------------------------------------------------------------------ | ----- | ------- | -------------- |
-| `agent-workflow/review-round-dispositions`                         | 0.67  | 2 of 3  | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`         | 1.00  | 3 of 3  | 1.00           |
-| `bounded-iteration/review-staged-reconciler`                       | 1.00  | 3 of 3  | 0.00           |
-| `dependabot/groups-by-family`                                      | 1.00  | 3 of 3  | 0.33           |
-| `dependabot/request-update-check`                                  | 1.00  | 3 of 3  | 0.50           |
-| `dependabot/review-actions-cooldown`                               | 0.67  | 2 of 3  | 0.67           |
-| `documentation/review-readme-drift`                                | 1.00  | 3 of 3  | 0.67           |
-| `evals/document-new-suite`                                         | 1.00  | 3 of 3  | 0.00           |
-| `evals/record-partial-rerun`                                       | 1.00  | 3 of 3  | 0.00           |
-| `feature-rollout/dark-route-without-caller`                        | 1.00  | 3 of 3  | 1.00           |
-| `feature-rollout/flag-defaults-on`                                 | 1.00  | 3 of 3  | 0.00           |
-| `feature-rollout/table-and-service-without-entry-point`            | 1.00  | 3 of 3  | 0.00           |
-| `git-commit-checklist/lockfile-conflict-on-rebase`                 | 1.00  | 3 of 3  | 0.00           |
-| `git-commit-checklist/stages-only-task-files`                      | 1.00  | 3 of 3  | 0.33           |
-| `github-actions-authoring/no-actions-write-with-checked-out-code`  | n/a   | not run | n/a            |
-| `github-actions-authoring/publish-gated-on-ci`                     | 1.00  | 3 of 3  | 0.00           |
-| `github-actions-authoring/rejects-polling`                         | 1.00  | 3 of 3  | 0.67           |
-| `github-actions-authoring/required-check-is-a-real-job`            | 1.00  | 3 of 3  | 0.00           |
-| `github-issue/search-before-filing`                                | 0.83  | 2 of 3  | 0.00           |
-| `github-repository-settings/collaborators-only-prs`                | 1.00  | 3 of 3  | 0.67           |
-| `glide-mq/failed-jobs-need-recovery-path`                          | n/a   | not run | n/a            |
-| `glide-mq/never-enqueue-and-wait`                                  | 1.00  | 3 of 3  | 0.00           |
-| `glide-mq/outbox-own-queue`                                        | 1.00  | 3 of 3  | 0.00           |
-| `glide-mq/review-webhook-lane`                                     | 1.00  | 3 of 3  | 0.00           |
-| `http-api-design/action-body-and-raw-tokens`                       | 1.00  | 3 of 3  | 0.33           |
-| `http-api-design/edge-claims-do-not-authorize`                     | n/a   | not run | n/a            |
-| `native-app-architecture/core-tests-and-web-view`                  | 1.00  | 3 of 3  | 0.00           |
-| `npm-publishing/bootstrap-new-package`                             | 1.00  | 3 of 3  | 0.40           |
-| `npm-publishing/existing-package-trust-only`                       | 1.00  | 3 of 3  | 0.73           |
-| `package-json-checklist/workspace-dependency-and-export`           | 1.00  | 3 of 3  | 0.67           |
-| `planning/plan-saved-outside-repo`                                 | 1.00  | 3 of 3  | 0.00           |
-| `playwright-authoring/metadata-is-not-a-browser-test`              | 1.00  | 3 of 3  | 0.00           |
-| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | n/a   | not run | n/a            |
-| `postgres-node-performance-tuning/new-query-named-and-indexed`     | 1.00  | 3 of 3  | 0.00           |
-| `postgres-partitioning-uuid-v7/range-not-hash`                     | 1.00  | 3 of 3  | 0.67           |
-| `postgres-partitioning-uuid-v7/retention-with-survivors`           | 1.00  | 3 of 3  | 0.00           |
-| `postgres-schema-design/checkout-exact-stock`                      | 1.00  | 3 of 3  | 1.00           |
-| `postgres-schema-design/exact-cap-no-lock`                         | 1.00  | 3 of 3  | 0.00           |
-| `postgres-schema-design/review-advisory-lock-key`                  | 0.83  | 2 of 3  | 1.00           |
-| `postgres-schema-design/review-last-admin-advisory-lock`           | 1.00  | 3 of 3  | 0.00           |
-| `pr-description/perf-change-with-flag`                             | 1.00  | 3 of 3  | 0.00           |
-| `react-app-structure/abort-superseded-search`                      | n/a   | not run | n/a            |
-| `react-app-structure/review-profile-card`                          | 1.00  | 3 of 3  | 0.33           |
-| `review-ci-logs/quiet-log-keeps-errors`                            | 1.00  | 3 of 3  | 1.00           |
-| `revisit-followups/only-verified-deferred-work`                    | 1.00  | 3 of 3  | 0.00           |
-| `rust-authoring/tests-in-separate-file`                            | 1.00  | 3 of 3  | 0.00           |
-| `service-boundaries/partner-webhook`                               | 1.00  | 3 of 3  | 0.33           |
-| `static-analysis-checklist/parses-yaml-with-fixtures`              | 1.00  | 3 of 3  | 0.50           |
-| `static-code-analysis/new-rust-service`                            | 1.00  | 3 of 3  | 0.83           |
-| `static-code-analysis/new-typescript-library`                      | 1.00  | 3 of 3  | 0.00           |
-| `structured-logging/log-identifier-not-lookup`                     | 1.00  | 3 of 3  | 0.00           |
-| `technical-writing/incident-writeup-from-notes`                    | 0.83  | 2 of 3  | 0.00           |
-| `technical-writing/proposal-for-two-audiences`                     | 0.83  | 2 of 3  | 0.00           |
-| `technical-writing/review-runbook-wall-of-text`                    | 1.00  | 3 of 3  | 0.00           |
-| `test-authoring/dotnet-private-field-not-reflected`                | 0.50  | 1 of 3  | 0.33           |
-| `test-authoring/fake-routes-by-request`                            | 1.00  | 3 of 3  | 1.00           |
-| `test-authoring/fixture-files-not-inline`                          | 1.00  | 3 of 3  | 0.00           |
-| `test-authoring/review-direct-row-inserts`                         | 1.00  | 3 of 3  | 0.67           |
-| `test-authoring/review-helper-holds-assertions`                    | 1.00  | 3 of 3  | 0.00           |
-| `triage-codex-security/approval-wave-cap`                          | 1.00  | 3 of 3  | 0.50           |
-| `triage-codex-security/repository-mismatch`                        | 1.00  | 3 of 3  | 0.78           |
-| `typescript-authoring/batch-first-wrapper`                         | 0.33  | 1 of 3  | 0.00           |
-| `typescript-authoring/rename-without-alias`                        | 0.67  | 2 of 3  | 0.00           |
-| `typescript-authoring/unlink-batched-cache-delete`                 | n/a   | not run | n/a            |
+| Case                                                               | Score | Passed | Without plugin |
+| ------------------------------------------------------------------ | ----- | ------ | -------------- |
+| `agent-workflow/review-round-dispositions`                         | 1.00  | 3 of 3 | 0.00           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`         | 0.50  | 1 of 3 | 1.00           |
+| `bounded-iteration/review-staged-reconciler`                       | 1.00  | 3 of 3 | 0.00           |
+| `dependabot/groups-by-family`                                      | 1.00  | 3 of 3 | 0.33           |
+| `dependabot/request-update-check`                                  | 1.00  | 3 of 3 | 0.50           |
+| `dependabot/review-actions-cooldown`                               | 1.00  | 3 of 3 | 0.67           |
+| `documentation/review-readme-drift`                                | 1.00  | 3 of 3 | 0.67           |
+| `documentation/write-scale-numbers`                                | 0.00  | 0 of 3 | 0.00           |
+| `evals/document-new-suite`                                         | 1.00  | 3 of 3 | 0.00           |
+| `evals/record-partial-rerun`                                       | 1.00  | 3 of 3 | 0.00           |
+| `feature-rollout/dark-route-without-caller`                        | 1.00  | 3 of 3 | 1.00           |
+| `feature-rollout/flag-defaults-on`                                 | 1.00  | 3 of 3 | 0.00           |
+| `feature-rollout/table-and-service-without-entry-point`            | 1.00  | 3 of 3 | 0.00           |
+| `git-commit-checklist/lockfile-conflict-on-rebase`                 | 0.83  | 2 of 3 | 0.00           |
+| `git-commit-checklist/stages-only-task-files`                      | 1.00  | 3 of 3 | 0.33           |
+| `github-actions-authoring/no-actions-write-with-checked-out-code`  | 1.00  | 3 of 3 | n/a            |
+| `github-actions-authoring/publish-gated-on-ci`                     | 1.00  | 3 of 3 | 0.00           |
+| `github-actions-authoring/rejects-polling`                         | 1.00  | 3 of 3 | 0.67           |
+| `github-actions-authoring/required-check-is-a-real-job`            | 1.00  | 3 of 3 | 0.00           |
+| `github-issue/search-before-filing`                                | 0.83  | 2 of 3 | 0.00           |
+| `github-issue/stale-notes-before-filing` (rerun)                   | 1.00  | 3 of 3 | 0.33           |
+| `github-repository-settings/collaborators-only-prs`                | 1.00  | 3 of 3 | 0.67           |
+| `github-repository-settings/opentofu-provider-gap`                 | 1.00  | 3 of 3 | 0.00           |
+| `glide-mq/failed-jobs-need-recovery-path`                          | 1.00  | 3 of 3 | n/a            |
+| `glide-mq/never-enqueue-and-wait`                                  | 1.00  | 3 of 3 | 0.00           |
+| `glide-mq/outbox-own-queue`                                        | 1.00  | 3 of 3 | 0.00           |
+| `glide-mq/review-webhook-lane`                                     | 1.00  | 3 of 3 | 0.00           |
+| `http-api-design/action-body-and-raw-tokens`                       | 1.00  | 3 of 3 | 0.33           |
+| `http-api-design/edge-claims-do-not-authorize` (rerun)             | 1.00  | 3 of 3 | 0.00           |
+| `native-app-architecture/core-tests-and-web-view`                  | 1.00  | 3 of 3 | 0.00           |
+| `native-app-architecture/generated-project-file` (rerun)           | 1.00  | 3 of 3 | 0.00           |
+| `npm-publishing/bootstrap-new-package`                             | 0.94  | 2 of 3 | 0.40           |
+| `npm-publishing/existing-package-trust-only`                       | 1.00  | 3 of 3 | 0.73           |
+| `package-json-checklist/review-override-for-peer-warning` (rerun)  | 1.00  | 3 of 3 | 0.67           |
+| `package-json-checklist/workspace-dependency-and-export`           | 0.89  | 2 of 3 | 0.67           |
+| `planning/plan-saved-outside-repo`                                 | 1.00  | 3 of 3 | 0.00           |
+| `playwright-authoring/metadata-is-not-a-browser-test`              | 1.00  | 3 of 3 | 0.00           |
+| `playwright-authoring/review-computed-test-ids` (rerun)            | 1.00  | 3 of 3 | 0.00           |
+| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | 1.00  | 3 of 3 | n/a            |
+| `postgres-node-performance-tuning/new-query-named-and-indexed`     | 1.00  | 3 of 3 | 0.00           |
+| `postgres-partitioning-uuid-v7/range-not-hash`                     | 1.00  | 3 of 3 | 0.67           |
+| `postgres-partitioning-uuid-v7/retention-with-survivors`           | 1.00  | 3 of 3 | 0.00           |
+| `postgres-schema-design/checkout-exact-stock`                      | 1.00  | 3 of 3 | 1.00           |
+| `postgres-schema-design/exact-cap-no-lock`                         | 1.00  | 3 of 3 | 0.00           |
+| `postgres-schema-design/review-advisory-lock-key`                  | 0.67  | 1 of 3 | 1.00           |
+| `postgres-schema-design/review-last-admin-advisory-lock`           | 1.00  | 3 of 3 | 0.00           |
+| `pr-description/ci-gap-section`                                    | 1.00  | 3 of 3 | 0.00           |
+| `pr-description/perf-change-with-flag`                             | 1.00  | 3 of 3 | 0.00           |
+| `react-app-structure/abort-superseded-search`                      | 1.00  | 3 of 3 | n/a            |
+| `react-app-structure/review-profile-card`                          | 1.00  | 3 of 3 | 0.33           |
+| `review-ci-logs/quiet-log-keeps-errors`                            | 1.00  | 3 of 3 | 1.00           |
+| `revisit-followups/only-verified-deferred-work`                    | 0.83  | 2 of 3 | 0.00           |
+| `rust-authoring/tests-in-separate-file`                            | 1.00  | 3 of 3 | 0.00           |
+| `service-boundaries/partner-webhook`                               | 1.00  | 3 of 3 | 0.33           |
+| `service-boundaries/topology-in-app-repo` (rerun)                  | 0.33  | 1 of 3 | 0.00           |
+| `static-analysis-checklist/parses-yaml-with-fixtures`              | 1.00  | 3 of 3 | 0.50           |
+| `static-analysis-checklist/tracked-files-only`                     | 1.00  | 3 of 3 | 0.00           |
+| `static-code-analysis/new-rust-service`                            | 1.00  | 3 of 3 | 0.83           |
+| `static-code-analysis/new-typescript-library`                      | 1.00  | 3 of 3 | 0.00           |
+| `structured-logging/log-identifier-not-lookup`                     | 1.00  | 3 of 3 | 0.00           |
+| `structured-logging/review-lookup-in-catch` (rerun)                | 1.00  | 3 of 3 | 0.00           |
+| `technical-writing/incident-writeup-from-notes`                    | 1.00  | 3 of 3 | 0.00           |
+| `technical-writing/proposal-for-two-audiences`                     | 0.67  | 1 of 3 | 0.00           |
+| `technical-writing/review-runbook-wall-of-text`                    | 1.00  | 3 of 3 | 0.00           |
+| `test-authoring/dotnet-private-field-not-reflected`                | 1.00  | 3 of 3 | 0.33           |
+| `test-authoring/fake-routes-by-request`                            | 1.00  | 3 of 3 | 1.00           |
+| `test-authoring/fixture-files-not-inline`                          | 1.00  | 3 of 3 | 0.00           |
+| `test-authoring/review-direct-row-inserts`                         | 1.00  | 3 of 3 | 0.67           |
+| `test-authoring/review-helper-holds-assertions`                    | 1.00  | 3 of 3 | 0.00           |
+| `triage-codex-security/approval-wave-cap`                          | 1.00  | 3 of 3 | 0.50           |
+| `triage-codex-security/repository-mismatch`                        | 1.00  | 3 of 3 | 0.78           |
+| `typescript-authoring/batch-first-wrapper`                         | 1.00  | 3 of 3 | 0.00           |
+| `typescript-authoring/rename-without-alias`                        | 1.00  | 3 of 3 | 0.00           |
+| `typescript-authoring/unlink-batched-cache-delete`                 | 1.00  | 3 of 3 | n/a            |
 
 "Without plugin" is the case's last measured score with no plugin installed. Most come from
 separate, earlier runs with three attempts each, and some from the same two-arm run as the score; [HISTORY.md](HISTORY.md) has the run for each.
@@ -134,6 +128,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                           |
 | `dependabot/review-actions-cooldown`                               | Asks for at least seven days on every ecosystem and semver key when a Dependabot workflow holds a write token.  |
 | `documentation/review-readme-drift`                                | Flags restated config values, history and plans in a README, and a comment that explains history.               |
+| `documentation/write-scale-numbers`                                | Writes how to fetch changing numbers into a README section, not the numbers.                                    |
 | `evals/document-new-suite`                                         | Proposes a README, a history log, and an agent rules file for a new eval suite.                                 |
 | `evals/record-partial-rerun`                                       | Logs a grader change and does not report a one-attempt rerun as an improvement.                                 |
 | `feature-rollout/dark-route-without-caller`                        | Guard: accepts a mounted route behind an off flag that no page calls yet.                                       |
@@ -146,7 +141,9 @@ passed, so 1.00 means every grader passed on every attempt.
 | `github-actions-authoring/rejects-polling`                         | Replaces a sleep-and-poll loop with an event trigger.                                                           |
 | `github-actions-authoring/required-check-is-a-real-job`            | Builds a combined required check as a fan-in job, not a posted commit status.                                   |
 | `github-issue/search-before-filing`                                | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                     |
+| `github-issue/stale-notes-before-filing`                           | Checks that a months-old note still holds on the default branch before filing it.                               |
 | `github-repository-settings/collaborators-only-prs`                | Limits pull requests to collaborators and requires approval for every outside contributor's runs.               |
+| `github-repository-settings/opentofu-provider-gap`                 | Says the OpenTofu provider has no attribute for two settings and gives the REST calls.                          |
 | `glide-mq/failed-jobs-need-recovery-path`                          | Adds a recovery path for permanently failed jobs beyond the dead-letter queue.                                  |
 | `glide-mq/never-enqueue-and-wait`                                  | Returns 202 with a job id instead of waiting on the job inside the request.                                     |
 | `glide-mq/outbox-own-queue`                                        | Puts an outbox relay and a ledger write on a queue of their own, not a lane on the shared queue.                |
@@ -154,11 +151,14 @@ passed, so 1.00 means every grader passed on every attempt.
 | `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                          |
 | `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                               |
 | `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                 |
+| `native-app-architecture/generated-project-file`                   | Commits the project specification and ignores the generated Xcode project.                                      |
 | `npm-publishing/bootstrap-new-package`                             | Prepares a first publish for a person to run, and never publishes itself.                                       |
 | `npm-publishing/existing-package-trust-only`                       | Sets up trusted publishing for an existing package without publishing or changing trust.                        |
+| `package-json-checklist/review-override-for-peer-warning`          | Accepts React 19 for one package with `peerDependencyRules`, not an override.                                   |
 | `package-json-checklist/workspace-dependency-and-export`           | Adds dependencies with pnpm in the right fields and keeps the root export.                                      |
 | `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                      |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                     |
+| `playwright-authoring/review-computed-test-ids`                    | Asks for literal test ids and `getByTestId` with a row filter, not computed ids.                                |
 | `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                         |
 | `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                     |
 | `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                           |
@@ -167,6 +167,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `postgres-schema-design/exact-cap-no-lock`                         | Enforces a cap as best effort, with no lock, counter, or claim table.                                           |
 | `postgres-schema-design/review-advisory-lock-key`                  | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.            |
 | `postgres-schema-design/review-last-admin-advisory-lock`           | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                      |
+| `pr-description/ci-gap-section`                                    | Adds a short section on what CI caught that the local check missed, without work history.                       |
 | `pr-description/perf-change-with-flag`                             | Shows a before/after table, states what a flag does not cover, and omits routine checks.                        |
 | `react-app-structure/abort-superseded-search`                      | Aborts a superseded search request with an `AbortController`.                                                   |
 | `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                |
@@ -174,10 +175,13 @@ passed, so 1.00 means every grader passed on every attempt.
 | `revisit-followups/only-verified-deferred-work`                    | Keeps only explicit deferred work and has it verified before any issue is filed.                                |
 | `rust-authoring/tests-in-separate-file`                            | Puts unit tests for a private function in a separate file.                                                      |
 | `service-boundaries/partner-webhook`                               | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                              |
+| `service-boundaries/topology-in-app-repo`                          | Moves instance counts and regions out of the application repo into configuration.                               |
 | `static-analysis-checklist/parses-yaml-with-fixtures`              | Parses YAML instead of matching text, and tests the check with fixtures.                                        |
+| `static-analysis-checklist/tracked-files-only`                     | Limits a CI guard's file discovery to tracked workflow and action files.                                        |
 | `static-code-analysis/new-rust-service`                            | Picks the static checks for a new Rust service.                                                                 |
 | `static-code-analysis/new-typescript-library`                      | Picks the static checks for a new TypeScript library.                                                           |
 | `structured-logging/log-identifier-not-lookup`                     | Logs the customer id with a static message instead of looking up an email for the log.                          |
+| `structured-logging/review-lookup-in-catch`                        | Logs the customer id with a static message instead of looking up the name in a catch.                           |
 | `technical-writing/incident-writeup-from-notes`                    | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.        |
 | `technical-writing/proposal-for-two-audiences`                     | Labels sections by audience, tables every flag and plan combination and the before and after, defines jargon.   |
 | `technical-writing/review-runbook-wall-of-text`                    | Asks for the action first, steps as a list, jargon defined, and changing numbers replaced by how to fetch them. |

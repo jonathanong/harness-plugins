@@ -1,6 +1,6 @@
 ---
 name: review-ci-logs
-description: Diagnose a CI failure or noisy CI output from the logs, find the first cause the repository owns, and fix it without hiding diagnostics. Use when a CI run fails or flakes, when asked to make CI green or quieter, or when asked to add a retry or silence output in a workflow.
+description: Use when a CI run fails or flakes, when asked to make CI green or quieter, or when asked to add a retry or silence output in a workflow. Diagnose a CI failure or noisy CI output from the logs, find the first cause the repository owns, and fix it without hiding diagnostics.
 ---
 
 # Review CI logs

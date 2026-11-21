@@ -1,6 +1,6 @@
 ---
 name: rust-authoring
-description: Lay out Rust tests and caches, and run heavy cargo builds without exhausting a shared machine. Use when writing or reviewing Rust code or tests, adding a cache, or running cargo build, test, or coverage jobs, especially from several agents or worktrees at once.
+description: Use when writing or reviewing Rust code or tests, adding a cache, or running cargo build, test, or coverage jobs, especially from several agents or worktrees at once. Lay out Rust tests and caches, and run heavy cargo builds without exhausting a shared machine.
 ---
 
 # Rust authoring

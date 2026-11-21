@@ -1,6 +1,6 @@
 ---
 name: static-code-analysis
-description: Choose and wire up static code analysis for a repository - which linters, formatters, type checks, dead-code, dependency, workflow, secret, and infrastructure checks to add, with the settings to start from. Use when creating a new repository, adding a language or toolchain to one, or auditing which static checks a repository is missing.
+description: Use when creating a new repository, adding a language or toolchain to one, or auditing which static checks a repository is missing. Choose and wire up static code analysis for a repository - which linters, formatters, type checks, dead-code, dependency, workflow, secret, and infrastructure checks to add, with the settings to start from.
 ---
 
 # Static code analysis

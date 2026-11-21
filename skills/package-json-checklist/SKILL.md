@@ -1,6 +1,6 @@
 ---
 name: package-json-checklist
-description: Check package metadata, dependencies, entrypoints, and lockfiles.
+description: Use when writing or reviewing a package.json, adding, upgrading, or moving a dependency, setting a package's entrypoints or exports, changing workspace metadata such as pnpm-workspace.yaml, or resolving a lockfile change. Checks package metadata, dependencies, entrypoints, and lockfiles.
 ---
 
 # Package metadata checklist
@@ -26,5 +26,8 @@ and package layout, and override these defaults.
    do not recall it. An old version starts the package behind on fixes the update bot then has to
    deliver.
 7. Do not use package-manager version overrides to work around a dependency. An override silently
-   pins every consumer and outlives its reason. When a package declares wrong metadata, correct
-   that declaration with `packageExtensions`.
+   pins every consumer and outlives its reason. When a package omits a dependency or peer it
+   needs, add it with `packageExtensions`; that only adds what the manifest lacks and cannot
+   change a declared range. When a package's peer range is too narrow for a version that works,
+   accept that version for that package only with pnpm's `peerDependencyRules.allowedVersions`
+   (`"old-pkg>react": "19"`). To change anything else a package declares, patch the package.

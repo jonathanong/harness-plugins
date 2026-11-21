@@ -1,6 +1,6 @@
 ---
 name: documentation
-description: Decide what belongs in docs, code comments, and agent instruction files, so they do not drift from the code. Use when writing or reviewing a README, a docs page, a code comment, or an AGENTS.md / CLAUDE.md file, including a diff that adds or changes any of them.
+description: Use when writing or reviewing a README, a docs page, a code comment, or an AGENTS.md / CLAUDE.md file, including a diff that adds or changes any of them. Decide what belongs in docs, code comments, and agent instruction files, so they do not drift from the code.
 ---
 
 # Documentation and comments

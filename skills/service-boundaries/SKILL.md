@@ -1,6 +1,6 @@
 ---
 name: service-boundaries
-description: Keep the boundary between services, and between a service and an outside partner, explicit - own your data, map foreign payloads once, keep raw bodies for replay, and test the contract. Use when writing or reviewing code that calls another service or a third-party API, handles a webhook, reads another service's data, or puts deployment topology in a repository.
+description: Use when writing or reviewing code that calls another service or a third-party API, handles a webhook, reads another service's data, or puts deployment topology in a repository. Keep the boundary between services, and between a service and an outside partner, explicit - own your data, map foreign payloads once, keep raw bodies for replay, and test the contract.
 ---
 
 # Service boundaries

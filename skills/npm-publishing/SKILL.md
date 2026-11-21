@@ -1,6 +1,6 @@
 ---
 name: npm-publishing
-description: Prepare a first npm publish and trusted publishing (OIDC) for a human to run, and set up the GitHub Actions job that publishes. Use when publishing a new package, moving a package to trusted publishing, or fixing a CI publish that fails with E404 or ENEEDAUTH.
+description: Use when publishing a new package, moving a package to trusted publishing, or fixing a CI publish that fails with E404 or ENEEDAUTH. Prepare a first npm publish and trusted publishing (OIDC) for a human to run, and set up the GitHub Actions job that publishes.
 ---
 
 # npm publishing bootstrap

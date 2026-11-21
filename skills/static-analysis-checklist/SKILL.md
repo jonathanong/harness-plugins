@@ -1,6 +1,6 @@
 ---
 name: static-analysis-checklist
-description: Place, author, and validate one static-analysis invariant. Use when adding or changing a lint rule, CI guard, or policy check that blocks a pattern in code, configuration, or workflows.
+description: Use when adding or changing a lint rule, CI guard, or policy check that blocks a pattern in code, configuration, or workflows. Place, author, and validate one static-analysis invariant.
 ---
 
 # Static analysis checklist

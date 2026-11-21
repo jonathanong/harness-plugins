@@ -1,6 +1,6 @@
 ---
 name: agent-workflow
-description: Carry a repository change from start to handoff - implement it, gather evidence, review a diff, and answer review feedback, splitting independent work to run in parallel. Use when starting an implementation task, preparing a handoff, reviewing a change, or deciding what to do with review comments from a person or a bot.
+description: Use when starting an implementation task, preparing a handoff, reviewing a change, or deciding what to do with review comments from a person or a bot. Carries a repository change from start to handoff - implement it, gather evidence, review a diff, and answer review feedback, splitting independent work to run in parallel.
 ---
 
 # Agent workflow

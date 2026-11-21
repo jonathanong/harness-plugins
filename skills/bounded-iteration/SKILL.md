@@ -1,6 +1,6 @@
 ---
 name: bounded-iteration
-description: Bound the rows each run reads when writing or reviewing scheduled jobs, reconcilers, cleanups, dispatchers, backfills, exports, list endpoints, or any loop that reads rows.
+description: Use when writing or reviewing scheduled jobs, reconcilers, cleanups, dispatchers, backfills, exports, list endpoints, or any loop that reads rows. Bound the rows each run reads.
 ---
 
 # Bounded iteration

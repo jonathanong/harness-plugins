@@ -1,6 +1,6 @@
 ---
 name: evals
-description: Lay out and maintain an eval suite's documents - README.md for current scores and scope, HISTORY.md for the run log, AGENTS.md for the rules. Use when creating an evals directory, adding or changing an eval case, grader, or fixture, recording or reporting eval results, or reviewing a change that quotes an eval score.
+description: Use when creating an evals directory, adding or changing an eval case, grader, or fixture, recording or reporting eval results, or reviewing a change that quotes an eval score. Lay out and maintain an eval suite's documents - README.md for current scores and scope, HISTORY.md for the run log, AGENTS.md for the rules.
 ---
 
 # Eval suite documents

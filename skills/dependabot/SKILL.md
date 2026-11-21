@@ -1,6 +1,6 @@
 ---
 name: dependabot
-description: Configure Dependabot coverage, grouping, cooldowns, and secrets, and start a Dependabot update check on demand. Use when writing or reviewing dependabot.yml or a workflow that runs on Dependabot pull requests, or when asked to trigger, re-run, or force a Dependabot run.
+description: Use when writing or reviewing dependabot.yml or a workflow that runs on Dependabot pull requests, or when asked to trigger, re-run, or force a Dependabot run. Configures Dependabot coverage, grouping, cooldowns, and secrets, and starts a Dependabot update check on demand.
 ---
 
 # Dependabot policy

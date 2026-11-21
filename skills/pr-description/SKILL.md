@@ -1,6 +1,6 @@
 ---
 name: pr-description
-description: Write a pull request description a reviewer can act on without opening the diff - the problem, the change, the impact, and before/after evidence. Use when opening or updating a pull request, writing its title or body, deciding whether to split work across pull requests, or reviewing a description.
+description: Use when opening or updating a pull request, writing its title or body, deciding whether to split work across pull requests, or reviewing a description. Write a pull request description a reviewer can act on without opening the diff - the problem, the change, the impact, and before/after evidence.
 ---
 
 # Pull request descriptions
