@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-21: generic rules upstreamed into six skills
+
+Commit after `96a15e7`, Sonnet agent, Opus judge, Claude Code 2.1.330, about $16 in total.
+
+- **Rule changes:** generic rules from one project's own guidance, stated without its names.
+  - `react-app-structure`: server components read the current user directly and never pass it to
+    a client component; clients get display view models, not API envelopes; logged-out pages
+    render fully on the server; finite route types get their own route directories; submit stays
+    disabled until the post-mutation refresh finishes; `router.refresh()` does not recreate a
+    promise held in client state; navigation targets are links; no memoization only for
+    referential stability under React Compiler; polling ignores stale responses.
+  - `http-api-design`: no UUIDs as identifiers in routes, visible text, or inputs; a UUID route
+    permanently redirects to the slug; display labels are non-null API fields with a fallback;
+    a retargeted link leaves the old page reachable.
+  - `service-boundaries`: an "Inbound events" section (self-contained auth, no hairpin through
+    your own public endpoint, AWS-native senders deliver to a queue, push first) and a
+    `references/event-ingress.md` checklist.
+  - `github-actions-authoring`: separate services deploy independently; scripts developers run
+    locally work on macOS `/bin/bash`; policy is bound to an immutable SHA and read from the base.
+  - `static-analysis-checklist`: port a security guard's old fixtures before replacing it.
+  - `glide-mq`: never mix ranked and priority-0 jobs in a queue; share a queue by default;
+    payloads carry ids, never secrets; replay-safe processors; stable job ids with retention drop
+    re-enqueues; continuation jobs get a new identity; `references/job-design.md` and
+    `references/transition-matrix.md`.
+- **Cases:** added `react-app-structure/client-needs-current-user` and
+  `http-api-design/uuid-slug-routes`. Six drafted cases were dropped before merge: five
+  (`refresh-after-save`, `no-secrets-in-job-payload`, `stable-job-id-retention`,
+  `script-runs-on-macos-bash`, `s3-events-to-queue`) scored 1.00 without the plugin, and
+  `independent-service-deploys` was not well posed: its prompt demanded a hard deploy order, and
+  the agent loaded the skill, named the independent-deploy rule, and chained the deploys with
+  `needs` as asked, which the grader failed in 3 of 3.
+- **Two-arm run,** three attempts per arm, over every case of the six skills. Every remaining
+  case scored 1.00 with the plugin except `static-analysis-checklist/tracked-files-only` (1 of 3,
+  missed loads). A same-session rerun scored it 3 of 3 on this branch and 1 of 3 on `main`, so
+  the drop was noise, not this change.
+- **Shown:** the two new cases score 3 of 3 with the plugin and 0.00 without. Four older cases
+  now score 1.00 without the plugin: `abort-superseded-search`, `partner-webhook`,
+  `failed-jobs-need-recovery-path`, and `no-actions-write-with-checked-out-code`.
+
 ## 2026-11-21: locks for rare privacy, legal, and irreversible invariants
 
 Commit after `bd25591`, Sonnet agent, Opus judge, Claude Code 2.1.330, $7.51 in total.
