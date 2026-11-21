@@ -30,6 +30,9 @@ python3 scripts/eval-summary.py                           # the table for README
   skill. `pnpm run evals:check` fails a skill with no such case.
 - Every case has at least one more grader that checks the outcome. Skill-fired alone proves
   nothing about the answer.
+- When the work also needs a companion skill that the skill names, a case may add a second
+  `tool_used` grader for it. Do not add a `max: 0` grader against a neighboring skill; loading
+  both is fine.
 - Write the prompt as a person would ask it. Do not use the skill's own wording, and do not name
   the skill.
 - Build a case on a decision the model gets wrong without the skill.
@@ -44,6 +47,8 @@ python3 scripts/eval-summary.py                           # the table for README
 - Use an `llm` grader for a judgment. State what passes and what fails.
 - Use a `regex` grader for a fact. Anchor a pattern about a command to the Bash `"command"` input;
   a pattern over the whole transcript also matches the prompt and the fixture.
+- Grade the rule the case is named for. A grader that also requires rules from other parts of
+  the skill fails good answers and hides which rule was missed.
 - Do not loosen a grader to make an attempt pass. Read the trace first and decide whether the
   case, the grader, or the skill is wrong.
 
@@ -53,6 +58,15 @@ python3 scripts/eval-summary.py                           # the table for README
   the graders check the commands the agent attempts.
 - No write to a hosted service: no issue, comment, label, or pull request.
 - No reading of credentials: never `cat ~/.npmrc` and never dump the environment.
+
+## When the skill does not load
+
+- Three attempts cannot tell a 70% load rate from a 90% one. Before changing a description to
+  make a skill load, run the missing cases at least eight attempts each, with the old and the new
+  description, and keep the change only if it loads more often.
+- Run with `--keep-temp` to keep the traces, and check whether the agent called no skill or
+  another one. An agent that called no skill needs a clearer trigger; one that called a neighbor
+  needs the two descriptions to divide the work.
 
 ## Record
 

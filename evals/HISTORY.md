@@ -47,6 +47,10 @@ one attempt per arm and failed without the plugin.
   failed with it. `agent-workflow`, `planning`, and `review-ci-logs` still have one case each.
 - **After the runs:** the run URL in `pr-description/ci-gap-section` was put in backticks so the
   link check skips it. The prompt is otherwise unchanged and was not re-run.
+- **Rules from this entry:** the root `AGENTS.md` now says a description opens with when to use
+  it. `evals/AGENTS.md` adds how to measure a skill that does not load (eight attempts per arm,
+  kept traces), that a grader checks only the rule its case is named for, and that a case may
+  check a companion skill loaded but never that a neighbor did not.
 - **Companion skills:** a `playwright-authoring` pilot checked that `test-authoring` also loaded;
   it did not, and the grader was removed since the review touched no general test rule.
 
