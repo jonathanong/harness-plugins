@@ -4,6 +4,63 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-21: `planning` measured; mechanical narrowed, a `Verify:` line on every step
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm, three runs.
+
+- **First run** ($7.40): two of seven cases scored 1.00 with the plugin. The rename guard failed
+  on both arms, a plan for shortening password-reset links rarely loaded the skill, and plans left
+  verification off some steps.
+- **Changes:** the mechanical level now requires no change in behavior (a value users feel, such
+  as a timeout, limit, or copy, is not mechanical); every step, including investigation and
+  cleanup, gets a `Verify:` line with a runnable command; a handoff states decisions as facts with
+  reasons, not "as agreed". Two graders were narrowed after reading the failures: the rename guard
+  allows a short risk note and a question the request leaves open, and the saved-plan case allows
+  a lasting docs page written after the work merges.
+- **Second run** ($7.00): the rows in `README.md`, except the handoff row.
+- **Third run** (one case, $1.22): `plan-handoff-self-contained` 2 of 3 with, 0.00 without. Its
+  grader now allows a plan to point at its own sections ("the traces above").
+- **Ceiling:** `blast-radius-tests-and-flows` and `plan-pulls-in-postgres-skill` score 1.00
+  without the plugin; they stay as checks that the skill loads and does no harm.
+- **Rebased:** rebuilt on `main` after the `agent-rules` split; the earlier entries for this work
+  follow.
+
+## 2026-11-21: planning: levels, graph-based impact and verification, and a handoff document
+
+No run was made. Changed `skills/planning/SKILL.md`: a levels table (mechanical, small,
+substantial, initiative) says when to plan and to pick the lowest level that fits; the
+description now opens with non-trivial work and says "Not for mechanical changes"; step 3 names a
+dependency-graph tool such as `no-mistakes`, with its commands in the new
+`references/impact-tracing.md`; every step now carries an acceptance criterion and a verification
+command, and a "Verify after implementing" section selects tests from the diff and warns about an
+empty selection; a "handoff" section says the plan must stand alone for a fresh-context agent, with
+the template in the new `references/plan-document.md` (decisions, constraints, impact, steps,
+non-goals, risks, assumptions, stop conditions, definition of done).
+
+- **New cases, not yet measured:** `planning/mechanical-change-skips-plan` (a guard, and the first
+  case without a `skill-fired` grader; `evals/AGENTS.md` now says so),
+  `planning/plan-handoff-self-contained`, and `planning/plan-verification-commands`.
+- **Not re-measured:** the four earlier `planning` cases, whose skill text changed again.
+- **To do:** pilot the new cases with `--runs 1`, run the no-plugin arm once each, and run the
+  guard on both arms to see whether the unplanned answer holds with the skill loaded.
+
+## 2026-11-21: planning: blast radius, user-readable outcomes, and related skills
+
+No run was made. Changed `skills/planning/SKILL.md`: step 1 now asks for the outcome in plain
+language as a before/after table and points at `technical-writing` for the document structure;
+step 3 also names the affected unit and integration tests, the browser specs, and the
+user-visible behavior; a new step 4 loads the skills and rule sets whose triggers match the
+touched areas and folds their constraints into the steps. The description now mentions the
+outcome, affected tests and behavior, and related skills.
+
+- **New cases, not yet measured:** `planning/blast-radius-tests-and-flows`,
+  `planning/plan-states-before-after`, and `planning/plan-pulls-in-postgres-skill`. The last also
+  has a `tool_used` grader that passes when the agent loads `postgres-schema-design` or
+  `postgres-node-performance-tuning`.
+- **Not re-measured:** `planning/plan-saved-outside-repo`, whose skill text changed.
+- **To do:** pilot the three cases with `--runs 1`, then run the no-plugin arm once each.
+
 ## 2026-11-21: `agent-rules` and `skill-authoring` measured, two cases replaced
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per

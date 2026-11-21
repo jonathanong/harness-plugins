@@ -38,7 +38,9 @@ python3 scripts/eval-summary.py                           # the table for README
 - Build a case on a decision the model gets wrong without the skill.
 - The exception is a guard case: one that checks a rule is not applied where it does not hold.
   It may pass without the skill. Add one only beside a case for the same rule that the model
-  fails without the skill, and call it a guard in `README.md` and `HISTORY.md`.
+  fails without the skill, and call it a guard in `README.md` and `HISTORY.md`. A guard for a skill
+  that should not act at all (a plan for a trivial change) has no `skill-fired` grader, because
+  loading the skill is not the thing it checks; tag it `guard`, not `skill-fired`.
 - Keep prompts and fixtures free of the names of real organizations and of private repositories
   and products. Naming a public library or tool the case is about is fine.
 
