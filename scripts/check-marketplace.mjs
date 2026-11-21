@@ -68,23 +68,19 @@ if (
   errors.push('plugin.json and .claude-plugin/plugin.json name different plugins')
 }
 
-// The README table lists every plugin that lives in another repository, and nothing else.
+// The README's plugin table lists every plugin in the marketplace, and nothing else.
 const readme = readFileSync(join(root, 'README.md'), 'utf8')
-const section = readme.split(/^## Other plugins in this marketplace$/m)[1]?.split(/^## /m)[0]
+const section = readme.split(/^## Plugins$/m)[1]?.split(/^## /m)[0]
 if (section === undefined) {
-  errors.push('README.md has no "## Other plugins in this marketplace" section')
+  errors.push('README.md has no "## Plugins" section')
 } else {
   const rows = section
     .split('\n')
     .filter((line) => line.startsWith('| ') && !line.startsWith('| -'))
   const listed = new Set(rows.slice(1).map((row) => row.match(/^\| \[?`?([\w-]+)/)?.[1]))
-  const remote = new Set(
-    claude.plugins
-      .filter((plugin) => localPath(plugin.source) === null)
-      .map((plugin) => plugin.name),
-  )
-  for (const name of remote.difference(listed)) errors.push(`README.md does not list "${name}"`)
-  for (const name of listed.difference(remote))
+  const all = new Set(claude.plugins.map((plugin) => plugin.name))
+  for (const name of all.difference(listed)) errors.push(`README.md does not list "${name}"`)
+  for (const name of listed.difference(all))
     errors.push(`README.md lists "${name}", which is not in the marketplace`)
 }
 

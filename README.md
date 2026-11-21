@@ -1,13 +1,69 @@
 # Harness plugins
 
+The `harness-plugins` marketplace of agent plugins for Claude Code and Codex. Add the marketplace
+once, then install any plugin from it.
+
+## Plugins
+
+| Plugin                                                              | What it does                                                                             |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [`jong-skills`](#jong-skills) (this repository)                     | Generic skills that explain a design or a procedure; see the list below.                 |
+| [no-mistakes](https://github.com/jonathanong/no-mistakes)           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
+| `no-mistakes-rules` (same repository)                               | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
+| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)           | Takes a pull request through CI, review comments, and merge.                             |
+| [service-status](https://github.com/jonathanong/service-status)     | Tells an agent when a failure is a third-party outage and not its bug.                   |
+| [hook-harness](https://github.com/jonathanong/hook-harness)         | Turns GitHub events into agent runs.                                                     |
+| [agent-blackboard](https://github.com/jonathanong/agent-blackboard) | Records agent telemetry so agents can improve from their own sessions.                   |
+| [code-reviewer](https://github.com/jonathanong/code-reviewer)       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
+
+`jong-skills` lives in this repository. Each other plugin lives in its own repository, and the
+marketplace points at it.
+
+## Install
+
+Claude Code:
+
+```bash
+claude plugin marketplace add jonathanong/harness-plugins
+claude plugin install jong-skills@harness-plugins
+claude plugin install pr-shepherd@harness-plugins
+```
+
+Codex:
+
+```bash
+codex plugin marketplace add jonathanong/harness-plugins --ref main
+codex plugin add jong-skills@harness-plugins
+codex plugin add pr-shepherd@harness-plugins
+```
+
+The manifests set no `version`, so there are no releases to track. Claude Code treats each commit
+on a plugin's `main` as an update. Codex picks up new commits when you run
+`codex plugin marketplace upgrade harness-plugins`.
+
+### Moving from a plugin's own marketplace
+
+If you added one of these repositories as its own marketplace, remove that marketplace and
+reinstall every plugin you used from it from `harness-plugins`. The no-mistakes marketplace holds
+both `no-mistakes` and `no-mistakes-rules`. Claude Code uninstalls a marketplace's plugins when you
+remove it. Codex leaves them enabled, so uninstall them first or you end up with two copies. For
+pr-shepherd:
+
+```bash
+claude plugin marketplace remove pr-shepherd
+claude plugin install pr-shepherd@harness-plugins
+
+codex plugin remove pr-shepherd@pr-shepherd
+codex plugin marketplace remove pr-shepherd
+codex plugin add pr-shepherd@harness-plugins
+```
+
+## jong-skills
+
 Generic agent skills that explain a design or a procedure. A skill here may say which approach to
 pick and why. It holds no organization-specific policy; a consuming repository adds its own rules
-on top, in its `AGENTS.md`.
-
-The repository is one plugin, `jong-skills`, for both Claude Code and Codex. Skills load as
-`jong-skills:<skill>`, for example `jong-skills:dependabot`.
-
-## Harness plugins
+on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
+`jong-skills:dependabot`.
 
 | Skill                              | Use it when                                                                    |
 | ---------------------------------- | ------------------------------------------------------------------------------ |
@@ -45,30 +101,10 @@ The repository is one plugin, `jong-skills`, for both Claude Code and Codex. Ski
 | `review-ci-logs`                   | Diagnosing a CI failure or noisy CI output from the logs.                      |
 | `revisit-followups`                | Sweeping merged work for deferred follow-ups that are still needed.            |
 
-## Install
+### Moving from `skills@jonathanong-skills`
 
-Claude Code:
-
-```bash
-claude plugin marketplace add jonathanong/harness-plugins
-claude plugin install jong-skills@harness-plugins
-```
-
-Inside a session, `/plugin install jong-skills --marketplace jonathanong/harness-plugins` does both steps.
-
-Codex:
-
-```bash
-codex plugin marketplace add jonathanong/harness-plugins --ref main
-codex plugin add jong-skills@harness-plugins
-```
-
-The manifests set no `version`, so there are no releases to track. Claude Code treats each commit
-on `main` as an update. Codex picks up new commits when you run
-`codex plugin marketplace upgrade harness-plugins`.
-
-Moving from the old name: this plugin was `skills@jonathanong-skills`, from the repository
-`jonathanong/skills`. Remove the old plugin and marketplace, then install as above:
+This plugin was `skills@jonathanong-skills`, from the repository `jonathanong/skills`. Remove the
+old plugin and marketplace, then install as above:
 
 ```bash
 claude plugin uninstall skills@jonathanong-skills
@@ -80,7 +116,7 @@ codex plugin marketplace remove jonathanong-skills
 Skills now load as `jong-skills:<skill>`, not `skills:<skill>`, so update any instruction file or
 setting that names a skill with the old prefix.
 
-## Layout
+### Layout
 
 ```
 .claude-plugin/     Claude Code plugin and marketplace manifests
@@ -97,7 +133,7 @@ To add a skill, create `skills/<skill>/SKILL.md` and at least one case under `ev
 asserts the skill fired. Keep `SKILL.md` to 150 lines and put detail in `references/`.
 `pnpm run evals:check` enforces both, and CI runs it. See [`AGENTS.md`](AGENTS.md).
 
-## Evals
+### Evals
 
 Every skill has eval cases run with [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals).
 The current scores and what each case checks are in [`evals/README.md`](evals/README.md). The run
@@ -109,7 +145,7 @@ pnpm run evals                  # every skill
 pnpm run evals npm-publishing   # one skill
 ```
 
-## Development
+### Development
 
 ```bash
 pnpm install
@@ -117,41 +153,6 @@ pnpm run lint
 pnpm run format:check
 pnpm run evals:check
 pnpm run marketplace:check
-```
-
-## Other plugins in this marketplace
-
-The `harness-plugins` marketplace also lists these plugins. Each lives in its own repository, and the
-marketplace points at it, so add the marketplace once and install any of them the same way:
-
-```bash
-claude plugin install pr-shepherd@harness-plugins
-codex plugin add pr-shepherd@harness-plugins
-```
-
-| Plugin                                                              | What it does                                                                             |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [no-mistakes](https://github.com/jonathanong/no-mistakes)           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
-| `no-mistakes-rules` (same repository)                               | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
-| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)           | Takes a pull request through CI, review comments, and merge.                             |
-| [service-status](https://github.com/jonathanong/service-status)     | Tells an agent when a failure is a third-party outage and not its bug.                   |
-| [hook-harness](https://github.com/jonathanong/hook-harness)         | Turns GitHub events into agent runs.                                                     |
-| [agent-blackboard](https://github.com/jonathanong/agent-blackboard) | Records agent telemetry so agents can improve from their own sessions.                   |
-| [code-reviewer](https://github.com/jonathanong/code-reviewer)       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
-
-If you added one of these repositories as its own marketplace, remove that marketplace and
-reinstall every plugin you used from it from `harness-plugins`. The no-mistakes marketplace holds
-both `no-mistakes` and `no-mistakes-rules`. Claude Code uninstalls a marketplace's plugins when you
-remove it. Codex leaves them enabled, so uninstall them first or you end up with two copies. For
-pr-shepherd:
-
-```bash
-claude plugin marketplace remove pr-shepherd
-claude plugin install pr-shepherd@harness-plugins
-
-codex plugin remove pr-shepherd@pr-shepherd
-codex plugin marketplace remove pr-shepherd
-codex plugin add pr-shepherd@harness-plugins
 ```
 
 ## License
