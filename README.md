@@ -5,16 +5,16 @@ once, then install any plugin from it.
 
 ## Plugins
 
-| Plugin                                                              | What it does                                                                             |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [`jong-skills`](#jong-skills) (this repository)                     | Generic skills that explain a design or a procedure; see the list below.                 |
-| [no-mistakes](https://github.com/jonathanong/no-mistakes)           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
-| `no-mistakes-rules` (same repository)                               | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
-| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)           | Takes a pull request through CI, review comments, and merge.                             |
-| [service-status](https://github.com/jonathanong/service-status)     | Tells an agent when a failure is a third-party outage and not its bug.                   |
-| [hook-harness](https://github.com/jonathanong/hook-harness)         | Turns GitHub events into agent runs.                                                     |
-| [agent-blackboard](https://github.com/jonathanong/agent-blackboard) | Records agent telemetry so agents can improve from their own sessions.                   |
-| [code-reviewer](https://github.com/jonathanong/code-reviewer)       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
+| Plugin                                                                                              | What it does                                                                             |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [jong-skills](skills)                                                                               | Generic skills that explain a design or a procedure; listed [below](#jong-skills).       |
+| [no-mistakes](https://github.com/jonathanong/no-mistakes)                                           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
+| [no-mistakes-rules](https://github.com/jonathanong/no-mistakes/tree/main/plugins/no-mistakes-rules) | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
+| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)                                           | Takes a pull request through CI, review comments, and merge.                             |
+| [service-status](https://github.com/jonathanong/service-status)                                     | Tells an agent when a failure is a third-party outage and not its bug.                   |
+| [hook-harness](https://github.com/jonathanong/hook-harness)                                         | Turns GitHub events into agent runs.                                                     |
+| [agent-blackboard](https://github.com/jonathanong/agent-blackboard)                                 | Records agent telemetry so agents can improve from their own sessions.                   |
+| [code-reviewer](https://github.com/jonathanong/code-reviewer)                                       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
 
 `jong-skills` lives in this repository. Each other plugin lives in its own repository, and the
 marketplace points at it.
@@ -65,41 +65,41 @@ pick and why. It holds no organization-specific policy; a consuming repository a
 on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 `jong-skills:dependabot`.
 
-| Skill                              | Use it when                                                                    |
-| ---------------------------------- | ------------------------------------------------------------------------------ |
-| `static-code-analysis`             | Creating a repository: which static checks to add and how strict to start.     |
-| `static-analysis-checklist`        | Adding or changing one static-analysis invariant.                              |
-| `github-actions-authoring`         | Writing workflows: events not polling, triggers, timeouts, runners, pins.      |
-| `dependabot`                       | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.       |
-| `github-repository-settings`       | Limiting pull requests to collaborators and gating outside contributors' CI.   |
-| `package-json-checklist`           | Changing `package.json`, a lockfile, or a package entry point.                 |
-| `npm-publishing`                   | Preparing a first npm publish, trusted publishing, and the release workflow.   |
-| `triage-codex-security`            | Triaging Codex Security findings into explicitly approved actions.             |
-| `postgres-schema-design`           | Designing tables, relations, history, retention, and row locking.              |
-| `postgres-node-performance-tuning` | Writing or tuning a query: shape, indexes, plans, round trips.                 |
-| `postgres-partitioning-uuid-v7`    | Partitioning and pruning a table keyed by UUIDv7.                              |
-| `bounded-iteration`                | Writing a sweep, backfill, dispatcher, or list read that must stay bounded.    |
-| `glide-mq`                         | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.        |
-| `evals`                            | Documenting an eval suite: current scores, run history, and rules.             |
-| `pr-description`                   | Writing a pull request description: problem, change, impact, before/after.     |
-| `documentation`                    | Deciding what goes in docs, comments, and agent instruction files.             |
-| `technical-writing`                | Structuring a document for scanning: summary first, audiences, facts, terms.   |
-| `test-authoring`                   | Which tests to write; fixtures, mocks, guards; Vitest, Storybook, Swift, .NET. |
-| `playwright-authoring`             | Writing browser tests: what needs a browser, locators, and test ids.           |
-| `typescript-authoring`             | Writing TypeScript without aliases, shims, or hidden calls.                    |
-| `react-app-structure`              | Structuring API calls, links, redirects, and config in a React app.            |
-| `native-app-architecture`          | Structuring a native app around a portable core with thin views.               |
-| `rust-authoring`                   | Laying out Rust tests and caches, and running heavy cargo builds.              |
-| `http-api-design`                  | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.           |
-| `service-boundaries`               | Calling another service or a partner API, or handling a webhook.               |
-| `feature-rollout`                  | Adding a feature flag, or a table or service that needs an entry point.        |
-| `structured-logging`               | Writing log lines with a static message and structured fields.                 |
-| `agent-workflow`                   | Implementing, handing off, reviewing, and answering review comments.           |
-| `planning`                         | Planning a change: options, what it touches, steps, where the plan lives.      |
-| `git-commit-checklist`             | Committing, and rebasing or force-pushing a branch others also push to.        |
-| `github-issue`                     | Filing, editing, closing, and linking GitHub issues.                           |
-| `review-ci-logs`                   | Diagnosing a CI failure or noisy CI output from the logs.                      |
-| `revisit-followups`                | Sweeping merged work for deferred follow-ups that are still needed.            |
+| Skill                                                                                  | Use it when                                                                    |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [`static-code-analysis`](skills/static-code-analysis/SKILL.md)                         | Creating a repository: which static checks to add and how strict to start.     |
+| [`static-analysis-checklist`](skills/static-analysis-checklist/SKILL.md)               | Adding or changing one static-analysis invariant.                              |
+| [`github-actions-authoring`](skills/github-actions-authoring/SKILL.md)                 | Writing workflows: events not polling, triggers, timeouts, runners, pins.      |
+| [`dependabot`](skills/dependabot/SKILL.md)                                             | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.       |
+| [`github-repository-settings`](skills/github-repository-settings/SKILL.md)             | Limiting pull requests to collaborators and gating outside contributors' CI.   |
+| [`package-json-checklist`](skills/package-json-checklist/SKILL.md)                     | Changing `package.json`, a lockfile, or a package entry point.                 |
+| [`npm-publishing`](skills/npm-publishing/SKILL.md)                                     | Preparing a first npm publish, trusted publishing, and the release workflow.   |
+| [`triage-codex-security`](skills/triage-codex-security/SKILL.md)                       | Triaging Codex Security findings into explicitly approved actions.             |
+| [`postgres-schema-design`](skills/postgres-schema-design/SKILL.md)                     | Designing tables, relations, history, retention, and row locking.              |
+| [`postgres-node-performance-tuning`](skills/postgres-node-performance-tuning/SKILL.md) | Writing or tuning a query: shape, indexes, plans, round trips.                 |
+| [`postgres-partitioning-uuid-v7`](skills/postgres-partitioning-uuid-v7/SKILL.md)       | Partitioning and pruning a table keyed by UUIDv7.                              |
+| [`bounded-iteration`](skills/bounded-iteration/SKILL.md)                               | Writing a sweep, backfill, dispatcher, or list read that must stay bounded.    |
+| [`glide-mq`](skills/glide-mq/SKILL.md)                                                 | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.        |
+| [`evals`](skills/evals/SKILL.md)                                                       | Documenting an eval suite: current scores, run history, and rules.             |
+| [`pr-description`](skills/pr-description/SKILL.md)                                     | Writing a pull request description: problem, change, impact, before/after.     |
+| [`documentation`](skills/documentation/SKILL.md)                                       | Deciding what goes in docs, comments, and agent instruction files.             |
+| [`technical-writing`](skills/technical-writing/SKILL.md)                               | Structuring a document for scanning: summary first, audiences, facts, terms.   |
+| [`test-authoring`](skills/test-authoring/SKILL.md)                                     | Which tests to write; fixtures, mocks, guards; Vitest, Storybook, Swift, .NET. |
+| [`playwright-authoring`](skills/playwright-authoring/SKILL.md)                         | Writing browser tests: what needs a browser, locators, and test ids.           |
+| [`typescript-authoring`](skills/typescript-authoring/SKILL.md)                         | Writing TypeScript without aliases, shims, or hidden calls.                    |
+| [`react-app-structure`](skills/react-app-structure/SKILL.md)                           | Structuring API calls, links, redirects, and config in a React app.            |
+| [`native-app-architecture`](skills/native-app-architecture/SKILL.md)                   | Structuring a native app around a portable core with thin views.               |
+| [`rust-authoring`](skills/rust-authoring/SKILL.md)                                     | Laying out Rust tests and caches, and running heavy cargo builds.              |
+| [`http-api-design`](skills/http-api-design/SKILL.md)                                   | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.           |
+| [`service-boundaries`](skills/service-boundaries/SKILL.md)                             | Calling another service or a partner API, or handling a webhook.               |
+| [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.        |
+| [`structured-logging`](skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                 |
+| [`agent-workflow`](skills/agent-workflow/SKILL.md)                                     | Implementing, handing off, reviewing, and answering review comments.           |
+| [`planning`](skills/planning/SKILL.md)                                                 | Planning a change: options, what it touches, steps, where the plan lives.      |
+| [`git-commit-checklist`](skills/git-commit-checklist/SKILL.md)                         | Committing, and rebasing or force-pushing a branch others also push to.        |
+| [`github-issue`](skills/github-issue/SKILL.md)                                         | Filing, editing, closing, and linking GitHub issues.                           |
+| [`review-ci-logs`](skills/review-ci-logs/SKILL.md)                                     | Diagnosing a CI failure or noisy CI output from the logs.                      |
+| [`revisit-followups`](skills/revisit-followups/SKILL.md)                               | Sweeping merged work for deferred follow-ups that are still needed.            |
 
 ### Moving from `skills@jonathanong-skills`
 
