@@ -1,6 +1,6 @@
 ---
 name: glide-mq
-description: Use when writing or reviewing a queue producer, worker, or dispatcher, choosing which queue or lane a job belongs in, or handling a request that waits on a job's result. Design glide-mq queues, jobs, ordering lanes, worker concurrency, rate limits, and cross-job caps.
+description: Use when writing or reviewing a queue producer, worker, dispatcher, scheduler, or flow, choosing which queue or lane a job belongs in, deciding what a job payload carries, or handling a request that waits on a job's result. Design glide-mq queues, jobs, lanes, concurrency, rate limits, and replay safety.
 ---
 
 # glide-mq queues
@@ -10,7 +10,9 @@ Read every applicable `AGENTS.md` first. Repository-local policy overrides these
 Names below are the glide-mq API: the job option `ordering: { key, concurrency }`, the worker
 option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToDelayed(timestamp)`,
 `queue.addAndWait()`, and `job.waitUntilFinished()`. Read
-[lease patterns](references/lease-patterns.md) for the lease shape.
+[lease patterns](references/lease-patterns.md) for the lease shape,
+[job design](references/job-design.md) for payloads, replay, schedulers, and flows, and the
+[transition matrix](references/transition-matrix.md) for a job that calls a provider and writes state.
 
 ## Choose the queue and the lane
 
@@ -41,9 +43,16 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
   an owning repair job that finds the rows whose job failed for good and either redoes or
   explicitly abandons the side effect. A failed job's side effect is then eventually settled
   instead of left half done.
+- **Share a queue by default; add one only when sharing cannot work.** Put limits on the job, not
+  the queue: group `ordering.concurrency`, `rateLimit`, or `tokenBucket`, and per-job
+  `lockDuration` and `timeout`. A new queue is justified by a different worker class, a batch
+  worker, a limiter a group cannot express (a token bucket charged by actual usage), or a domain
+  that needs both a domain-wide cap and per-entity ordering keys, since a job has one key.
 - **`limiter` is for an external rate limit only**, such as a provider's requests per minute. It
   pauses fetching for the whole worker, so using it to slow an internal family throttles every
-  job on that queue. Shape internal load with `ordering.concurrency`.
+  job on that queue. Shape internal load with `ordering.concurrency`. Never throw
+  `RateLimitError` or call `worker.rateLimit()` from a worker shared by several families: it idles
+  all of them. Defer the one job with `job.rateLimitGroup` or `job.moveToDelayed`.
 - **A job family outsiders can flood gets its own lane.** Inbound webhooks, user-triggered
   imports, and anything a client can enqueue in bulk must not share an ordering key with ordinary
   work.
@@ -79,9 +88,37 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
    job by a short, bounded, jittered delay so it keeps its id, cursor, and dedup. Release the
    lease before any `moveToDelayed` for quota deferral. Reuse the repository's lease helper
    rather than adding a second. See [lease patterns](references/lease-patterns.md).
-7. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
+7. **Never mix ranked and priority-0 jobs in one queue.** glide-mq runs ranked jobs before
+   priority-0 FIFO jobs, so a mixed queue starves its 0 jobs. Pick one kind per queue. Ranked
+   priority orders only jobs promoted together: a large batch already in the ready list delays
+   every later job whatever its priority, so cap a batch's admission instead of relying on rank.
+8. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
    merge or remove jobs to cut the count. Judge a design by model calls or spend per item and by
    how simply the jobs share a lifecycle.
+
+## Payloads and replay
+
+- **Pass ids; load state in the processor.** Copied entities go stale, and the payload sits in
+  Valkey, readable by anyone with queue access. Never put a secret or personal data in one. When a
+  job must carry a value the recipient redeems, such as a login token or a presigned URL, set
+  `removeOnComplete: true` and `removeOnFail: true` on that job name; numeric retention keeps the
+  payload. A waiting or active job still holds it.
+- **Every processor is safe to run twice.** A stall or retry reruns it. Re-read current state at
+  the start and exit if the work is done, and make the write an upsert, a uniqueness constraint, a
+  version guard, or a durable sent marker. Deduplication never replaces this. Write the result
+  and the state that marks it done in one transaction.
+- **A stable `jobId` plus numeric retention drops re-enqueues.** The id stays claimed while the
+  job runs and until its record is trimmed, so `add` returns `null` and a trigger that arrives
+  mid-run is lost. Choose the id by event, not only by entity, per
+  [bounded iteration](../bounded-iteration/SKILL.md).
+- **A continuation job gets a new identity.** Re-adding the active job's id or deduplication id
+  is silently dropped. Count waiting, active, and delayed jobs in a backlog guard, because a
+  retry or priority job sits delayed before promotion.
+- Every `add`, scheduler, and flow node sets `attempts`, `backoff`, retention, and `priority`
+  explicitly. Throw `UnrecoverableError` for a failure a retry cannot fix. Honor an external 429
+  `Retry-After` by deferring the job without spending an attempt.
+- Details for jobIds, deduplication modes, schedulers, flows, and backfills are in
+  [job design](references/job-design.md).
 
 ## Code layout
 
