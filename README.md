@@ -37,8 +37,9 @@ codex plugin add jong-skills@harness-plugins
 codex plugin add pr-shepherd@harness-plugins
 ```
 
-The manifests set no `version`, so there are no releases to track. Claude Code treats each commit
-on a plugin's `main` as an update. Codex picks up new commits when you run
+A plugin whose manifest sets no `version`, such as `jong-skills`, has no releases to track: Claude
+Code treats each commit on its `main` as an update. A plugin whose manifest sets a `version`
+updates only when its repository releases a new version. Codex picks up changes when you run
 `codex plugin marketplace upgrade harness-plugins`.
 
 ### Moving from a plugin's own marketplace
