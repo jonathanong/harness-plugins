@@ -4,6 +4,24 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-21: `bounded-iteration`: a sweep converges
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm, $4.40 over two runs.
+
+- **Changed:** `bounded-iteration` rule 17: a sweep never writes the column it selects by unless
+  the write is a lease, replays only idempotent "ensure" effects, and has a second-run test that
+  writes and enqueues nothing. The "ensure" rule moved here from `glide-mq/references/job-design.md`,
+  which now links to it.
+- **New case** `bounded-iteration/review-sweep-rewrites-its-trigger`. With `updated_at = now()` in
+  the job's own `UPDATE`, both arms passed the review every time. With the bump moved into a
+  database trigger shown in the prompt, the review passed 3 of 3 with the plugin and 2 of 3
+  without. The skill did not load in any of the six attempts with the plugin, so the case does
+  not yet show the rule helping; the description does not name sweeps that rewrite their own
+  trigger.
+- **Other rows:** `review-dispatcher-predicate-and-job-id` 2 of 3 (0.33 without),
+  `review-staged-reconciler` 3 of 3 (0.00 without).
+
 ## 2026-11-21: `planning` measured; mechanical narrowed, a `Verify:` line on every step
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
