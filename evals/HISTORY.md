@@ -45,6 +45,8 @@ one attempt per arm and failed without the plugin.
   the plugin over three attempts. Neither discriminates.
 - **No case found** for `agent-workflow`: three designs either passed without the plugin or
   failed with it. `agent-workflow`, `planning`, and `review-ci-logs` still have one case each.
+- **After the runs:** the run URL in `pr-description/ci-gap-section` was put in backticks so the
+  link check skips it. The prompt is otherwise unchanged and was not re-run.
 - **Companion skills:** a `playwright-authoring` pilot checked that `test-authoring` also loaded;
   it did not, and the grader was removed since the review touched no general test rule.
 
