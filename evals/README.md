@@ -11,12 +11,14 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 74 cases.
 
 - **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
   234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
-  `http-api-design` description named edge workers. Two of its cases were dropped afterwards.
-- **Rows marked "(rerun)"** are from the two-arm run after that change, three attempts per arm.
+  `http-api-design` description named edge workers. Four of its cases were dropped afterwards.
+- **Rows marked "(rerun)"** are from later two-arm runs, three attempts per arm: the edge-claims
+  and topology rows after the `http-api-design` change, and five new cases after their graders
+  were narrowed in review.
 - **"Without plugin"** comes from separate runs; see "How to read the numbers".
 - **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
   `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
@@ -28,8 +30,8 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
   `github-issue/search-before-filing`, `npm-publishing/bootstrap-new-package`,
   `package-json-checklist/workspace-dependency-and-export`, `revisit-followups/only-verified-deferred-work`,
   and `technical-writing/proposal-for-two-audiences`.
-- **The 12 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
-  except the two rerun rows.
+- **The 10 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
+  except the rerun rows.
 - **Not measured without the plugin:** the five rows marked `n/a`.
 
 | Case                                                               | Score | Passed | Without plugin |
@@ -54,7 +56,7 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
 | `github-actions-authoring/rejects-polling`                         | 1.00  | 3 of 3 | 0.67           |
 | `github-actions-authoring/required-check-is-a-real-job`            | 1.00  | 3 of 3 | 0.00           |
 | `github-issue/search-before-filing`                                | 0.83  | 2 of 3 | 0.00           |
-| `github-issue/stale-notes-before-filing`                           | 1.00  | 3 of 3 | 0.00           |
+| `github-issue/stale-notes-before-filing` (rerun)                   | 1.00  | 3 of 3 | 0.33           |
 | `github-repository-settings/collaborators-only-prs`                | 1.00  | 3 of 3 | 0.67           |
 | `github-repository-settings/opentofu-provider-gap`                 | 1.00  | 3 of 3 | 0.00           |
 | `glide-mq/failed-jobs-need-recovery-path`                          | 1.00  | 3 of 3 | n/a            |
@@ -64,14 +66,14 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
 | `http-api-design/action-body-and-raw-tokens`                       | 1.00  | 3 of 3 | 0.33           |
 | `http-api-design/edge-claims-do-not-authorize` (rerun)             | 1.00  | 3 of 3 | 0.00           |
 | `native-app-architecture/core-tests-and-web-view`                  | 1.00  | 3 of 3 | 0.00           |
-| `native-app-architecture/generated-project-file`                   | 1.00  | 3 of 3 | 0.00           |
+| `native-app-architecture/generated-project-file` (rerun)           | 1.00  | 3 of 3 | 0.00           |
 | `npm-publishing/bootstrap-new-package`                             | 0.94  | 2 of 3 | 0.40           |
 | `npm-publishing/existing-package-trust-only`                       | 1.00  | 3 of 3 | 0.73           |
-| `package-json-checklist/review-override-for-peer-warning`          | 1.00  | 3 of 3 | 0.00           |
+| `package-json-checklist/review-override-for-peer-warning` (rerun)  | 1.00  | 3 of 3 | 0.67           |
 | `package-json-checklist/workspace-dependency-and-export`           | 0.89  | 2 of 3 | 0.67           |
 | `planning/plan-saved-outside-repo`                                 | 1.00  | 3 of 3 | 0.00           |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | 1.00  | 3 of 3 | 0.00           |
-| `playwright-authoring/review-computed-test-ids`                    | 1.00  | 3 of 3 | 0.00           |
+| `playwright-authoring/review-computed-test-ids` (rerun)            | 1.00  | 3 of 3 | 0.00           |
 | `postgres-node-performance-tuning/index-change-rechecks-neighbors` | 1.00  | 3 of 3 | n/a            |
 | `postgres-node-performance-tuning/new-query-named-and-indexed`     | 1.00  | 3 of 3 | 0.00           |
 | `postgres-partitioning-uuid-v7/range-not-hash`                     | 1.00  | 3 of 3 | 0.67           |
@@ -86,8 +88,6 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
 | `react-app-structure/review-profile-card`                          | 1.00  | 3 of 3 | 0.33           |
 | `review-ci-logs/quiet-log-keeps-errors`                            | 1.00  | 3 of 3 | 1.00           |
 | `revisit-followups/only-verified-deferred-work`                    | 0.83  | 2 of 3 | 0.00           |
-| `revisit-followups/plan-issue-unchecked-boxes`                     | 1.00  | 3 of 3 | 0.00           |
-| `rust-authoring/parallel-cargo-jobs`                               | 1.00  | 3 of 3 | 0.00           |
 | `rust-authoring/tests-in-separate-file`                            | 1.00  | 3 of 3 | 0.00           |
 | `service-boundaries/partner-webhook`                               | 1.00  | 3 of 3 | 0.33           |
 | `service-boundaries/topology-in-app-repo` (rerun)                  | 0.33  | 1 of 3 | 0.00           |
@@ -96,7 +96,7 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 76 cases.
 | `static-code-analysis/new-rust-service`                            | 1.00  | 3 of 3 | 0.83           |
 | `static-code-analysis/new-typescript-library`                      | 1.00  | 3 of 3 | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                     | 1.00  | 3 of 3 | 0.00           |
-| `structured-logging/review-lookup-in-catch`                        | 1.00  | 3 of 3 | 0.00           |
+| `structured-logging/review-lookup-in-catch` (rerun)                | 1.00  | 3 of 3 | 0.00           |
 | `technical-writing/incident-writeup-from-notes`                    | 1.00  | 3 of 3 | 0.00           |
 | `technical-writing/proposal-for-two-audiences`                     | 0.67  | 1 of 3 | 0.00           |
 | `technical-writing/review-runbook-wall-of-text`                    | 1.00  | 3 of 3 | 0.00           |
@@ -154,7 +154,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `native-app-architecture/generated-project-file`                   | Commits the project specification and ignores the generated Xcode project.                                      |
 | `npm-publishing/bootstrap-new-package`                             | Prepares a first publish for a person to run, and never publishes itself.                                       |
 | `npm-publishing/existing-package-trust-only`                       | Sets up trusted publishing for an existing package without publishing or changing trust.                        |
-| `package-json-checklist/review-override-for-peer-warning`          | Corrects a wrong peer range with `packageExtensions`, not an override.                                          |
+| `package-json-checklist/review-override-for-peer-warning`          | Accepts React 19 for one package with `peerDependencyRules`, not an override.                                   |
 | `package-json-checklist/workspace-dependency-and-export`           | Adds dependencies with pnpm in the right fields and keeps the root export.                                      |
 | `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                      |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                     |
@@ -173,8 +173,6 @@ passed, so 1.00 means every grader passed on every attempt.
 | `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                |
 | `review-ci-logs/quiet-log-keeps-errors`                            | Quiets a noisy log at its source and keeps stderr and failing exits.                                            |
 | `revisit-followups/only-verified-deferred-work`                    | Keeps only explicit deferred work and has it verified before any issue is filed.                                |
-| `revisit-followups/plan-issue-unchecked-boxes`                     | Treats unchecked boxes on a closed tracking issue as candidates to verify.                                      |
-| `rust-authoring/parallel-cargo-jobs`                               | Runs heavy coverage jobs one at a time or capped, and deletes throwaway `target/` dirs.                         |
 | `rust-authoring/tests-in-separate-file`                            | Puts unit tests for a private function in a separate file.                                                      |
 | `service-boundaries/partner-webhook`                               | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                              |
 | `service-boundaries/topology-in-app-repo`                          | Moves instance counts and regions out of the application repo into configuration.                               |

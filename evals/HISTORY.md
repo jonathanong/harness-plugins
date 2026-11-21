@@ -4,6 +4,41 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-21: review fixes to the new cases, and `packageExtensions` corrected
+
+Commit after `3bc6ef4`, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts,
+$4.83. A review of the previous entry's new cases found graders that also required rules from
+other parts of their skill, and one wrong rule in a skill.
+
+- **Skill correction.** `package-json-checklist` said to correct a package's wrong metadata with
+  `packageExtensions`. pnpm spreads the extension under the package's own manifest, so it can only
+  add what the manifest lacks and cannot change a declared peer range. The rule now uses
+  `packageExtensions` for a missing dependency or peer, `peerDependencyRules.allowedVersions`
+  scoped to the package for a peer range that is too narrow, and a patch for anything else. The
+  description also names workspace metadata. Earlier `review-override-for-peer-warning` scores
+  graded the wrong advice as correct; they are not comparable with this entry.
+- **Graders narrowed** to the rule each case is named for: `github-issue/stale-notes-before-filing`
+  (no issue-body requirement), `revisit-followups/plan-issue-unchecked-boxes` (no separate
+  verification step), `rust-authoring/parallel-cargo-jobs` (no CI or `target/` requirement),
+  `structured-logging/review-lookup-in-catch` (no fixed-message requirement).
+- **Graders corrected:** `native-app-architecture/generated-project-file` no longer accepts a
+  local Swift package as the project specification; `playwright-authoring/review-computed-test-ids`
+  narrows the row by the invoice number it shows, not the id.
+
+| Case                                                      | With | Passed | Without |
+| --------------------------------------------------------- | ---- | ------ | ------- |
+| `github-issue/stale-notes-before-filing`                  | 1.00 | 3 of 3 | 0.33    |
+| `native-app-architecture/generated-project-file`          | 1.00 | 3 of 3 | 0.00    |
+| `package-json-checklist/review-override-for-peer-warning` | 1.00 | 3 of 3 | 0.67    |
+| `playwright-authoring/review-computed-test-ids`           | 1.00 | 3 of 3 | 0.00    |
+| `revisit-followups/plan-issue-unchecked-boxes` (dropped)  | 1.00 | 3 of 3 | 1.00    |
+| `rust-authoring/parallel-cargo-jobs` (dropped)            | 1.00 | 3 of 3 | 1.00    |
+| `structured-logging/review-lookup-in-catch`               | 1.00 | 3 of 3 | 0.00    |
+
+The two dropped cases failed without the plugin only on the extra rules; narrowed to their own
+rule they do not discriminate. `revisit-followups` and `rust-authoring` have one case each again,
+so the previous entry added 10 cases that stay, not 12.
+
 ## 2026-11-21: descriptions open with when to use them, and 12 more cases
 
 Commit `9f4aaf5` (runs on its working tree), Sonnet agent, Opus judge, Claude Code 2.1.330.
