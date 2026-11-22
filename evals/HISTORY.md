@@ -2,28 +2,134 @@
 
 This log only grows, newest entry first. Scores in different entries are not comparable when a
 case, grader, fixture, or model changed between them; each entry says what changed. The current
-scores are in [README.md](README.md).
+scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-22: second round of generic rules; new cases, no run
+## 2026-11-22: scores roll up by skill; the case list moves to `EVALS.md`
 
-Commit of this entry. No measured run: `claude plugin eval` refused to start in the sandbox (it
-could not follow a credentials file, so a Bash-granting evaluation cannot run). Every attempt
-errored with no turns and no cost, so no score from that attempt is recorded.
+No run. No case, grader, or score changed.
 
-- **Changed skill text:** `dependabot`, `github-actions-authoring` (with a new destructive-workflows
-  reference), `glide-mq`, `playwright-authoring`, `postgres-node-performance-tuning`,
-  `postgres-schema-design`, `service-boundaries`, `static-analysis-checklist`,
-  `structured-logging`, `test-authoring` (with a new replacing-a-library reference), and
-  `typescript-authoring`. Their existing rows in `README.md` are from earlier runs and are not
-  re-measured.
-- **New cases, each pinned to one new rule:** `dependabot/pnpm-workspace-one-entry`,
-  `github-actions-authoring/paths-filtered-required-check`,
-  `postgres-node-performance-tuning/get-or-create-identity`,
-  `postgres-schema-design/uuidv7-no-created-at-default`, and `test-authoring/absence-waits-for-event`.
-  The two graders for the get-or-create and UUIDv7 cases check only the named rule.
-- **Still to do:** `EVAL_ABLATION=with-without EVAL_FLAGS='--runs 3' pnpm run evals <the skills above>`
-  on a machine where the runner can start, then drop any new case the no-plugin arm already passes
-  (a ceiling case) and replace the "not run" rows.
+- `README.md` now shows a headline and one row per skill. `scripts/eval-docs.py` builds both from
+  `EVALS.md`, and `pnpm run evals:check` fails when they are stale.
+- `EVALS.md` holds the per-case rows that were in `README.md`, with what each case checks in the
+  same table. The "(rerun)" suffix is gone; "Where each row comes from" says which run a row is from.
+- Guard cases start with "Guard:". `feature-rollout/dark-route-without-caller` gained the prefix.
+- `scripts/eval-summary.py` prints `n/a` for an arm that did not run and a "Loaded" column.
+- Planned work moved to the root `ROADMAP.md`.
+
+## 2026-11-22: `pull-requests` skill; `agent-workflow` decides instead of asking
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm. Final run: 6 cases, 36 attempts, $5.13. Earlier runs the same day: $6.43, $6.92, $2.30, and a
+plugin-only loading run of eight attempts per case.
+
+- **Changed:** new `pull-requests` skill (scope, stacking, answering review, what a finished pull
+  request looks like, closing, merge approval). It states outcomes and leaves the commands to a
+  pull request tool. The review-response reference moved to it from `agent-workflow`.
+  `agent-workflow` gains "Decide, then report": take the choice policy or evidence settles, ask
+  only before a destructive, irreversible, or unauthorized action, send another owner's work to
+  that owner. `github-issue` closes an issue as superseded without asking. `pr-description` no
+  longer decides whether to split.
+- **Moved:** `review-round-dispositions` from `evals/agent-workflow` to `evals/pull-requests`. Its
+  prompt and outcome grader did not change.
+- **Final run, with / without the plugin:** `pull-requests/review-round-dispositions` 3 of 3 /
+  0 of 3; new `agent-workflow/status-note-asks-only-what-it-must` 3 of 3 / 0 of 3;
+  `github-issue/search-before-filing` 2 of 3 / 0 of 3; `github-issue/stale-notes-before-filing`
+  3 of 3 / 2 of 3; both `pr-description` cases 3 of 3 / 0 of 3. Every attempt loaded its skill.
+- **Loading, description A/B:** with a description that opened "Use when opening, splitting,
+  stacking, ...", `pull-requests` loaded in 0 of 3 attempts of `review-round-dispositions`. With
+  one that opens "Use when deciding what to do with review comments from a person or a bot", it
+  loaded in 8 of 8, then 3 of 3.
+- **Rule fixed on evidence:** `status-note-asks-only-what-it-must` passed 1 of 3 with the plugin
+  while the rule said to ask before an action that "publishes". Two attempts asked permission to
+  file a public issue. The rule now names shipping a release, and says filing an issue is an
+  ordinary step; the case then passed 3 of 3.
+- **Dropped as ceiling cases**, each 3 of 3 without the plugin: `close-superseded-pr`,
+  `stack-overlapping-work`, `merge-on-agent-message`, `ready-note-with-stale-pr`,
+  `merge-after-approved-then-changed`, `merge-approved-then-conflicts` (all `pull-requests`), and
+  `fix-in-code-nothing-calls`, `handoff-one-fix-many-sites` (`agent-workflow`). In six of the eight
+  the skill also loaded in at most 1 of 3 attempts.
+- **What it showed:** when the prompt lays out the state of a pull request, the model makes the
+  merge, close, stack, and readiness decisions correctly unaided, and does not load the skill.
+  Those rules are untested here; a case for them needs a fixture the agent must inspect.
+
+## 2026-11-22: locking rules move to `postgres-locking`
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm, 9 cases, 54 attempts, $7.04.
+
+- **Changed:** the Locks section of `postgres-schema-design` is now the `postgres-locking` skill,
+  and `postgres-schema-design`'s description no longer names locks. New rules: every lock form
+  counts, share locks included; append-only writes never lock and dedupe an outside effect where
+  it is delivered; a guard inside the writing statement and an already conditional write need no
+  lock; `SKIP LOCKED` only for competing workers; a transaction that will update the row it
+  fences takes `FOR NO KEY UPDATE`; adding a lock is the owner's decision and an unattended agent
+  ships the lock-free design; a reviewer's race finding does not justify a lock; tests assert the
+  final state, not the lock. `postgres-node-performance-tuning` names a `MATERIALIZED` CTE that
+  only pins or locks a row as never justified.
+- **Moved:** the five locking cases from `evals/postgres-schema-design` to
+  `evals/postgres-locking`, retagged. Their prompts and outcome graders did not change.
+- **New cases, with / without the plugin:** `prelock-before-conditional-update` 3 of 3 / 0 of 3;
+  `race-finding-on-unwritten-row` 3 of 3 / 0 of 3; `postgres-schema-design/customer-code-key`
+  3 of 3 / 3 of 3, a ceiling case kept so the schema skill has a loading check.
+- **Dropped as a ceiling case:** `ballot-no-lock` (a poll-row lock before an append-only ballot
+  insert and a webhook) passed 3 of 3 in both arms.
+- **Moved cases:** `exact-cap-no-lock` and `review-last-admin-advisory-lock` 3 of 3 / 0 of 3;
+  `rollup-trigger-deadlocks` 2 of 3 / 0 of 3; the guards `checkout-exact-stock` 3 of 3 / 3 of 3
+  and `review-advisory-lock-key` 3 of 3 / 3 of 3 on the answer.
+- **Loading:** `postgres-locking` loaded in 26 of 27 attempts; the miss was
+  `review-advisory-lock-key` (2 of 3, up from 1 of 3 under the old skill).
+- **After review, two plugin-only reruns, three attempts, $3.21 and $3.08:** wording was
+  tightened: the effect id includes the action; a guard on another row is called best effort; a
+  cap can overshoot by more than one row and is not made exact with `SERIALIZABLE`; the
+  session-level advisory form is named; a write-skew guard reads inside its `SERIALIZABLE`
+  transaction; tests accept each valid outcome. In the first rerun `exact-cap-no-lock` failed 1
+  of 3: told to put the lock it would propose in the description, the agent offered a team-row
+  lock for a cap. The rule now says a cap has no lock to propose, and the second rerun passed
+  every answer, 21 of 21. `review-advisory-lock-key` loaded the skill in 1 of 3. The README
+  rows are from the second rerun.
+- **What it showed:** without the skill the model adds or keeps a lock in every non-guard case.
+  `postgres-schema-design` now has no case the model fails unaided.
+
+## 2026-11-22: second round of generic rules; a queue is ephemeral
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Changed skill text:** `bounded-iteration`, `dependabot`, `github-actions-authoring` (with a new
+  destructive-workflows reference), `glide-mq`, `playwright-authoring`,
+  `postgres-node-performance-tuning`, `postgres-schema-design`, `service-boundaries`,
+  `static-analysis-checklist`, `structured-logging`, `test-authoring` (with a new
+  replacing-a-library reference), and `typescript-authoring`.
+- **New rule:** `glide-mq` says a queue is ephemeral and state lives in PostgreSQL: completed and
+  failed jobs are removed, recovery reads rows, and only legal, privacy, or irreversible work keeps
+  a row per attempt. `bounded-iteration` says a sweep finds its work in rows, not failed jobs.
+- **Run 1, both arms, three attempts per arm, $24.22,** before `main` was merged in. New cases,
+  with / without: `glide-mq/review-retry-from-failed-jobs` 3 of 3 / 0.33;
+  `postgres-schema-design/uuidv7-no-created-at-default` 3 of 3 / 0.00. Existing cases held:
+  every `glide-mq`, `dependabot`, `test-authoring`, and `postgres-node-performance-tuning` case
+  answered 3 of 3 with the plugin except `dependabot/review-actions-cooldown` and
+  `test-authoring/dotnet-private-field-not-reflected`, 2 of 3 each, both on an attempt that did
+  not load the skill. `postgres-node-performance-tuning/index-change-rechecks-neighbors` got its
+  first no-plugin score, 0.00.
+- **Dropped as ceiling cases, never merged:** `dependabot/pnpm-workspace-one-entry`,
+  `postgres-node-performance-tuning/get-or-create-identity`, and
+  `test-authoring/absence-waits-for-event` scored 1.00 without the plugin.
+  `github-actions-authoring/paths-filtered-required-check` scored 0.67 without and never loaded
+  the skill with it. Their rules stay in the skills, untested.
+- **Run 2, plugin only, after merging `main`, three attempts, $7.88, with a control on `main` in
+  the same session, $4.14.** Branch / `main`, attempts passed:
+  `static-analysis-checklist/tracked-files-only` 0 of 3 / 0 of 3, never loading the skill on
+  either side; `bounded-iteration/review-sweep-rewrites-its-trigger` 1 of 3 / 2 of 3;
+  `structured-logging/review-lookup-in-catch` 2 of 3 / 2 of 3;
+  `typescript-authoring/rename-without-alias` 3 of 3 / 2 of 3. Every other case in
+  `bounded-iteration`, `github-actions-authoring`, `postgres-node-performance-tuning`,
+  `postgres-schema-design`, `static-analysis-checklist`, `structured-logging`, and
+  `typescript-authoring` passed 3 of 3 on both, except the next row.
+- **`github-actions-authoring/required-check-is-a-real-job`** passed 1 of 3 on the branch in run 2. Over two further same-session runs it passed 10 of 11 on the branch and 10 of 11 on `main`,
+  so the miss is noise in the case, not the new text.
+- **What it showed:** the round did not move any existing case beyond what `main` does in the
+  same session. `tracked-files-only` no longer loads its skill on `main` either; its stored row
+  (3 of 3) is stale and the case needs a clearer trigger. `EVALS.md` rows for existing cases were
+  not replaced.
 
 ## 2026-11-22: `bounded-iteration` description names sweeps
 

@@ -46,6 +46,9 @@ what was created. Do not retry an entry that succeeded.
 - Read the issue and its discussion again immediately before editing, commenting, or closing.
 - Close an issue only when the outcome it describes is done and there is evidence. Otherwise
   leave it open and say what is missing.
+- Close an issue as superseded, without asking, when an issue or pull request this work opened
+  replaces it. Comment with the reason and a link to the replacement, close it as not planned,
+  and carry over anything the replacement still needs. The replacing work is the authority.
 - Do not set a project status that closes the issue, such as Done with auto-close on, unless
   closing was asked for.
 
