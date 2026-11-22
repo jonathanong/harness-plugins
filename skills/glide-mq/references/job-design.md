@@ -43,7 +43,7 @@ Detail for the rules in [SKILL.md](../SKILL.md#payloads-and-replay).
 ## Backfills
 
 - Replay only idempotent "ensure" effects, per
-  [bounded iteration](../../bounded-iteration/SKILL.md) rule 17.
+  [bounded iteration](../../bounded-iteration/SKILL.md) rule 15.
 - Stream an exhaustive durable source by cursor and enqueue bounded batches from one throttled
   dispatcher, per [bounded iteration](../../bounded-iteration/SKILL.md).
 - Exclude an irreversible external send, such as an email or a charge, unless a durable marker

@@ -63,7 +63,8 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`postgres-locking`](skills/postgres-locking/SKILL.md)                                 | When PostgreSQL code may take a lock, and what to use instead.                 |
 | [`postgres-node-performance-tuning`](skills/postgres-node-performance-tuning/SKILL.md) | Writing or tuning a query: shape, indexes, plans, round trips.                 |
 | [`postgres-partitioning-uuid-v7`](skills/postgres-partitioning-uuid-v7/SKILL.md)       | Partitioning and pruning a table keyed by UUIDv7.                              |
-| [`bounded-iteration`](skills/bounded-iteration/SKILL.md)                               | Writing a sweep, backfill, dispatcher, or list read that must stay bounded.    |
+| [`bounded-iteration`](skills/bounded-iteration/SKILL.md)                               | Writing a sweep, backfill, dispatcher, or export that must stay bounded.       |
+| [`list-reads`](skills/list-reads/SKILL.md)                                             | Writing a list endpoint, feed, or paginated query.                             |
 | [`glide-mq`](skills/glide-mq/SKILL.md)                                                 | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.        |
 | [`evals`](skills/evals/SKILL.md)                                                       | Choosing kinds of eval, and documenting scores, run history, and rules.        |
 | [`pr-description`](skills/pr-description/SKILL.md)                                     | Writing a pull request description: problem, change, impact, before/after.     |
