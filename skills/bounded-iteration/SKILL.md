@@ -85,7 +85,8 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
     total load. Independent stages read committed state and do not chain. Ordered phases enqueue
     the next phase after commit. See
     [separate stage jobs](references/sweep-patterns.md#separate-stage-jobs).
-17. **A sweep converges.** It never writes a row back into its own selection, such as bumping the
+17. **A sweep converges.** It finds its work in database rows, never in a queue's failed jobs
+    ([glide-mq](../glide-mq/SKILL.md)). It never writes a row back into its own selection, such as bumping the
     `updated_at` it selects by, unless that write is a lease; otherwise each run creates the next
     run's work and the sweep never ends. A write that takes a row out of the selection, such as
     setting `processed_at` on rows selected by `processed_at IS NULL`, is the point. A recovery
