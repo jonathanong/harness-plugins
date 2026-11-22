@@ -1,6 +1,6 @@
 ---
 description: Guard. Checkout code that must never oversell keeps stock exact without an unbounded lock, and enqueues its jobs after commit.
-tags: [postgres-schema-design, skill-fired, outcome]
+tags: [postgres-locking, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

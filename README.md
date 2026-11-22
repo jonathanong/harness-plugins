@@ -76,7 +76,8 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`package-json-checklist`](skills/package-json-checklist/SKILL.md)                     | Changing `package.json`, a lockfile, or a package entry point.                 |
 | [`npm-publishing`](skills/npm-publishing/SKILL.md)                                     | Preparing a first npm publish, trusted publishing, and the release workflow.   |
 | [`triage-codex-security`](skills/triage-codex-security/SKILL.md)                       | Triaging Codex Security findings into explicitly approved actions.             |
-| [`postgres-schema-design`](skills/postgres-schema-design/SKILL.md)                     | Designing tables, relations, history, retention, and row locking.              |
+| [`postgres-schema-design`](skills/postgres-schema-design/SKILL.md)                     | Designing tables, relations, history, and retention.                           |
+| [`postgres-locking`](skills/postgres-locking/SKILL.md)                                 | When PostgreSQL code may take a lock, and what to use instead.                 |
 | [`postgres-node-performance-tuning`](skills/postgres-node-performance-tuning/SKILL.md) | Writing or tuning a query: shape, indexes, plans, round trips.                 |
 | [`postgres-partitioning-uuid-v7`](skills/postgres-partitioning-uuid-v7/SKILL.md)       | Partitioning and pruning a table keyed by UUIDv7.                              |
 | [`bounded-iteration`](skills/bounded-iteration/SKILL.md)                               | Writing a sweep, backfill, dispatcher, or list read that must stay bounded.    |

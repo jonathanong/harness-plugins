@@ -1,6 +1,6 @@
 ---
 description: A request to make a cap exact gets a best-effort count, not a lock, counter, or claim table.
-tags: [postgres-schema-design, skill-fired, outcome]
+tags: [postgres-locking, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

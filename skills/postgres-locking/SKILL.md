@@ -1,0 +1,104 @@
+---
+name: postgres-locking
+description: Use when writing or reviewing PostgreSQL code that takes a row lock (FOR UPDATE, FOR NO KEY UPDATE, FOR SHARE, FOR KEY SHARE), LOCK TABLE, or an advisory lock, serializes concurrent writers, answers a race-condition finding, or enforces a cap, limit, or last-one guard under concurrency. Decides when code may lock and what to use instead.
+---
+
+# PostgreSQL locking
+
+Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
+
+Most writes need no lock: a comment, a like, a vote, a follow, a profile edit. Each lock adds
+waiting, deadlock risk, and a reason for the next reader to keep it, and one held too long stalls
+every writer queued behind it. Start with none. When more than one mechanism is correct, pick the
+simplest. For table design, use `postgres-schema-design`.
+
+## What counts as a lock
+
+`FOR UPDATE`, `FOR NO KEY UPDATE`, `FOR SHARE`, `FOR KEY SHARE`, `LOCK TABLE`, an advisory lock,
+and any helper function that wraps one of them. A share lock is a lock: it blocks writers and
+two holders that go on to update deadlock. A foreign key already takes the key-share lock it
+needs; do not add one beside it.
+
+## Write without a lock
+
+- **Append-only writes never lock**: votes, events, history, anything where the latest row wins.
+  When two of them can trigger the same outside effect, derive the effect's id from what the
+  request read (actor, entity, previous row id) and dedupe where the effect is delivered, with a
+  unique key and `ON CONFLICT DO NOTHING`. Serializing the writers is not the fix.
+- **A guard inside the writing statement needs no lock.**
+  `UPDATE ... WHERE id = $1 AND EXISTS (<guard>)` reads the guard and the target in one snapshot.
+  Do not lock the guarded row first, in a separate statement or in a CTE.
+- **A conditional write needs no lock on the row it writes.** `UPDATE ... WHERE state = 'open'`
+  and `INSERT ... ON CONFLICT` already decide atomically. Delete the `SELECT ... FOR UPDATE` that
+  precedes one, and read the row count to learn who won.
+- **A cap or a "don't remove the last X" guard is best effort.** Count up to the cap
+  (`LIMIT cap + 1`), then write. Two concurrent requests may land one row over; say so and accept
+  it. When asked to make a cap exact, answer with this design. Do not add a lock, a counter or
+  projection table, a slot or claim table, or a constraint that exists only to make the cap exact.
+- **An invariant whose violation corrupts data** (a unique name, a balance that cannot go
+  negative, one active row per parent) is closed by the narrowest of: a constraint, a conditional
+  write, or, for a rare race across rows, a `SERIALIZABLE` transaction whose `40001` is returned
+  as 409 with no retry. A scheduled job leaves the work to its next run.
+- Do not add generation, revision, claim, fence, or counter columns to coordinate concurrent
+  writers. Make the write idempotent or use the options above. Two exceptions: an exact quantity,
+  and an optimistic version column on an entity people edit by hand, so a lost update returns 409. A lease token on leased work is not a coordination column.
+- Do not keep a counter or rollup table current with triggers when that needs global or ordered
+  locks to avoid deadlocks. Compute each closed period once, with a scheduled job or a
+  materialized view, and read the open period from the source rows.
+
+## When a lock is allowed
+
+Only these two cases. Anywhere else, never lock a read set or a parent row to serialize writers,
+and never close a race with a wider lock.
+
+- **An exact quantity**: money, a balance, a ledger, inventory, anything that must never drift.
+  Even there, prefer a conditional write
+  (`UPDATE stock SET qty = qty - $1 WHERE sku = $2 AND qty >= $1`) or a constraint. When the rule
+  spans rows those cannot express, lock the rows the transaction writes, or their parent.
+- **A rare race on a privacy, legal, or irreversible invariant**: an account-deletion fence, a
+  legal hold, a delete in an outside store that cannot be undone. Lock the aggregate's root row,
+  even when the transaction does not write it: `FOR SHARE` for the side that only needs the row
+  to stay put, `FOR NO KEY UPDATE` taken first by a transaction that will also update it. A cap
+  or a last-one guard is not such an invariant, even when it protects access.
+
+An advisory lock is for those cases only when no row exists to lock, or when the critical section
+must span transactions or outside I/O; then hold it on a dedicated connection and release it in a
+`finally`. Otherwise avoid advisory locks.
+
+## Every lock
+
+- It is transaction-scoped and short, except the advisory case above.
+- It waits a bounded time: `NOWAIT` or `lock_timeout` in a request path, returning 409. For an
+  advisory lock use `pg_try_advisory_xact_lock` or `lock_timeout`; the blocking form holds a
+  pooled connection while it waits.
+- It takes rows in a fixed order, parent before child, so two writers cannot deadlock.
+- It covers no outside call. An enqueue is an outside call: commit, then enqueue. A slow queue
+  store inside the transaction stretches every lock it holds.
+- An advisory key covers exactly the writers that conflict. A key such as `hashtext(org_id)`
+  alone is shared by every other lock keyed on the same id; use the two-key form with a namespace
+  for the operation.
+- `SKIP LOCKED` is only for competing workers that select rows they then write in the same
+  transaction. When the queue already runs the job single-flight (an ordering lane, a job id), it
+  is not needed.
+- Remove a lock by deleting it, not by swapping in another serializer.
+
+## Adding a lock
+
+Adding a lock, or a new use of the second allowed case, is the repository owner's decision.
+
+- A change that adds a lock says in its pull request description which interleaving corrupts
+  data, and why a constraint, a conditional write, a guard inside the statement, and
+  `SERIALIZABLE` with 409 do not fit.
+- An agent working unattended does not add one. It ships the lock-free design, states the worst
+  case, and puts the lock it would propose in the description for the owner to decide.
+- A reviewer's "race condition" finding, from a person or a bot, never by itself justifies a
+  lock, a wider lock, or a coordination column. Answer it in this order: a constraint; a
+  conditional write; a guard inside the writing statement; `SERIALIZABLE` with 409 when the
+  outcome is unacceptable; otherwise "accepted: best effort", with the worst case stated. Reply
+  with that reasoning and resolve the thread.
+
+## Tests
+
+Do not assert that a lock was taken, the order locks were taken in, or an exact cap under
+concurrency. Those tests force the lock back in when someone removes it. Assert the final state
+under the interleaving: no negative balance, no duplicate effect, one winner.
