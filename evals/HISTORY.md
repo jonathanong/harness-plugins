@@ -4,6 +4,23 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `debugging` and `verification` skills added
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **New skills:** `debugging` (reproduce, find the first failure, fix the cause and not the
+  symptom, stop after about three failed hypotheses) and `verification` (back each claim with
+  something observed after the last change; report what was not verified separately).
+- **Run, two arms, three attempts per arm, four drafted cases, $2.19:** the answer passed 3 of 3
+  in both arms of every case. The skill loaded in 1 of 12 attempts with the plugin.
+- **Kept one case per skill** as its loading check: `debugging/flaky-test-not-fixed-with-retry`
+  and `verification/stale-result-after-later-edit`. Dropped `debugging/first-error-not-last` and
+  `verification/build-passed-is-not-it-works`, which showed the same thing.
+- **What it showed:** this model already follows these rules on a request with the code or the
+  facts inline, and does not load a skill to do so. The skills are kept for weaker models, per
+  `AGENTS.md`. The rows show neither that the skills help nor that they load; `ROADMAP.md` has
+  both.
+
 ## 2026-11-22: list-read rules split out of `bounded-iteration` into `list-reads`
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.

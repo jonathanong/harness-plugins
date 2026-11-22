@@ -15,6 +15,7 @@ unaided by design.
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                 | 1.00  | 8 of 8 | 0.33           |
 | `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                               | 1.00  | 8 of 8 | 0.00           |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`              | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test. | 0.75  | 4 of 8 | 0.67           |
+| `debugging/flaky-test-not-fixed-with-retry`                        | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                   | 0.67  | 1 of 3 | 1.00           |
 | `dependabot/groups-by-family`                                      | Groups updates by package family with a cooldown, not by version type or a catch-all.                                  | 1.00  | 3 of 3 | 0.33           |
 | `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                                  | 1.00  | 3 of 3 | 0.50           |
 | `dependabot/review-actions-cooldown`                               | Asks for at least seven days on every ecosystem and semver key when a Dependabot workflow holds a write token.         | 1.00  | 3 of 3 | 0.67           |
@@ -104,6 +105,7 @@ unaided by design.
 | `typescript-authoring/batch-first-wrapper`                         | Syncs a list with one call per I/O step and makes the single-item function a wrapper of that call.                     | 1.00  | 3 of 3 | 0.00           |
 | `typescript-authoring/rename-without-alias`                        | Updates every caller instead of keeping an alias, and adds the missing `await`.                                        | 1.00  | 3 of 3 | 0.00           |
 | `typescript-authoring/unlink-batched-cache-delete`                 | Deletes cache keys with one `UNLINK` call, not `DEL` per key.                                                          | 1.00  | 3 of 3 | n/a            |
+| `verification/stale-result-after-later-edit`                       | Says a test result from before a later edit is stale and re-runs before agreeing to merge.                             | 0.50  | 0 of 3 | 1.00           |
 
 ## Where each row comes from
 
@@ -133,6 +135,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **The `debugging` and `verification` rows** are from the two-arm run on 2026-11-22 that added
+  the skills, three attempts per arm. Both are ceiling cases: the answer passed in every attempt
+  of both arms, and the rows are below 1.00 only because the skill loaded in 1 of 6.
 - **`list-reads/review-feed-candidate-pool`** is from a two-arm run of six attempts per arm on
   2026-11-22. The skill loaded in 3 of 6 and every attempt that loaded it passed. "Without plugin"
   is 3 of 9: that run and a three-attempt pilot.

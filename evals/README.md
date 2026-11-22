@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **95 cases** across 38 skills.
-- **With the plugin:** mean score 0.96.
-- **Without it:** mean score 0.30, over the 94 cases measured both ways.
-- **81 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
+- **97 cases** across 40 skills.
+- **With the plugin:** mean score 0.95.
+- **Without it:** mean score 0.32, over the 96 cases measured both ways.
+- **81 cases** are ones the model fails unaided. The other 15 it already gets right: 3 check that a skill stays out of the way, and 12 show only that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -30,6 +30,7 @@ averaged over attempts.
 | `agent-rules`                      | 2     | 1.00        | 0.50           | 1                     |
 | `agent-workflow`                   | 1     | 1.00        | 0.00           | 0                     |
 | `bounded-iteration`                | 3     | 0.92        | 0.33           | 0                     |
+| `debugging`                        | 1     | 0.67        | 1.00           | 1                     |
 | `dependabot`                       | 3     | 1.00        | 0.50           | 0                     |
 | `documentation`                    | 2     | 0.75        | 0.34           | 0                     |
 | `evals`                            | 2     | 1.00        | 0.00           | 0                     |
@@ -65,6 +66,7 @@ averaged over attempts.
 | `test-authoring`                   | 5     | 1.00        | 0.40           | 1                     |
 | `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     |
 | `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     |
+| `verification`                     | 1     | 0.50        | 1.00           | 1                     |
 
 <!-- /evals:groups -->
 
