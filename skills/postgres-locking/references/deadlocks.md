@@ -40,8 +40,10 @@ transaction that inserts the hold, and still delete. Where an allowed lock prote
 invariant:
 
 - take the lock in one statement, and read or guard in a later statement, which gets a fresh
-  snapshot; or
-- have the other side update the locked row, so the waiter re-checks.
+  snapshot. This is the default.
+- A re-check sees only the new version of the locked row, never newer rows in other tables. So
+  having the other side update the row helps only when the waiter's `WHERE` reads a column on
+  that row directly, such as a hold timestamp. Do not add a column only to force that conflict.
 
 This applies only where a lock is allowed at all. A guard on a best-effort rule stays inside the
 writing statement with no lock.
