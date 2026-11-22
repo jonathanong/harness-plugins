@@ -30,7 +30,13 @@ branch and on `main` at the same time.
   `static-analysis-checklist`, `bounded-iteration`, `glide-mq`, and `static-code-analysis` case
   loaded its skill 3 of 3, except the sweep case below. `plan-handoff-self-contained` passed 1 of
   3 on the branch and 3 of 3 on `main`; it passed 3 of 3 and 2 of 3 in the reverse order earlier
-  the same day. They were not rerun with the final wording.
+  the same day. With the final wording, the nine
+  `planning` and `static-analysis-checklist` cases ran again, three attempts ($4.52): five passed
+  3 of 3, and the two loading cases 2 of 3.
+- **Two `planning` cases fail on the answer about half the time on both sides**, with the skill
+  loaded every time. Six attempts each: `plan-handoff-self-contained` 5 of 6 on the branch and 4
+  of 6 on `main`; `plan-saved-outside-repo` 3 of 6 on both. Their `EVALS.md` rows were not
+  replaced; `ROADMAP.md` lists them.
 - **`bounded-iteration/review-sweep-rewrites-its-trigger` is a ceiling case on the answer.** On
   `main` the skill loaded in 0 of 8 attempts and the answer passed 8 of 8. A description naming
   "reindex" and "recurring job" loaded it in 5 of 15 and was not kept.
