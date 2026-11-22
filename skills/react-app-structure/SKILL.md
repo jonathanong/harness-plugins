@@ -101,7 +101,8 @@ environment, and a configuration change does not need a rebuild.
   `toLocaleDateString()` with no locale uses the runtime's default, so the server render and the
   browser disagree and hydration fails or the text flickers.
 - Text a user wrote, shown beside interface text in another language, carries its own `lang`.
-  When its language is unknown, omit `lang` and set `dir="auto"`. Screen readers pick the voice
+  When its language is unknown, set `lang=""` and `dir="auto"`; with no `lang` it inherits the
+  page's. Screen readers pick the voice
   and browsers pick hyphenation and direction from it.
 
 ## User-supplied images

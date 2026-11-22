@@ -5,10 +5,15 @@ anything, or runs `gh api` or `git` in a step.
 
 ## Comparing commits
 
-- Take both ends of a diff range from the same source. A range from
-  `github.event.pull_request.base.sha` to `github.sha` compares the base with the temporary merge
-  commit, so it includes changes that landed on the base branch after the pull request branched.
-  Use the pull request's base and head, or resolve both ends in one step.
+- For the files a pull request changed, compare from the merge base: `git diff base...head`
+  (three dots), with enough history fetched to find it. A two-dot diff of the base SHA and the
+  head SHA also lists what landed on the base branch after the pull request branched.
+- On the default checkout, which is the temporary merge commit, `git diff HEAD^1 HEAD` gives the
+  same files. Take the parent from the commit, not `github.event.pull_request.base.sha` paired
+  with `github.sha`: the event's base SHA and the merge commit are computed at different times,
+  and the pair means something else on any other event.
+- The default checkout fetches one commit. Fetch the commits the diff names, or it fails or
+  compares the wrong thing.
 - A merge queue run has its own range. Resolve it in a step that runs only on `merge_group`, and
   feed every path filter in the job from that step's outputs, so two filters cannot disagree
   about what changed.
@@ -21,9 +26,10 @@ anything, or runs `gh api` or `git` in a step.
   every secret the caller can read, and the review of the caller no longer shows which ones.
 - The callee declares each secret under `on.workflow_call.secrets`. Pass every one it marks
   required, and none it does not declare.
-- Install dependencies before the first step that holds a credential, and keep secrets out of
-  job-level `env`. An install runs third-party scripts; a secret in the job's environment is
-  readable by all of them.
+- Install dependencies before the first step that holds a credential, keep secrets out of
+  job-level `env`, and check out with `persist-credentials: false`. An install runs third-party
+  scripts; they can read a secret in the job's environment and the token checkout leaves in the
+  Git configuration. Give the token only to the later step that pushes.
 - A step that commits or pushes runs `git -c core.hooksPath=/dev/null`. A hook checked into the
   tree would otherwise run with the job's token.
 
@@ -38,8 +44,12 @@ anything, or runs `gh api` or `git` in a step.
   told not to cache it, no workflow turns that cache on beside it.
 - Read the runtime version from the repository's version file, not an inline version, so
   workflows and local development cannot drift.
-- Refer to a service image by one tag-and-digest reference in every workflow. Two workflows on
-  different digests test different databases.
+- Pin a service or container image by digest (`name:tag@sha256:...`), and use the same reference
+  in every workflow. A tag moves, and two workflows on different digests test different
+  databases.
+- Set `provenance` explicitly on every image build step, off unless something reads the
+  attestation. The default adds an attestation manifest, which turns a single-platform image
+  into an index: its digest changes and tools that expect one manifest fail.
 
 ## Artifacts
 

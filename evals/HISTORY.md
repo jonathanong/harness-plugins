@@ -20,12 +20,15 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
     factory.
   - `test-authoring` (Vitest): environment passed as an argument; `exclude` replaces the
     defaults; no typed fake of an internal enqueue.
-- **New case** `github-actions-authoring/pr-diff-range-one-source`, two arms, three attempts per
-  arm, $0.93: 3 of 3 with the plugin, loaded 3 of 3; 1 of 3 without.
+- **Case drafted and dropped:** `github-actions-authoring/pr-diff-range-one-source`. Its first
+  grader passed a two-dot diff of the base and head SHAs and failed a diff of the base against
+  the merge commit; it scored 3 of 3 with the plugin and 1 of 3 without ($0.93). Review showed
+  that grader, and the rule it tested, had the comparison backwards: the two-dot diff is the one
+  that lists changes from the base branch. With the rule and grader corrected to a merge-base
+  comparison, the case scored 3 of 3 in both arms ($0.79), so it is a ceiling case and is not
+  kept. The first result measured the grader's error, not the skill.
 - **Not re-measured:** the existing cases of the seven changed skills. The changes add rules and
   remove none. Their `EVALS.md` rows are from earlier runs.
-- **What it showed:** unaided, the model pairs the pull request's base SHA with the merge commit
-  in two of three attempts.
 
 ## 2026-11-22: `expand-contract-migrations`, `resuming-work`, and `agent-coordination` added
 
