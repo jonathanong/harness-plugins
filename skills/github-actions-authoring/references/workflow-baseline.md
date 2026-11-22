@@ -16,6 +16,9 @@ Check these before editing any workflow or composite action. A stricter reposito
   the layers above the bottom get no CI. After changing a trigger on the default branch, rebase
   open stacks so their branches carry the new workflow file.
 - A required check is a real job that runs or aggregates the work it reports.
+- A workflow-level `paths` filter that skips the whole workflow leaves its required check pending.
+  Select the area inside a job, and let a gate job named for the check always run and pass when the
+  area is skipped.
 - Workflow code must not create check runs or commit statuses to synthesize a required context or
   copy another workflow's conclusion. An external CI or analysis service may report its own result.
 
@@ -41,6 +44,8 @@ Check these before editing any workflow or composite action. A stricter reposito
   that needs no Docker daemon.
 - Check out with `persist-credentials: false` unless a later step must push with that token.
 - A hosted runner starts clean. Do not add workspace cleanup steps for it.
+- A check that compares with a base revision fails when the base is unavailable; it does not fall
+  back to the current tree.
 
 ## Pinning
 

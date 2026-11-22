@@ -57,6 +57,19 @@ get a retention window. Delete a cache's older rows when a new version is writte
 A bounded post-commit enqueue-loss window is acceptable when the stale result heals itself through
 a TTL; no transactional dirty-work table is needed.
 
+## Counts and rankings
+
+A periodic recount of a counter column only hides the write path that lost an update, so adding a
+counter needs evidence that nothing simpler works.
+
+- A displayed count is a capped count: count over a `LIMIT cap + 1` subquery and return the number
+  with a `capped` flag, so the client shows "1k+".
+- A ranking by a count that cannot be capped without changing the order is a materialized view of
+  the counts, with a unique index on its key and an index matching the read order. Refresh it on a
+  schedule, off the request path, and join live eligibility (deleted, hidden) at read time.
+- Any other materialized view has a defining query bounded by an indexed id range or time window,
+  so refresh cost follows the window, not the table's history. Read it with one keyset walk.
+
 ## Cursors and shared functions
 
 Prefer keeping the position in job data; a cursor table is for a sweep whose position must commit with
@@ -66,6 +79,11 @@ with `ON CONFLICT DO NOTHING`. `cursor_<thing>_id` and optional `sweep_upper_bou
 FK-free UUIDv7 positions; NULL means the start. Per-unit work progress belongs in work items.
 A UUIDv7 is assigned at insert, not commit: jobs that must see every committed row re-scan an
 overlap rather than assuming an id high-water mark proves commit order.
+
+A UUIDv7 key already records when the row was created. Do not add `created_at DEFAULT now()`
+beside it: that is a second source for one fact, free to drift, and an index on it duplicates the
+order `id` gives. Order and paginate by `id`. When a reader needs the timestamp, expose `created_at`
+as a generated column over `uuid_extract_timestamp(id)`.
 
 Use `updated_at` only for mutable rows, always maintained by its trigger; application code never
 writes it. Comment every table, column, and view, including generated objects. Self-explanatory

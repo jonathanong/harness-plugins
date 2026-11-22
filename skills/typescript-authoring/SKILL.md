@@ -48,6 +48,15 @@ switch (kind) {
 A direct call can be found, renamed, and type-checked. A dispatched one is found only by running
 the code.
 
+## Closed sets
+
+Before removing or renaming a value of a closed set (a union, enum, discriminator, route slug),
+list every place that enumerates it: the type and the database enum or `CHECK`, maps and
+formatters from value to label, slug, or URL, tests and mock factories, seeds and imports, and
+docs. Change them in one commit, then search the repository for the old value, and for a slug the
+file and directory names too. Decide each remaining hit: intended, unrelated, or still to fix.
+For a rename, search both names.
+
 ## Async errors
 
 Inside a `try` whose `catch` should handle the failure, write `return await promise`. A bare

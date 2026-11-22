@@ -42,7 +42,8 @@ remove tests and helpers that cannot do that.
   creates, and the test passes on it. Insert directly only to reach a state production can no
   longer create, such as legacy or half-migrated data, or a precondition a hook would overwrite,
   and say in the test which state it needs.
-- Keep a fixture minimal and typed: only the fields this test reads.
+- Keep a fixture minimal and typed: only the fields this test reads. Cross each boundary with the
+  fewest rows: lower the work limit through configuration instead of creating a full page.
 
 ## Helpers
 
@@ -67,6 +68,8 @@ case the guard exists for.
   format, URLs, or call order. Read [dependency boundaries](references/dependency-boundaries.md)
   before asserting on a dependency's output, and whenever a dependency upgrade breaks a test.
 - Add a focused failing test before a behavior change when the behavior can be tested.
+- Do not use a clock to prove that nothing happened. Wait for the event that would have caused
+  it, such as a sibling item processed in the same pass, then assert the target was skipped.
 - Test the failure paths, authorization, and security-relevant validation, not only the path
   that succeeds.
 - A test counts as evidence for an acceptance criterion only when it could have failed. The
@@ -83,6 +86,8 @@ After the rules above, read the one file for the runner in use:
 - Swift and SwiftUI tests: [swift](references/swift.md)
 - .NET tests, including MAUI: [dotnet](references/dotnet.md)
 - Playwright and other browser tests: use the `playwright-authoring` skill as well.
+- Replacing a parser, serializer, or library behind a stable interface:
+  [replacing a library](references/replacing-a-library.md)
 
 ## Review
 

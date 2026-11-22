@@ -90,6 +90,47 @@ arm, 9 cases, 54 attempts, $7.04.
 - **What it showed:** without the skill the model adds or keeps a lock in every non-guard case.
   `postgres-schema-design` now has no case the model fails unaided.
 
+## 2026-11-22: second round of generic rules; a queue is ephemeral
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Changed skill text:** `bounded-iteration`, `dependabot`, `github-actions-authoring` (with a new
+  destructive-workflows reference), `glide-mq`, `playwright-authoring`,
+  `postgres-node-performance-tuning`, `postgres-schema-design`, `service-boundaries`,
+  `static-analysis-checklist`, `structured-logging`, `test-authoring` (with a new
+  replacing-a-library reference), and `typescript-authoring`.
+- **New rule:** `glide-mq` says a queue is ephemeral and state lives in PostgreSQL: completed and
+  failed jobs are removed, recovery reads rows, and only legal, privacy, or irreversible work keeps
+  a row per attempt. `bounded-iteration` says a sweep finds its work in rows, not failed jobs.
+- **Run 1, both arms, three attempts per arm, $24.22,** before `main` was merged in. New cases,
+  with / without: `glide-mq/review-retry-from-failed-jobs` 3 of 3 / 0.33;
+  `postgres-schema-design/uuidv7-no-created-at-default` 3 of 3 / 0.00. Existing cases held:
+  every `glide-mq`, `dependabot`, `test-authoring`, and `postgres-node-performance-tuning` case
+  answered 3 of 3 with the plugin except `dependabot/review-actions-cooldown` and
+  `test-authoring/dotnet-private-field-not-reflected`, 2 of 3 each, both on an attempt that did
+  not load the skill. `postgres-node-performance-tuning/index-change-rechecks-neighbors` got its
+  first no-plugin score, 0.00.
+- **Dropped as ceiling cases, never merged:** `dependabot/pnpm-workspace-one-entry`,
+  `postgres-node-performance-tuning/get-or-create-identity`, and
+  `test-authoring/absence-waits-for-event` scored 1.00 without the plugin.
+  `github-actions-authoring/paths-filtered-required-check` scored 0.67 without and never loaded
+  the skill with it. Their rules stay in the skills, untested.
+- **Run 2, plugin only, after merging `main`, three attempts, $7.88, with a control on `main` in
+  the same session, $4.14.** Branch / `main`, attempts passed:
+  `static-analysis-checklist/tracked-files-only` 0 of 3 / 0 of 3, never loading the skill on
+  either side; `bounded-iteration/review-sweep-rewrites-its-trigger` 1 of 3 / 2 of 3;
+  `structured-logging/review-lookup-in-catch` 2 of 3 / 2 of 3;
+  `typescript-authoring/rename-without-alias` 3 of 3 / 2 of 3. Every other case in
+  `bounded-iteration`, `github-actions-authoring`, `postgres-node-performance-tuning`,
+  `postgres-schema-design`, `static-analysis-checklist`, `structured-logging`, and
+  `typescript-authoring` passed 3 of 3 on both, except the next row.
+- **`github-actions-authoring/required-check-is-a-real-job`** passed 1 of 3 on the branch in run 2. Over two further same-session runs it passed 10 of 11 on the branch and 10 of 11 on `main`,
+  so the miss is noise in the case, not the new text.
+- **What it showed:** the round did not move any existing case beyond what `main` does in the
+  same session. `tracked-files-only` no longer loads its skill on `main` either; its stored row
+  (3 of 3) is stale and the case needs a clearer trigger. `EVALS.md` rows for existing cases were
+  not replaced.
+
 ## 2026-11-22: `bounded-iteration` description names sweeps
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, plugin only, eight attempts

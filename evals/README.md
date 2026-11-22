@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **92 cases** across 37 skills.
+- **94 cases** across 37 skills.
 - **With the plugin:** mean score 0.97.
-- **Without it:** mean score 0.31, over the 90 cases measured both ways.
-- **77 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
+- **Without it:** mean score 0.30, over the 93 cases measured both ways.
+- **80 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -38,7 +38,7 @@ averaged over attempts.
 | `github-actions-authoring`         | 4     | 1.00        | 0.38           | 1                     |
 | `github-issue`                     | 2     | 0.92        | 0.17           | 0                     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
-| `glide-mq`                         | 4     | 1.00        | 0.33           | 1                     |
+| `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
 | `http-api-design`                  | 3     | 1.00        | 0.22           | 0                     |
 | `native-app-architecture`          | 2     | 1.00        | 0.00           | 0                     |
 | `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |
@@ -48,7 +48,7 @@ averaged over attempts.
 | `postgres-locking`                 | 7     | 0.95        | 0.29           | 2                     |
 | `postgres-node-performance-tuning` | 2     | 1.00        | 0.00           | 0                     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
-| `postgres-schema-design`           | 1     | 1.00        | 1.00           | 1                     |
+| `postgres-schema-design`           | 2     | 1.00        | 0.50           | 1                     |
 | `pr-description`                   | 2     | 1.00        | 0.00           | 0                     |
 | `pull-requests`                    | 1     | 1.00        | 0.00           | 0                     |
 | `react-app-structure`              | 3     | 1.00        | 0.56           | 1                     |

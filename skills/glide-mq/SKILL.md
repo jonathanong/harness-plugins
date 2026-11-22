@@ -38,11 +38,19 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
   return reply.code(202).send({ id: reportId })
   ```
 
-- **Every queue has a terminal recovery path for permanently failed jobs, and it is not the
-  dead-letter queue.** A dead-letter queue only holds the failure. Add a reconciler, a sweep, or
-  an owning repair job that finds the rows whose job failed for good and either redoes or
-  explicitly abandons the side effect. A failed job's side effect is then eventually settled
-  instead of left half done.
+- **A queue is ephemeral; state lives in PostgreSQL.** A job is a delivery attempt, not a
+  record. Finished jobs, completed and failed, are removed at once or kept for a short, bounded
+  window: `removeOnComplete` and `removeOnFail` are `true`, a small count, or an age, never
+  `false` and never a default that keeps everything. A failed job kept forever grows without
+  bound, holds its job id so a re-add is dropped, and hides state from anyone reading SQL.
+- **Recover from rows, not from the queue.** No code reads a job's state to learn whether work is
+  done, and no reconciler scans failed jobs or a dead-letter queue for work to redo. The row says
+  what is pending, done, or failed, and a sweep re-enqueues from it, so a failed job's side
+  effect is settled or explicitly abandoned, not left half done.
+- **What the row records depends on the work.** Legal, privacy, and irreversible work (a
+  takedown, an account deletion, a payment, a moderation action) keeps a row per attempt with
+  status, error, time, and actor, which must survive a flush of the queue store. Work that can be
+  recomputed (a feed, a count, a cache) keeps none; the next sweep picks up what was lost.
 - **Share a queue by default; add one only when sharing cannot work.** Put limits on the job, not
   the queue: group `ordering.concurrency`, `rateLimit`, or `tokenBucket`, and per-job
   `lockDuration` and `timeout`. A new queue is justified by a different worker class, a batch
@@ -95,6 +103,10 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
 8. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
    merge or remove jobs to cut the count. Judge a design by model calls or spend per item and by
    how simply the jobs share a lifecycle.
+9. **A lock duration is a crash-recovery window, not a runtime cap.** `lockDuration` is how long
+   a job may go without a heartbeat before another worker takes it after a crash. Shortening it
+   only duplicates slow but live jobs sooner. A deploy that kills a worker mid-job counts as a
+   stall; raising the stalled-job limit hides a job that keeps crashing, so fix the job.
 
 ## Payloads and replay
 

@@ -38,6 +38,7 @@ unaided by design.
 | `glide-mq/failed-jobs-need-recovery-path`                          | Adds a recovery path for permanently failed jobs beyond the dead-letter queue.                                         | 1.00  | 3 of 3 | 1.00           |
 | `glide-mq/never-enqueue-and-wait`                                  | Returns 202 with a job id instead of waiting on the job inside the request.                                            | 1.00  | 3 of 3 | 0.00           |
 | `glide-mq/outbox-own-queue`                                        | Puts an outbox relay and a ledger write on a queue of their own, not a lane on the shared queue.                       | 1.00  | 3 of 3 | 0.33           |
+| `glide-mq/review-retry-from-failed-jobs`                           | Asks a repair job to read database rows, not the queue's failed jobs, and for failed jobs not to be kept forever.      | 1.00  | 3 of 3 | 0.33           |
 | `glide-mq/review-webhook-lane`                                     | Gives a floodable webhook job family its own lane.                                                                     | 1.00  | 3 of 3 | 0.00           |
 | `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                                 | 1.00  | 3 of 3 | 0.67           |
 | `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                      | 1.00  | 3 of 3 | 0.00           |
@@ -64,11 +65,12 @@ unaided by design.
 | `postgres-locking/review-advisory-lock-key`                        | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                   | 0.67  | 1 of 3 | 1.00           |
 | `postgres-locking/review-last-admin-advisory-lock`                 | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                             | 1.00  | 3 of 3 | 0.00           |
 | `postgres-locking/rollup-trigger-deadlocks`                        | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.     | 1.00  | 3 of 3 | 0.00           |
-| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                                | 1.00  | 3 of 3 | n/a            |
+| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                                | 1.00  | 3 of 3 | 0.00           |
 | `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                            | 1.00  | 3 of 3 | 0.00           |
 | `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                  | 1.00  | 3 of 3 | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`           | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                     | 1.00  | 3 of 3 | 0.00           |
 | `postgres-schema-design/customer-code-key`                         | References a generated id from other tables, not the customer's text code. Ceiling case.                               | 1.00  | 3 of 3 | 1.00           |
+| `postgres-schema-design/uuidv7-no-created-at-default`              | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                | 1.00  | 3 of 3 | 0.00           |
 | `pr-description/ci-gap-section`                                    | Adds a short section on what CI caught that the local check missed, without work history.                              | 1.00  | 3 of 3 | 0.00           |
 | `pr-description/perf-change-with-flag`                             | Shows a before/after table, states what a flag does not cover, and omits routine checks.                               | 1.00  | 3 of 3 | 0.00           |
 | `pull-requests/review-round-dispositions`                          | Gives each review comment one disposition and settles the round with a single push.                                    | 1.00  | 3 of 3 | 0.00           |
@@ -146,4 +148,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   and `technical-writing/proposal-for-two-audiences`.
 - **The 10 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
   except rows from a later two-arm run.
-- **Not measured without the plugin:** the two rows marked `n/a`.
+- **`glide-mq/review-retry-from-failed-jobs`, `postgres-schema-design/uuidv7-no-created-at-default`,
+  and the "Without plugin" score of `postgres-node-performance-tuning/index-change-rechecks-neighbors`**
+  are from the two-arm run on 2026-11-22 after the second round of generic rules, three attempts
+  per arm. The other rows of the skills that round changed were not replaced; HISTORY.md has their
+  scores from that run.
+- **Not measured without the plugin:** the row marked `n/a`.

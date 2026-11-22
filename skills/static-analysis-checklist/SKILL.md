@@ -22,8 +22,10 @@ syntax, and rollout policy.
    boundaries, equivalent YAML forms, and every allowed exception. Before replacing or deleting a
    security guard, port its old fixture corpus to the replacement and pass it first, so the
    rewrite cannot quietly stop blocking a case the old guard caught.
-4. Keep discovery limited to tracked, intended files. Make suppressions and allowlists narrow,
-   justified, and mechanically checked for freshness where practical.
+4. Keep discovery limited to tracked, intended files. A scan of tracked files sees a new file only
+   after `git add`, so when a check says a new path does not exist, stage it before changing the
+   rule. Make suppressions and allowlists narrow, justified, and mechanically checked for
+   freshness where practical.
 5. Run the focused fixture test and analyzer, then the local aggregate checks. Keep diagnostics
    actionable and deterministic.
 6. Update the local inventory or documentation and delete superseded migration artifacts only when

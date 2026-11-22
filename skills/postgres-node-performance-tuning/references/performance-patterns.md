@@ -12,8 +12,11 @@ renewal fails, and guard any write a stale owner could make with the token.
 For large reads, use keyset pagination, cursors, or streams with cancellation and bounded batches.
 For writes, prefer set-based batches such as UNNEST or COPY when they preserve validation and error
 handling. Do large list diffs and dedupes in the worker as a streaming comparison of sorted
-inputs, not as writer-side set operations. Measure query plans with representative cardinality
-before changing an index or query. Adding an index for a measured plan is a default: do not ask
+inputs, not as writer-side set operations. Recompute a large tally over an append-only table in a background job that reads a replica, not in
+a request or on the primary. Write the result back only when it is fresher than what is stored (a
+marker taken from the same snapshot), so a job that finishes late cannot roll back a newer tally.
+Accept the lag; a path that needs a fresh count reads the primary. Measure query plans with
+representative cardinality before changing an index or query. Adding an index for a measured plan is a default: do not ask
 first and do not make it a spec stop condition.
 
 Check query predicates, joins, ordering, and selected columns against index shape. Use EXPLAIN

@@ -17,7 +17,6 @@ Planned work, most certain first. An item leaves this file when its pull request
       description limit this repository enforces.
 - [ ] **Locking:** a dedicated pool for session-level advisory locks, and get-or-create without a
       lock.
-- [ ] **Queues are ephemeral.** Failed jobs are not kept as state; recovery reads database rows.
 
 ## Skills: split
 
@@ -44,6 +43,8 @@ Each is added only when a case shows the model fails without it.
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **A case that shows each skill helps** for `postgres-schema-design`, `review-ci-logs`, and
       `package-json-checklist`.
+- [ ] **Fix cases that stopped loading their skill:** `static-analysis-checklist/tracked-files-only`
+      and `bounded-iteration/review-sweep-rewrites-its-trigger`.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
