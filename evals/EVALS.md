@@ -54,7 +54,7 @@ unaided by design.
 | `planning/plan-handoff-self-contained`                             | Writes a plan that stands alone, with decisions and reasons, steps, non-goals, and stop conditions.                    | 0.83  | 2 of 3 | 0.00           |
 | `planning/plan-pulls-in-postgres-skill`                            | Loads a PostgreSQL skill and carries lock and backfill safety into the steps.                                          | 1.00  | 3 of 3 | 1.00           |
 | `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                             | 1.00  | 3 of 3 | 0.00           |
-| `planning/plan-states-before-after`                                | States in plain language what users see before and after the change.                                                   | 0.67  | 2 of 3 | 0.00           |
+| `planning/plan-states-before-after`                                | States in plain language what users see before and after the change.                                                   | 0.62  | 5 of 8 | 0.00           |
 | `planning/plan-verification-commands`                              | Gives each step a verification command and selects the final tests from the change.                                    | 1.00  | 3 of 3 | 0.00           |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                            | 1.00  | 3 of 3 | 0.00           |
 | `playwright-authoring/review-computed-test-ids`                    | Asks for literal test ids and `getByTestId` with a row filter, not computed ids.                                       | 1.00  | 3 of 3 | 0.00           |
@@ -85,7 +85,7 @@ unaided by design.
 | `skill-authoring/repo-rule-not-in-shared-skill`                    | Keeps one team's package, field, and path out of a shared skill and puts them in that team's repository.               | 1.00  | 3 of 3 | 0.00           |
 | `skill-authoring/split-by-trigger`                                 | Gives browser-test guidance its own skill, or an existing one, instead of a reference under the unit-test skill.       | 0.83  | 2 of 3 | 0.00           |
 | `static-analysis-checklist/parses-yaml-with-fixtures`              | Parses YAML instead of matching text, and tests the check with fixtures.                                               | 1.00  | 3 of 3 | 0.50           |
-| `static-analysis-checklist/tracked-files-only`                     | Limits a CI guard's file discovery to tracked workflow and action files.                                               | 1.00  | 3 of 3 | 0.33           |
+| `static-analysis-checklist/tracked-files-only`                     | Limits a CI guard's file discovery to tracked workflow and action files.                                               | 0.62  | 4 of 8 | 0.33           |
 | `static-code-analysis/new-rust-service`                            | Picks the static checks for a new Rust service.                                                                        | 1.00  | 3 of 3 | 0.83           |
 | `static-code-analysis/new-typescript-library`                      | Picks the static checks for a new TypeScript library.                                                                  | 1.00  | 3 of 3 | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                     | Logs the customer id with a static message instead of looking up an email for the log.                                 | 1.00  | 3 of 3 | 0.00           |
@@ -132,6 +132,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`planning/plan-states-before-after` and `static-analysis-checklist/tracked-files-only`** take
+  "Score" and "Passed" from a plugin-only run of eight attempts on 2026-11-22, after their
+  descriptions changed. On `main` in the same session each passed 1 of 8. "Without plugin" is
+  from the earlier two-arm runs.
 - **The `bounded-iteration` rows** take "Score" and "Passed" from a plugin-only run of eight
   attempts per case after the description named sweeps, and "Without plugin" from the two-arm run
   before it (three attempts per arm).

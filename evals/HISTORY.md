@@ -4,6 +4,63 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: two descriptions changed to load more often; seven drafted cases dropped
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Every comparison ran on this
+branch and on `main` at the same time.
+
+- **Changed descriptions:** `planning` now opens "Use when asked to plan, scope, or design a
+  change before implementing it". `static-analysis-checklist` names reviewing and "a script that
+  fails a build". `revisit-followups` gained one body sentence: the window bounds what is fetched,
+  and a list the person hands over is swept whole.
+- **Loading, eight attempts per side, plugin only:**
+
+  | Case                                           | `main` loaded | Branch loaded | `main` passed | Branch passed |
+  | ---------------------------------------------- | ------------- | ------------- | ------------- | ------------- |
+  | `planning/plan-states-before-after`            | 1 of 8        | 5 of 8        | 1 of 8        | 5 of 8        |
+  | `static-analysis-checklist/tracked-files-only` | 1 of 8        | 6 of 8        | 1 of 8        | 4 of 8        |
+  | `planning/mechanical-change-skips-plan`, guard | not graded    | not graded    | 8 of 8        | 8 of 8        |
+
+- **A first wording was rejected.** It named "a timeout, a limit, or copy" in `planning` and "how
+  the check finds the files it reads" in `static-analysis-checklist`. Both loaded 8 of 8, but
+  each phrase repeats its own case's prompt, and the `planning` guard failed 1 of 3 with it. The
+  numbers above are for the wording without those phrases.
+- **Other cases of the changed skills and two neighbors**, three attempts, plugin only, run with
+  the first wording ($10.68 on the branch, $7.02 on `main`): every `planning`,
+  `static-analysis-checklist`, `bounded-iteration`, `glide-mq`, and `static-code-analysis` case
+  loaded its skill 3 of 3, except the sweep case below. `plan-handoff-self-contained` passed 1 of
+  3 on the branch and 3 of 3 on `main`; it passed 3 of 3 and 2 of 3 in the reverse order earlier
+  the same day. With the final wording, the nine
+  `planning` and `static-analysis-checklist` cases ran again, three attempts ($4.52): five passed
+  3 of 3, and the two loading cases 2 of 3.
+- **Two `planning` cases fail on the answer about half the time on both sides**, with the skill
+  loaded every time. Six attempts each: `plan-handoff-self-contained` 5 of 6 on the branch and 4
+  of 6 on `main`; `plan-saved-outside-repo` 3 of 6 on both. Their `EVALS.md` rows were not
+  replaced; `ROADMAP.md` lists them.
+- **`bounded-iteration/review-sweep-rewrites-its-trigger` is a ceiling case on the answer.** On
+  `main` the skill loaded in 0 of 8 attempts and the answer passed 8 of 8. A description naming
+  "reindex" and "recurring job" loaded it in 5 of 15 and was not kept.
+  `service-boundaries/topology-in-app-repo` loaded 8 of 8 on `main`, so its earlier misses were
+  drift.
+- **Seven cases were drafted for rules added without one; none was kept.** Two-arm, three
+  attempts per arm:
+  - Passed without the plugin, 3 of 3: `planning/open-product-choice-takes-default`,
+    `service-boundaries/review-llm-call-default-model`,
+    `http-api-design/handler-order-validate-after-resolve` (which also loaded its skill in only 1
+    of 3), `react-app-structure/fetch-wrapper-null-only-on-404`, and
+    `postgres-schema-design/status-as-lifecycle-timestamps`.
+  - `github-issue/blocker-found-is-recorded-not-asked`: the skill loaded in 0 of 3. The answer
+    passed 3 of 3 with the plugin and 0 of 3 without, on near-identical answers and split judge
+    votes, so the difference is not the skill's.
+  - `revisit-followups/no-window-given-uses-default`: 3 of 3 with, 0 of 3 without. The answers
+    without the plugin swept all five pull requests the person pasted, which is the better
+    answer; the case rewarded dropping one for being older than a week. The skill sentence above
+    fixes the rule instead.
+- **What it showed:** the two descriptions load more often for a request that does not use their
+  words, though still not every time. The model already follows five of the seven new rules.
+- **`revisit-followups/only-verified-deferred-work`** passed 3 of 3 with the new sentence, plugin
+  only. Its `EVALS.md` row was not replaced.
+
 ## 2026-11-22: skills ask less; contradictions and repeated rules removed; round-two addendum
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. No case or grader changed.

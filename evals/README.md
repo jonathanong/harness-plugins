@@ -43,7 +43,7 @@ averaged over attempts.
 | `native-app-architecture`          | 2     | 1.00        | 0.00           | 0                     |
 | `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |
 | `package-json-checklist`           | 2     | 0.95        | 0.67           | 0                     |
-| `planning`                         | 7     | 0.93        | 0.38           | 2                     |
+| `planning`                         | 7     | 0.92        | 0.38           | 2                     |
 | `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     |
 | `postgres-locking`                 | 7     | 0.95        | 0.29           | 2                     |
 | `postgres-node-performance-tuning` | 2     | 1.00        | 0.00           | 0                     |
@@ -57,7 +57,7 @@ averaged over attempts.
 | `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     |
 | `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     |
 | `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     |
-| `static-analysis-checklist`        | 2     | 1.00        | 0.42           | 0                     |
+| `static-analysis-checklist`        | 2     | 0.81        | 0.42           | 0                     |
 | `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     |
 | `structured-logging`               | 2     | 1.00        | 0.00           | 0                     |
 | `technical-writing`                | 3     | 0.89        | 0.00           | 0                     |
