@@ -1,6 +1,6 @@
 ---
 name: pr-description
-description: Use when opening or updating a pull request, writing its title or body, deciding whether to split work across pull requests, or reviewing a description. Write a pull request description a reviewer can act on without opening the diff - the problem, the change, the impact, and before/after evidence.
+description: Use when opening or updating a pull request, writing its title or body, or reviewing a description. Write a pull request description a reviewer can act on without opening the diff - the problem, the change, the impact, and before/after evidence.
 ---
 
 # Pull request descriptions
@@ -80,11 +80,8 @@ than one found in review.
 
 ## Scope
 
-- Keep related work in one pull request. Split only for a risk reason: a migration that must land
-  first, a change that needs its own revert, or a diff too large to review.
-- When work is split, say in each description what the other parts are and in what order they
-  land.
-- Leave unrelated cleanups out, or put them in their own commit and say so.
+When work is split across pull requests, say in each description what the other parts are and in
+what order they land. Whether to split or stack is in the `pull-requests` skill.
 
 ## Title
 

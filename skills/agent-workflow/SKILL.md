@@ -1,6 +1,6 @@
 ---
 name: agent-workflow
-description: Use when starting an implementation task, preparing a handoff, reviewing a change, or deciding what to do with review comments from a person or a bot. Carries a repository change from start to handoff - implement it, gather evidence, review a diff, and answer review feedback, splitting independent work to run in parallel.
+description: Use when starting an implementation task, working unattended, deciding whether to ask the person or go ahead, writing a status or handoff note, or reviewing a change. Carries a repository change from start to handoff - implement it, decide without stalling, gather evidence, and review a diff. For an open pull request and its review comments, use pull-requests.
 ---
 
 # Agent workflow
@@ -36,6 +36,8 @@ a blocker or a follow-up found on the way does not widen the task.
 - Compare the final diff with what was agreed. Check that docs, generated output, and public
   contracts agree with the code.
 - Report the validation that actually ran, the open pull requests, and what is still blocked.
+  What a pull request needs before it is handed off, and how to answer its review comments, is
+  in the `pull-requests` skill.
 - Keep large logs out of the conversation. Report bounded findings and their evidence.
 
 ## Review a change
@@ -45,10 +47,29 @@ compatibility of public contracts, failure paths, authorization, untrusted input
 Ask for dead paths and stale docs to be removed, not labeled legacy. Check the pull request
 description against the final behavior.
 
-## Answer review feedback
+## Decide, then report
 
-Read [review response](references/review-response.md) before acting on review comments. In short:
-read the whole round first, give every item exactly one disposition, and push once.
+Every question stops the work until a person answers. Ask only when the answer cannot be
+worked out and a wrong guess cannot be undone.
+
+- When repository policy, the request, or the evidence settles a choice, take it and say which
+  one you took. A minor upgrade the policy allows, a missing index, a rebase, a stale branch to
+  delete: these are not questions.
+- When a choice is open but reversible, take the smallest option, record it as an assumption in
+  the handoff, and continue.
+- Ask before an action that is destructive or irreversible, that ships a release or spends
+  money, or that is outside what was authorized. Recommend one option with the reason; do not
+  list options. Ask every open question at once, and keep working on what does not depend on the
+  answers.
+- Filing an issue, opening a pull request, and messaging an owner are ordinary steps wherever
+  the repository allows them. Being public does not make them questions.
+- An instruction given once stands. Do not ask again for approval already given.
+- Work that belongs to another owner or agent goes to them, in one message they can act on
+  without this conversation. Do not bring it to the person, and do not do it yourself.
+- Use the tool built for a job, such as the repository's pull request tool for waiting on checks,
+  before writing a polling loop or a watcher script.
+- A handoff lists as "needs you" only what a person alone can do. Anything else on that list is
+  unfinished work.
 
 ## Parallel by default
 
@@ -56,7 +77,8 @@ Split the work into independent units and run them at the same time, one worker 
 each, within any limit the person set. Make a unit wait only for a named dependency:
 
 - it needs an upstream change that is not released yet
-- it changes the same files or contract as another unit; stack those instead of waiting
+- it changes the same files or contract as another unit; stack those instead of waiting (see
+  the `pull-requests` skill)
 - it would write in the same worktree
 
 A pull request that is waiting on review or checks does not pause the other units.

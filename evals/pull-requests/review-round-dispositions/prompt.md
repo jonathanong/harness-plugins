@@ -1,6 +1,6 @@
 ---
 description: A round of review comments gets one disposition per item and one push, not a fix for every comment.
-tags: [agent-workflow, skill-fired]
+tags: [pull-requests, skill-fired]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
