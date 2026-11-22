@@ -28,9 +28,6 @@ Each is added only when a case shows the model fails without it.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
-- [ ] **Two `planning` cases pass about half the time with the skill loaded:**
-      `plan-saved-outside-repo` and `plan-handoff-self-contained`. Read the failing answers and
-      decide whether the rule or the grader is unclear.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
       no skill loaded.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not

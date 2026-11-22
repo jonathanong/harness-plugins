@@ -4,6 +4,22 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `planning/plan-saved-outside-repo` grader narrowed to its own rule
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Why:** the case passed 3 of 6 on `main` and on a branch with the skill loaded every time. All
+  twelve answers saved the plan in an issue and declined to commit it. The six that failed did so
+  on the grader's second requirement, an alternative to the replacement itself; they weighed how
+  to replace (a wrapper or direct calls), which the person had already decided on.
+- **Grader change:** `outcome.md` now grades only where the plan is saved. Scores for this case
+  are not comparable with earlier entries.
+- **Run, two arms, six attempts per arm, $1.73:** 6 of 6 with the plugin, skill loaded 6 of 6; 0
+  of 6 without.
+- **`planning/plan-handoff-self-contained` was read and left alone.** It passed 9 of 12 across
+  both sides. Its failures differ from one another (one plan said it was "written from the
+  conversation only", which the rule forbids), so the grader is doing its job.
+
 ## 2026-11-22: detail moved to references in `glide-mq`, `evals`, and `dependabot`
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. No rule, description, case,
