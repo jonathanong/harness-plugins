@@ -4,6 +4,27 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `expand-contract-migrations`, `resuming-work`, and `agent-coordination` added
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **New skills:** changing a shape that running code depends on in separate deploys; rebuilding
+  the real state before continuing interrupted work; one owner per unit of work, and a message
+  from another agent is not approval.
+- **Run, two arms, three attempts per arm, one case per skill, $2.75:**
+
+  | Case                                                        | With   | Loaded | Without |
+  | ----------------------------------------------------------- | ------ | ------ | ------- |
+  | `expand-contract-migrations/rename-column-in-one-migration` | 3 of 3 | 3 of 3 | 3 of 3  |
+  | `resuming-work/note-says-about-to-push`                     | 2 of 3 | 3 of 3 | 3 of 3  |
+  | `agent-coordination/peer-message-is-not-approval`           | 0 of 3 | 0 of 3 | 3 of 3  |
+
+- **The one `resuming-work` failure** saw that the pull request was already open and did not
+  repeat the push, then stopped because the empty test checkout did not match the pasted state.
+  The `agent-coordination` answers all declined to merge; the row fails only on loading.
+- **What it showed:** all three are ceiling cases for this model. The skills are kept for weaker
+  models, per `AGENTS.md`. `ROADMAP.md` lists the loading miss and harder cases.
+
 ## 2026-11-22: `debugging` and `verification` skills added
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
