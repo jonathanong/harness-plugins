@@ -82,6 +82,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`http-api-design`](skills/http-api-design/SKILL.md)                                   | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.           |
 | [`service-boundaries`](skills/service-boundaries/SKILL.md)                             | Calling another service or a partner API, or handling a webhook.               |
 | [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.        |
+| [`expand-contract-migrations`](skills/expand-contract-migrations/SKILL.md)             | Renaming or dropping a column, table, or field without a deploy-time break.    |
 | [`structured-logging`](skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                 |
 | [`agent-workflow`](skills/agent-workflow/SKILL.md)                                     | Implementing, gathering evidence, handing off, and reviewing a change.         |
 | [`planning`](skills/planning/SKILL.md)                                                 | Planning a non-trivial change: impact, verification, a handoff plan.           |
@@ -90,6 +91,8 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`review-ci-logs`](skills/review-ci-logs/SKILL.md)                                     | Diagnosing a CI failure or noisy CI output from the logs.                      |
 | [`debugging`](skills/debugging/SKILL.md)                                               | Finding the cause of a failure before changing code.                           |
 | [`verification`](skills/verification/SKILL.md)                                         | Checking a claim against observed results before reporting it.                 |
+| [`resuming-work`](skills/resuming-work/SKILL.md)                                       | Picking up work after an interruption, and leaving it resumable.               |
+| [`agent-coordination`](skills/agent-coordination/SKILL.md)                             | Delegating to workers and handling messages from other agents.                 |
 | [`revisit-followups`](skills/revisit-followups/SKILL.md)                               | Sweeping merged work for deferred follow-ups that are still needed.            |
 
 ### Evals
