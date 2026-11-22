@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-22: `bounded-iteration` description names sweeps
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, plugin only, eight attempts
+per case for each description in the same session, $7.24; then `glide-mq` plugin only, three
+attempts, $2.05.
+
+- **Changed:** the description now opens "Use when writing or reviewing a sweep, scheduled job,
+  ..." and says it covers sweeps that re-select their own writes and effects that repeat on every
+  run.
+- **A/B, skill loaded / answer passed, old then new:** `review-dispatcher-predicate-and-job-id`
+  2 / 3 of 8, then 8 / 8 of 8; `review-staged-reconciler` 8 / 8, then 8 / 8;
+  `review-sweep-rewrites-its-trigger` 0 / 8, then 4 / 8 of 8.
+- **Neighbor check:** every `glide-mq` case still loaded `glide-mq` in all 12 attempts;
+  `never-enqueue-and-wait` failed its design grader once (2 of 3). Its README row is from the
+  earlier run.
+- **Not rerun without the plugin:** the description does not change that arm.
+- **After review, no run:** rule 17 now forbids writing a row back into the selection rather than
+  any write to the selected column (a completion marker that removes the row is the point), and
+  its second-run test applies once no eligible rows remain and counts new work, not repeated
+  idempotent enqueues. The rows above were measured before this wording.
+
+## 2026-11-21: `bounded-iteration`: a sweep converges
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm, $4.40 over two runs.
+
+- **Changed:** `bounded-iteration` rule 17: a sweep never writes the column it selects by unless
+  the write is a lease, replays only idempotent "ensure" effects, and has a second-run test that
+  writes and enqueues nothing. The "ensure" rule moved here from `glide-mq/references/job-design.md`,
+  which now links to it.
+- **New case** `bounded-iteration/review-sweep-rewrites-its-trigger`. With `updated_at = now()` in
+  the job's own `UPDATE`, both arms passed the review every time. With the bump moved into a
+  database trigger shown in the prompt, the review passed 3 of 3 with the plugin and 2 of 3
+  without. The skill did not load in any of the six attempts with the plugin, so the case does
+  not yet show the rule helping; the description does not name sweeps that rewrite their own
+  trigger.
+- **Other rows:** `review-dispatcher-predicate-and-job-id` 2 of 3 (0.33 without),
+  `review-staged-reconciler` 3 of 3 (0.00 without).
+
 ## 2026-11-21: `planning` measured; mechanical narrowed, a `Verify:` line on every step
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per

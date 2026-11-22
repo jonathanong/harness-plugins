@@ -42,8 +42,8 @@ Detail for the rules in [SKILL.md](../SKILL.md#payloads-and-replay).
 
 ## Backfills
 
-- Replay only idempotent "ensure" effects. A reconciler re-runs forever, so an on-create effect
-  in it repeats.
+- Replay only idempotent "ensure" effects, per
+  [bounded iteration](../../bounded-iteration/SKILL.md) rule 17.
 - Stream an exhaustive durable source by cursor and enqueue bounded batches from one throttled
   dispatcher, per [bounded iteration](../../bounded-iteration/SKILL.md).
 - Exclude an irreversible external send, such as an email or a charge, unless a durable marker
