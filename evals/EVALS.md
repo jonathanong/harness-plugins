@@ -53,7 +53,7 @@ unaided by design.
 | `planning/mechanical-change-skips-plan`                            | Guard: does a mechanical rename and verifies it, without a plan document; has no skill-fired grader.                   | 1.00  | 3 of 3 | 0.67           |
 | `planning/plan-handoff-self-contained`                             | Writes a plan that stands alone, with decisions and reasons, steps, non-goals, and stop conditions.                    | 0.83  | 2 of 3 | 0.00           |
 | `planning/plan-pulls-in-postgres-skill`                            | Loads a PostgreSQL skill and carries lock and backfill safety into the steps.                                          | 1.00  | 3 of 3 | 1.00           |
-| `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                             | 1.00  | 3 of 3 | 0.00           |
+| `planning/plan-saved-outside-repo`                                 | Saves a plan in an issue or pull request, not a committed file, and weighs an alternative.                             | 1.00  | 6 of 6 | 0.00           |
 | `planning/plan-states-before-after`                                | States in plain language what users see before and after the change.                                                   | 0.62  | 5 of 8 | 0.00           |
 | `planning/plan-verification-commands`                              | Gives each step a verification command and selects the final tests from the change.                                    | 1.00  | 3 of 3 | 0.00           |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                            | 1.00  | 3 of 3 | 0.00           |
@@ -132,6 +132,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`planning/plan-saved-outside-repo`** is from a two-arm run of six attempts per arm on
+  2026-11-22, after its grader was narrowed to where the plan is saved.
 - **`planning/plan-states-before-after` and `static-analysis-checklist/tracked-files-only`** take
   "Score" and "Passed" from a plugin-only run of eight attempts on 2026-11-22, after their
   descriptions changed. On `main` in the same session each passed 1 of 8. "Without plugin" is
