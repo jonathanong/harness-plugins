@@ -95,6 +95,10 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
 8. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
    merge or remove jobs to cut the count. Judge a design by model calls or spend per item and by
    how simply the jobs share a lifecycle.
+9. **A lock duration is a crash-recovery window, not a runtime cap.** `lockDuration` is how long
+   a job may go without a heartbeat before another worker takes it after a crash. Shortening it
+   only duplicates slow but live jobs sooner. A deploy that kills a worker mid-job counts as a
+   stall; raising the stalled-job limit hides a job that keeps crashing, so fix the job.
 
 ## Payloads and replay
 

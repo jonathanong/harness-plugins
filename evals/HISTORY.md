@@ -4,6 +4,27 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-22: second round of generic rules; new cases, no run
+
+Commit of this entry. No measured run: `claude plugin eval` refused to start in the sandbox (it
+could not follow a credentials file, so a Bash-granting evaluation cannot run). Every attempt
+errored with no turns and no cost, so no score from that attempt is recorded.
+
+- **Changed skill text:** `dependabot`, `github-actions-authoring` (with a new destructive-workflows
+  reference), `glide-mq`, `playwright-authoring`, `postgres-node-performance-tuning`,
+  `postgres-schema-design`, `service-boundaries`, `static-analysis-checklist`,
+  `structured-logging`, `test-authoring` (with a new replacing-a-library reference), and
+  `typescript-authoring`. Their existing rows in `README.md` are from earlier runs and are not
+  re-measured.
+- **New cases, each pinned to one new rule:** `dependabot/pnpm-workspace-one-entry`,
+  `github-actions-authoring/paths-filtered-required-check`,
+  `postgres-node-performance-tuning/get-or-create-identity`,
+  `postgres-schema-design/uuidv7-no-created-at-default`, and `test-authoring/absence-waits-for-event`.
+  The two graders for the get-or-create and UUIDv7 cases check only the named rule.
+- **Still to do:** `EVAL_ABLATION=with-without EVAL_FLAGS='--runs 3' pnpm run evals <the skills above>`
+  on a machine where the runner can start, then drop any new case the no-plugin arm already passes
+  (a ceiling case) and replace the "not run" rows.
+
 ## 2026-11-22: `bounded-iteration` description names sweeps
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, plugin only, eight attempts

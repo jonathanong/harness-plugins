@@ -12,6 +12,10 @@ These rules add to the general ones in the skill.
   browser, split out the presentational surface and write the story for that, or alias the
   boundary to a deterministic fixture. Do not make the story fetch real data.
 - Do not use a story as end-to-end setup, and do not put production data handling in one.
+- Fix an accessibility violation in the component first: focusable scroll areas, contrast, labels.
+  Mark decorative content `aria-hidden="true"`; `role="presentation"` is a semantic role, not a
+  suppression. Only when valid production behavior cannot satisfy the rule, suppress it narrowly,
+  in that one story, with a comment naming the production constraint.
 - Let story discovery follow the module graph and the glob configuration. Do not maintain a
   second, hand-written list of stories, and do not assume a browser at module top level.
 

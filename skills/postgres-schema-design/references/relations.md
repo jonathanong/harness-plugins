@@ -27,7 +27,11 @@ default `MATCH SIMPLE` skips that composite check when the reference is absent.
 
 A ledger that survives deletion references a retained identity row with explicit deletion
 behavior. Retained identities preserve history; they do not authorize operations on a deleted
-account, order, or invoice. Index FK columns with a leading key usable by referential checks.
+account, order, or invoice. Index every FK column with a leading key usable by referential checks; without one, each parent
+`DELETE` and each `RESTRICT` or `SET NULL` check scans the child table. That includes actor columns
+that are set to `NULL`: index them sparsely with `WHERE <fk> IS NOT NULL`. A partial index is usable
+only when its predicate holds for every row a check can touch, so `WHERE deleted_at IS NULL` does
+not qualify: cascades and `RESTRICT` checks reach soft-deleted children too.
 
 Finite code-defined values use enums. Use a lookup table when values carry attributes or arrive
 at runtime. Authenticated vendor-defined values are inserted into a shared lookup on first sight,

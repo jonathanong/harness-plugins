@@ -24,6 +24,19 @@ These rules add to the general ones in the skill.
   store is used by other tests at the same time, and a fixed value collides.
 - Clean up only what the test created, by the ids it created. Never truncate a table or reset
   shared state that concurrent tests use.
+- Assert only on rows the test owns. A test of a sweep passes its own ids and a small batch to the
+  real processor, and checks that an equally eligible row outside those ids is unchanged;
+  timestamps and page size alone do not make rows yours. An exact aggregate over shared rows needs
+  a reserved window, released when the test ends. A helper's module-level state is per test, or
+  append-only and keyed by test; a shared singleton with a reset lets one file wipe another's data.
+- Inject a write failure through the query layer the code already accepts, scoped to the one call,
+  not with a trigger or other schema object: it locks tables other tests use and outlives a failed
+  cleanup.
+- A plan assertion (join order, index use) flakes in a shared database, because concurrent writers
+  shift planner statistics. Run it in a suite with its own database and no concurrent writers.
+- An in-memory queue stand-in does not prove production ordering, retry backoff, or
+  deduplication. Assert the queue options the code sets, and test transport behavior against the
+  real queue under an isolated key prefix and random queue names.
 - Register an event listener before the mutation that produces the event.
 - Assert persisted state, emitted work, or the externally visible result. Assert authorization
   and retry behavior at the boundary.

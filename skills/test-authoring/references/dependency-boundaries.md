@@ -30,6 +30,14 @@ Shapes:
   reply to the wrong call. Route the fake by request meaning, such as method and pathname. Assert
   the owned result, not an incidental URL, query string, or call count.
 
+A live provider is a dependency too. A test that calls one does not gate CI: an outage or an
+ambiguous billed error is not a regression here, and the test is not skipped or given a longer
+timeout when the provider is slow. Gate on recorded wire responses replayed through the client's own
+transport hook, and assert the request this repository builds (model, parameters, headers) and how
+it parses results and failures, not the upstream error text or the URL the SDK builds. Keep a live
+test only for behavior this repository owns: one call, structural assertions, run outside the
+required gate (see `github-actions-authoring`).
+
 When a dependency upgrade breaks a test:
 
 - If the test pinned dependency behavior, delete or rewrite it. Do not re-pin the new value. Do not

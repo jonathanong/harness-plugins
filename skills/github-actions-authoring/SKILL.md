@@ -13,7 +13,8 @@ permissions, pins, and timeouts; this skill covers the design those rules do not
 
 Before editing any workflow, read the [workflow baseline](references/workflow-baseline.md):
 trigger types that restart passed checks, concurrency and cancellation, the 30-minute job bound,
-runner choice, and pinning.
+runner choice, and pinning. For a manually dispatched workflow that mutates shared infrastructure
+or data, also read [destructive workflows](references/destructive-workflows.md).
 
 ## Design the event graph
 
@@ -76,6 +77,11 @@ apply only when a job runs on a self-hosted or otherwise persistent runner.
   runs on pull requests only.
 
 ## Permissions
+
+Declare a cloud role or API key at job level, in a job gated on a trusted context, so an
+untrusted pull request never receives it. A job that calls a live provider or real cloud
+resources stays out of the required gate's `needs` and has no `continue-on-error`: its red status
+is the signal, and a rerun gains nothing. `test-authoring` owns what gates instead.
 
 Never grant `actions: write` in the job-level `permissions` of a job that runs checked-out code.
 That token can cancel runs, delete caches, and dispatch workflows, so any code the job executes,

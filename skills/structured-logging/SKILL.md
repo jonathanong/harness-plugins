@@ -36,6 +36,9 @@ to every call for the sake of a log line, and runs them even when the level is d
 
 - Select the identifiers the log needs in the query that already runs.
 - Bind request-wide context (request id, tenant, user) once to a child logger and pass that down.
+- Scope bound context to a call (a child logger, or one run of an async-context store), not to
+  shared mutable context. A rollback or a thrown error does not unbind what a transaction bound,
+  so the next request logs the wrong tenant.
 
 ## When the requested value is not at hand
 

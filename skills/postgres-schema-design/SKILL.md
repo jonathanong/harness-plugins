@@ -15,6 +15,8 @@ Read every applicable `AGENTS.md` first. Repository-local policy overrides these
 - Default to finite retention for everything except user content; see [table shapes](references/table-shapes.md#retention).
 - Take no unnecessary locks; read [Locks](#locks) before adding `FOR UPDATE`, a counter, or a claim.
 - Reuse parameterized trigger functions instead of copying bodies.
+- A seed or generator that replays on every bootstrap converges: `ON CONFLICT DO UPDATE` assigns
+  constants, never `col = col + 1` or a volatile value.
 - Comment every table, column, and view; document reviewed exceptions explicitly.
 - Name every constraint and state `ON DELETE` on every foreign key. Index the referencing column.
 - Keys are generated ids. A natural text key stays a unique column on its owning table; other

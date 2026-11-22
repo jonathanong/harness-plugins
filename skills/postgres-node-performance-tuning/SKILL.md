@@ -27,13 +27,18 @@ it beats that simple query, not merely the previous version; see
 - Start every statement with an operation-name comment, such as `/* invoices.listByAccount */`, so
   a slow-query log or `pg_stat_activity` row names its call site.
 - Run transactions through one helper that owns `BEGIN`, `COMMIT`, `ROLLBACK`, and client release.
-  Hand-written transaction statements leak a connection on the path that forgot one.
+  Hand-written transaction statements leak a connection on the path that forgot one. A function
+  handed a client already inside a transaction joins it and never commits or rolls back; only the
+  scope that opened the transaction owns that.
 - An `INSERT` on a path that can be retried (a job, a webhook, a client retry) is idempotent with
-  `ON CONFLICT`.
+  `ON CONFLICT`. A hot get-or-create on a table with an identity or sequence default reads first and
+  inserts only on a miss: the default is evaluated before the conflict check, so every conflicting
+  insert burns a sequence value.
 - Bound each result set. Paginate or stream a large read. A stream bounds memory, not work: cap
   the rows per run as in [bounded iteration](../bounded-iteration/SKILL.md).
 - Batch writes inside an explicit transaction limit.
-- Keep connection-pool usage bounded.
+- Keep connection-pool usage bounded. Pool maxima are ceilings, so the worst case is their sum per
+  process times every process and test worker, and it must fit the server's `max_connections`.
 - Validate a query change at representative cardinality. Watch latency, memory, lock time, and
   connection pressure together.
 - Cut round trips without weakening correctness: fold dependent reads, batch per-item lookups, and

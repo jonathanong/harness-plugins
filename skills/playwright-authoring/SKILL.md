@@ -53,6 +53,9 @@ Select elements the way a user or an assistive tool finds them, in this order:
 - Mock the network only for third-party behavior, fault injection, streaming, or a condition that
   cannot be seeded.
 - Capture diagnostics (trace, screenshot) on failure.
+- Run against a production build, not a dev server. Clear stale build output and worker cache
+  before starting servers, since leftovers cause false failures such as hydration mismatches and
+  cached stale HTML.
 
 ## Review
 

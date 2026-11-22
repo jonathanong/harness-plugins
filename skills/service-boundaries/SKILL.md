@@ -65,6 +65,15 @@ only evidence, and it lets the failure be replayed after the fix.
   order, a status meaning), add a contract test on the side you own. An implicit contract breaks
   at deploy time, with both sides' own tests passing.
 
+## Timeouts
+
+- A deadline for one phase must reach every phase. A budget passed to connect and headers but not
+  to the body read leaves the library's default, often very long, in force.
+- A client's socket timeout stays above the server's long-poll or hold time, or every empty poll
+  fails.
+- A long-lived connection (a stream, a socket) ends on a bounded cycle and the client reconnects,
+  so a host replaced mid-connection looks like a routine cycle.
+
 ## Topology
 
 Keep deployment topology out of application repositories: instance counts, scaling limits,

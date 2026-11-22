@@ -11,7 +11,7 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 93 cases.
 
 - **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
   234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
@@ -51,97 +51,109 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
 - **The 10 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
   except the rerun rows.
 - **Not measured without the plugin:** the two rows marked `n/a`.
+- **Not measured: the five cases added on 2026-11-22** (marked "not run" below), and every other
+  case of the skills whose text changed that day (`dependabot`, `github-actions-authoring`,
+  `glide-mq`, `playwright-authoring`, `postgres-node-performance-tuning`, `postgres-schema-design`,
+  `service-boundaries`, `static-analysis-checklist`, `structured-logging`, `test-authoring`,
+  `typescript-authoring`). Their other rows are from earlier runs, before the new rules. The
+  run could not start: the sandbox refused the eval runner's credentials check. No new case has
+  a no-plugin score, so none can be called a ceiling case yet.
 
-| Case                                                                      | Score | Passed | Without plugin |
-| ------------------------------------------------------------------------- | ----- | ------ | -------------- |
-| `agent-rules/path-scoped-rules` (rerun)                                   | 1.00  | 3 of 3 | 1.00           |
-| `agent-rules/root-agents-md-placement` (rerun)                            | 1.00  | 3 of 3 | 0.00           |
-| `agent-workflow/review-round-dispositions`                                | 1.00  | 3 of 3 | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id` (rerun)        | 1.00  | 8 of 8 | 0.33           |
-| `bounded-iteration/review-staged-reconciler` (rerun)                      | 1.00  | 8 of 8 | 0.00           |
-| `bounded-iteration/review-sweep-rewrites-its-trigger` (rerun)             | 0.75  | 4 of 8 | 0.67           |
-| `dependabot/groups-by-family`                                             | 1.00  | 3 of 3 | 0.33           |
-| `dependabot/request-update-check`                                         | 1.00  | 3 of 3 | 0.50           |
-| `dependabot/review-actions-cooldown`                                      | 1.00  | 3 of 3 | 0.67           |
-| `documentation/review-readme-drift` (rerun)                               | 0.83  | 2 of 3 | 0.67           |
-| `documentation/write-scale-numbers` (rerun)                               | 0.67  | 2 of 3 | 0.00           |
-| `evals/document-new-suite`                                                | 1.00  | 3 of 3 | 0.00           |
-| `evals/record-partial-rerun`                                              | 1.00  | 3 of 3 | 0.00           |
-| `feature-rollout/dark-route-without-caller`                               | 1.00  | 3 of 3 | 1.00           |
-| `feature-rollout/flag-defaults-on`                                        | 1.00  | 3 of 3 | 0.00           |
-| `feature-rollout/table-and-service-without-entry-point`                   | 1.00  | 3 of 3 | 0.00           |
-| `git-commit-checklist/lockfile-conflict-on-rebase`                        | 0.83  | 2 of 3 | 0.00           |
-| `git-commit-checklist/stages-only-task-files`                             | 1.00  | 3 of 3 | 0.33           |
-| `github-actions-authoring/no-actions-write-with-checked-out-code` (rerun) | 1.00  | 3 of 3 | 1.00           |
-| `github-actions-authoring/publish-gated-on-ci` (rerun)                    | 1.00  | 3 of 3 | 0.00           |
-| `github-actions-authoring/rejects-polling` (rerun)                        | 1.00  | 3 of 3 | 0.50           |
-| `github-actions-authoring/required-check-is-a-real-job` (rerun)           | 1.00  | 3 of 3 | 0.00           |
-| `github-issue/search-before-filing`                                       | 0.83  | 2 of 3 | 0.00           |
-| `github-issue/stale-notes-before-filing` (rerun)                          | 1.00  | 3 of 3 | 0.33           |
-| `github-repository-settings/collaborators-only-prs`                       | 1.00  | 3 of 3 | 0.67           |
-| `github-repository-settings/opentofu-provider-gap`                        | 1.00  | 3 of 3 | 0.00           |
-| `glide-mq/failed-jobs-need-recovery-path` (rerun)                         | 1.00  | 3 of 3 | 1.00           |
-| `glide-mq/never-enqueue-and-wait` (rerun)                                 | 1.00  | 3 of 3 | 0.00           |
-| `glide-mq/outbox-own-queue` (rerun)                                       | 1.00  | 3 of 3 | 0.33           |
-| `glide-mq/review-webhook-lane` (rerun)                                    | 1.00  | 3 of 3 | 0.00           |
-| `http-api-design/action-body-and-raw-tokens` (rerun)                      | 1.00  | 3 of 3 | 0.67           |
-| `http-api-design/edge-claims-do-not-authorize` (rerun)                    | 1.00  | 3 of 3 | 0.00           |
-| `http-api-design/uuid-slug-routes` (rerun)                                | 1.00  | 3 of 3 | 0.00           |
-| `native-app-architecture/core-tests-and-web-view`                         | 1.00  | 3 of 3 | 0.00           |
-| `native-app-architecture/generated-project-file` (rerun)                  | 1.00  | 3 of 3 | 0.00           |
-| `npm-publishing/bootstrap-new-package`                                    | 0.94  | 2 of 3 | 0.40           |
-| `npm-publishing/existing-package-trust-only`                              | 1.00  | 3 of 3 | 0.73           |
-| `package-json-checklist/review-override-for-peer-warning` (rerun)         | 1.00  | 3 of 3 | 0.67           |
-| `package-json-checklist/workspace-dependency-and-export`                  | 0.89  | 2 of 3 | 0.67           |
-| `planning/blast-radius-tests-and-flows` (rerun)                           | 1.00  | 3 of 3 | 1.00           |
-| `planning/mechanical-change-skips-plan` (guard, rerun)                    | 1.00  | 3 of 3 | 0.67           |
-| `planning/plan-handoff-self-contained` (rerun)                            | 0.83  | 2 of 3 | 0.00           |
-| `planning/plan-pulls-in-postgres-skill` (rerun)                           | 1.00  | 3 of 3 | 1.00           |
-| `planning/plan-saved-outside-repo` (rerun)                                | 1.00  | 3 of 3 | 0.00           |
-| `planning/plan-states-before-after` (rerun)                               | 0.67  | 2 of 3 | 0.00           |
-| `planning/plan-verification-commands` (rerun)                             | 1.00  | 3 of 3 | 0.00           |
-| `playwright-authoring/metadata-is-not-a-browser-test`                     | 1.00  | 3 of 3 | 0.00           |
-| `playwright-authoring/review-computed-test-ids` (rerun)                   | 1.00  | 3 of 3 | 0.00           |
-| `postgres-node-performance-tuning/index-change-rechecks-neighbors`        | 1.00  | 3 of 3 | n/a            |
-| `postgres-node-performance-tuning/new-query-named-and-indexed`            | 1.00  | 3 of 3 | 0.00           |
-| `postgres-partitioning-uuid-v7/range-not-hash`                            | 1.00  | 3 of 3 | 0.67           |
-| `postgres-partitioning-uuid-v7/retention-with-survivors`                  | 1.00  | 3 of 3 | 0.00           |
-| `postgres-schema-design/checkout-exact-stock` (rerun)                     | 1.00  | 3 of 3 | 0.67           |
-| `postgres-schema-design/exact-cap-no-lock` (rerun)                        | 1.00  | 3 of 3 | 0.00           |
-| `postgres-schema-design/review-advisory-lock-key` (rerun)                 | 0.67  | 1 of 3 | 1.00           |
-| `postgres-schema-design/review-last-admin-advisory-lock` (rerun)          | 1.00  | 6 of 6 | 0.00           |
-| `postgres-schema-design/rollup-trigger-deadlocks` (rerun)                 | 1.00  | 3 of 3 | 0.00           |
-| `pr-description/ci-gap-section`                                           | 1.00  | 3 of 3 | 0.00           |
-| `pr-description/perf-change-with-flag`                                    | 1.00  | 3 of 3 | 0.00           |
-| `react-app-structure/abort-superseded-search` (rerun)                     | 1.00  | 3 of 3 | 1.00           |
-| `react-app-structure/client-needs-current-user` (rerun)                   | 1.00  | 3 of 3 | 0.00           |
-| `react-app-structure/review-profile-card` (rerun)                         | 1.00  | 3 of 3 | 0.67           |
-| `review-ci-logs/quiet-log-keeps-errors`                                   | 1.00  | 3 of 3 | 1.00           |
-| `revisit-followups/only-verified-deferred-work`                           | 0.83  | 2 of 3 | 0.00           |
-| `rust-authoring/tests-in-separate-file`                                   | 1.00  | 3 of 3 | 0.00           |
-| `service-boundaries/partner-webhook` (rerun)                              | 1.00  | 3 of 3 | 1.00           |
-| `service-boundaries/topology-in-app-repo` (rerun)                         | 1.00  | 3 of 3 | 0.33           |
-| `skill-authoring/repo-rule-not-in-shared-skill` (rerun)                   | 1.00  | 3 of 3 | 0.00           |
-| `skill-authoring/split-by-trigger` (rerun)                                | 0.83  | 2 of 3 | 0.00           |
-| `static-analysis-checklist/parses-yaml-with-fixtures` (rerun)             | 1.00  | 3 of 3 | 0.50           |
-| `static-analysis-checklist/tracked-files-only` (rerun)                    | 1.00  | 3 of 3 | 0.33           |
-| `static-code-analysis/new-rust-service`                                   | 1.00  | 3 of 3 | 0.83           |
-| `static-code-analysis/new-typescript-library`                             | 1.00  | 3 of 3 | 0.00           |
-| `structured-logging/log-identifier-not-lookup`                            | 1.00  | 3 of 3 | 0.00           |
-| `structured-logging/review-lookup-in-catch` (rerun)                       | 1.00  | 3 of 3 | 0.00           |
-| `technical-writing/incident-writeup-from-notes`                           | 1.00  | 3 of 3 | 0.00           |
-| `technical-writing/proposal-for-two-audiences`                            | 0.67  | 1 of 3 | 0.00           |
-| `technical-writing/review-runbook-wall-of-text`                           | 1.00  | 3 of 3 | 0.00           |
-| `test-authoring/dotnet-private-field-not-reflected`                       | 1.00  | 3 of 3 | 0.33           |
-| `test-authoring/fake-routes-by-request`                                   | 1.00  | 3 of 3 | 1.00           |
-| `test-authoring/fixture-files-not-inline`                                 | 1.00  | 3 of 3 | 0.00           |
-| `test-authoring/review-direct-row-inserts`                                | 1.00  | 3 of 3 | 0.67           |
-| `test-authoring/review-helper-holds-assertions`                           | 1.00  | 3 of 3 | 0.00           |
-| `triage-codex-security/approval-wave-cap`                                 | 1.00  | 3 of 3 | 0.50           |
-| `triage-codex-security/repository-mismatch`                               | 1.00  | 3 of 3 | 0.78           |
-| `typescript-authoring/batch-first-wrapper`                                | 1.00  | 3 of 3 | 0.00           |
-| `typescript-authoring/rename-without-alias`                               | 1.00  | 3 of 3 | 0.00           |
-| `typescript-authoring/unlink-batched-cache-delete`                        | 1.00  | 3 of 3 | n/a            |
+| Case                                                                      | Score   | Passed  | Without plugin |
+| ------------------------------------------------------------------------- | ------- | ------- | -------------- |
+| `agent-rules/path-scoped-rules` (rerun)                                   | 1.00    | 3 of 3  | 1.00           |
+| `agent-rules/root-agents-md-placement` (rerun)                            | 1.00    | 3 of 3  | 0.00           |
+| `agent-workflow/review-round-dispositions`                                | 1.00    | 3 of 3  | 0.00           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id` (rerun)        | 1.00    | 8 of 8  | 0.33           |
+| `bounded-iteration/review-staged-reconciler` (rerun)                      | 1.00    | 8 of 8  | 0.00           |
+| `bounded-iteration/review-sweep-rewrites-its-trigger` (rerun)             | 0.75    | 4 of 8  | 0.67           |
+| `dependabot/pnpm-workspace-one-entry`                                     | not run | not run | not run        |
+| `dependabot/groups-by-family`                                             | 1.00    | 3 of 3  | 0.33           |
+| `dependabot/request-update-check`                                         | 1.00    | 3 of 3  | 0.50           |
+| `dependabot/review-actions-cooldown`                                      | 1.00    | 3 of 3  | 0.67           |
+| `documentation/review-readme-drift` (rerun)                               | 0.83    | 2 of 3  | 0.67           |
+| `documentation/write-scale-numbers` (rerun)                               | 0.67    | 2 of 3  | 0.00           |
+| `evals/document-new-suite`                                                | 1.00    | 3 of 3  | 0.00           |
+| `evals/record-partial-rerun`                                              | 1.00    | 3 of 3  | 0.00           |
+| `feature-rollout/dark-route-without-caller`                               | 1.00    | 3 of 3  | 1.00           |
+| `feature-rollout/flag-defaults-on`                                        | 1.00    | 3 of 3  | 0.00           |
+| `feature-rollout/table-and-service-without-entry-point`                   | 1.00    | 3 of 3  | 0.00           |
+| `git-commit-checklist/lockfile-conflict-on-rebase`                        | 0.83    | 2 of 3  | 0.00           |
+| `git-commit-checklist/stages-only-task-files`                             | 1.00    | 3 of 3  | 0.33           |
+| `github-actions-authoring/no-actions-write-with-checked-out-code` (rerun) | 1.00    | 3 of 3  | 1.00           |
+| `github-actions-authoring/paths-filtered-required-check`                  | not run | not run | not run        |
+| `github-actions-authoring/publish-gated-on-ci` (rerun)                    | 1.00    | 3 of 3  | 0.00           |
+| `github-actions-authoring/rejects-polling` (rerun)                        | 1.00    | 3 of 3  | 0.50           |
+| `github-actions-authoring/required-check-is-a-real-job` (rerun)           | 1.00    | 3 of 3  | 0.00           |
+| `github-issue/search-before-filing`                                       | 0.83    | 2 of 3  | 0.00           |
+| `github-issue/stale-notes-before-filing` (rerun)                          | 1.00    | 3 of 3  | 0.33           |
+| `github-repository-settings/collaborators-only-prs`                       | 1.00    | 3 of 3  | 0.67           |
+| `github-repository-settings/opentofu-provider-gap`                        | 1.00    | 3 of 3  | 0.00           |
+| `glide-mq/failed-jobs-need-recovery-path` (rerun)                         | 1.00    | 3 of 3  | 1.00           |
+| `glide-mq/never-enqueue-and-wait` (rerun)                                 | 1.00    | 3 of 3  | 0.00           |
+| `glide-mq/outbox-own-queue` (rerun)                                       | 1.00    | 3 of 3  | 0.33           |
+| `glide-mq/review-webhook-lane` (rerun)                                    | 1.00    | 3 of 3  | 0.00           |
+| `http-api-design/action-body-and-raw-tokens` (rerun)                      | 1.00    | 3 of 3  | 0.67           |
+| `http-api-design/edge-claims-do-not-authorize` (rerun)                    | 1.00    | 3 of 3  | 0.00           |
+| `http-api-design/uuid-slug-routes` (rerun)                                | 1.00    | 3 of 3  | 0.00           |
+| `native-app-architecture/core-tests-and-web-view`                         | 1.00    | 3 of 3  | 0.00           |
+| `native-app-architecture/generated-project-file` (rerun)                  | 1.00    | 3 of 3  | 0.00           |
+| `npm-publishing/bootstrap-new-package`                                    | 0.94    | 2 of 3  | 0.40           |
+| `npm-publishing/existing-package-trust-only`                              | 1.00    | 3 of 3  | 0.73           |
+| `package-json-checklist/review-override-for-peer-warning` (rerun)         | 1.00    | 3 of 3  | 0.67           |
+| `package-json-checklist/workspace-dependency-and-export`                  | 0.89    | 2 of 3  | 0.67           |
+| `planning/blast-radius-tests-and-flows` (rerun)                           | 1.00    | 3 of 3  | 1.00           |
+| `planning/mechanical-change-skips-plan` (guard, rerun)                    | 1.00    | 3 of 3  | 0.67           |
+| `planning/plan-handoff-self-contained` (rerun)                            | 0.83    | 2 of 3  | 0.00           |
+| `planning/plan-pulls-in-postgres-skill` (rerun)                           | 1.00    | 3 of 3  | 1.00           |
+| `planning/plan-saved-outside-repo` (rerun)                                | 1.00    | 3 of 3  | 0.00           |
+| `planning/plan-states-before-after` (rerun)                               | 0.67    | 2 of 3  | 0.00           |
+| `planning/plan-verification-commands` (rerun)                             | 1.00    | 3 of 3  | 0.00           |
+| `playwright-authoring/metadata-is-not-a-browser-test`                     | 1.00    | 3 of 3  | 0.00           |
+| `playwright-authoring/review-computed-test-ids` (rerun)                   | 1.00    | 3 of 3  | 0.00           |
+| `postgres-node-performance-tuning/get-or-create-identity`                 | not run | not run | not run        |
+| `postgres-node-performance-tuning/index-change-rechecks-neighbors`        | 1.00    | 3 of 3  | n/a            |
+| `postgres-node-performance-tuning/new-query-named-and-indexed`            | 1.00    | 3 of 3  | 0.00           |
+| `postgres-partitioning-uuid-v7/range-not-hash`                            | 1.00    | 3 of 3  | 0.67           |
+| `postgres-partitioning-uuid-v7/retention-with-survivors`                  | 1.00    | 3 of 3  | 0.00           |
+| `postgres-schema-design/checkout-exact-stock` (rerun)                     | 1.00    | 3 of 3  | 0.67           |
+| `postgres-schema-design/exact-cap-no-lock` (rerun)                        | 1.00    | 3 of 3  | 0.00           |
+| `postgres-schema-design/uuidv7-no-created-at-default`                     | not run | not run | not run        |
+| `postgres-schema-design/review-advisory-lock-key` (rerun)                 | 0.67    | 1 of 3  | 1.00           |
+| `postgres-schema-design/review-last-admin-advisory-lock` (rerun)          | 1.00    | 6 of 6  | 0.00           |
+| `postgres-schema-design/rollup-trigger-deadlocks` (rerun)                 | 1.00    | 3 of 3  | 0.00           |
+| `pr-description/ci-gap-section`                                           | 1.00    | 3 of 3  | 0.00           |
+| `pr-description/perf-change-with-flag`                                    | 1.00    | 3 of 3  | 0.00           |
+| `react-app-structure/abort-superseded-search` (rerun)                     | 1.00    | 3 of 3  | 1.00           |
+| `react-app-structure/client-needs-current-user` (rerun)                   | 1.00    | 3 of 3  | 0.00           |
+| `react-app-structure/review-profile-card` (rerun)                         | 1.00    | 3 of 3  | 0.67           |
+| `review-ci-logs/quiet-log-keeps-errors`                                   | 1.00    | 3 of 3  | 1.00           |
+| `revisit-followups/only-verified-deferred-work`                           | 0.83    | 2 of 3  | 0.00           |
+| `rust-authoring/tests-in-separate-file`                                   | 1.00    | 3 of 3  | 0.00           |
+| `service-boundaries/partner-webhook` (rerun)                              | 1.00    | 3 of 3  | 1.00           |
+| `service-boundaries/topology-in-app-repo` (rerun)                         | 1.00    | 3 of 3  | 0.33           |
+| `skill-authoring/repo-rule-not-in-shared-skill` (rerun)                   | 1.00    | 3 of 3  | 0.00           |
+| `skill-authoring/split-by-trigger` (rerun)                                | 0.83    | 2 of 3  | 0.00           |
+| `static-analysis-checklist/parses-yaml-with-fixtures` (rerun)             | 1.00    | 3 of 3  | 0.50           |
+| `static-analysis-checklist/tracked-files-only` (rerun)                    | 1.00    | 3 of 3  | 0.33           |
+| `static-code-analysis/new-rust-service`                                   | 1.00    | 3 of 3  | 0.83           |
+| `static-code-analysis/new-typescript-library`                             | 1.00    | 3 of 3  | 0.00           |
+| `structured-logging/log-identifier-not-lookup`                            | 1.00    | 3 of 3  | 0.00           |
+| `structured-logging/review-lookup-in-catch` (rerun)                       | 1.00    | 3 of 3  | 0.00           |
+| `technical-writing/incident-writeup-from-notes`                           | 1.00    | 3 of 3  | 0.00           |
+| `technical-writing/proposal-for-two-audiences`                            | 0.67    | 1 of 3  | 0.00           |
+| `technical-writing/review-runbook-wall-of-text`                           | 1.00    | 3 of 3  | 0.00           |
+| `test-authoring/absence-waits-for-event`                                  | not run | not run | not run        |
+| `test-authoring/dotnet-private-field-not-reflected`                       | 1.00    | 3 of 3  | 0.33           |
+| `test-authoring/fake-routes-by-request`                                   | 1.00    | 3 of 3  | 1.00           |
+| `test-authoring/fixture-files-not-inline`                                 | 1.00    | 3 of 3  | 0.00           |
+| `test-authoring/review-direct-row-inserts`                                | 1.00    | 3 of 3  | 0.67           |
+| `test-authoring/review-helper-holds-assertions`                           | 1.00    | 3 of 3  | 0.00           |
+| `triage-codex-security/approval-wave-cap`                                 | 1.00    | 3 of 3  | 0.50           |
+| `triage-codex-security/repository-mismatch`                               | 1.00    | 3 of 3  | 0.78           |
+| `typescript-authoring/batch-first-wrapper`                                | 1.00    | 3 of 3  | 0.00           |
+| `typescript-authoring/rename-without-alias`                               | 1.00    | 3 of 3  | 0.00           |
+| `typescript-authoring/unlink-batched-cache-delete`                        | 1.00    | 3 of 3  | n/a            |
 
 "Without plugin" is the case's last measured score with no plugin installed. Most come from
 separate, earlier runs with three attempts each, and some from the same two-arm run as the score; [HISTORY.md](HISTORY.md) has the run for each.
@@ -159,6 +171,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                 |
 | `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                               |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`              | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test. |
+| `dependabot/pnpm-workspace-one-entry`                              | not run                                                                                                                | not run | not run |
 | `dependabot/groups-by-family`                                      | Groups updates by package family with a cooldown, not by version type or a catch-all.                                  |
 | `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                                  |
 | `dependabot/review-actions-cooldown`                               | Asks for at least seven days on every ecosystem and semver key when a Dependabot workflow holds a write token.         |
@@ -201,6 +214,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `planning/plan-verification-commands`                              | Gives each step a verification command and selects the final tests from the change.                                    |
 | `playwright-authoring/metadata-is-not-a-browser-test`              | Checks redirects and metadata over plain HTTP and locates a button by role.                                            |
 | `playwright-authoring/review-computed-test-ids`                    | Asks for literal test ids and `getByTestId` with a row filter, not computed ids.                                       |
+| `postgres-node-performance-tuning/get-or-create-identity`          | not run                                                                                                                | not run | not run |
 | `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                                |
 | `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                            |
 | `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                  |
@@ -231,6 +245,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `technical-writing/incident-writeup-from-notes`                    | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.               |
 | `technical-writing/proposal-for-two-audiences`                     | Labels sections by audience, tables every flag and plan combination and the before and after, defines jargon.          |
 | `technical-writing/review-runbook-wall-of-text`                    | Asks for the action first, steps as a list, jargon defined, and changing numbers replaced by how to fetch them.        |
+| `test-authoring/absence-waits-for-event`                           | not run                                                                                                                | not run | not run |
 | `test-authoring/dotnet-private-field-not-reflected`                | Proves a private dictionary was emptied through the public method, without reflection.                                 |
 | `test-authoring/fake-routes-by-request`                            | Has a fake HTTP client answer by request path, not by a queue of replies in call order.                                |
 | `test-authoring/fixture-files-not-inline`                          | Reads saved fixture files instead of writing them in the test body.                                                    |

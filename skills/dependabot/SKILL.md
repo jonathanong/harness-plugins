@@ -15,6 +15,12 @@ source, and overrides these defaults.
 - Inventory tracked manifests, lockfiles, Dockerfiles, workflow actions, infrastructure roots, and
   any companion dependency bot. Add one Dependabot update entry per supported ecosystem and
   manifest root. Do not create a second owner for a dependency already assigned elsewhere.
+- In a workspace, point the npm entry at the directory that owns the lockfile. An entry per
+  workspace package edits that `package.json` without regenerating the lock, and the frozen
+  install then fails.
+- `engines.node` is a floor, not the runtime pin. Dependabot's hosted updater runs the active Node
+  LTS and cannot be configured, so with strict engine checks a floor above that version fails
+  every update. Keep the floor at or below it.
 - Schedule version checks daily.
 - Every update entry, in every ecosystem, sets a cooldown of at least seven days. That includes
   `github-actions` and `docker`, whose bumps run in CI before anyone reviews them. Set
@@ -22,6 +28,8 @@ source, and overrides these defaults.
   `semver-patch-days` to at least 7. Never lower a longer value already there. Most compromised
   releases are found and pulled within days, so the delay keeps them out. Cooldown applies to
   version updates, not security updates; that gap is the known residual risk.
+- A cooldown is never shorter than the package manager's minimum release age. The package manager
+  gates installs on its own, so a bot pull request for a release younger than that age fails CI.
 - Set `open-pull-requests-limit: 5` on every update entry. The limit is per entry and covers
   version updates only. Use a lower value only when a serialized repair or manual validation path
   requires it.
