@@ -15,13 +15,15 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. No case or 
   `revisit-followups`, `service-boundaries`, `skill-authoring`, `static-analysis-checklist`,
   `technical-writing`, `test-authoring`, and `triage-codex-security`. No description changed.
 - **Run, plugin only, three attempts, 62 cases, $28.76:** every case of those skills. 48 cases
-  passed 3 of 3. Every attempt that failed on the answer in a case not named below also failed in
-  the same way on `main` earlier the same day.
+  passed 3 of 3. Outside `planning`, three cases failed one attempt on the answer with the skill
+  loaded or not: `github-actions-authoring/required-check-is-a-real-job` (10 of 11 on `main`
+  earlier the same day), `http-api-design/uuid-slug-routes`, and
+  `revisit-followups/only-verified-deferred-work`. The last two had no control.
 - **Same-session control on `main` for `planning` and `service-boundaries`**, three attempts.
   Answers: `plan-handoff-self-contained` 1 of 3 then 3 of 3 on the branch, 2 of 3 on `main`;
   `plan-saved-outside-repo` 1 of 3 then 2 of 3 on the branch, 3 of 3 on `main`.
 - **Loading drifts within a session.** `planning/plan-states-before-after` loaded the skill in 1
-  of 15 attempts on the branch and 3 of 3 on `main`; with `main`'s `planning` text restored on the
+  of 12 attempts on the branch and 3 of 3 on `main`; with `main`'s `planning` text restored on the
   branch it loaded in 3 of 6, and a further run on `main` loaded in 2 of 6. No description
   differs between the two, so the difference is not the change.
   `service-boundaries/topology-in-app-repo` loaded in 1 of 6 on the branch and 3 of 3 on `main`,
