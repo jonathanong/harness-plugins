@@ -11,16 +11,17 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 91 cases.
 
 - **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
   234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
   `http-api-design` description named edge workers. Four of its cases were dropped afterwards.
 - **Rows marked "(rerun)"** are from later two-arm runs, three attempts per arm: the edge-claims
   and topology rows after the `http-api-design` change, and five new cases after their graders
-  were narrowed in review. The `postgres-schema-design` rows are from the two-arm run after the
-  lock exception was added; the last-admin row is from a six-attempt plugin-only rerun after the
-  exception named caps.
+  were narrowed in review. The `postgres-locking` rows and
+  `postgres-schema-design/customer-code-key` are from the two-arm run on 2026-11-22 after the
+  locking rules moved into their own skill, three attempts per arm. The `postgres-locking` "Score"
+  and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`,
   `service-boundaries`, and `static-analysis-checklist` rows** are from the two-arm run after
   their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with
@@ -41,7 +42,8 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
 - **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
   `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
   of 3, before its description named edge workers), `bounded-iteration/review-dispatcher-predicate-and-job-id`
-  (1 of 3), and `postgres-schema-design/review-advisory-lock-key` (1 of 3). In the rerun,
+  (1 of 3), and `postgres-schema-design/review-advisory-lock-key` (1 of 3; 2 of 3 after it moved to
+  `postgres-locking`). In the rerun,
   `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no
   skill at all; it did not pick a wrong one.
 - **Rows below 1.00 for other reasons** failed on the answer: `git-commit-checklist/lockfile-conflict-on-rebase`,
@@ -106,11 +108,14 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
 | `postgres-node-performance-tuning/new-query-named-and-indexed`            | 1.00  | 3 of 3 | 0.00           |
 | `postgres-partitioning-uuid-v7/range-not-hash`                            | 1.00  | 3 of 3 | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`                  | 1.00  | 3 of 3 | 0.00           |
-| `postgres-schema-design/checkout-exact-stock` (rerun)                     | 1.00  | 3 of 3 | 0.67           |
-| `postgres-schema-design/exact-cap-no-lock` (rerun)                        | 1.00  | 3 of 3 | 0.00           |
-| `postgres-schema-design/review-advisory-lock-key` (rerun)                 | 0.67  | 1 of 3 | 1.00           |
-| `postgres-schema-design/review-last-admin-advisory-lock` (rerun)          | 1.00  | 6 of 6 | 0.00           |
-| `postgres-schema-design/rollup-trigger-deadlocks` (rerun)                 | 1.00  | 3 of 3 | 0.00           |
+| `postgres-locking/checkout-exact-stock` (rerun)                           | 1.00  | 3 of 3 | 1.00           |
+| `postgres-locking/exact-cap-no-lock` (rerun)                              | 1.00  | 3 of 3 | 0.00           |
+| `postgres-locking/prelock-before-conditional-update` (rerun)              | 1.00  | 3 of 3 | 0.00           |
+| `postgres-locking/race-finding-on-unwritten-row` (rerun)                  | 1.00  | 3 of 3 | 0.00           |
+| `postgres-locking/review-advisory-lock-key` (rerun)                       | 0.67  | 1 of 3 | 1.00           |
+| `postgres-locking/review-last-admin-advisory-lock` (rerun)                | 1.00  | 3 of 3 | 0.00           |
+| `postgres-locking/rollup-trigger-deadlocks` (rerun)                       | 1.00  | 3 of 3 | 0.00           |
+| `postgres-schema-design/customer-code-key` (rerun)                        | 1.00  | 3 of 3 | 1.00           |
 | `pr-description/ci-gap-section`                                           | 1.00  | 3 of 3 | 0.00           |
 | `pr-description/perf-change-with-flag`                                    | 1.00  | 3 of 3 | 0.00           |
 | `react-app-structure/abort-superseded-search` (rerun)                     | 1.00  | 3 of 3 | 1.00           |
@@ -205,11 +210,14 @@ passed, so 1.00 means every grader passed on every attempt.
 | `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                            |
 | `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                  |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`           | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                     |
-| `postgres-schema-design/checkout-exact-stock`                      | Guard: checkout keeps stock exact without an unbounded lock, and enqueues after commit.                                |
-| `postgres-schema-design/exact-cap-no-lock`                         | Enforces a cap as best effort, with no lock, counter, or claim table.                                                  |
-| `postgres-schema-design/review-advisory-lock-key`                  | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                   |
-| `postgres-schema-design/review-last-admin-advisory-lock`           | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                             |
-| `postgres-schema-design/rollup-trigger-deadlocks`                  | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.     |
+| `postgres-locking/checkout-exact-stock`                            | Guard: checkout keeps stock exact without an unbounded lock, and enqueues after commit.                                |
+| `postgres-locking/exact-cap-no-lock`                               | Enforces a cap as best effort, with no lock, counter, or claim table.                                                  |
+| `postgres-locking/prelock-before-conditional-update`               | Asks for the `SELECT ... FOR UPDATE` before an already conditional `UPDATE` to be deleted.                             |
+| `postgres-locking/race-finding-on-unwritten-row`                   | Answers a review bot's race finding with a guard inside the insert, not a lock on a row it does not write.             |
+| `postgres-locking/review-advisory-lock-key`                        | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                   |
+| `postgres-locking/review-last-admin-advisory-lock`                 | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                             |
+| `postgres-locking/rollup-trigger-deadlocks`                        | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.     |
+| `postgres-schema-design/customer-code-key`                         | References a generated id from other tables, not the customer's text code. Ceiling case.                               |
 | `pr-description/ci-gap-section`                                    | Adds a short section on what CI caught that the local check missed, without work history.                              |
 | `pr-description/perf-change-with-flag`                             | Shows a before/after table, states what a flag does not cover, and omits routine checks.                               |
 | `react-app-structure/abort-superseded-search`                      | Aborts a superseded search request with an `AbortController`.                                                          |
@@ -249,13 +257,15 @@ passed, so 1.00 means every grader passed on every attempt.
 - **The two score columns are not from the same run.** The default run has only the with-plugin
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
-  as a precise difference. Ten cases score 1.00 without the plugin:
-  `bounded-iteration/review-dispatcher-predicate-and-job-id`, `github-actions-authoring/no-actions-write-with-checked-out-code`,
-  `glide-mq/failed-jobs-need-recovery-path`, `react-app-structure/abort-superseded-search`,
-  `review-ci-logs/quiet-log-keeps-errors`, `service-boundaries/partner-webhook`,
-  `test-authoring/fake-routes-by-request` (0.00 when it was added), and the guard cases
-  `feature-rollout/dark-route-without-caller`, `postgres-schema-design/checkout-exact-stock`, and
-  `postgres-schema-design/review-advisory-lock-key`. Every other case scores below that.
+  as a precise difference. Thirteen cases score 1.00 without the plugin:
+  `agent-rules/path-scoped-rules`, `github-actions-authoring/no-actions-write-with-checked-out-code`,
+  `glide-mq/failed-jobs-need-recovery-path`, `planning/blast-radius-tests-and-flows`,
+  `planning/plan-pulls-in-postgres-skill`, `postgres-schema-design/customer-code-key`,
+  `react-app-structure/abort-superseded-search`, `review-ci-logs/quiet-log-keeps-errors`,
+  `service-boundaries/partner-webhook`, `test-authoring/fake-routes-by-request` (0.00 when it was
+  added), and the guard cases `feature-rollout/dark-route-without-caller`,
+  `postgres-locking/checkout-exact-stock`, and `postgres-locking/review-advisory-lock-key`.
+  `postgres-schema-design` has no case yet that shows it helps. Every other case scores below that.
 - **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
   on the answer alone. `scripts/eval-summary.py` counts that grader again, so the "Score"
   column means the same thing from either kind of run.
