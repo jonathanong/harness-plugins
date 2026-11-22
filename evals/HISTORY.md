@@ -4,6 +4,19 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: lock order and deadlocks reference in `postgres-locking`
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Rules added** as `references/deadlocks.md`, linked from `SKILL.md`: locks that triggers and
+  foreign keys take, what removing a lock does to other writers, a lock-only statement not
+  refreshing a waiting guard, and keeping a `SERIALIZABLE` transaction narrow.
+- **Case drafted and dropped:** a review of a guarded delete that waits behind a lock-only
+  statement. Two arms, three attempts per arm, $0.81: 3 of 3 with the plugin, loaded 3 of 3, and
+  3 of 3 without. A ceiling case, so it is not kept; the rule stays, per `AGENTS.md`.
+- **Not re-measured:** the seven existing `postgres-locking` cases. `SKILL.md` gained one linking
+  section and lost nothing.
+
 ## 2026-11-22: `llm-calls` added
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.

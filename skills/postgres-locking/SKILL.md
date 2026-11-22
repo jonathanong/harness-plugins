@@ -88,6 +88,13 @@ starve request queries, and release it in a `finally`. Otherwise avoid advisory 
   is not needed.
 - Remove a lock by deleting it, not by swapping in another serializer.
 
+## Lock order and deadlocks
+
+Before adding, moving, or removing a lock, read [lock order and deadlocks](references/deadlocks.md):
+locks that triggers and foreign keys take, what removing a lock does to other writers, why a
+lock-only statement does not refresh a waiting guard, and how wide a `SERIALIZABLE` transaction
+may be.
+
 ## Adding a lock
 
 Adding a lock, or a new use of the second allowed case, is the repository owner's decision.
