@@ -56,9 +56,9 @@ Rules from the lane list for a job that defers itself or holds a lease.
 6. **Lease mechanics.** A lease is only for concurrency across an external call, such as a
    provider quota shared by several jobs. Never use one for an internal cap that can be best
    effort; count and write, as in the lock rules in
-   [locking](../postgres-locking/SKILL.md). Acquire a token-owned lease with `SET key token NX PX ttl` before the
+   [locking](../../postgres-locking/SKILL.md). Acquire a token-owned lease with `SET key token NX PX ttl` before the
    guarded work. Set the TTL at or above the job's `lockDuration`, renew it while the job runs,
    and release it with compare-and-delete in `finally`. On contention, `moveToDelayed` only this
    job by a short, bounded, jittered delay so it keeps its id, cursor, and dedup. Release the
    lease before any `moveToDelayed` for quota deferral. Reuse the repository's lease helper
-   rather than adding a second. See [lease patterns](references/lease-patterns.md).
+   rather than adding a second.

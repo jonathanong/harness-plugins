@@ -4,7 +4,6 @@ Planned work, most certain first. An item leaves this file when its pull request
 
 ## Skills: split
 
-- [ ] `http-api-design` into API shape and secrets, edge, and cache.
 - [ ] Move detail to references in `static-code-analysis` and `github-actions-authoring`.
 
 ## Skills: add
@@ -12,8 +11,6 @@ Planned work, most certain first. An item leaves this file when its pull request
 A skill does not wait for a case the current model fails; weaker models need the rules too.
 Each still gets a loading case and an answer case.
 
-- [ ] Debugging to a root cause before fixing.
-- [ ] Verifying a claim before reporting it done.
 - [ ] Resuming work after an interruption.
 - [ ] Expand-and-contract migrations.
 - [ ] Coordinating several agents: who owns what, and where to route work.
@@ -30,6 +27,9 @@ Each still gets a loading case and an answer case.
       `static-analysis-checklist/tracked-files-only` (6 of 8).
 - [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
       that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **`debugging` and `verification` load in 1 of 6 and their cases pass unaided.** Build each a
+      case on a fixture repository with a real failing command, where the tempting fix is wrong,
+      and measure loading there.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
       no skill loaded.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
