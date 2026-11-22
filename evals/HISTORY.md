@@ -20,6 +20,10 @@ attempts, $2.05.
   `never-enqueue-and-wait` failed its design grader once (2 of 3). Its README row is from the
   earlier run.
 - **Not rerun without the plugin:** the description does not change that arm.
+- **After review, no run:** rule 17 now forbids writing a row back into the selection rather than
+  any write to the selected column (a completion marker that removes the row is the point), and
+  its second-run test applies once no eligible rows remain and counts new work, not repeated
+  idempotent enqueues. The rows above were measured before this wording.
 
 ## 2026-11-21: `bounded-iteration`: a sweep converges
 

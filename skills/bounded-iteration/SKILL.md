@@ -85,13 +85,16 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
     total load. Independent stages read committed state and do not chain. Ordered phases enqueue
     the next phase after commit. See
     [separate stage jobs](references/sweep-patterns.md#separate-stage-jobs).
-17. **A sweep converges.** It never writes the column it selects by, such as `updated_at`, unless
-    that write is a lease; otherwise each run creates the next run's work and the sweep never
-    ends. A recovery sweep with a fixed staleness cutoff may touch the rows it enqueues, because
-    the touch makes them ineligible until they stall again. Replay only idempotent "ensure"
-    effects: an on-create effect, such as a notification or a charge, repeats on every run. Test
-    it: a second run over the same state writes and enqueues nothing. Recurring work that is
-    unconditional by design, such as a scheduled materialized-view refresh, is exempt.
+17. **A sweep converges.** It never writes a row back into its own selection, such as bumping the
+    `updated_at` it selects by, unless that write is a lease; otherwise each run creates the next
+    run's work and the sweep never ends. A write that takes a row out of the selection, such as
+    setting `processed_at` on rows selected by `processed_at IS NULL`, is the point. A recovery
+    sweep with a fixed staleness cutoff may touch the rows it enqueues, because the touch makes
+    them ineligible until they stall again. Replay only idempotent "ensure" effects: an on-create
+    effect, such as a notification or a charge, repeats on every run. Test it: once no eligible
+    rows remain, another run writes nothing and creates no new job (a repeated idempotent enqueue
+    is not new work). Recurring work that is unconditional by design, such as a scheduled
+    materialized-view refresh, is exempt.
 18. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
