@@ -38,7 +38,9 @@ source, and overrides these defaults.
 
 ## Group package families
 
-Group packages that share one compatibility family or release train. Do not group by version type.
+Group by vendor or release family first: all of one toolchain's packages together, such as a
+linter, its formatter, and its plugins. A package that belongs to no family stays ungrouped and
+gets its own pull request. Do not group by version type or by dependency type.
 Use manifests, peer dependencies, lockfiles, and upstream release practice to decide what moves
 together.
 
@@ -50,6 +52,11 @@ See the [group example](references/group-example.md) for a `dependabot.yml` frag
 - Do not add generic groups such as `other-minor-and-patch`, `minor-and-patch`,
   `security-minor-and-patch`, or `security-updates`. Do not use `patterns: ['*']` to force every
   update into a group. Narrow family wildcards are expected. Leave unrelated packages ungrouped.
+- Do not group by `dependency-type` (`development`, `production`). A development group puts a
+  test runner, a linter, and a bundler in one pull request, so one failing upgrade blocks the
+  others and a revert takes all of them.
+- Group actions the same way: one owner's actions together, such as `actions/*` or `docker/*`,
+  and every other action alone. Not one group for the whole ecosystem.
 - Omit `update-types` so a family receives major, minor, and patch updates. Leaving majors out of
   the group splits the release train.
 - Groups default to `applies-to: version-updates`. When the same family is also safe to upgrade

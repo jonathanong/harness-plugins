@@ -21,3 +21,13 @@ groups:
   react-email:
     patterns: ['react-email', '@react-email/*']
 ```
+
+Under `package-ecosystem: github-actions`, the same rule gives one group per owner:
+
+```yaml
+groups:
+  actions:
+    patterns: ['actions/*']
+  docker:
+    patterns: ['docker/*']
+```

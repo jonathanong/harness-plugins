@@ -4,6 +4,19 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `dependabot` groups by vendor first
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Rules changed:** group by vendor or release family first, and leave everything else
+  ungrouped; no group by `dependency-type`; actions grouped per owner, not one group for the
+  ecosystem. The example gained an actions fragment. No case or grader changed.
+- **Run, two arms, three attempts per arm, $0.83:** `dependabot/groups-by-family` passed 3 of 3
+  with the plugin, loaded 3 of 3. Without it, 0 of 3 passed the family grader: every answer had
+  a catch-all group.
+- **What it showed:** all three answers with the plugin grouped `actions/*` by owner and had no
+  catch-all. The other two `dependabot` cases were not rerun; their rules did not change.
+
 ## 2026-11-22: lock order and deadlocks reference in `postgres-locking`
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
