@@ -88,6 +88,8 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`git-commit-checklist`](skills/git-commit-checklist/SKILL.md)                         | Committing, and rebasing or force-pushing a branch others also push to.        |
 | [`github-issue`](skills/github-issue/SKILL.md)                                         | Filing, editing, closing, and linking GitHub issues.                           |
 | [`review-ci-logs`](skills/review-ci-logs/SKILL.md)                                     | Diagnosing a CI failure or noisy CI output from the logs.                      |
+| [`debugging`](skills/debugging/SKILL.md)                                               | Finding the cause of a failure before changing code.                           |
+| [`verification`](skills/verification/SKILL.md)                                         | Checking a claim against observed results before reporting it.                 |
 | [`revisit-followups`](skills/revisit-followups/SKILL.md)                               | Sweeping merged work for deferred follow-ups that are still needed.            |
 
 ### Evals
