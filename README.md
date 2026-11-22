@@ -67,6 +67,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`glide-mq`](skills/glide-mq/SKILL.md)                                                 | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.        |
 | [`evals`](skills/evals/SKILL.md)                                                       | Choosing kinds of eval, and documenting scores, run history, and rules.        |
 | [`pr-description`](skills/pr-description/SKILL.md)                                     | Writing a pull request description: problem, change, impact, before/after.     |
+| [`pull-requests`](skills/pull-requests/SKILL.md)                                       | Scoping, stacking, answering review on, finishing, and merging pull requests.  |
 | [`documentation`](skills/documentation/SKILL.md)                                       | Deciding what goes in docs and code comments.                                  |
 | [`agent-rules`](skills/agent-rules/SKILL.md)                                           | Deciding what goes in `AGENTS.md`, a skill, docs, or a check.                  |
 | [`skill-authoring`](skills/skill-authoring/SKILL.md)                                   | Writing a skill: description, body, references, splitting, and evals.          |
@@ -81,7 +82,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`service-boundaries`](skills/service-boundaries/SKILL.md)                             | Calling another service or a partner API, or handling a webhook.               |
 | [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.        |
 | [`structured-logging`](skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                 |
-| [`agent-workflow`](skills/agent-workflow/SKILL.md)                                     | Implementing, handing off, reviewing, and answering review comments.           |
+| [`agent-workflow`](skills/agent-workflow/SKILL.md)                                     | Implementing, gathering evidence, handing off, and reviewing a change.         |
 | [`planning`](skills/planning/SKILL.md)                                                 | Planning a non-trivial change: impact, verification, a handoff plan.           |
 | [`git-commit-checklist`](skills/git-commit-checklist/SKILL.md)                         | Committing, and rebasing or force-pushing a branch others also push to.        |
 | [`github-issue`](skills/github-issue/SKILL.md)                                         | Filing, editing, closing, and linking GitHub issues.                           |
