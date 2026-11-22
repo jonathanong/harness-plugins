@@ -17,7 +17,7 @@ unaided by design.
 | `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                       | 1.00  | 8 of 8 | 0.00           |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`              | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test.         | 0.75  | 4 of 8 | 0.67           |
 | `debugging/flaky-test-not-fixed-with-retry`                        | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                           | 0.67  | 1 of 3 | 1.00           |
-| `dependabot/groups-by-family`                                      | Groups updates by package family with a cooldown, not by version type or a catch-all.                                          | 1.00  | 3 of 3 | 0.33           |
+| `dependabot/groups-by-family`                                      | Groups updates by vendor or package family with a cooldown, not by version type, dependency type, or a catch-all.              | 1.00  | 3 of 3 | 0.33           |
 | `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                                          | 1.00  | 3 of 3 | 0.50           |
 | `dependabot/review-actions-cooldown`                               | Asks for at least seven days on every ecosystem and semver key when a Dependabot workflow holds a write token.                 | 1.00  | 3 of 3 | 0.67           |
 | `documentation/review-readme-drift`                                | Flags restated config values, history and plans in a README, and a comment that explains history.                              | 0.83  | 2 of 3 | 0.67           |
@@ -141,6 +141,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   not that it helps.
 - **The `llm-calls` row** is from the two-arm run on 2026-11-22 that added the skill, three
   attempts per arm. It is a ceiling case; the skill loaded in 3 of 3.
+- **The `dependabot/groups-by-family` row** is from the two-arm run on 2026-11-22 that followed
+  the vendor-first grouping rules, three attempts per arm.
 - **The `agent-coordination`, `expand-contract-migrations`, and `resuming-work` rows** are from
   the two-arm run on 2026-11-22 that added the skills, three attempts per arm. All three are
   ceiling cases. `agent-coordination` loaded its skill in 0 of 3; the other two in 3 of 3.
