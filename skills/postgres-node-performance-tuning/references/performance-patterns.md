@@ -35,7 +35,7 @@ capped candidate CTEs, `UNION`, `GROUP BY` or `DISTINCT` dedupe, `LATERAL` joins
 fences, cohort or window ranking, and multi-stage cap-filter-rank pipelines. Never build a
 candidate pool. A `MATERIALIZED` CTE whose only job is to pin or lock a row (`SELECT ... FOR UPDATE`
 or `FOR SHARE` ahead of the write) is never justified by a plan; put the guard in the writing
-statement, as in [locking](../../postgres-locking/SKILL.md). A walk that stops at an inspected-row cap and returns a short or empty page with a
+statement, or take the lock plainly where [locking](../../postgres-locking/SKILL.md) allows one. A walk that stops at an inspected-row cap and returns a short or empty page with a
 continuation cursor is fine.
 
 Test existence with `EXISTS`, not `COUNT(*) > 0`. Use correlated `NOT EXISTS` rather than

@@ -256,14 +256,15 @@ passed, so 1.00 means every grader passed on every attempt.
 - **The two score columns are not from the same run.** The default run has only the with-plugin
   arm. The no-plugin score was measured once per case, when the case was added or last replaced,
   and scores drift between days. Read the gap as "the model fails this without the skill", not
-  as a precise difference. Eleven cases score 1.00 without the plugin:
-  `bounded-iteration/review-dispatcher-predicate-and-job-id`, `github-actions-authoring/no-actions-write-with-checked-out-code`,
-  `glide-mq/failed-jobs-need-recovery-path`, `react-app-structure/abort-superseded-search`,
-  `review-ci-logs/quiet-log-keeps-errors`, `service-boundaries/partner-webhook`,
-  `test-authoring/fake-routes-by-request` (0.00 when it was added), and the guard cases
-  `feature-rollout/dark-route-without-caller`, `postgres-locking/checkout-exact-stock`, and
-  `postgres-locking/review-advisory-lock-key`. `postgres-schema-design/customer-code-key` also
-  scores 1.00 without the plugin, so that skill has no case yet that shows it helps. Every other case scores below that.
+  as a precise difference. Thirteen cases score 1.00 without the plugin:
+  `agent-rules/path-scoped-rules`, `github-actions-authoring/no-actions-write-with-checked-out-code`,
+  `glide-mq/failed-jobs-need-recovery-path`, `planning/blast-radius-tests-and-flows`,
+  `planning/plan-pulls-in-postgres-skill`, `postgres-schema-design/customer-code-key`,
+  `react-app-structure/abort-superseded-search`, `review-ci-logs/quiet-log-keeps-errors`,
+  `service-boundaries/partner-webhook`, `test-authoring/fake-routes-by-request` (0.00 when it was
+  added), and the guard cases `feature-rollout/dark-route-without-caller`,
+  `postgres-locking/checkout-exact-stock`, and `postgres-locking/review-advisory-lock-key`.
+  `postgres-schema-design` has no case yet that shows it helps. Every other case scores below that.
 - **A two-arm run leaves the loaded-the-skill grader out of both scores**, so the arms compare
   on the answer alone. `scripts/eval-summary.py` counts that grader again, so the "Score"
   column means the same thing from either kind of run.
