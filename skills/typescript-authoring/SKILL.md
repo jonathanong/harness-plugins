@@ -67,6 +67,10 @@ and the `finally` runs early.
 
 - Where the codebase has a transport helper that owns auth, retries, timeouts, and policy, call
   it. Do not call global `fetch` beside it; that request silently skips all of those.
+- Keep top-level `await` to entrypoints and standalone scripts. A library module initializes
+  synchronously, or lazily inside a function. A top-level `await` delays every importer, and
+  some bundlers do not wait for it through `export * from`, so an importer reads a binding
+  before it is set.
 - Respect one-way layers. Server code does not import from client code or the reverse, and a
   queue producer does not import a worker. Share types through a module both sides may import.
 - A package meant for more than one runtime (Node, browsers, edge workers) does not import

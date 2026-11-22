@@ -31,6 +31,7 @@ unaided by design.
 | `git-commit-checklist/lockfile-conflict-on-rebase`                 | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                        | 0.83  | 2 of 3 | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                      | Stages the files of the fix by name and leaves unrelated and generated changes out.                                            | 1.00  | 3 of 3 | 0.33           |
 | `github-actions-authoring/no-actions-write-with-checked-out-code`  | Keeps `actions: write` out of any job that runs checked-out code.                                                              | 1.00  | 3 of 3 | 1.00           |
+| `github-actions-authoring/pr-diff-range-one-source`                | Takes both ends of a pull request's diff range from the pull request, not the base SHA and the merge commit.                   | 1.00  | 3 of 3 | 0.33           |
 | `github-actions-authoring/publish-gated-on-ci`                     | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                                                     | 1.00  | 3 of 3 | 0.00           |
 | `github-actions-authoring/rejects-polling`                         | Replaces a sleep-and-poll loop with an event trigger.                                                                          | 1.00  | 3 of 3 | 0.50           |
 | `github-actions-authoring/required-check-is-a-real-job`            | Builds a combined required check as a fan-in job, not a posted commit status.                                                  | 1.00  | 3 of 3 | 0.00           |
@@ -138,6 +139,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **The `github-actions-authoring/pr-diff-range-one-source` row** is from the two-arm run on
+  2026-11-22 that added the case, three attempts per arm.
 - **The `agent-coordination`, `expand-contract-migrations`, and `resuming-work` rows** are from
   the two-arm run on 2026-11-22 that added the skills, three attempts per arm. All three are
   ceiling cases. `agent-coordination` loaded its skill in 0 of 3; the other two in 3 of 3.

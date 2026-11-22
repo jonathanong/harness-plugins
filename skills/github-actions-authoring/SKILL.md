@@ -73,6 +73,8 @@ apply only when a job runs on a self-hosted or otherwise persistent runner.
   only on the Linux runner. Avoid `mapfile`, `declare -A`, `${var,,}`, and GNU-only flags, or
   state the interpreter and require a newer one explicitly. With `set -u`, expand a possibly
   empty array as `"${arr[@]+"${arr[@]}"}"`. Never assign zsh's read-only `status` or `pipestatus`.
+- For diff ranges, reusable-workflow secrets, cache keys, artifact uploads, and `gh api` calls
+  in a step, read [revisions, secrets, caches, and artifacts](references/revisions-secrets-caches.md).
 - Check out the whole tree for a job whose checks read the whole tree. A sparse checkout makes a
   repository-wide lint or graph check pass on the files it happened to fetch.
 - Do not cancel in-progress runs on the default branch. Each commit there needs its own result;

@@ -18,6 +18,9 @@ Detail for the rules in [SKILL.md](../SKILL.md#payloads-and-replay).
     enqueues.
 - Pick deduplication by meaning: `throttle` for dispatchers, `debounce` only for delay-reset
   work without ordering keys, `simple` for one-shot suppression.
+  `debounce` has no time window: it replaces the tracked job while that job is delayed and skips
+  while it is waiting or active. A `ttl` beside it is ignored (checked on glide-mq 0.20); only
+  `throttle` reads `ttl`.
 - When merging queues, namespace job names, job ids, deduplication ids, scheduler ids, and ordering
   keys by domain, and size the worker for the combined load.
 
