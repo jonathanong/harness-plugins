@@ -2,7 +2,19 @@
 
 This log only grows, newest entry first. Scores in different entries are not comparable when a
 case, grader, fixture, or model changed between them; each entry says what changed. The current
-scores are in [README.md](README.md).
+scores are in [EVALS.md](EVALS.md).
+
+## 2026-11-22: scores roll up by skill; the case list moves to `EVALS.md`
+
+No run. No case, grader, or score changed.
+
+- `README.md` now shows a headline and one row per skill. `scripts/eval-docs.py` builds both from
+  `EVALS.md`, and `pnpm run evals:check` fails when they are stale.
+- `EVALS.md` holds the per-case rows that were in `README.md`, with what each case checks in the
+  same table. The "(rerun)" suffix is gone; "Where each row comes from" says which run a row is from.
+- Guard cases start with "Guard:". `feature-rollout/dark-route-without-caller` gained the prefix.
+- `scripts/eval-summary.py` prints `n/a` for an arm that did not run and a "Loaded" column.
+- Planned work moved to the root `ROADMAP.md`.
 
 ## 2026-11-22: `pull-requests` skill; `agent-workflow` decides instead of asking
 

@@ -42,23 +42,6 @@ Code treats each commit on its `main` as an update. A plugin whose manifest sets
 updates only when its repository releases a new version. Codex picks up changes when you run
 `codex plugin marketplace upgrade harness-plugins`.
 
-### Moving from a plugin's own marketplace
-
-If you added one of these repositories as its own marketplace, remove that marketplace and
-reinstall every plugin you used from it from `harness-plugins`. The no-mistakes marketplace holds
-both `no-mistakes` and `no-mistakes-rules`. Claude Code uninstalls a marketplace's plugins when you
-remove it. Codex leaves them enabled, so uninstall them first or you end up with two copies. For
-pr-shepherd:
-
-```bash
-claude plugin marketplace remove pr-shepherd
-claude plugin install pr-shepherd@harness-plugins
-
-codex plugin remove pr-shepherd@pr-shepherd
-codex plugin marketplace remove pr-shepherd
-codex plugin add pr-shepherd@harness-plugins
-```
-
 ## jong-skills
 
 Generic agent skills that explain a design or a procedure. A skill here may say which approach to
@@ -106,59 +89,23 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`review-ci-logs`](skills/review-ci-logs/SKILL.md)                                     | Diagnosing a CI failure or noisy CI output from the logs.                      |
 | [`revisit-followups`](skills/revisit-followups/SKILL.md)                               | Sweeping merged work for deferred follow-ups that are still needed.            |
 
-### Moving from `skills@jonathanong-skills`
-
-This plugin was `skills@jonathanong-skills`, from the repository `jonathanong/skills`. Remove the
-old plugin and marketplace, then install as above:
-
-```bash
-claude plugin uninstall skills@jonathanong-skills
-claude plugin marketplace remove jonathanong-skills
-codex plugin remove skills@jonathanong-skills
-codex plugin marketplace remove jonathanong-skills
-```
-
-Skills now load as `jong-skills:<skill>`, not `skills:<skill>`, so update any instruction file or
-setting that names a skill with the old prefix.
-
-### Layout
-
-```
-.claude-plugin/     Claude Code plugin and marketplace manifests
-.codex-plugin/      Codex plugin manifest
-.agents/plugins/    Codex marketplace manifest
-plugin.json         Open plugin manifest
-skills/<skill>/     SKILL.md and its references
-evals/<skill>/      Eval cases for that skill, one directory per case
-evals/README.md     Current eval scores and what each case checks
-AGENTS.md           Rules for contributors and agents, including the skill size limit
-```
-
-To add a skill, create `skills/<skill>/SKILL.md` and at least one case under `evals/<skill>/` that
-asserts the skill fired. Keep `SKILL.md` to 150 lines and put detail in `references/`.
-`pnpm run evals:check` enforces both, and CI runs it. See [`AGENTS.md`](AGENTS.md).
-
 ### Evals
 
-Every skill has eval cases run with [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals).
-The current scores and what each case checks are in [`evals/README.md`](evals/README.md). The run
-log is in [`evals/HISTORY.md`](evals/HISTORY.md), and the rules for cases are in
-[`evals/AGENTS.md`](evals/AGENTS.md).
+Every skill has [eval cases](evals) run with
+[`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals), with and without the plugin.
 
-```bash
-pnpm run evals                  # every skill
-pnpm run evals npm-publishing   # one skill
-```
+<!-- evals:headline -->
 
-### Development
+- **92 cases** across 37 skills.
+- **With the plugin:** mean score 0.97.
+- **Without it:** mean score 0.31, over the 90 cases measured both ways.
+- **77 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
 
-```bash
-pnpm install
-pnpm run lint
-pnpm run format:check
-pnpm run evals:check
-pnpm run marketplace:check
-```
+<!-- /evals:headline -->
+
+Scores by skill are in [`evals/README.md`](evals/README.md), every case in
+[`evals/EVALS.md`](evals/EVALS.md), the run log in [`evals/HISTORY.md`](evals/HISTORY.md), and
+planned work in [`ROADMAP.md`](ROADMAP.md).
 
 ## License
 
