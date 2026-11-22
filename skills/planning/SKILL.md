@@ -24,8 +24,9 @@ value users feel, such as a timeout, a limit, or copy, changes behavior and is n
 1. State the outcome in words a non-engineer can read: what a user sees or can do today and what
    they will see or do after, as a before/after table with a row for each behavior that changes. A
    config value or a code change is not an outcome. Compare making no change, reusing something
-   that exists, and the alternatives. Choose the smallest option that lasts. Ask before treating
-   an open product choice as settled.
+   that exists, and the alternatives. Choose the smallest option that lasts. When a product choice is
+   open, take the smallest reversible option and record it as an assumption; see
+   `agent-workflow`, "Decide, then report".
 2. Read the instructions, docs, current code, tests, and recent changes from a fresh copy of the
    default branch. Note which evidence supports each step. An issue's file paths are a snapshot;
    check them against the current source.
@@ -79,5 +80,5 @@ term defined or linked. State each decision as a fact with its reason, not as wh
   not have it, quote the specific constraint once;
 - impact with the queries run, ordered steps with acceptance criteria and verification commands,
   non-goals, risks and rollback;
-- assumptions to verify first, stop conditions (when the implementer stops and asks instead of
-  deciding), and a definition of done with the evidence to attach.
+- assumptions to verify first, stop conditions (the destructive, irreversible, money-spending, release, or unauthorized steps
+  where the implementer stops and asks; everything else it decides and reports), and a definition of done with the evidence to attach.

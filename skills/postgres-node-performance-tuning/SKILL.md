@@ -34,8 +34,8 @@ it beats that simple query, not merely the previous version; see
   `ON CONFLICT`. A hot get-or-create on a table with an identity or sequence default reads first and
   inserts only on a miss: the default is evaluated before the conflict check, so every conflicting
   insert burns a sequence value.
-- Bound each result set. Paginate or stream a large read. A stream bounds memory, not work: cap
-  the rows per run as in [bounded iteration](../bounded-iteration/SKILL.md).
+- Bound each result set, and cap the rows each run reads, as in
+  [bounded iteration](../bounded-iteration/SKILL.md), which owns LIMITs, pagination, and streams.
 - Batch writes inside an explicit transaction limit.
 - Keep connection-pool usage bounded. Pool maxima are ceilings, so the worst case is their sum per
   process times every process and test worker, and it must fit the server's `max_connections`.

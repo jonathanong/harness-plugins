@@ -5,6 +5,8 @@ description: Use when clearing or reviewing a Codex Security finding queue; leav
 
 # Codex Security triage
 
+Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
+
 Use for one repository per run. Produce finding results and the
 [`codex-security-triage/v1`](references/handoff-v1.md) handoff. Do not create repository issues,
 apply labels, milestones, or projects, or shepherd pull requests.

@@ -44,7 +44,8 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
    or the keyset bound the read. A keyset alone does not bound rows scanned. When a filter can
    reject long runs, such as a viewer's blocks or mutes, the time window is the scan bound where the
    sort has one, and EXPLAIN at representative cardinality compares rows read with rows returned. The
-   simplest query comes first; anything more complex needs `EXPLAIN ANALYZE` plans beating it. For a
+   simplest query comes first, per
+   [performance tuning](../postgres-node-performance-tuning/SKILL.md). For a
    ranked list that is a join and `ORDER BY` on the stored score. No candidate pools: no capped or
    `MATERIALIZED` CTE over the listed entity that is filtered or limited afterward, no window loops
    or resume probes, no proof state in the cursor, and no runtime-config fields that exist only to
@@ -55,8 +56,7 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
    [`MATERIALIZED` CTEs](../postgres-node-performance-tuning/references/performance-patterns.md).
 9. **Tunables are runtime configuration.** Batch sizes, page sizes, caps, and windows come from the
    consumer's runtime configuration with a validated default and a hard maximum, and are bound as
-   SQL parameters. `LIMIT 1` and an external API's page maximum are contracts, not tunables. For
-   list reads, the bound is the page `LIMIT` plus a window or keyset, not a separate candidate cap.
+   SQL parameters. `LIMIT 1` and an external API's page maximum are contracts, not tunables.
 10. **One dispatcher per signal.** Split an `OR` of unrelated reasons into one dispatcher per
     reason, each with its own index-served predicate, position, and schedule, all enqueuing the same
     idempotent job. Writes that cause a signal enqueue directly; the sweep is the backstop. See

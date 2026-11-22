@@ -46,6 +46,9 @@ Code that nothing reaches cannot run in production, so its schema and its interf
 about a caller that does not exist yet, and a review cannot check them against real use. Ship
 one thin path from entry point to table instead of the schema first and the callers later.
 
+A rollout or backfill never depends on jobs retained in a queue; a queue is ephemeral and the
+rows hold the state (see [glide-mq](../glide-mq/SKILL.md)).
+
 ## Scope of a flag
 
 - State what the flag gates and what it does not. A migration, a new column, a changed job

@@ -21,8 +21,17 @@ For an operation that is not plain create, read, update, or delete, name the thi
 
 - A route handler parses and validates the request, calls one service function, and maps the
   result to a response. It holds no business logic.
-- A service function takes plain values and returns plain values or typed errors. It does not
-  read headers, set cookies, or build responses.
+- A service function takes plain values and returns plain values or typed errors. It may throw an
+  error that carries a status, but it never touches the response, cookies, headers, or redirects.
+- A handler works in this order: authenticate, resolve the entities named in the URL, validate
+  the body, act. A caller then learns it is unauthenticated before it learns an entity is
+  missing, and nothing is validated against an entity that does not exist.
+- An API is never gated on a frontend feature flag; the flag decides what a client shows, not
+  what the server accepts.
+- A mutation with a body accepts JSON only. Do not parse form encodings on the same route.
+- Set the status before writing a non-200 body. Send 204 and 205 with no body.
+- The API returns structured entity references (type and identifier), never a frontend route. The
+  client owns its URLs, so a route change does not break the API.
 - With that split, the same service call works from a job, a script, or a test, and the transport
   can change without touching the rules.
 
@@ -53,6 +62,9 @@ and ordering, invites enumeration, and ties every client to the storage layout.
   read back: OAuth refresh tokens, TOTP seeds.
 - Do both through one shared module. One place then owns the algorithm, key rotation, and
   constant-time comparison, and a search for that module finds every secret the system stores.
+
+Streams (server-sent events) and API keys: read
+[streams and API keys](references/streams-and-api-keys.md).
 
 ## Claims checked at the edge
 

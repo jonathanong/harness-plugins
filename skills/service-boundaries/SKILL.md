@@ -74,6 +74,24 @@ only evidence, and it lets the failure be replayed after the fix.
 - A long-lived connection (a stream, a socket) ends on a bounded cycle and the client reconnects,
   so a host replaced mid-connection looks like a routine cycle.
 
+## Calling an outside API
+
+- Each outside API call lives in its own function, so one place owns its timeout, mapping,
+  and test, and a caller never builds the request.
+- A comment on that function states whether the integration fails open or fails closed: what the
+  caller does when the call fails, and why that choice is safe.
+
+## Calls to a language model
+
+- Make one structured-decision call per decision. A call that decides several things at once
+  cannot be tested, retried, or measured per decision.
+- An entry point takes the provider and model as arguments, with no default model. A silent
+  default changes behavior and cost when it changes.
+- A system prompt is static. User data reaches the model through tools, not injected into the
+  context, so it cannot rewrite the instructions.
+- Sanitize and wrap outside content (a web page, an email, a document) before the model sees it,
+  and mark it as data, not instructions.
+
 ## Topology
 
 Keep deployment topology out of application repositories: instance counts, scaling limits,

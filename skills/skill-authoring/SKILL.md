@@ -19,8 +19,8 @@ skill loads.
   An agent loads a skill far more often when the trigger comes first.
 - Name the plain requests that should trigger it, such as "review a diff", as well as the topic.
   People do not ask in the skill's own words.
-- Keep it short, a few hundred characters. Every installed description is loaded in every
-  session.
+- Keep it short: set a character limit and enforce it with a check (for example, under 400
+  characters). Every installed description is loaded in every session.
 - Keep it distinct from its neighbors'. Two descriptions that overlap split the loads between
   them.
 

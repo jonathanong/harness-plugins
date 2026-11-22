@@ -7,8 +7,8 @@ description: Use when asked to sweep for follow-ups, unfinished checklists, or d
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
-1. Fix the lookback window: a duration such as `1w` or a date. If none was given, ask, and
-   suggest one week.
+1. Fix the lookback window: a duration such as `1w` or a date. If none was given, use one week
+   and say so in the report.
 2. Collect only explicit signals of deferred work from merged and closed pull requests, closed
    issues, and repository instructions: an unchecked box, a numbered list left partly done, "will
    do in a follow-up".

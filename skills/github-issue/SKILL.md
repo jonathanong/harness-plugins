@@ -19,8 +19,9 @@ template.
 - A missing permission is a stop, not something approval can override. Report it and return the
   draft. Do not route around it through another account, repository, or API.
 - Applying a label, milestone, or project that already exists is part of filing the issue.
-  Creating, renaming, or deleting one is a separate decision: stop for approval of the exact
-  repository, name, description, and color before creating a label.
+  Creating a label is not: omit it, file the issue without it, and report the label that would
+  fit. Renaming or deleting one is outside what filing authorizes; ask first (see
+  `agent-workflow`, "Decide, then report").
 
 When the target repository cannot be written to, read
 [denied target](references/denied-target.md) before filing anywhere else.
@@ -60,7 +61,8 @@ what was created. Do not retry an entry that succeeded.
 - Use sub-issues for a real parent and child, blocked-by for a known dependency, and a prose link
   for related work.
 - A blocker found while working does not widen the task. Reproduce it on the current default
-  branch, search for an existing fix or issue, and ask whether to take it on or only record it.
+  branch, search for an existing fix or issue, and record it as its own issue. Do not take it on; report
+  what was recorded (see `agent-workflow`, "Decide, then report").
 
 ## Report
 

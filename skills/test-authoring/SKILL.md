@@ -82,6 +82,8 @@ case the guard exists for.
 After the rules above, read the one file for the runner in use:
 
 - Vitest, including backend integration tests and Next.js tests: [vitest](references/vitest.md)
+- Backend integration tests that start processes or share a database:
+  [backend integration](references/backend-integration.md)
 - Storybook stories: [storybook](references/storybook.md)
 - Swift and SwiftUI tests: [swift](references/swift.md)
 - .NET tests, including MAUI: [dotnet](references/dotnet.md)
