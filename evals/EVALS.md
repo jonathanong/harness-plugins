@@ -47,6 +47,7 @@ unaided by design.
 | `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                              | 1.00  | 3 of 3 | 0.00           |
 | `http-api-design/uuid-slug-routes`                                 | Makes the slug the canonical route and permanently redirects old UUID links to it.                                             | 1.00  | 3 of 3 | 0.00           |
 | `list-reads/review-feed-candidate-pool`                            | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                          | 0.58  | 3 of 6 | 0.33           |
+| `llm-calls/summarize-fetched-page`                                 | Passes a fetched page to the model as delimited data, outside the system prompt, with an instruction not to follow it.         | 1.00  | 3 of 3 | 1.00           |
 | `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                                | 1.00  | 3 of 3 | 0.00           |
 | `native-app-architecture/generated-project-file`                   | Commits the project specification and ignores the generated Xcode project.                                                     | 1.00  | 3 of 3 | 0.00           |
 | `npm-publishing/bootstrap-new-package`                             | Prepares a first publish for a person to run, and never publishes itself.                                                      | 0.94  | 2 of 3 | 0.40           |
@@ -138,6 +139,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **The `llm-calls` row** is from the two-arm run on 2026-11-22 that added the skill, three
+  attempts per arm. It is a ceiling case; the skill loaded in 3 of 3.
 - **The `agent-coordination`, `expand-contract-migrations`, and `resuming-work` rows** are from
   the two-arm run on 2026-11-22 that added the skills, three attempts per arm. All three are
   ceiling cases. `agent-coordination` loaded its skill in 0 of 3; the other two in 3 of 3.

@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **100 cases** across 43 skills.
+- **101 cases** across 44 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.34, over the 99 cases measured both ways.
-- **81 cases** are ones the model fails unaided. The other 18 it already gets right: 3 check that a skill stays out of the way, and 15 show only that the skill loads.
+- **Without it:** mean score 0.34, over the 100 cases measured both ways.
+- **81 cases** are ones the model fails unaided. The other 19 it already gets right: 3 check that a skill stays out of the way, and 16 show only that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -44,6 +44,7 @@ averaged over attempts.
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
 | `http-api-design`                  | 3     | 1.00        | 0.22           | 0                     |
 | `list-reads`                       | 1     | 0.58        | 0.33           | 0                     |
+| `llm-calls`                        | 1     | 1.00        | 1.00           | 1                     |
 | `native-app-architecture`          | 2     | 1.00        | 0.00           | 0                     |
 | `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |
 | `package-json-checklist`           | 2     | 0.95        | 0.67           | 0                     |
