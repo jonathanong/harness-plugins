@@ -57,6 +57,10 @@ refresh while one is in flight or while the user is saving.
 - Give each member of a finite set of route types its own route directory. Use a `[param]`
   segment only for values that really vary, so each page is findable by its path.
 
+A fetch wrapper that returns `null` maps only a 404 to `null`. Never catch everything into
+`null`; every other failure reaches the error boundary, so an outage does not look like a missing
+resource.
+
 ## Forms and refresh
 
 - After a successful mutation, keep the submit button disabled until the navigation or refresh

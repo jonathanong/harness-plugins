@@ -5,6 +5,8 @@ description: Use when adding or changing a lint rule, CI guard, or policy check 
 
 # Static analysis checklist
 
+Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
+
 Use when adding or changing a static-analysis invariant. To choose which analyzers a repository
 should run in the first place, use [static-code-analysis](../static-code-analysis/SKILL.md). Read
 local `AGENTS.md`, analyzer documentation, rule inventory, and fixture conventions before selecting
@@ -22,7 +24,8 @@ syntax, and rollout policy.
    boundaries, equivalent YAML forms, and every allowed exception. Before replacing or deleting a
    security guard, port its old fixture corpus to the replacement and pass it first, so the
    rewrite cannot quietly stop blocking a case the old guard caught.
-4. Keep discovery limited to tracked, intended files. A scan of tracked files sees a new file only
+4. Keep discovery limited to tracked, intended files. A guard validates tracked git state:
+   untracked and ignored files neither fail it nor satisfy it. A scan of tracked files sees a new file only
    after `git add`, so when a check says a new path does not exist, stage it before changing the
    rule. Make suppressions and allowlists narrow, justified, and mechanically checked for
    freshness where practical.

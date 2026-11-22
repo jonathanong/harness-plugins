@@ -50,3 +50,9 @@ Detail for the rules in [SKILL.md](../SKILL.md#payloads-and-replay).
   makes the replay safe. Record each exclusion and its reason where the registry lives.
 - Test at the service boundary against real PostgreSQL, Valkey, and glide-mq. Find an enqueued job
   by id or `searchJobs`, not by listing the waiting state, which other tests share.
+
+## Derived statistics
+
+Refresh a derived statistic (a count, a rank, a rollup) in a job that is asynchronous and
+debounced, never awaited on the write path. The write commits without it, and a burst of writes
+collapses into one refresh.

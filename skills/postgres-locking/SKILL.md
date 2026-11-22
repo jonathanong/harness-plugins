@@ -66,8 +66,8 @@ and never close a race with a wider lock.
   or a last-one guard is not such an invariant, even when it protects access.
 
 An advisory lock is for those cases only when no row exists to lock, or when the critical section
-must span transactions or outside I/O; then hold it on a dedicated connection and release it in a
-`finally`. Otherwise avoid advisory locks.
+must span transactions or outside I/O; then hold it on a dedicated connection, taken from its own small pool so held locks cannot
+starve request queries, and release it in a `finally`. Otherwise avoid advisory locks.
 
 ## Every lock
 

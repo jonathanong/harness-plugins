@@ -14,8 +14,9 @@ a browser.
 ## What belongs in a browser test
 
 - Use a browser for behavior that needs one: rendering, interaction, navigation, client state.
-- Check status codes, redirects, response headers, and page metadata with plain HTTP tests. They
-  run in milliseconds and do not flake on rendering.
+- Check status codes, redirects, response headers, cache behavior, and page metadata with
+  fetch-level HTTP tests. They run in milliseconds and do not flake on rendering. Browser tests
+  own the rendered interface.
 - Do not repeat in the browser what a unit or component test already covers. Cover the flow that
   joins the parts, once.
 

@@ -5,8 +5,10 @@ description: Use when writing or reviewing a package.json, adding, upgrading, or
 
 # Package metadata checklist
 
+Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
+
 Use before changing `package.json`, a lockfile, workspace metadata, or a package entrypoint. Read
-every applicable `AGENTS.md` from the repository root through the owning package,
+every `AGENTS.md` from the repository root through the owning package,
 applying the closest file only when rules conflict. Those instructions own package-manager version,
 dependency age and version policy, version ranges, workspace topology, registry, release process,
 and package layout, and override these defaults.
@@ -22,9 +24,10 @@ and package layout, and override these defaults.
    checks required by the affected package. Do not publish or alter registry state without explicit
    authorization.
 5. Review the lockfile and generated metadata for unrelated churn before committing.
-6. Add a dependency at its latest release, or its LTS release when it has one. Look the version up;
-   do not recall it. An old version starts the package behind on fixes the update bot then has to
-   deliver.
+6. Add a dependency at the newest release that the repository's cooldown or release-age policy
+   allows, on an LTS line where one exists (see the `dependabot` skill for cooldowns). Look the
+   version up; do not recall it. An old version starts the package behind on fixes the update bot
+   then has to deliver.
 7. Do not use package-manager version overrides to work around a dependency. An override silently
    pins every consumer and outlives its reason. When a package omits a dependency or peer it
    needs, add it with `packageExtensions`; that only adds what the manifest lacks and cannot

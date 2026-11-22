@@ -119,10 +119,8 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
   the start and exit if the work is done, and make the write an upsert, a uniqueness constraint, a
   version guard, or a durable sent marker. Deduplication never replaces this. Write the result
   and the state that marks it done in one transaction.
-- **A stable `jobId` plus numeric retention drops re-enqueues.** The id stays claimed while the
-  job runs and until its record is trimmed, so `add` returns `null` and a trigger that arrives
-  mid-run is lost. Choose the id by event, not only by entity, per
-  [bounded iteration](../bounded-iteration/SKILL.md).
+- **Choose a job id by entity and event**, per [bounded iteration](../bounded-iteration/SKILL.md),
+  which owns why a stable id drops re-enqueues.
 - **A continuation job gets a new identity.** Re-adding the active job's id or deduplication id
   is silently dropped. Count waiting, active, and delayed jobs in a backlog guard, because a
   retry or priority job sits delayed before promotion.

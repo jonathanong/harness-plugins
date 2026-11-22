@@ -72,9 +72,8 @@ Do not build to a conclusion. Put it first and support it after.
   guess in the same voice as a checked fact.
 - State every assumption the conclusion depends on. An assumption must be reasonable; flag any
   that is not, or that could not be checked, next to the claim it supports, not only at the end.
-- A number belongs only in a point-in-time document (an investigation, a proposal, a postmortem),
-  with the date it was taken and the query or source that produced it. In a document that is
-  kept up to date, write how to get the number instead: the query, command, or dashboard.
+- Numbers follow the `documentation` skill: dated and sourced in a point-in-time document (an
+  investigation, a proposal, a postmortem), and a way to fetch them in a living one.
 
 ## Terms
 

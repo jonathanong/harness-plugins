@@ -39,15 +39,15 @@ loaded only when it is needed, and nowhere else.
 - `AGENTS.md` holds short, imperative principles. Give it a size budget and enforce it with a
   check, as for any limit. Move anything only some tasks need into a skill, and anything that
   explains into docs.
-- Scope a rule to the directory it governs with a nested `AGENTS.md`. A nested file adds to its
-  parent and never repeats it.
+- Scope a rule to the directory it governs with a nested `AGENTS.md`; this is the only home for a
+  path-scoped rule. A nested file adds to its parent and never repeats it. It scopes by directory,
+  not by file pattern, so a rule for only some files in a directory says which ones.
 - The most specific instruction wins: a nested `AGENTS.md` over the root one, and the
   repository's files over a shared skill. A person's direct instruction overrides them all. Say so
   in a shared skill, so it defers to the repository.
 - Write rules in portable files: `AGENTS.md`, skills, and docs. Do not put rules in one
   harness's own rule format, such as Claude Code's `.claude/rules/` or Cursor-only rules; another
-  agent never sees them. Use a nested `AGENTS.md` for a path-scoped rule. It scopes by directory,
-  not by file pattern, so a rule for only some files in a directory says which ones.
+  agent never sees them.
 - When a harness reads only its own file name, such as `CLAUDE.md`, make that file a symlink to
   `AGENTS.md` or a one-line import of it, beside every `AGENTS.md`, nested ones included. Never
   keep two copies.
@@ -64,8 +64,9 @@ loaded only when it is needed, and nowhere else.
 
 ## Capture decisions
 
-- When a decision you reach with a person will come up again, ask whether to encode it, and
-  where: `AGENTS.md`, a skill, docs, or a check.
+- When a decision reached with a person will come up again, encode it where it is shared:
+  `AGENTS.md`, a skill, docs, or a check. Report where you put it; do not ask first (see
+  `agent-workflow`, "Decide, then report").
 - Do not keep a principle, or a repository or global rule, only in an agent's memory. Memory
   belongs to one agent on one machine; other agents, other people, and CI never see it. Write the
   rule where it is shared, and keep memory for personal preferences and pointers.
@@ -77,8 +78,7 @@ loaded only when it is needed, and nowhere else.
 - Write the rule, not the incident that produced it. The story belongs in the commit or the
   issue.
 - Prefer one short example to a paragraph of description.
-- State the principle, or how to do the thing, not a number that drifts. Name where a limit or
-  setting is defined, or how to look it up, instead of copying its value.
+- State the principle, not a number that drifts; see the `documentation` skill.
 - Point at folders, commands, and symbols, not line numbers or files. A line number is wrong
   after the next edit, and a file path breaks on a rename. When a rule must name a path, change
   the rule in the same change that moves it.
@@ -93,6 +93,6 @@ Ask of a change to agent rules:
 - Could a check enforce this rule instead of prose?
 - Is any rule in a harness-specific file, or copied into two files?
 - Is every new docs page linked from where an agent will look, and is the link checked?
-- Does any rule hold a number that will drift?
+- Does any rule hold a number that will drift (`documentation`)?
 - Was a decision from this work saved only to memory?
 - Is a new or changed skill reviewed with `skill-authoring`?

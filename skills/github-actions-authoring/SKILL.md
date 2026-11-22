@@ -5,11 +5,13 @@ description: Use when writing, editing, or reviewing a workflow or composite act
 
 # GitHub Actions authoring
 
-Never poll in CI. A workflow reacts to a state transition. Read every applicable `AGENTS.md`
-first. Repository-local policy owns runner labels, permissions, action pins, concurrency, secrets,
+Read every applicable `AGENTS.md` first. Repository-local policy owns runner labels, permissions, action pins, concurrency, secrets,
 and required-check names, and overrides these defaults. When the `no-mistakes-rules` plugin is
 installed, `no-mistakes-rules:github-actions-rules` is the optional rule list for triggers,
 permissions, pins, and timeouts; this skill covers the design those rules do not prescribe.
+
+A workflow reacts to a state transition and never polls; "Reject polling designs" states the
+rule and its two exceptions.
 
 Before editing any workflow, read the [workflow baseline](references/workflow-baseline.md):
 trigger types that restart passed checks, concurrency and cancellation, the 30-minute job bound,
@@ -69,7 +71,8 @@ apply only when a job runs on a self-hosted or otherwise persistent runner.
   beyond syntax, cannot be run locally, and are reviewed as YAML strings.
 - A script that developers also run locally must work on the macOS system `/bin/bash` (3.2), not
   only on the Linux runner. Avoid `mapfile`, `declare -A`, `${var,,}`, and GNU-only flags, or
-  state the interpreter and require a newer one explicitly.
+  state the interpreter and require a newer one explicitly. With `set -u`, expand a possibly
+  empty array as `"${arr[@]+"${arr[@]}"}"`. Never assign zsh's read-only `status` or `pipestatus`.
 - Check out the whole tree for a job whose checks read the whole tree. A sparse checkout makes a
   repository-wide lint or graph check pass on the files it happened to fetch.
 - Do not cancel in-progress runs on the default branch. Each commit there needs its own result;
