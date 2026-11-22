@@ -82,7 +82,7 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
 6. **Lease mechanics.** A lease is only for concurrency across an external call, such as a
    provider quota shared by several jobs. Never use one for an internal cap that can be best
    effort; count and write, as in the lock rules in
-   [schema design](../postgres-schema-design/SKILL.md#locks). Acquire a token-owned lease with `SET key token NX PX ttl` before the
+   [locking](../postgres-locking/SKILL.md). Acquire a token-owned lease with `SET key token NX PX ttl` before the
    guarded work. Set the TTL at or above the job's `lockDuration`, renew it while the job runs,
    and release it with compare-and-delete in `finally`. On contention, `moveToDelayed` only this
    job by a short, bounded, jittered delay so it keeps its id, cursor, and dedup. Release the

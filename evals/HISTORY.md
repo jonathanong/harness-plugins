@@ -40,6 +40,44 @@ plugin-only loading run of eight attempts per case.
   merge, close, stack, and readiness decisions correctly unaided, and does not load the skill.
   Those rules are untested here; a case for them needs a fixture the agent must inspect.
 
+## 2026-11-22: locking rules move to `postgres-locking`
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm, 9 cases, 54 attempts, $7.04.
+
+- **Changed:** the Locks section of `postgres-schema-design` is now the `postgres-locking` skill,
+  and `postgres-schema-design`'s description no longer names locks. New rules: every lock form
+  counts, share locks included; append-only writes never lock and dedupe an outside effect where
+  it is delivered; a guard inside the writing statement and an already conditional write need no
+  lock; `SKIP LOCKED` only for competing workers; a transaction that will update the row it
+  fences takes `FOR NO KEY UPDATE`; adding a lock is the owner's decision and an unattended agent
+  ships the lock-free design; a reviewer's race finding does not justify a lock; tests assert the
+  final state, not the lock. `postgres-node-performance-tuning` names a `MATERIALIZED` CTE that
+  only pins or locks a row as never justified.
+- **Moved:** the five locking cases from `evals/postgres-schema-design` to
+  `evals/postgres-locking`, retagged. Their prompts and outcome graders did not change.
+- **New cases, with / without the plugin:** `prelock-before-conditional-update` 3 of 3 / 0 of 3;
+  `race-finding-on-unwritten-row` 3 of 3 / 0 of 3; `postgres-schema-design/customer-code-key`
+  3 of 3 / 3 of 3, a ceiling case kept so the schema skill has a loading check.
+- **Dropped as a ceiling case:** `ballot-no-lock` (a poll-row lock before an append-only ballot
+  insert and a webhook) passed 3 of 3 in both arms.
+- **Moved cases:** `exact-cap-no-lock` and `review-last-admin-advisory-lock` 3 of 3 / 0 of 3;
+  `rollup-trigger-deadlocks` 2 of 3 / 0 of 3; the guards `checkout-exact-stock` 3 of 3 / 3 of 3
+  and `review-advisory-lock-key` 3 of 3 / 3 of 3 on the answer.
+- **Loading:** `postgres-locking` loaded in 26 of 27 attempts; the miss was
+  `review-advisory-lock-key` (2 of 3, up from 1 of 3 under the old skill).
+- **After review, two plugin-only reruns, three attempts, $3.21 and $3.08:** wording was
+  tightened: the effect id includes the action; a guard on another row is called best effort; a
+  cap can overshoot by more than one row and is not made exact with `SERIALIZABLE`; the
+  session-level advisory form is named; a write-skew guard reads inside its `SERIALIZABLE`
+  transaction; tests accept each valid outcome. In the first rerun `exact-cap-no-lock` failed 1
+  of 3: told to put the lock it would propose in the description, the agent offered a team-row
+  lock for a cap. The rule now says a cap has no lock to propose, and the second rerun passed
+  every answer, 21 of 21. `review-advisory-lock-key` loaded the skill in 1 of 3. The README
+  rows are from the second rerun.
+- **What it showed:** without the skill the model adds or keeps a lock in every non-guard case.
+  `postgres-schema-design` now has no case the model fails unaided.
+
 ## 2026-11-22: `bounded-iteration` description names sweeps
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, plugin only, eight attempts

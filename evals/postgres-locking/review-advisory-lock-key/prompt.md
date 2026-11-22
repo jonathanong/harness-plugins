@@ -1,6 +1,6 @@
 ---
 description: Guard. A review of an advisory lock the author justified checks its key, and does not reject the lock on principle.
-tags: [postgres-schema-design, skill-fired, review]
+tags: [postgres-locking, skill-fired, review]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

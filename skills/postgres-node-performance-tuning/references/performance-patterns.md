@@ -3,7 +3,7 @@
 Use pools and release checked-out clients in `finally`, especially for cursors, streams, and COPY.
 Route ordinary reads to a replica when its lag is acceptable; route read-after-write, locking, and
 transaction-consistent reads to the writer. Do not hold a client across unrelated application work.
-Avoid advisory locks (see [locks](../../postgres-schema-design/SKILL.md#locks)), and never hold a
+Avoid advisory locks (see [locks](../../postgres-locking/SKILL.md)), and never hold a
 transaction, a connection, or an advisory lock across an external call, including an enqueue
 (commit, then enqueue); take
 a token lease in a shared store instead, with a TTL, renewal, and compare-and-delete release. Stop work when
@@ -33,7 +33,9 @@ These need `EXPLAIN ANALYZE` plans, at representative cardinality, showing they 
 query for the same result, not merely the previous version on the base branch: `MATERIALIZED` or
 capped candidate CTEs, `UNION`, `GROUP BY` or `DISTINCT` dedupe, `LATERAL` joins and planner
 fences, cohort or window ranking, and multi-stage cap-filter-rank pipelines. Never build a
-candidate pool. A walk that stops at an inspected-row cap and returns a short or empty page with a
+candidate pool. A `MATERIALIZED` CTE whose only job is to pin or lock a row (`SELECT ... FOR UPDATE`
+or `FOR SHARE` ahead of the write) is never justified by a plan; put the guard in the writing
+statement, or take the lock plainly where [locking](../../postgres-locking/SKILL.md) allows one. A walk that stops at an inspected-row cap and returns a short or empty page with a
 continuation cursor is fine.
 
 Test existence with `EXISTS`, not `COUNT(*) > 0`. Use correlated `NOT EXISTS` rather than

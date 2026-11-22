@@ -1,6 +1,6 @@
 ---
 description: A review of a diff that takes an advisory lock to keep the last admin from being removed asks for the lock to be deleted and the guard left best effort.
-tags: [postgres-schema-design, skill-fired, review]
+tags: [postgres-locking, skill-fired, review]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
