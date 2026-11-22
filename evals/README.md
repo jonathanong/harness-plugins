@@ -34,10 +34,9 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
-- **The `bounded-iteration` rows** are from the two-arm run after the convergence rule was added,
-  three attempts per arm. `review-sweep-rewrites-its-trigger` is from a later run of that case,
-  after its prompt moved the timestamp write into a database trigger; the skill did not load in
-  any attempt of either run.
+- **The `bounded-iteration` rows** take "Score" and "Passed" from a plugin-only run of eight
+  attempts per case after the description named sweeps, and "Without plugin" from the two-arm run
+  before it (three attempts per arm).
 - **"Without plugin"** comes from separate runs; see "How to read the numbers".
 - **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
   `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
@@ -58,9 +57,9 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
 | `agent-rules/path-scoped-rules` (rerun)                                   | 1.00  | 3 of 3 | 1.00           |
 | `agent-rules/root-agents-md-placement` (rerun)                            | 1.00  | 3 of 3 | 0.00           |
 | `agent-workflow/review-round-dispositions`                                | 1.00  | 3 of 3 | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id` (rerun)        | 0.67  | 2 of 3 | 0.33           |
-| `bounded-iteration/review-staged-reconciler` (rerun)                      | 1.00  | 3 of 3 | 0.00           |
-| `bounded-iteration/review-sweep-rewrites-its-trigger` (rerun)             | 0.50  | 0 of 3 | 0.67           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id` (rerun)        | 1.00  | 8 of 8 | 0.33           |
+| `bounded-iteration/review-staged-reconciler` (rerun)                      | 1.00  | 8 of 8 | 0.00           |
+| `bounded-iteration/review-sweep-rewrites-its-trigger` (rerun)             | 0.75  | 4 of 8 | 0.67           |
 | `dependabot/groups-by-family`                                             | 1.00  | 3 of 3 | 0.33           |
 | `dependabot/request-update-check`                                         | 1.00  | 3 of 3 | 0.50           |
 | `dependabot/review-actions-cooldown`                                      | 1.00  | 3 of 3 | 0.67           |

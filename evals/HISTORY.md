@@ -4,6 +4,23 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-22: `bounded-iteration` description names sweeps
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, plugin only, eight attempts
+per case for each description in the same session, $7.24; then `glide-mq` plugin only, three
+attempts, $2.05.
+
+- **Changed:** the description now opens "Use when writing or reviewing a sweep, scheduled job,
+  ..." and says it covers sweeps that re-select their own writes and effects that repeat on every
+  run.
+- **A/B, skill loaded / answer passed, old then new:** `review-dispatcher-predicate-and-job-id`
+  2 / 3 of 8, then 8 / 8 of 8; `review-staged-reconciler` 8 / 8, then 8 / 8;
+  `review-sweep-rewrites-its-trigger` 0 / 8, then 4 / 8 of 8.
+- **Neighbor check:** every `glide-mq` case still loaded `glide-mq` in all 12 attempts;
+  `never-enqueue-and-wait` failed its design grader once (2 of 3). Its README row is from the
+  earlier run.
+- **Not rerun without the plugin:** the description does not change that arm.
+
 ## 2026-11-21: `bounded-iteration`: a sweep converges
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
