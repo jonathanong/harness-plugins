@@ -9,7 +9,8 @@ Planned work, most certain first. An item leaves this file when its pull request
 
 ## Skills: add
 
-Each is added only when a case shows the model fails without it.
+A skill does not wait for a case the current model fails; weaker models need the rules too.
+Each still gets a loading case and an answer case.
 
 - [ ] Debugging to a root cause before fixing.
 - [ ] Verifying a claim before reporting it done.
