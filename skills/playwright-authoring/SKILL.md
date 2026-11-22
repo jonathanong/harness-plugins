@@ -49,6 +49,11 @@ Select elements the way a user or an assistive tool finds them, in this order:
 - Never wait an arbitrary time. Use an auto-waiting assertion, or wait for a precise URL,
   request, response, or visible completion signal. Register a response wait before the action
   that triggers it.
+- To load more of an infinite list, scroll the page or the container. `scrollIntoViewIfNeeded()`
+  does nothing when the sentinel is already in view, so the next page may never load.
+- Do not raise the test deadline inside a spec. A test that needs longer is too long: shorten
+  the scenario or seed closer to the behavior under test. The suite's deadline is set in one
+  place.
 - Seed data and establish authentication through a supported fixture or API, not through the
   interface. Keep each scenario independent of test order and of earlier state.
 - Mock the network only for third-party behavior, fault injection, streaming, or a condition that

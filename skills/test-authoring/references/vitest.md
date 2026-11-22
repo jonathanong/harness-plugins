@@ -6,6 +6,10 @@ These rules add to the general ones in the skill.
 
 - Isolate tests with Vitest lifecycle hooks. Restore spies, environment variables, timers, and
   globals after each test, so one test cannot change another's module graph or process state.
+- Pass the environment to the code under test as an argument where it accepts one, instead of
+  assigning `process.env`. An assignment leaks into every other test in the worker.
+- A project's `exclude` replaces Vitest's defaults. Spread `configDefaults.exclude`, or list the
+  dependency and build directories again, or the run collects tests from installed packages.
 - Prefer a deterministic async assertion to a timing wait. Await the promise, the event, or
   `vi.waitFor` on a condition; do not sleep.
 - Mock an external boundary: a provider, a transport, the clock, the environment. Do not mock the
@@ -37,6 +41,9 @@ These rules add to the general ones in the skill.
 - An in-memory queue stand-in does not prove production ordering, retry backoff, or
   deduplication. Assert the queue options the code sets, and test transport behavior against the
   real queue under an isolated key prefix and random queue names.
+- Do not replace an internal enqueue with a typed fake in the test of a job that enqueues its
+  own continuation. The fake accepts a job the real queue drops, such as one re-added under its
+  own active deduplication id.
 - Register an event listener before the mutation that produces the event.
 - Assert persisted state, emitted work, or the externally visible result. Assert authorization
   and retry behavior at the boundary.

@@ -95,6 +95,16 @@ Load browser-side configuration at runtime, from the server response or a config
 not bake it into the bundle at build time. One build can then be promoted through every
 environment, and a configuration change does not need a rebuild.
 
+## Locale and language
+
+- Format a date or number with an explicit locale and time zone, the ones the interface uses.
+  `toLocaleDateString()` with no locale uses the runtime's default, so the server render and the
+  browser disagree and hydration fails or the text flickers.
+- Text a user wrote, shown beside interface text in another language, carries its own `lang`.
+  When its language is unknown, set `lang=""` and `dir="auto"`; with no `lang` it inherits the
+  page's. Screen readers pick the voice
+  and browsers pick hyphenation and direction from it.
+
 ## User-supplied images
 
 Serve an image URL a user supplied through an image proxy the app controls. Rendering it directly

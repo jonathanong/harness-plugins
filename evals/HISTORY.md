@@ -4,6 +4,32 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: generic rules from a consuming repository's lint and workflow checks
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Rules added**, each one a check a consuming repository enforces mechanically, restated
+  without its names:
+  - `github-actions-authoring`: a new reference on diff ranges, reusable-workflow secrets, cache
+    keys, artifact uploads, tests of workflows, and `gh api` in a step.
+  - `playwright-authoring`: no deadline change inside a spec; scrolling to load more.
+  - `react-app-structure`: explicit locale for dates and numbers; `lang` on authored text.
+  - `typescript-authoring`: top-level `await` only in entrypoints.
+  - `service-boundaries`: a timeout on a DNS lookup made to validate a URL.
+  - `glide-mq`: `debounce` ignores `ttl`; a provider's rate limit carries its wait; the worker
+    factory.
+  - `test-authoring` (Vitest): environment passed as an argument; `exclude` replaces the
+    defaults; no typed fake of an internal enqueue.
+- **Case drafted and dropped:** `github-actions-authoring/pr-diff-range-one-source`. Its first
+  grader passed a two-dot diff of the base and head SHAs and failed a diff of the base against
+  the merge commit; it scored 3 of 3 with the plugin and 1 of 3 without ($0.93). Review showed
+  that grader, and the rule it tested, had the comparison backwards: the two-dot diff is the one
+  that lists changes from the base branch. With the rule and grader corrected to a merge-base
+  comparison, the case scored 3 of 3 in both arms ($0.79), so it is a ceiling case and is not
+  kept. The first result measured the grader's error, not the skill.
+- **Not re-measured:** the existing cases of the seven changed skills. The changes add rules and
+  remove none. Their `EVALS.md` rows are from earlier runs.
+
 ## 2026-11-22: `expand-contract-migrations`, `resuming-work`, and `agent-coordination` added
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
