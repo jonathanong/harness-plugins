@@ -78,35 +78,13 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
    their priority. Work that must not wait behind a flood, and dispatchers that rely on
    priority, get their own lane. Put work that outsiders can flood in a lane of its own.
    Ordering keys are the orchestration layer; add none on top.
-4. **`globalConcurrency` caps the whole queue.** The worker option `globalConcurrency` limits
-   every job on the queue together, so on a shared queue it throttles all families at once. Use
-   ordering lanes for per-family caps, and use `globalConcurrency` only when one resource bounds
-   the whole queue.
-5. **A job moved to delayed keeps its ordering slot until it completes.** A deferred job still
-   counts against `ordering.concurrency`, so deferred jobs can fill a key and block ready work
-   on it. A cap on concurrency across an external call that must survive deferral belongs in a
-   token-owned lease, released before `moveToDelayed`, not in the ordering key. Never fix starvation by raising the key's
-   concurrency: overlap grows and the same number of deferred jobs still fill the slots.
-6. **Lease mechanics.** A lease is only for concurrency across an external call, such as a
-   provider quota shared by several jobs. Never use one for an internal cap that can be best
-   effort; count and write, as in the lock rules in
-   [locking](../postgres-locking/SKILL.md). Acquire a token-owned lease with `SET key token NX PX ttl` before the
-   guarded work. Set the TTL at or above the job's `lockDuration`, renew it while the job runs,
-   and release it with compare-and-delete in `finally`. On contention, `moveToDelayed` only this
-   job by a short, bounded, jittered delay so it keeps its id, cursor, and dedup. Release the
-   lease before any `moveToDelayed` for quota deferral. Reuse the repository's lease helper
-   rather than adding a second. See [lease patterns](references/lease-patterns.md).
-7. **Never mix ranked and priority-0 jobs in one queue.** glide-mq runs ranked jobs before
-   priority-0 FIFO jobs, so a mixed queue starves its 0 jobs. Pick one kind per queue. Ranked
-   priority orders only jobs promoted together: a large batch already in the ready list delays
-   every later job whatever its priority, so cap a batch's admission instead of relying on rank.
-8. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
+4. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
    merge or remove jobs to cut the count. Judge a design by model calls or spend per item and by
    how simply the jobs share a lifecycle.
-9. **A lock duration is a crash-recovery window, not a runtime cap.** `lockDuration` is how long
-   a job may go without a heartbeat before another worker takes it after a crash. Shortening it
-   only duplicates slow but live jobs sooner. A deploy that kills a worker mid-job counts as a
-   stall; raising the stalled-job limit hides a job that keeps crashing, so fix the job.
+
+Read [worker tuning](references/worker-tuning.md) for `globalConcurrency`, mixing ranked and
+priority-0 jobs, and `lockDuration`. Read [lease patterns](references/lease-patterns.md) for a job
+moved to delayed and for lease mechanics.
 
 ## Payloads and replay
 

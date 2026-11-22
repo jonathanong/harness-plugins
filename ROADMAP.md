@@ -6,8 +6,7 @@ Planned work, most certain first. An item leaves this file when its pull request
 
 - [ ] `bounded-iteration` into sweeps and list reads.
 - [ ] `http-api-design` into API shape and secrets, edge, and cache.
-- [ ] Move detail to references in `glide-mq`, `evals`, `dependabot`, `static-code-analysis`, and
-      `github-actions-authoring`.
+- [ ] Move detail to references in `static-code-analysis` and `github-actions-authoring`.
 
 ## Skills: add
 

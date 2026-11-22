@@ -4,6 +4,18 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: detail moved to references in `glide-mq`, `evals`, and `dependabot`
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. No rule, description, case,
+or grader changed; text moved word for word from `SKILL.md` to a linked reference file.
+
+- **Sizes:** `glide-mq` 148 to 126 lines, `evals` 149 to 127, `dependabot` 138 to 108.
+- **Run, plugin only, three attempts, 10 cases, $3.93:** every case of the three skills passed 3
+  of 3 and loaded its skill 3 of 3. `EVALS.md` rows were not replaced.
+- **Not tested:** no case covers the rules that moved (lease mechanics and worker tuning in
+  `glide-mq`, the case and grader rules in `evals`), so the run shows the move did no harm to the
+  rules that stayed, not that an agent follows the link.
+
 ## 2026-11-22: two descriptions changed to load more often; seven drafted cases dropped
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Every comparison ran on this
