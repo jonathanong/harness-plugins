@@ -12,6 +12,10 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
   tool, an MCP server, or a script a skill runs, belongs in its own repository. A skill may tell
   the reader to use such a tool. The scripts under `scripts/` only check this repository's
   marketplaces and check and run its evals.
+- Keep a rule even when the evals show no improvement from it. The evals run on one strong
+  model, and these skills also have to work on weaker models that do not already follow the rule.
+  Remove a rule because it is wrong, repeated, or one repository's policy, not because the
+  current model passes without it.
 - Do not name a private organization, repository, product, or person in a skill, an eval case, a
   commit, or a pull request.
 
