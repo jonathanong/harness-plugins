@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Use when starting a non-trivial change or initiative - a feature, a migration, a refactor across areas, or anything asked to be planned or designed before implementing. Covers outcome, options, impact tracing, verification commands, and a plan another agent can run. Not for mechanical changes.
+description: Use when asked to plan, scope, or design a change before implementing it, or when starting a non-trivial feature, migration, or refactor across areas. Covers outcome, options, impact tracing, verification commands, and a plan another agent can run. Not for mechanical changes.
 ---
 
 # Planning

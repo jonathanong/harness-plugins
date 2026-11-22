@@ -26,13 +26,15 @@ Each is added only when a case shows the model fails without it.
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **A case that shows each skill helps** for `postgres-schema-design`, `review-ci-logs`, and
       `package-json-checklist`.
-- [ ] **Fix cases that load their skill in under half of attempts:**
-      `static-analysis-checklist/tracked-files-only`,
-      `bounded-iteration/review-sweep-rewrites-its-trigger`, `planning/plan-states-before-after`,
-      and `service-boundaries/topology-in-app-repo`. Measure loading with eight attempts.
-- [ ] **Cases for the rules added without one:** asking less in `planning`, `github-issue`, and
-      `revisit-followups`; language-model calls in `service-boundaries`; handler order and API
-      keys in `http-api-design`.
+- [ ] **Cases that still load their skill in under eight of eight attempts:**
+      `planning/plan-states-before-after` (5 of 8) and
+      `static-analysis-checklist/tracked-files-only` (6 of 8).
+- [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
+      no skill loaded.
+- [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
+      work: the model passed five of seven unaided. Build them on a fixture or a longer task:
+      asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
+      handler order and API keys in `http-api-design`.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
