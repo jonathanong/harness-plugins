@@ -4,6 +4,33 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: skills ask less; contradictions and repeated rules removed; round-two addendum
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. No case or grader changed.
+
+- **Changed skill text:** `agent-rules`, `bounded-iteration`, `feature-rollout`,
+  `github-actions-authoring`, `github-issue`, `glide-mq`, `http-api-design`,
+  `package-json-checklist`, `planning`, `playwright-authoring`, `postgres-locking`,
+  `postgres-node-performance-tuning`, `postgres-schema-design`, `react-app-structure`,
+  `revisit-followups`, `service-boundaries`, `skill-authoring`, `static-analysis-checklist`,
+  `technical-writing`, `test-authoring`, and `triage-codex-security`. No description changed.
+- **Run, plugin only, three attempts, 62 cases, $28.76:** every case of those skills. 48 cases
+  passed 3 of 3. Every attempt that failed on the answer in a case not named below also failed in
+  the same way on `main` earlier the same day.
+- **Same-session control on `main` for `planning` and `service-boundaries`**, three attempts.
+  Answers: `plan-handoff-self-contained` 1 of 3 then 3 of 3 on the branch, 2 of 3 on `main`;
+  `plan-saved-outside-repo` 1 of 3 then 2 of 3 on the branch, 3 of 3 on `main`.
+- **Loading drifts within a session.** `planning/plan-states-before-after` loaded the skill in 1
+  of 15 attempts on the branch and 3 of 3 on `main`; with `main`'s `planning` text restored on the
+  branch it loaded in 3 of 6, and a further run on `main` loaded in 2 of 6. No description
+  differs between the two, so the difference is not the change.
+  `service-boundaries/topology-in-app-repo` loaded in 1 of 6 on the branch and 3 of 3 on `main`,
+  with the same descriptions.
+- **What it showed:** no answer regression that a rerun did not reverse. Three attempts cannot
+  measure loading for cases that load in under half of attempts; those cases are listed in
+  `ROADMAP.md`. `EVALS.md` rows were not replaced.
+- **Not tested:** the new rules have no cases yet.
+
 ## 2026-11-22: scores roll up by skill; the case list moves to `EVALS.md`
 
 No run. No case, grader, or score changed.
