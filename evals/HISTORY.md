@@ -4,6 +4,27 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: list-read rules split out of `bounded-iteration` into `list-reads`
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Why:** a review of a home-feed query that filters a capped pool of recent posts was piloted
+  against `bounded-iteration` before the split, two arms, three attempts: the skill loaded in 0 of
+  3 and the answer failed 0 of 3 in both arms. The rules existed; the description of a skill
+  about sweeps did not match a feed read.
+- **Split:** the keyset pagination and list-read rules moved, with their wording, to a new
+  `list-reads` skill. `bounded-iteration` dropped "list endpoint" from its description and links
+  the new skill. Its rules were renumbered.
+- **New case `list-reads/review-feed-candidate-pool`**, two arms, six attempts per arm ($1.56): 3
+  of 6 with the plugin, 3 of 6 without. The skill loaded in 3 of 6; all three that loaded it
+  passed, and one passed without loading it. Without the plugin across the pilot and this run: 3
+  of 9.
+- **Neighbors, plugin only, three attempts ($2.65):** the three `bounded-iteration` cases and the
+  two `postgres-node-performance-tuning` cases passed on the answer 3 of 3.
+  `review-sweep-rewrites-its-trigger` loaded its skill in 2 of 3, as before.
+- **What it showed:** the rule works when the skill loads, and a review request loads it half the
+  time, up from never. The row is weak evidence until it loads reliably; `ROADMAP.md` has that.
+
 ## 2026-11-22: `planning/plan-saved-outside-repo` grader narrowed to its own rule
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.

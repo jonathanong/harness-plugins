@@ -4,7 +4,6 @@ Planned work, most certain first. An item leaves this file when its pull request
 
 ## Skills: split
 
-- [ ] `bounded-iteration` into sweeps and list reads.
 - [ ] `http-api-design` into API shape and secrets, edge, and cache.
 - [ ] Move detail to references in `static-code-analysis` and `github-actions-authoring`.
 
@@ -28,6 +27,8 @@ Each is added only when a case shows the model fails without it.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
+- [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
+      that loads for a plain review of a feed query, and add a case for writing a list endpoint.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
       no skill loaded.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
