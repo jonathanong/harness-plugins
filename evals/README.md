@@ -25,45 +25,45 @@ averaged over attempts.
 
 <!-- evals:groups -->
 
-| Skill | Cases | With plugin | Without plugin | Already right unaided |
-| --- | --- | --- | --- | --- |
-| `agent-rules` | 2 | 1.00 | 0.50 | 1 |
-| `agent-workflow` | 1 | 1.00 | 0.00 | 0 |
-| `bounded-iteration` | 3 | 0.92 | 0.33 | 0 |
-| `dependabot` | 3 | 1.00 | 0.50 | 0 |
-| `documentation` | 2 | 0.75 | 0.34 | 0 |
-| `evals` | 2 | 1.00 | 0.00 | 0 |
-| `feature-rollout` | 3 | 1.00 | 0.33 | 1 |
-| `git-commit-checklist` | 2 | 0.92 | 0.17 | 0 |
-| `github-actions-authoring` | 4 | 1.00 | 0.38 | 1 |
-| `github-issue` | 2 | 0.92 | 0.17 | 0 |
-| `github-repository-settings` | 2 | 1.00 | 0.34 | 0 |
-| `glide-mq` | 5 | 1.00 | 0.33 | 1 |
-| `http-api-design` | 3 | 1.00 | 0.22 | 0 |
-| `native-app-architecture` | 2 | 1.00 | 0.00 | 0 |
-| `npm-publishing` | 2 | 0.97 | 0.56 | 0 |
-| `package-json-checklist` | 2 | 0.95 | 0.67 | 0 |
-| `planning` | 7 | 0.92 | 0.38 | 2 |
-| `playwright-authoring` | 2 | 1.00 | 0.00 | 0 |
-| `postgres-locking` | 7 | 0.95 | 0.29 | 2 |
-| `postgres-node-performance-tuning` | 2 | 1.00 | 0.00 | 0 |
-| `postgres-partitioning-uuid-v7` | 2 | 1.00 | 0.34 | 0 |
-| `postgres-schema-design` | 2 | 1.00 | 0.50 | 1 |
-| `pr-description` | 2 | 1.00 | 0.00 | 0 |
-| `pull-requests` | 1 | 1.00 | 0.00 | 0 |
-| `react-app-structure` | 3 | 1.00 | 0.56 | 1 |
-| `review-ci-logs` | 1 | 1.00 | 1.00 | 1 |
-| `revisit-followups` | 1 | 0.83 | 0.00 | 0 |
-| `rust-authoring` | 1 | 1.00 | 0.00 | 0 |
-| `service-boundaries` | 2 | 1.00 | 0.67 | 1 |
-| `skill-authoring` | 2 | 0.92 | 0.00 | 0 |
-| `static-analysis-checklist` | 2 | 0.81 | 0.42 | 0 |
-| `static-code-analysis` | 2 | 1.00 | 0.41 | 0 |
-| `structured-logging` | 2 | 1.00 | 0.00 | 0 |
-| `technical-writing` | 3 | 0.89 | 0.00 | 0 |
-| `test-authoring` | 5 | 1.00 | 0.40 | 1 |
-| `triage-codex-security` | 2 | 1.00 | 0.64 | 0 |
-| `typescript-authoring` | 3 | 1.00 | 0.00 | 0 |
+| Skill                              | Cases | With plugin | Without plugin | Already right unaided |
+| ---------------------------------- | ----- | ----------- | -------------- | --------------------- |
+| `agent-rules`                      | 2     | 1.00        | 0.50           | 1                     |
+| `agent-workflow`                   | 1     | 1.00        | 0.00           | 0                     |
+| `bounded-iteration`                | 3     | 0.92        | 0.33           | 0                     |
+| `dependabot`                       | 3     | 1.00        | 0.50           | 0                     |
+| `documentation`                    | 2     | 0.75        | 0.34           | 0                     |
+| `evals`                            | 2     | 1.00        | 0.00           | 0                     |
+| `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     |
+| `git-commit-checklist`             | 2     | 0.92        | 0.17           | 0                     |
+| `github-actions-authoring`         | 4     | 1.00        | 0.38           | 1                     |
+| `github-issue`                     | 2     | 0.92        | 0.17           | 0                     |
+| `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
+| `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
+| `http-api-design`                  | 3     | 1.00        | 0.22           | 0                     |
+| `native-app-architecture`          | 2     | 1.00        | 0.00           | 0                     |
+| `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |
+| `package-json-checklist`           | 2     | 0.95        | 0.67           | 0                     |
+| `planning`                         | 7     | 0.92        | 0.38           | 2                     |
+| `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     |
+| `postgres-locking`                 | 7     | 0.95        | 0.29           | 2                     |
+| `postgres-node-performance-tuning` | 2     | 1.00        | 0.00           | 0                     |
+| `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
+| `postgres-schema-design`           | 2     | 1.00        | 0.50           | 1                     |
+| `pr-description`                   | 2     | 1.00        | 0.00           | 0                     |
+| `pull-requests`                    | 1     | 1.00        | 0.00           | 0                     |
+| `react-app-structure`              | 3     | 1.00        | 0.56           | 1                     |
+| `review-ci-logs`                   | 1     | 1.00        | 1.00           | 1                     |
+| `revisit-followups`                | 1     | 0.83        | 0.00           | 0                     |
+| `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     |
+| `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     |
+| `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     |
+| `static-analysis-checklist`        | 2     | 0.81        | 0.42           | 0                     |
+| `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     |
+| `structured-logging`               | 2     | 1.00        | 0.00           | 0                     |
+| `technical-writing`                | 3     | 0.89        | 0.00           | 0                     |
+| `test-authoring`                   | 5     | 1.00        | 0.40           | 1                     |
+| `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     |
+| `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     |
 
 <!-- /evals:groups -->
 
