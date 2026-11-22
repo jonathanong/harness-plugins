@@ -11,7 +11,7 @@ skill, and that its answer made the decision the skill asks for.
 
 ## Current results
 
-Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
+Agent Sonnet, judge Opus, Claude Code 2.1.330. 89 cases.
 
 - **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
   234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
@@ -21,6 +21,8 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
   were narrowed in review. The `postgres-schema-design` rows are from the two-arm run after the
   lock exception was added; the last-admin row is from a six-attempt plugin-only rerun after the
   exception named caps.
+- **The `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
+  review answering moved to `pull-requests`, three attempts per arm.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`,
   `service-boundaries`, and `static-analysis-checklist` rows** are from the two-arm run after
   their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with
@@ -56,7 +58,7 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
 | ------------------------------------------------------------------------- | ----- | ------ | -------------- |
 | `agent-rules/path-scoped-rules` (rerun)                                   | 1.00  | 3 of 3 | 1.00           |
 | `agent-rules/root-agents-md-placement` (rerun)                            | 1.00  | 3 of 3 | 0.00           |
-| `agent-workflow/review-round-dispositions`                                | 1.00  | 3 of 3 | 0.00           |
+| `agent-workflow/status-note-asks-only-what-it-must` (rerun)               | 1.00  | 3 of 3 | 0.00           |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id` (rerun)        | 1.00  | 8 of 8 | 0.33           |
 | `bounded-iteration/review-staged-reconciler` (rerun)                      | 1.00  | 8 of 8 | 0.00           |
 | `bounded-iteration/review-sweep-rewrites-its-trigger` (rerun)             | 0.75  | 4 of 8 | 0.67           |
@@ -113,6 +115,7 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 88 cases.
 | `postgres-schema-design/rollup-trigger-deadlocks` (rerun)                 | 1.00  | 3 of 3 | 0.00           |
 | `pr-description/ci-gap-section`                                           | 1.00  | 3 of 3 | 0.00           |
 | `pr-description/perf-change-with-flag`                                    | 1.00  | 3 of 3 | 0.00           |
+| `pull-requests/review-round-dispositions` (rerun)                         | 1.00  | 3 of 3 | 0.00           |
 | `react-app-structure/abort-superseded-search` (rerun)                     | 1.00  | 3 of 3 | 1.00           |
 | `react-app-structure/client-needs-current-user` (rerun)                   | 1.00  | 3 of 3 | 0.00           |
 | `react-app-structure/review-profile-card` (rerun)                         | 1.00  | 3 of 3 | 0.67           |
@@ -155,7 +158,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
 | `agent-rules/path-scoped-rules`                                    | Scopes rules with a nested `AGENTS.md`, not `.claude/rules/`, so every agent sees them.                                |
 | `agent-rules/root-agents-md-placement`                             | Moves a release procedure out of the root `AGENTS.md` and drops a file listing the code shows.                         |
-| `agent-workflow/review-round-dispositions`                         | Gives each review comment one disposition and settles the round with a single push.                                    |
+| `agent-workflow/status-note-asks-only-what-it-must`                | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.  |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                 |
 | `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                               |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`              | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test. |
@@ -212,6 +215,7 @@ passed, so 1.00 means every grader passed on every attempt.
 | `postgres-schema-design/rollup-trigger-deadlocks`                  | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.     |
 | `pr-description/ci-gap-section`                                    | Adds a short section on what CI caught that the local check missed, without work history.                              |
 | `pr-description/perf-change-with-flag`                             | Shows a before/after table, states what a flag does not cover, and omits routine checks.                               |
+| `pull-requests/review-round-dispositions`                          | Gives each review comment one disposition and settles the round with a single push.                                    |
 | `react-app-structure/abort-superseded-search`                      | Aborts a superseded search request with an `AbortController`.                                                          |
 | `react-app-structure/client-needs-current-user`                    | Reads the signed-in user in the client from auth context, not a prop passed from the server page.                      |
 | `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                       |

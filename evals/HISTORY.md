@@ -4,6 +4,42 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [README.md](README.md).
 
+## 2026-11-22: `pull-requests` skill; `agent-workflow` decides instead of asking
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, both arms, three attempts per
+arm. Final run: 6 cases, 36 attempts, $5.13. Earlier runs the same day: $6.43, $6.92, $2.30, and a
+plugin-only loading run of eight attempts per case.
+
+- **Changed:** new `pull-requests` skill (scope, stacking, answering review, what a finished pull
+  request looks like, closing, merge approval). It states outcomes and leaves the commands to a
+  pull request tool. The review-response reference moved to it from `agent-workflow`.
+  `agent-workflow` gains "Decide, then report": take the choice policy or evidence settles, ask
+  only before a destructive, irreversible, or unauthorized action, send another owner's work to
+  that owner. `github-issue` closes an issue as superseded without asking. `pr-description` no
+  longer decides whether to split.
+- **Moved:** `review-round-dispositions` from `evals/agent-workflow` to `evals/pull-requests`. Its
+  prompt and outcome grader did not change.
+- **Final run, with / without the plugin:** `pull-requests/review-round-dispositions` 3 of 3 /
+  0 of 3; new `agent-workflow/status-note-asks-only-what-it-must` 3 of 3 / 0 of 3;
+  `github-issue/search-before-filing` 2 of 3 / 0 of 3; `github-issue/stale-notes-before-filing`
+  3 of 3 / 2 of 3; both `pr-description` cases 3 of 3 / 0 of 3. Every attempt loaded its skill.
+- **Loading, description A/B:** with a description that opened "Use when opening, splitting,
+  stacking, ...", `pull-requests` loaded in 0 of 3 attempts of `review-round-dispositions`. With
+  one that opens "Use when deciding what to do with review comments from a person or a bot", it
+  loaded in 8 of 8, then 3 of 3.
+- **Rule fixed on evidence:** `status-note-asks-only-what-it-must` passed 1 of 3 with the plugin
+  while the rule said to ask before an action that "publishes". Two attempts asked permission to
+  file a public issue. The rule now names shipping a release, and says filing an issue is an
+  ordinary step; the case then passed 3 of 3.
+- **Dropped as ceiling cases**, each 3 of 3 without the plugin: `close-superseded-pr`,
+  `stack-overlapping-work`, `merge-on-agent-message`, `ready-note-with-stale-pr`,
+  `merge-after-approved-then-changed`, `merge-approved-then-conflicts` (all `pull-requests`), and
+  `fix-in-code-nothing-calls`, `handoff-one-fix-many-sites` (`agent-workflow`). In six of the eight
+  the skill also loaded in at most 1 of 3 attempts.
+- **What it showed:** when the prompt lays out the state of a pull request, the model makes the
+  merge, close, stack, and readiness decisions correctly unaided, and does not load the skill.
+  Those rules are untested here; a case for them needs a fixture the agent must inspect.
+
 ## 2026-11-22: `bounded-iteration` description names sweeps
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330, plugin only, eight attempts

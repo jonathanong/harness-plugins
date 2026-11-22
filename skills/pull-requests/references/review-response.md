@@ -23,6 +23,9 @@ Give every item exactly one of these, and record it in the review conversation.
   where decisions are tracked and ask for direction. Do not implement it, and do not shrink it
   into a follow-up.
 
+A finding of a race condition in database code is not answered with a lock; how to answer it is
+in the `postgres-locking` skill.
+
 Unresolved risk is always written down as a decision or a follow-up. It is never left as a gap
 nobody noticed.
 
