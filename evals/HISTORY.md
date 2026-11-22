@@ -4,6 +4,18 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `llm-calls` added
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **New skill:** one model call per decision, the model id from configuration, a static system
+  prompt, untrusted content wrapped as data, validated tool arguments, and the provider SDK in
+  one module.
+- **Run, two arms, three attempts per arm, $2.21:** `llm-calls/summarize-fetched-page` passed
+  3 of 3 with the plugin, loaded 3 of 3, and passed 3 of 3 without.
+- **What it showed:** a ceiling case for this model, kept as the skill's loading check. The skill
+  is kept for weaker models, per `AGENTS.md`. `ROADMAP.md` lists a harder case.
+
 ## 2026-11-22: generic rules from a consuming repository's lint and workflow checks
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
