@@ -43,6 +43,7 @@ unaided by design.
 | `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                                 | 1.00  | 3 of 3 | 0.67           |
 | `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                      | 1.00  | 3 of 3 | 0.00           |
 | `http-api-design/uuid-slug-routes`                                 | Makes the slug the canonical route and permanently redirects old UUID links to it.                                     | 1.00  | 3 of 3 | 0.00           |
+| `list-reads/review-feed-candidate-pool`                            | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                  | 0.58  | 3 of 6 | 0.33           |
 | `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                        | 1.00  | 3 of 3 | 0.00           |
 | `native-app-architecture/generated-project-file`                   | Commits the project specification and ignores the generated Xcode project.                                             | 1.00  | 3 of 3 | 0.00           |
 | `npm-publishing/bootstrap-new-package`                             | Prepares a first publish for a person to run, and never publishes itself.                                              | 0.94  | 2 of 3 | 0.40           |
@@ -132,6 +133,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`list-reads/review-feed-candidate-pool`** is from a two-arm run of six attempts per arm on
+  2026-11-22. The skill loaded in 3 of 6 and every attempt that loaded it passed. "Without plugin"
+  is 3 of 9: that run and a three-attempt pilot.
 - **`planning/plan-saved-outside-repo`** is from a two-arm run of six attempts per arm on
   2026-11-22, after its grader was narrowed to where the plan is saved.
 - **`planning/plan-states-before-after` and `static-analysis-checklist/tracked-files-only`** take

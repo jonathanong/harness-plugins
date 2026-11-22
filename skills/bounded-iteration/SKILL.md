@@ -1,6 +1,6 @@
 ---
 name: bounded-iteration
-description: Use when writing or reviewing a sweep, scheduled job, reconciler, cleanup, dispatcher, backfill, export, or list endpoint - any loop that reads rows. Covers bounding the rows each run reads, sweeps that re-select their own writes, and effects that repeat on every run.
+description: Use when writing or reviewing a sweep, scheduled job, reconciler, cleanup, dispatcher, backfill, or export - any loop that reads rows. Covers bounding the rows each run reads, sweeps that re-select their own writes, and effects that repeat on every run.
 ---
 
 # Bounded iteration
@@ -8,7 +8,8 @@ description: Use when writing or reviewing a sweep, scheduled job, reconciler, c
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
 A run's cost is the rows it reads and the work it starts, not the memory it holds. Read
-[sweep patterns](references/sweep-patterns.md) for worked SQL and loop shapes.
+[sweep patterns](references/sweep-patterns.md) for worked SQL and loop shapes. List endpoints,
+feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 
 1. **Choose work, not entities.** Read only rows that need work, through a predicate an index
    serves: a work-item or dirty-marker row, a parent id, a due timestamp with a partial index, or
@@ -35,57 +36,38 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
    (`postgres-generated-column-predicates`)
 6. **No unbounded fan-out.** Use `Promise.all` only over a bounded result, with bounded
    concurrency.
-7. **Keyset pagination.** No `OFFSET`. Clamp the client's page size on the server. The API schema
-   keeps a static ceiling; the default and the effective maximum are runtime-tunable but never
-   above it. (`postgres-no-offset`)
-8. **List and feed reads.** A list read is one walk over the entity being listed. Filters go in
-   `WHERE`, served by an index. Order with `ORDER BY key DESC, id DESC` and `LIMIT page+1`, and
-   continue with a plain keyset cursor, `(key, id) < ($1, $2)`. The page `LIMIT` plus a time window
-   or the keyset bound the read. A keyset alone does not bound rows scanned. When a filter can
-   reject long runs, such as a viewer's blocks or mutes, the time window is the scan bound where the
-   sort has one, and EXPLAIN at representative cardinality compares rows read with rows returned. The
-   simplest query comes first, per
-   [performance tuning](../postgres-node-performance-tuning/SKILL.md). For a
-   ranked list that is a join and `ORDER BY` on the stored score. No candidate pools: no capped or
-   `MATERIALIZED` CTE over the listed entity that is filtered or limited afterward, no window loops
-   or resume probes, no proof state in the cursor, and no runtime-config fields that exist only to
-   cap a read. A single walk with an inspected-row cap is fine, and may return a short or empty page
-   with a continuation cursor and `has_next_page` true. Small viewer-scoped sets (the viewer's follows, mutes, blocks and
-   memberships) may be subqueries or semi-joins, because write limits bound them. Measure a
-   list-read change against the plain single walk, not only against the base branch. See
-   [`MATERIALIZED` CTEs](../postgres-node-performance-tuning/references/performance-patterns.md).
-9. **Tunables are runtime configuration.** Batch sizes, page sizes, caps, and windows come from the
+7. **Tunables are runtime configuration.** Batch sizes, page sizes, caps, and windows come from the
    consumer's runtime configuration with a validated default and a hard maximum, and are bound as
    SQL parameters. `LIMIT 1` and an external API's page maximum are contracts, not tunables.
-10. **One dispatcher per signal.** Split an `OR` of unrelated reasons into one dispatcher per
-    reason, each with its own index-served predicate, position, and schedule, all enqueuing the same
-    idempotent job. Writes that cause a signal enqueue directly; the sweep is the backstop. See
-    [one dispatcher per signal](references/sweep-patterns.md#one-dispatcher-per-signal).
-11. **Deduplicate jobs by entity and triggering event.** A job id keyed only by the entity drops a
-    new trigger while the last job runs or is retained. Key it by entity and event; dedup lasts
-    only while the record is retained, and a failed retained job still claims its id. See
-    [queue job ids](references/sweep-patterns.md#queue-job-ids-for-deduplication).
-12. **Repair through an existing reconciler.** Repeat a fire-and-forget side effect (cache fill,
+8. **One dispatcher per signal.** Split an `OR` of unrelated reasons into one dispatcher per
+   reason, each with its own index-served predicate, position, and schedule, all enqueuing the same
+   idempotent job. Writes that cause a signal enqueue directly; the sweep is the backstop. See
+   [one dispatcher per signal](references/sweep-patterns.md#one-dispatcher-per-signal).
+9. **Deduplicate jobs by entity and triggering event.** A job id keyed only by the entity drops a
+   new trigger while the last job runs or is retained. Key it by entity and event; dedup lasts
+   only while the record is retained, and a failed retained job still claims its id. See
+   [queue job ids](references/sweep-patterns.md#queue-job-ids-for-deduplication).
+10. **Repair through an existing reconciler.** Repeat a fire-and-forget side effect (cache fill,
     filter add, enqueue) idempotently from the reconciler that already sweeps recently changed
     rows. Do not add a sweeper. See
     [repair](references/sweep-patterns.md#repair-through-an-existing-reconciler).
-13. **Membership filters are never rebuilt on a schedule.** Add on write, rebuild in full only on
+11. **Membership filters are never rebuilt on a schedule.** Add on write, rebuild in full only on
     an operator action or a detected failure, and stop trusting the filter after a failed add.
     Deleted keys and growth only cost false positives. See
     [membership filters](references/sweep-patterns.md#membership-filters).
-14. **Global rankings stay one periodic aggregate.** A result over every row needs every score;
+12. **Global rankings stay one periodic aggregate.** A result over every row needs every score;
     incremental per-row inputs move the cost to every write without freshening the ranking. Give
     the pass an EXPLAIN budget. See [global ranking](references/sweep-patterns.md#global-ranking).
-15. **External listings carry the provider's continuation token.** Cap pages per run and enqueue a
+13. **External listings carry the provider's continuation token.** Cap pages per run and enqueue a
     continuation with the token; restarting at page one lets failing front items starve the rest.
     See [external listing](references/sweep-patterns.md#external-listing-with-a-continuation-token).
-16. **Each stage is its own job.** A reconciler with several sweeps, stages, or phases enqueues one
+14. **Each stage is its own job.** A reconciler with several sweeps, stages, or phases enqueues one
     job per stage, with its own name, cursor in job data, cap, retry, and failure. Stages share no
     mutable budget, tally, error list, or cursor map; the queue's lane and concurrency bound the
     total load. Independent stages read committed state and do not chain. Ordered phases enqueue
     the next phase after commit. See
     [separate stage jobs](references/sweep-patterns.md#separate-stage-jobs).
-17. **A sweep converges.** It finds its work in database rows, never in a queue's failed jobs
+15. **A sweep converges.** It finds its work in database rows, never in a queue's failed jobs
     ([glide-mq](../glide-mq/SKILL.md)). It never writes a row back into its own selection, such as bumping the
     `updated_at` it selects by, unless that write is a lease; otherwise each run creates the next
     run's work and the sweep never ends. A write that takes a row out of the selection, such as
@@ -96,7 +78,7 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
     rows remain, another run writes nothing and creates no new job (a repeated idempotent enqueue
     is not new work). Recurring work that is unconditional by design, such as a scheduled
     materialized-view refresh, is exempt.
-18. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
+16. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
 

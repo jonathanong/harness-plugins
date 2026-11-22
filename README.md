@@ -63,7 +63,8 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`postgres-locking`](skills/postgres-locking/SKILL.md)                                 | When PostgreSQL code may take a lock, and what to use instead.                 |
 | [`postgres-node-performance-tuning`](skills/postgres-node-performance-tuning/SKILL.md) | Writing or tuning a query: shape, indexes, plans, round trips.                 |
 | [`postgres-partitioning-uuid-v7`](skills/postgres-partitioning-uuid-v7/SKILL.md)       | Partitioning and pruning a table keyed by UUIDv7.                              |
-| [`bounded-iteration`](skills/bounded-iteration/SKILL.md)                               | Writing a sweep, backfill, dispatcher, or list read that must stay bounded.    |
+| [`bounded-iteration`](skills/bounded-iteration/SKILL.md)                               | Writing a sweep, backfill, dispatcher, or export that must stay bounded.       |
+| [`list-reads`](skills/list-reads/SKILL.md)                                             | Writing a list endpoint, feed, or paginated query.                             |
 | [`glide-mq`](skills/glide-mq/SKILL.md)                                                 | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.        |
 | [`evals`](skills/evals/SKILL.md)                                                       | Choosing kinds of eval, and documenting scores, run history, and rules.        |
 | [`pr-description`](skills/pr-description/SKILL.md)                                     | Writing a pull request description: problem, change, impact, before/after.     |
@@ -96,10 +97,10 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **94 cases** across 37 skills.
-- **With the plugin:** mean score 0.97.
-- **Without it:** mean score 0.30, over the 93 cases measured both ways.
-- **80 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
+- **95 cases** across 38 skills.
+- **With the plugin:** mean score 0.96.
+- **Without it:** mean score 0.30, over the 94 cases measured both ways.
+- **81 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
 
 <!-- /evals:headline -->
 
