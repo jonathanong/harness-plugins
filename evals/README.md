@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **97 cases** across 40 skills.
+- **100 cases** across 43 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.32, over the 96 cases measured both ways.
-- **81 cases** are ones the model fails unaided. The other 15 it already gets right: 3 check that a skill stays out of the way, and 12 show only that the skill loads.
+- **Without it:** mean score 0.34, over the 99 cases measured both ways.
+- **81 cases** are ones the model fails unaided. The other 18 it already gets right: 3 check that a skill stays out of the way, and 15 show only that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -27,6 +27,7 @@ averaged over attempts.
 
 | Skill                              | Cases | With plugin | Without plugin | Already right unaided |
 | ---------------------------------- | ----- | ----------- | -------------- | --------------------- |
+| `agent-coordination`               | 1     | 0.50        | 1.00           | 1                     |
 | `agent-rules`                      | 2     | 1.00        | 0.50           | 1                     |
 | `agent-workflow`                   | 1     | 1.00        | 0.00           | 0                     |
 | `bounded-iteration`                | 3     | 0.92        | 0.33           | 0                     |
@@ -34,6 +35,7 @@ averaged over attempts.
 | `dependabot`                       | 3     | 1.00        | 0.50           | 0                     |
 | `documentation`                    | 2     | 0.75        | 0.34           | 0                     |
 | `evals`                            | 2     | 1.00        | 0.00           | 0                     |
+| `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     |
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     |
 | `git-commit-checklist`             | 2     | 0.92        | 0.17           | 0                     |
 | `github-actions-authoring`         | 4     | 1.00        | 0.38           | 1                     |
@@ -54,6 +56,7 @@ averaged over attempts.
 | `pr-description`                   | 2     | 1.00        | 0.00           | 0                     |
 | `pull-requests`                    | 1     | 1.00        | 0.00           | 0                     |
 | `react-app-structure`              | 3     | 1.00        | 0.56           | 1                     |
+| `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     |
 | `review-ci-logs`                   | 1     | 1.00        | 1.00           | 1                     |
 | `revisit-followups`                | 1     | 0.83        | 0.00           | 0                     |
 | `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     |

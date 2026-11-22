@@ -11,9 +11,6 @@ Planned work, most certain first. An item leaves this file when its pull request
 A skill does not wait for a case the current model fails; weaker models need the rules too.
 Each still gets a loading case and an answer case.
 
-- [ ] Resuming work after an interruption.
-- [ ] Expand-and-contract migrations.
-- [ ] Coordinating several agents: who owns what, and where to route work.
 - [ ] Security review, performance measurement, incident response, release notes.
 
 ## Evals
@@ -27,6 +24,9 @@ Each still gets a loading case and an answer case.
       `static-analysis-checklist/tracked-files-only` (6 of 8).
 - [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
       that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **`agent-coordination` loads in 0 of 3** on a request to act on another agent's message.
+      Its case and those of `expand-contract-migrations` and `resuming-work` pass unaided; each
+      needs a fixture-based case.
 - [ ] **`debugging` and `verification` load in 1 of 6 and their cases pass unaided.** Build each a
       case on a fixture repository with a real failing command, where the tempting fix is wrong,
       and measure loading there.
