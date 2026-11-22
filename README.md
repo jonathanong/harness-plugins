@@ -91,15 +91,21 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 
 ### Evals
 
-Every skill has eval cases run with [`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals).
-The current scores and what each case checks are in [`evals/README.md`](evals/README.md). The run
-log is in [`evals/HISTORY.md`](evals/HISTORY.md), and the rules for cases are in
-[`evals/AGENTS.md`](evals/AGENTS.md).
+Every skill has [eval cases](evals) run with
+[`claude plugin eval`](https://code.claude.com/docs/en/plugin-evals), with and without the plugin.
 
-```bash
-pnpm run evals                  # every skill
-pnpm run evals npm-publishing   # one skill
-```
+<!-- evals:headline -->
+
+- **92 cases** across 37 skills.
+- **With the plugin:** mean score 0.97.
+- **Without it:** mean score 0.31, over the 90 cases measured both ways.
+- **77 cases** are ones the model fails unaided. The other 13 it already gets right: 3 check that a skill stays out of the way, and 10 show only that the skill loads.
+
+<!-- /evals:headline -->
+
+Scores by skill are in [`evals/README.md`](evals/README.md), every case in
+[`evals/EVALS.md`](evals/EVALS.md), the run log in [`evals/HISTORY.md`](evals/HISTORY.md), and
+planned work in [`ROADMAP.md`](ROADMAP.md).
 
 ## License
 

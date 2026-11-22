@@ -48,7 +48,8 @@ An agent pays for every line of a skill it loads, so load detail only when the t
 
 Every skill has eval cases under `evals/<skill>/`. The rules are in
 [`evals/AGENTS.md`](evals/AGENTS.md). A change to a skill, a case, a grader, or a fixture updates
-`evals/README.md` and `evals/HISTORY.md` in the same pull request.
+`evals/EVALS.md` and `evals/HISTORY.md` in the same pull request, and runs
+`scripts/eval-docs.py` to rebuild the tables in `evals/README.md` and `README.md`.
 
 ## Checks
 

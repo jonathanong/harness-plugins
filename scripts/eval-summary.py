@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prints a results file from `pnpm run evals` as the Markdown table used in evals/README.md.
+"""Prints a results file from `pnpm run evals` as the Markdown rows used in evals/EVALS.md.
 
 Usage: scripts/eval-summary.py [evals/results/latest.json]
 """

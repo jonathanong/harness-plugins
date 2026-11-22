@@ -1,7 +1,7 @@
 # Eval rules
 
-The suite runs with `claude plugin eval`. `README.md` in this directory holds the current scores
-and `HISTORY.md` holds the log. The `evals` skill in this plugin describes how the three files
+The suite runs with `claude plugin eval`. `EVALS.md` in this directory holds one row per case with its
+current score, `README.md` holds the roll-up by skill for people, and `HISTORY.md` holds the log. The `evals` skill in this plugin describes how the three files
 work; follow it.
 
 ## Run
@@ -11,7 +11,7 @@ pnpm run evals                  # every case, with the plugin
 pnpm run evals <skill> ...      # the cases tagged with those skills
 EVAL_FLAGS='--runs 1' pnpm run evals <skill>              # pilot a new case
 EVAL_ABLATION=with-without pnpm run evals <skill>         # add a no-plugin arm
-python3 scripts/eval-summary.py                           # the table for README.md
+python3 scripts/eval-summary.py                           # rows for EVALS.md
 ```
 
 - Sonnet is the agent and Opus is the judge. Measure with three attempts, the default.
@@ -38,7 +38,7 @@ python3 scripts/eval-summary.py                           # the table for README
 - Build a case on a decision the model gets wrong without the skill.
 - The exception is a guard case: one that checks a rule is not applied where it does not hold.
   It may pass without the skill. Add one only beside a case for the same rule that the model
-  fails without the skill, and call it a guard in `README.md` and `HISTORY.md`. A guard for a skill
+  fails without the skill, and start its `EVALS.md` row with "Guard:" and say so in `HISTORY.md`. A guard for a skill
   that should not act at all (a plan for a trivial change) has no `skill-fired` grader, because
   loading the skill is not the thing it checks; tag it `guard`, not `skill-fired`.
 - Keep prompts and fixtures free of the names of real organizations and of private repositories
@@ -81,10 +81,14 @@ The `evals` skill's `references/eval-types.md` defines each kind. Here:
 
 ## Record
 
-- After a measured run, add an entry at the top of `HISTORY.md` and rebuild the table in
-  `README.md` with `scripts/eval-summary.py`. After a partial run (one skill or `--case`),
-  replace only the rows that ran, mark them "(rerun)", say which run they came from above the
-  table, and keep every other row.
-- A change to a case, grader, or fixture with no run still gets a `HISTORY.md` entry. Mark the
-  affected rows in `README.md` as not re-measured.
-- `evals/results/` is ignored by git, so these two files are the only durable record.
+- After a measured run, add an entry at the top of `HISTORY.md` and replace the rows that ran in
+  `EVALS.md` with the output of `scripts/eval-summary.py`. After a partial run (one skill or
+  `--case`), keep every other row and say which run the new rows came from under "Where each row
+  comes from".
+- Then run `scripts/eval-docs.py`. It rebuilds the per-skill table in `README.md` and the headline
+  in `README.md` and the root `README.md`. `pnpm run evals:check` fails when they are out of date
+  or when `EVALS.md` and the case directories differ.
+- A change to a case, grader, or fixture with no run still gets a `HISTORY.md` entry. Say under
+  "Where each row comes from" that the affected rows were not re-measured.
+- Planned work goes in the root `ROADMAP.md`, not in `README.md` or `EVALS.md`.
+- `evals/results/` is ignored by git, so `EVALS.md` and `HISTORY.md` are the only durable record.
