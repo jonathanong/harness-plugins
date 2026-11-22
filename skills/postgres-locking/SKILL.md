@@ -95,8 +95,10 @@ Adding a lock, or a new use of the second allowed case, is the repository owner'
 - A change that adds a lock says in its pull request description which interleaving corrupts
   data, and why a constraint, a conditional write, a guard inside the statement, and
   `SERIALIZABLE` with 409 do not fit.
-- An agent working unattended does not add one. It ships the lock-free design, states the worst
-  case, and puts the lock it would propose in the description for the owner to decide.
+- An agent working unattended does not add one. Where one of the two allowed cases applies, it
+  ships the lock-free design, states the worst case, and puts the lock it would propose in the
+  description for the owner to decide. Where neither applies, such as a cap, there is no lock to
+  propose or to offer as an option.
 - A reviewer's "race condition" finding, from a person or a bot, never by itself justifies a
   lock, a wider lock, or a coordination column. Answer it in this order: a constraint; a
   conditional write; a guard inside the writing statement; `SERIALIZABLE` with 409 when the

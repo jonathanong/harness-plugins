@@ -30,11 +30,15 @@ arm, 9 cases, 54 attempts, $7.04.
   and `review-advisory-lock-key` 3 of 3 / 3 of 3 on the answer.
 - **Loading:** `postgres-locking` loaded in 26 of 27 attempts; the miss was
   `review-advisory-lock-key` (2 of 3, up from 1 of 3 under the old skill).
-- **After review, no run:** wording was tightened: the effect id includes the action; a guard on
-  another row is called best effort; a cap can overshoot by more than one row and is not made
-  exact with `SERIALIZABLE`; the session-level advisory form is named; a write-skew guard reads
-  inside its `SERIALIZABLE` transaction; tests accept each valid outcome. No rule changed which
-  cases lock. The rows above were measured before this wording.
+- **After review, two plugin-only reruns, three attempts, $3.21 and $3.08:** wording was
+  tightened: the effect id includes the action; a guard on another row is called best effort; a
+  cap can overshoot by more than one row and is not made exact with `SERIALIZABLE`; the
+  session-level advisory form is named; a write-skew guard reads inside its `SERIALIZABLE`
+  transaction; tests accept each valid outcome. In the first rerun `exact-cap-no-lock` failed 1
+  of 3: told to put the lock it would propose in the description, the agent offered a team-row
+  lock for a cap. The rule now says a cap has no lock to propose, and the second rerun passed
+  every answer, 21 of 21. `review-advisory-lock-key` loaded the skill in 1 of 3. The README
+  rows are from the second rerun.
 - **What it showed:** without the skill the model adds or keeps a lock in every non-guard case.
   `postgres-schema-design` now has no case the model fails unaided.
 

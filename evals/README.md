@@ -20,7 +20,8 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 91 cases.
   and topology rows after the `http-api-design` change, and five new cases after their graders
   were narrowed in review. The `postgres-locking` rows and
   `postgres-schema-design/customer-code-key` are from the two-arm run on 2026-11-22 after the
-  locking rules moved into their own skill, three attempts per arm.
+  locking rules moved into their own skill, three attempts per arm. The `postgres-locking` "Score"
+  and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`,
   `service-boundaries`, and `static-analysis-checklist` rows** are from the two-arm run after
   their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with
@@ -111,9 +112,9 @@ Agent Sonnet, judge Opus, Claude Code 2.1.330. 91 cases.
 | `postgres-locking/exact-cap-no-lock` (rerun)                              | 1.00  | 3 of 3 | 0.00           |
 | `postgres-locking/prelock-before-conditional-update` (rerun)              | 1.00  | 3 of 3 | 0.00           |
 | `postgres-locking/race-finding-on-unwritten-row` (rerun)                  | 1.00  | 3 of 3 | 0.00           |
-| `postgres-locking/review-advisory-lock-key` (rerun)                       | 0.83  | 2 of 3 | 1.00           |
+| `postgres-locking/review-advisory-lock-key` (rerun)                       | 0.67  | 1 of 3 | 1.00           |
 | `postgres-locking/review-last-admin-advisory-lock` (rerun)                | 1.00  | 3 of 3 | 0.00           |
-| `postgres-locking/rollup-trigger-deadlocks` (rerun)                       | 0.83  | 2 of 3 | 0.00           |
+| `postgres-locking/rollup-trigger-deadlocks` (rerun)                       | 1.00  | 3 of 3 | 0.00           |
 | `postgres-schema-design/customer-code-key` (rerun)                        | 1.00  | 3 of 3 | 1.00           |
 | `pr-description/ci-gap-section`                                           | 1.00  | 3 of 3 | 0.00           |
 | `pr-description/perf-change-with-flag`                                    | 1.00  | 3 of 3 | 0.00           |
