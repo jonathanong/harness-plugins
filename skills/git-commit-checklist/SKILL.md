@@ -1,6 +1,6 @@
 ---
 name: git-commit-checklist
-description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile. Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work.
+description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile or another generated file. Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work.
 ---
 
 # Git commit checklist
@@ -42,24 +42,36 @@ editor. The push then overwrites commits you never read.
 - Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
   say which hook is broken and ask.
 
-## A lockfile conflict
+## A conflict in a generated file
 
-A lockfile is generated, so do not edit its hunks by hand, and do not settle the conflict by
-taking one side with `git checkout --ours` or `--theirs` and committing that. One side alone
-drops every entry the other side added.
+A lockfile, generated code (an API client, schema types, protobuf stubs), and a generated project
+file are each the output of a tool. When a rebase or merge conflicts in one, do not edit its
+hunks by hand, and do not settle the conflict by taking one side with `git checkout --ours` or
+`--theirs` and committing that. One side alone drops what the other side added, and a hand-merged
+file is output no run of the tool produced.
 
-1. Resolve the manifest (`package.json`) by meaning first. Keep both sides' changes; where they
-   contradict, such as a removal against a bump, find which one was intended.
-2. With pnpm, leave the conflict markers in the lockfile and run
-   `pnpm install --no-frozen-lockfile`. pnpm merges both sides.
-3. A package manager that cannot parse a conflicted lockfile needs a different step. Check its
-   documentation. When it has no merge, restore the lockfile from the branch being rebased onto
-   and rerun its lock command, so the resolved manifest adds this branch's changes back. That
-   loses an update the branch made in the lockfile alone, within an unchanged manifest range.
-   Rerun the branch's update command for each, and compare versions against the branch's old
-   lockfile.
-4. Check that no markers remain, `git add` the manifest and the lockfile, and continue the rebase
-   or merge.
+1. Resolve the inputs by meaning first: the manifest (`package.json`), schema, or specification.
+   Keep both sides' changes; where they contradict, such as a removal against a bump, find which
+   one was intended.
+2. Rerun the generator on the resolved inputs and take its output whole. The command is in the
+   file's header, the repository's scripts, or its `AGENTS.md`. If you cannot find it, ask; do
+   not fall back to editing the output.
+3. Check that no markers remain and that the output differs from the base only by what the branch
+   intends: where the inputs changed, and for a lockfile also an update the branch made within
+   an unchanged range. `git add` the inputs and the output, and continue the rebase or merge. A
+   rebase of several commits can stop on the same file again; regenerate at each stop.
+
+A lockfile needs more care, because it also records choices that are not in the manifest:
+regenerating it from nothing moves every dependency to its newest allowed version.
+
+- With pnpm, leave the conflict markers in the lockfile and run
+  `pnpm install --no-frozen-lockfile`. pnpm merges both sides.
+- A package manager that cannot parse a conflicted lockfile needs a different step. Check its
+  documentation. When it has no merge, restore the lockfile from the branch being rebased onto
+  and rerun its lock command, so the resolved manifest adds this branch's changes back. That
+  loses an update the branch made in the lockfile alone, within an unchanged manifest range.
+  Rerun the branch's update command for each, and compare versions against the branch's old
+  lockfile.
 
 This holds for a dependency-update pull request and for any other branch.
 

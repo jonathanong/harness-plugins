@@ -4,6 +4,32 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `git-commit-checklist` covers a conflict in any generated file
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
+
+- **Rule widened:** the lockfile-conflict section now covers every generated file (a lockfile,
+  generated code, a generated project file): resolve the inputs, rerun the generator, take its
+  output whole, and ask when the generator command cannot be found. The pnpm steps stay as the
+  lockfile case, with the reason a lockfile is not regenerated from nothing. The description
+  names "another generated file". A `dependabot` reference pointer gained "or by editing its
+  hunks".
+- **Case added:** `generated-file-conflict-on-rebase`, a conflict in a generated API client
+  where the request is for a merged block to paste.
+- **Runs, two arms, three attempts per arm, $1.53 in two runs:**
+  `generated-file-conflict-on-rebase` passed 3 of 3 with the plugin, loaded 3 of 3, and 3 of 3
+  without. `lockfile-conflict-on-rebase` passed 2 of 3 with the plugin, loaded 3 of 3, and 0 of
+  3 without, the same as before the change.
+- **What it showed:** the new case is a ceiling case. It is kept because it is the only check
+  that the widened description loads the skill for a generated file that is not a lockfile.
+  The rule is kept on that equal score because the repository's owner asked for it, relayed by
+  another session. The mistake it guards against is a risk, not an observed incident: an agent
+  asked to get past a small conflict pastes a merged hunk into generated output, or takes one
+  side, and the file no longer matches its inputs. A hand merge is the default way to resolve
+  any conflict, and the rule reverses it for files a tool writes. The lockfile case's one failure resolved the lockfile with pnpm
+  and then offered `--no-verify` as the person's choice; that rule did not change.
+- `stages-only-task-files` was not rerun; its rules did not change.
+
 ## 2026-11-22: `evals` says what an equal score needs
 
 Commit of this entry. No run.
