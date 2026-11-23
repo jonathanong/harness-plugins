@@ -56,6 +56,7 @@ unaided by design.
 | `list-reads/review-feed-candidate-pool`                                 | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                                            | 0.96  | 11 of 12 | 0.33           |
 | `list-reads/slow-inbox-bounds-the-scan`                                 | Fixes a slow inbox read by bounding the rows one request scans, and keeps the client paging from where the scan stopped.                         | 1.00  | 6 of 6   | 0.33           |
 | `llm-calls/summarize-fetched-page`                                      | Passes a fetched page to the model as delimited data, outside the system prompt, with an instruction not to follow it.                           | 1.00  | 3 of 3   | 1.00           |
+| `llm-calls/ticket-classifier-takes-its-model`                           | Takes the model for a new classifier from configuration or an argument, with no model id or fallback in the code.                                | 1.00  | 6 of 6   | 0.00           |
 | `native-app-architecture/core-tests-and-web-view`                       | Runs portable core tests once and asks for a written blocker before a web view.                                                                  | 1.00  | 3 of 3   | 0.00           |
 | `native-app-architecture/generated-project-file`                        | Commits the project specification and ignores the generated Xcode project.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `npm-publishing/bootstrap-new-package`                                  | Prepares a first publish for a person to run, and never publishes itself.                                                                        | 0.94  | 2 of 3   | 0.40           |
@@ -170,6 +171,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`llm-calls/ticket-classifier-takes-its-model`** is from a two-arm run of six attempts on
+  2026-11-23.
 - **The `llm-calls` row** is from the two-arm run on 2026-11-22 that added the skill, three
   attempts per arm. It is a ceiling case; the skill loaded in 3 of 3.
 - **The four `dependabot` rows** are from the two-arm run on 2026-11-22 after the skill gained
