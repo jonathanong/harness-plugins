@@ -4,6 +4,46 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: a `debugging` case on a fixture repository loads the skill in 14 of 15
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $38.04 over four two-arm
+runs and one plugin-only run, one at a time.
+
+- **Case added:** `debugging/crash-fixed-at-cause-with-a-test`. The fixture is a small Node.js
+  repository whose report command crashes on an undefined customer. The line above the crash
+  already guards the name with a default, and the cause is two files away: the customer export
+  pads two ids with a space and the parser keeps it. `cause` passes when the lookup is fixed and
+  fails a default, a skip, or a data edit. `regression-test` passes when a test is added that
+  fails without the fix.
+- **It is a ceiling case.**
+
+  | Run                                  | With plugin | Loaded | Without plugin |
+  | ------------------------------------ | ----------- | ------ | -------------- |
+  | Pilot, `cause` grader only           | 3 of 3      | 3 of 3 | 3 of 3         |
+  | Both graders, Edit not granted       | 5 of 6      | 6 of 6 | 5 of 6         |
+  | Both graders, Edit and Write granted | 3 of 3      | 3 of 3 | 3 of 3         |
+
+  The model finds the cause and adds the test without the skill. In the pilot one of three
+  attempts without the plugin added a test against three of three with it; over the next nine
+  attempts per arm that difference did not hold.
+
+- **The skill loaded in 14 of 15 attempts,** against 4 of 12 on `flaky-test-not-fixed-with-retry`,
+  which pastes the code into the prompt. The loading gap recorded for `debugging` belongs to that
+  kind of prompt, not to the description. The case is kept as the loading check.
+- **The case asks for Bash only.** The runner grants Bash to every case, and a grant applies
+  to all of them, not only to a case that lists the tool. While the case also listed Edit and
+  Write, which the runner does not grant, two of twelve attempts found the cause and declined
+  to edit through the shell; both failures in the second run are those. The third run granted
+  Edit and Write in the runner, which would have given them to every case, so that change was
+  dropped. A last plugin-only run of three attempts, listing Bash only, passed both graders in
+  3 of 3 and loaded the skill in 2 of 3 ($3.62). The row is from that run.
+- **The first run measured nothing and is not in the table:** the case had no `case.yaml`, so
+  the fixture never ran and every attempt found an empty directory ($2.40); `evals/AGENTS.md`
+  now says a fixture needs one.
+- **Cost:** about $1.50 an attempt, several times an inline case.
+- **Not re-measured:** after the runs, review renamed the fixture's customers to plainly synthetic
+  names. Nothing else in the fixture or the graders changed.
+
 ## 2026-11-22: `github-actions-authoring` moves its persistent-runner section to a reference
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.47 over three plugin-only

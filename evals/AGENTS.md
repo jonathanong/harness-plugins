@@ -25,6 +25,12 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
 ## Cases
 
 - Layout: `evals/<skill>/<case>/prompt.md`, `graders/*.md`, and an optional `fixture.sh`.
+- A case with a `fixture.sh` also needs a `case.yaml` that names the case and sets
+  `context.scaffold_script: fixture.sh`. Without it the fixture does not run and the agent starts
+  in an empty directory. Read one pilot trace before measuring.
+- A case that edits files lists `Bash` in `allowed_tools`, not `Edit` or `Write`. The runner
+  grants Bash only, and a grant applies to every case. An agent that sees a tool it may not use
+  can decline to edit through the shell.
 - Tag every case with its skill name.
 - Every case has `graders/skill-fired.md`: a `tool_used` grader on the `Skill` tool that names the
   skill. `pnpm run evals:check` fails a skill with no such case.
@@ -41,7 +47,8 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
   rule prevents, as the Review section of the `evals` skill requires. Never cite a ceiling case as a reason to
   remove a rule or to hold back a new one. A new skill whose drafted cases all pass without it
   ships with one of them as its loading check; say in its `EVALS.md` note that it is a ceiling
-  case, and list a harder case in `ROADMAP.md`.
+  case, and list a harder case in `ROADMAP.md`. An existing skill may keep a ceiling case the same
+  way when it is the case that shows the skill loads.
 - The exception is a guard case: one that checks a rule is not applied where it does not hold.
   It may pass without the skill. Add one only beside a case for the same rule that the model
   fails without the skill, and start its `EVALS.md` row with "Guard:" and say so in `HISTORY.md`. A guard for a skill

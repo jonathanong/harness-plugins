@@ -1,0 +1,9 @@
+{
+  "name": "invoice-report",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "report": "node bin/report.js",
+    "test": "node --test"
+  }
+}
