@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **104 cases** across 44 skills.
-- **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.36, over the 103 cases measured both ways.
-- **81 cases** are ones the model fails unaided. The other 22 it already gets right: 3 check that a skill stays out of the way, and 19 show only that the skill loads.
+- **103 cases** across 44 skills.
+- **With the plugin:** mean score 0.95.
+- **Without it:** mean score 0.35, over the 102 cases measured both ways.
+- **81 cases** are ones the model fails unaided. The other 21 it already gets right: 3 check that a skill stays out of the way, and 18 show only that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -67,7 +67,7 @@ averaged over attempts.
 | `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     |
 | `structured-logging`               | 2     | 1.00        | 0.00           | 0                     |
 | `technical-writing`                | 3     | 0.89        | 0.00           | 0                     |
-| `test-authoring`                   | 6     | 0.89        | 0.50           | 2                     |
+| `test-authoring`                   | 5     | 0.94        | 0.40           | 1                     |
 | `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     |
 | `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     |
 | `verification`                     | 1     | 0.50        | 1.00           | 1                     |
