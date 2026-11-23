@@ -130,7 +130,8 @@ An equal score means different things at the two ends. When both arms pass, the 
 ceiling: the suite ran on one model, and a model that already does the right thing cannot show
 what a weaker one would do, so the score is evidence neither for the change nor against it. When
 both arms fail a case that tests the changed rule, the rule did not work in those attempts: read
-them, and fix the rule or the case before keeping the change.
+them, and fix the rule, the case, or its grader before keeping the change. An equal score between
+the two is noise at this sample; measure more attempts before reading it.
 
 When a change is kept on a ceiling score, it must say so and give the reason: the specific
 mistake the rule prevents, and why a model would make it unprompted, such as a real incident, a

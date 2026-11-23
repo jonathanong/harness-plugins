@@ -13,6 +13,7 @@ Commit of this entry. No run.
   specific mistake its rule prevents and why a model would make it unprompted; a
   bare "weaker models need it" is rejected, and a change that scores below the baseline needs
   a person to accept the trade. No case or grader changed.
+  `evals/AGENTS.md` now points its keep-the-rule line at that requirement.
 - **Not re-measured:** `evals/document-new-suite` and `evals/record-partial-rerun`. The rule is
   additive and neither case asks about an equal score.
 
