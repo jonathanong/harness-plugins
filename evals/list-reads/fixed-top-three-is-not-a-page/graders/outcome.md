@@ -9,7 +9,9 @@ three, and it returns the rows (an array, possibly empty). A tie-breaker in the 
 note on the index, an operation-name comment, and a remark that a "see more" view would need
 pagination later are all fine.
 
+A named constant for the three passes, and so does a `limit` argument that defaults to three, as
+long as nothing else about a page is added.
+
 FAIL if the function or its return value carries pagination that the request has no use for: a
-cursor parameter or a returned cursor, a `has_next_page` or similar flag, a page-size
-parameter, a `LIMIT` of four to detect a next page, or a time window or cap on rows scanned
-added to bound the read. FAIL if it does not return the three most recent sign-ins.
+cursor parameter or a returned cursor, a `has_next_page` or similar flag, a `LIMIT` of four to
+detect a next page, or a time window or cap on rows scanned added to bound the read. FAIL if it does not return the three most recent sign-ins.
