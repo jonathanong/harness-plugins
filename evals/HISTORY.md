@@ -4,6 +4,34 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: two `list-reads` cases that write a list read
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $6.50 over three two-arm
+runs of six attempts, one at a time. No skill changed.
+
+- **Cases added.** Both give the same inbox query, which walks past muted senders to fill a
+  page.
+
+  | Case                         | The prompt asks for             | With plugin | Loaded | Without |
+  | ---------------------------- | ------------------------------- | ----------- | ------ | ------- |
+  | `capped-walk-keeps-paging`   | a cap of 500 rows looked at     | 6 of 6      | 6 of 6 | 6 of 6  |
+  | `slow-inbox-bounds-the-scan` | a fix for the slow p99, no more | 6 of 6      | 6 of 6 | 2 of 6  |
+
+- **`slow-inbox-bounds-the-scan` is one the model fails unaided.** Without the plugin, three of
+  the four failures replace the walk with one probe per sender over a new index and merge the
+  results, and the fourth adds a covering index and still reads every muted row. With it, every
+  attempt keeps the single walk and bounds it with a time window or a cap, and continues from
+  the last row scanned.
+- **Its grader changed once.** The judge failed the per-sender answers on a grader that did not
+  name them. A line now says that approach fails because its cost grows with the number of
+  senders. The run before the change and the run after it both scored 6 of 6 against 2 of 6;
+  the row is from the second.
+- **`capped-walk-keeps-paging` is a ceiling case.** Asked for the cap, the model works out by
+  itself that a capped page must keep the client paging. It is kept as a second check that the
+  skill loads for a request to write a list read.
+- **Still open:** a guard where a single-row query must not load the skill, and a native case
+  for the client rule.
+
 ## 2026-11-22: a `debugging` case on a fixture repository loads the skill in 14 of 15
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $38.04 over four two-arm
