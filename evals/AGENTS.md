@@ -37,7 +37,8 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
   the skill.
 - Build a case on a decision the model gets wrong without the skill.
 - A case the model passes without the skill may be dropped, and `HISTORY.md` records it. The rule
-  it covered stays in the skill: weaker models need it. Never cite a ceiling case as a reason to
+  it covered stays in the skill, because weaker models need it: the change names the mistake the
+  rule prevents, as the Review section of the `evals` skill requires. Never cite a ceiling case as a reason to
   remove a rule or to hold back a new one. A new skill whose drafted cases all pass without it
   ships with one of them as its loading check; say in its `EVALS.md` note that it is a ceiling
   case, and list a harder case in `ROADMAP.md`.

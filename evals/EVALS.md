@@ -131,6 +131,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with
   the plugin in that run and 3 of 3 in a same-session rerun, against 1 of 3 on `main`; its row
   is the rerun.
+- **The two `evals` rows** predate the equal-score rule added to its Review section on
+  2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The `agent-rules` and `skill-authoring` rows** are from the two-arm run after the split, three
   attempts per arm. Two `documentation` rows are from a plugin-only run after its
   description stopped naming `AGENTS.md`.

@@ -125,3 +125,16 @@ When a change quotes an eval score, check that it names the run (date, commit, m
 that both arms are given, that the number matches `README.md`, and that `HISTORY.md` has the
 entry. Reject a claim of improvement that rests on a single attempt, on a ceiling case, or on a
 comparison with a number from an earlier day.
+
+An equal score means different things at the two ends. When both arms pass, the case is at the
+ceiling: the suite ran on one model, and a model that already does the right thing cannot show
+what a weaker one would do, so the score is evidence neither for the change nor against it. When
+both arms fail a case that tests the changed rule, the rule did not work in those attempts: read
+them, and fix the rule, the case, or its grader before keeping the change. An equal score between
+the two is noise at this sample; measure more attempts before reading it.
+
+When a change is kept on a ceiling score, it must say so and give the reason: the specific
+mistake the rule prevents, and why a model would make it unprompted, such as a real incident, a
+failing attempt from a weaker model, or a default the rule reverses. Reject "weaker models need
+it" with no mistake named. Reject a change that scores below the baseline until a person has
+accepted the trade.
