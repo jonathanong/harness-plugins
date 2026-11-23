@@ -18,8 +18,6 @@ Each still gets a loading case and an answer case.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
-- [ ] **`list-reads` needs a check that it stays out of the way:** a guard where a single-row
-      query must not load it. Its description opens with any query that returns a list.
 - [ ] **The client pagination rule needs a native case** in `native-app-architecture`.
       `react-app-structure/load-more-follows-the-flag` loads its skill in 9 of 12 attempts.
 - [ ] **`test-authoring` needs a flake-fix case the model fails unaided.** Two review cases with
