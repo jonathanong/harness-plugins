@@ -47,6 +47,11 @@ compatibility of public contracts, failure paths, authorization, untrusted input
 Ask for dead paths and stale docs to be removed, not labeled legacy. Check the pull request
 description against the final behavior.
 
+A skill's rules are written for production code unless the skill says otherwise. Do not hold a
+test, a fixture, or a seed to a runtime rule: a race test may take a lock, and a fixture may
+loop over single inserts. Rules about secrets and personal data, and rules that name tests,
+still apply there.
+
 ## Decide, then report
 
 Every question stops the work until a person answers. Ask only when the answer cannot be

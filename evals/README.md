@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **112 cases** across 45 skills.
+- **113 cases** across 45 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.37, over the 111 cases measured both ways.
-- **85 cases** are ones the model fails unaided. The other 26 it already gets right: 4 check that a skill stays out of the way, and 22 show at most that the skill loads.
+- **Without it:** mean score 0.38, over the 112 cases measured both ways.
+- **85 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -51,7 +51,7 @@ averaged over attempts.
 | `package-json-checklist`           | 2     | 0.95        | 0.67           | 0                     |
 | `planning`                         | 7     | 0.92        | 0.38           | 2                     |
 | `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     |
-| `postgres-locking`                 | 7     | 0.95        | 0.29           | 2                     |
+| `postgres-locking`                 | 8     | 0.96        | 0.38           | 3                     |
 | `postgres-node-performance-tuning` | 3     | 0.84        | 0.00           | 0                     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
 | `postgres-schema-design`           | 2     | 1.00        | 0.50           | 1                     |

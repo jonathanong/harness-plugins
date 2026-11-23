@@ -7,6 +7,10 @@ description: Use whenever a task writes, reviews, or refactors TypeScript or Jav
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
+These rules are for runtime code. A test file or a fixture, or a seed for a disposable
+database, may loop over a single-item call, use top-level `await`, and call `fetch` directly. A
+backfill against production data follows them.
+
 The common thread: a reader, or a tool, should be able to follow a name to the one place it is
 defined and to every place it is used.
 
