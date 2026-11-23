@@ -34,6 +34,9 @@ Each still gets a loading case and an answer case.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
+- [ ] **`error-handling` needs cases for two rules:** details as attributes, and reporting.
+      Its reporting case is a ceiling case. Try a fixture where errors are thrown in one file
+      and reported in another.
 - [ ] **`llm-calls` needs a case the model fails unaided.** Its one case is a ceiling case.
       Candidates: a model id defaulted in code, and a tool that trusts a model-supplied limit.
 - [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did

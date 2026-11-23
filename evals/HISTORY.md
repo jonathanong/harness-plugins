@@ -4,6 +4,32 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a new `error-handling` skill
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.70: a pilot of one
+attempt per arm, then one two-arm run of six attempts.
+
+- **Skill added:** `error-handling`. Four rules: codes from one defined list, matching on type
+  or code instead of message, details as attributes on the error, and reporting to an error
+  tracker only what someone can act on.
+- **Scores:**
+
+  | Case                                        | With plugin | Loaded | Without |
+  | ------------------------------------------- | ----------- | ------ | ------- |
+  | `new-failure-code-comes-from-a-list`        | 6 of 6      | 6 of 6 | 0 of 6  |
+  | `expected-coupon-failure-skips-the-tracker` | 6 of 6      | 6 of 6 | 6 of 6  |
+
+- **Without the plugin the model adds a code but no list.** All six attempts add
+  `readonly code?: string` to the error class and write the literal where it is thrown. With
+  the plugin all six define the codes in one typed list.
+- **The first grader was re-aimed after the pilot.** It first asked for a code and for details
+  as fields; the pilot's no-plugin attempt passed that. It now grades the list. The pilot is
+  not comparable with the measured run.
+- **`expected-coupon-failure-skips-the-tracker` is a ceiling case.** The model moves the report
+  below the expected branches unaided. It is kept as the check that the skill loads.
+- **No case yet** for details as attributes or for matching inside server code; the pilot
+  suggests the model does both unaided when the prompt has the code inline.
+
 ## 2026-11-23: two `list-reads` cases that write a list read
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $6.50 over three two-arm
