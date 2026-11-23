@@ -4,6 +4,35 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: runtime rules do not bind tests
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $13.61 over three runs.
+
+- **Scope added to seven skills.** The owner said the rules are for production code unless a
+  skill says otherwise, and that a test may try to break a lock. `postgres-locking`,
+  `bounded-iteration`, `postgres-node-performance-tuning`, `typescript-authoring`, `glide-mq`,
+  `service-boundaries`, and `expand-contract-migrations` each say what a test, a fixture, or
+  a seed may do. `agent-workflow` tells a reviewer not to hold test code to a runtime rule, and
+  the repository `AGENTS.md` tells a skill author to say when a rule binds tests.
+- **Guard added:** `postgres-locking/review-race-test-that-waits-on-a-lock`. A review is given
+  a test that holds a row with `FOR UPDATE`, waits until two withdrawals are blocked, and
+  asserts the final balance. The grader fails a review that objects to the lock or the wait.
+- **The model already accepts the test.** Six attempts with the skill as it was before this
+  change passed 6 of 6. After the change, 6 of 6 with the plugin and 6 of 6 without. The rule
+  is for weaker models; a cheaper reviewer raised this finding on real code.
+- **The guard has no `skill-fired` grader.** The skill loaded in 2 of 6 and then 0 of 3
+  attempts for a review of a test, and loading it is not what the case checks.
+- **Regression run:** all 25 cases of the eight changed skills, three attempts with the
+  plugin. Twenty-two scored as recorded. The rest, read attempt by attempt:
+  - `glide-mq/never-enqueue-and-wait` passed 2 of 3. The failing answer does not wait on the
+    job; it fails the grader on another point.
+  - `agent-workflow/status-note-asks-only-what-it-must` answered 3 of 3 and loaded the skill
+    in 1 of 3, against a recorded 3 of 3. Its description did not change.
+  - `postgres-node-performance-tuning/index-change-rechecks-neighbors` passed 2 of 3, against
+    a recorded 17 of 21.
+- **No row but the new one is updated.** Three attempts do not replace the recorded rows.
+- **No case** for the scope sentences in the other six skills.
+
 ## 2026-11-23: a new `error-handling` skill
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $7.89: a pilot of one

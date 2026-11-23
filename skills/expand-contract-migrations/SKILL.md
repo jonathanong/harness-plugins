@@ -7,6 +7,9 @@ description: Use when renaming or dropping a column or table, changing a column 
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
+These rules apply where old code may still be running. A disposable database, such as a test
+schema or a local reset, may be renamed, dropped, or constrained in one step.
+
 During every deploy and every rollback, old and new code run at the same time against the same
 data. A change that only works when all code is new breaks in that window. Make each step work
 with the version before it and the version after it.
