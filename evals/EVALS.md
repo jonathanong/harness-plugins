@@ -83,6 +83,7 @@ unaided by design.
 | `pull-requests/review-round-dispositions`                          | Gives each review comment one disposition and settles the round with a single push.                                            | 1.00  | 3 of 3  | 0.00           |
 | `react-app-structure/abort-superseded-search`                      | Aborts a superseded search request with an `AbortController`.                                                                  | 1.00  | 3 of 3  | 1.00           |
 | `react-app-structure/client-needs-current-user`                    | Reads the signed-in user in the client from auth context, not a prop passed from the server page.                              | 1.00  | 3 of 3  | 0.00           |
+| `react-app-structure/load-more-follows-the-flag`                   | Pages a list while the API reports a next page, and shows the empty state only when no further page can be requested.          | 0.83  | 5 of 6  | 0.17           |
 | `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                               | 1.00  | 3 of 3  | 0.67           |
 | `resuming-work/note-says-about-to-push`                            | Sees that the branch is already pushed and the pull request open, and goes to the failing check instead of repeating the step. | 0.83  | 2 of 3  | 1.00           |
 | `review-ci-logs/quiet-log-keeps-errors`                            | Quiets a noisy log at its source and keeps stderr and failing exits.                                                           | 1.00  | 3 of 3  | 1.00           |
@@ -128,6 +129,12 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
 - **The `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
   review answering moved to `pull-requests`, three attempts per arm.
+- **`react-app-structure/load-more-follows-the-flag`** is from two two-arm runs of three attempts
+  per arm on 2026-11-22, six attempts per arm, after its `empty-state` grader was tightened. The
+  skill loaded in 5 of 6 attempts with the plugin, and each of those passed; the one that did
+  not load it failed. The other `react-app-structure` rows, and the `list-reads` and
+  `native-app-architecture` rows, predate the pagination rules added that day and were not
+  re-measured.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`,
   `service-boundaries`, and `static-analysis-checklist` rows** are from the two-arm run after
   their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with

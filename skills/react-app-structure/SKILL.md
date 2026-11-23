@@ -57,6 +57,10 @@ refresh while one is in flight or while the user is saving.
 - Give each member of a finite set of route types its own route directory. Use a `[param]`
   segment only for values that really vary, so each page is findable by its path.
 
+A paginated list ends only when the API's flag says so. Do not stop, or show the empty state,
+because a page came back short or empty: keep a way to load more while the response reports a
+next page and a cursor. [list-reads](../list-reads/SKILL.md) owns the contract.
+
 A fetch wrapper that returns `null` maps only a 404 to `null`. Never catch everything into
 `null`; every other failure reaches the error boundary, so an outage does not look like a missing
 resource.

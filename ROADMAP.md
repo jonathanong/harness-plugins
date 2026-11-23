@@ -24,6 +24,10 @@ Each still gets a loading case and an answer case.
       `static-analysis-checklist/tracked-files-only` (6 of 8).
 - [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
       that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **The pagination rules need a server-side case and a native case.** Add a `list-reads`
+      case where a capped walk must set `has_next_page` on an empty page, and a
+      `native-app-architecture` case for the client rule.
+      `react-app-structure/load-more-follows-the-flag` loads its skill in 9 of 12 attempts.
 - [ ] **`test-authoring` does not load for a review of a de-flake diff.** Its flake-fix section
       is read only when something else loads the skill. Two wordings that named retries,
       timeouts, and skips fixed that and may have cost loads on `review-direct-row-inserts` (9
