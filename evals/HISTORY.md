@@ -31,6 +31,9 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $13.61 over
   - `postgres-node-performance-tuning/index-change-rechecks-neighbors` passed 2 of 3, against
     a recorded 17 of 21.
 - **No row but the new one is updated.** Three attempts do not replace the recorded rows.
+- **Edited after the runs, not re-measured.** Four scope sentences were narrowed: a seed or a
+  one-off script is exempt only on a disposable database or a throwaway queue, and the
+  migration scope names rollback.
 - **No case** for the scope sentences in the other six skills.
 
 ## 2026-11-23: a new `error-handling` skill
