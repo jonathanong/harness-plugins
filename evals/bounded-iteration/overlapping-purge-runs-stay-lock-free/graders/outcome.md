@@ -7,12 +7,12 @@ it writes, and the stored position advances by a compare-and-set.
 
 PASS if all three hold:
 
-- The `DELETE` repeats the eligibility test on the rows it deletes (`trashed_at IS NOT NULL` and
-  `trashed_at < cutoff`, or the same test through a CTE in one statement), so a draft restored
-  after the read is not deleted.
-- The cursor write is conditional, so a slow or stale run cannot move the position backward:
-  `WHERE last_id = <the value this batch read>`, or a forward-only guard such as
-  `WHERE last_id < $new`.
+- The `DELETE`'s own `WHERE` clause repeats the eligibility test on the row it deletes
+  (`trashed_at IS NOT NULL` and `trashed_at < cutoff`), so a draft restored after the read is not
+  deleted. A test that appears only in a CTE or a subquery that picks the ids does not count.
+- The cursor write is a compare-and-set on the value this batch read
+  (`WHERE last_id = <that value>`), so a run whose position was moved by another run does not
+  write over it.
 - The job takes no lock to do this: no `FOR UPDATE` or `FOR UPDATE SKIP LOCKED` on the draft
   rows, no `FOR UPDATE` on the cursor row, no advisory lock, and no `LOCK TABLE`.
 
@@ -21,7 +21,9 @@ cursor write to guard and passes the second point.
 
 FAIL if the fix serializes the runs or the rows with any lock named above, even when it also
 adds the re-check. FAIL if the delete still deletes by id alone. FAIL if the cursor write is
-still unconditional.
+still unconditional, or is only a forward-only guard such as `WHERE last_id < $new` or
+`GREATEST(last_id, $new)`: two runs with different cutoffs select different rows, and the run
+that read sparser rows can then move the position past rows the other has not reached.
 
 A suggestion to also make the scheduler single-flight later is fine and is not graded. Do not
 grade the batch size, the cap on batches, or whether the statements share a transaction.

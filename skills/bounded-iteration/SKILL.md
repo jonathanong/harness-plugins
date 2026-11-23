@@ -31,8 +31,10 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    **A sweep takes no locks.** Do not lock the candidate rows it selected or its cursor row. Each
    write re-checks eligibility on its own target in the same statement
    (`DELETE ... WHERE id = $1 AND <still eligible>`), so a row that stopped being eligible after
-   the read is left alone, and overlapping runs repeat work at worst. `FOR UPDATE SKIP LOCKED` is
-   only for a work-item claim, where two workers must not do the same non-idempotent work.
+   the read is left alone, and overlapping runs repeat work at worst. When eligibility depends on
+   another row, such as a hold on the parent, put that guard in the write as well;
+   `postgres-locking` says when such a guard needs a lock. `FOR UPDATE SKIP LOCKED` is only for a
+   work-item claim, where two workers must not do the same non-idempotent work.
    (`postgres-lock-ordering`, [postgres-locking](../postgres-locking/SKILL.md))
 4. **A stream is not a bound.** A cursor or stream bounds memory, not work. Cap the rows streamed
    per run.

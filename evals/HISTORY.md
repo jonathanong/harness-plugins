@@ -4,6 +4,31 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: the sweep grader was too loose, and the rule does help
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.58 over two runs: a
+two-arm run of six, and a plugin-only control of six against the skills as they were. This
+corrects the entry below; its scores are not comparable with these.
+
+| Case `bounded-iteration/overlapping-purge-runs-stay-lock-free` | Answer passes | Skill loaded |
+| -------------------------------------------------------------- | ------------- | ------------ |
+| With the plugin, new rule                                      | 5 of 6        | 5 of 6       |
+| With the plugin, skills as they were                           | 0 of 6        | 5 of 6       |
+| Without the plugin                                             | 0 of 6        | n/a          |
+
+- **Grader corrected** after an automated review. It had accepted a forward-only cursor guard
+  (`WHERE last_id < $new`, `GREATEST`). Two overlapping runs with different cutoffs select
+  different rows, so the run that read sparser rows can move the position past rows the other
+  has not reached. The grader now requires a compare-and-set on the value the batch read, and
+  the eligibility test in the `DELETE`'s own `WHERE`, not only in a CTE that picks the ids.
+- **What the runs showed.** With the skills as they were, every answer re-checks in the delete
+  and takes no lock, and every one guards the cursor forward-only. With the new rule, the five
+  attempts that loaded the skill use a compare-and-set, and the one that loaded no skill does
+  not. So the difference is the new sentence on advancing a stored position.
+- **Also changed, and included in these runs:** the rule now says that a guard on another row,
+  such as a hold on the parent, goes in the write as well; the bounded-delete example returns
+  the candidate count, and `hasMore` follows that count instead of the rows deleted.
+
 ## 2026-11-23: a sweep takes no locks
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.09 over three runs: a
@@ -29,6 +54,8 @@ they were.
   unconditional, so an overlapping run moves the position backward.
 - **Case added.** A purge job started by two hosts deletes a draft restored after the read and
   moves its saved position backward. Without the plugin four of six answers add a lock.
+- **Corrected by the entry above:** the grader here accepted a forward-only cursor guard, and
+  the conclusion below does not hold under the corrected grader.
 - **What the runs showed.** The plugin moves the answer from 2 of 6 to 6 of 6. The new rule does
   not: the control scored the same, because the attempts that loaded `bounded-iteration` also
   loaded `postgres-locking`, whose rules already give the answer. The rule is kept for a reader

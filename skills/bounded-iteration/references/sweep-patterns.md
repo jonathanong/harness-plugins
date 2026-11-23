@@ -266,18 +266,24 @@ WITH expired AS (
   WHERE completed_at IS NOT NULL AND completed_at < $1
   ORDER BY completed_at, id
   LIMIT $2
+),
+deleted AS (
+  DELETE FROM invoice_delivery_work_items AS item
+  USING expired
+  WHERE item.id = expired.id
+    AND item.completed_at IS NOT NULL AND item.completed_at < $1
+  RETURNING item.id
 )
-DELETE FROM invoice_delivery_work_items AS item
-USING expired
-WHERE item.id = expired.id
-  AND item.completed_at IS NOT NULL AND item.completed_at < $1;
+SELECT (SELECT count(*) FROM expired) AS candidates, (SELECT count(*) FROM deleted) AS deleted;
 ```
 
 When the ids were read by an earlier statement, the write still carries the predicate:
 `DELETE ... WHERE id = ANY($1) AND <still eligible>`. `FOR UPDATE SKIP LOCKED` belongs to the
 capped claim above, where two workers must not take the same work item.
 
-Report `hasMore` when the deleted row count equals the batch size, and let the next run continue.
+Report `hasMore` when `candidates` equals the batch size, and let the next run continue. The
+deleted count can be lower, because a row another run deleted or one that stopped being eligible
+is skipped, so it does not show whether work remains.
 
 ## Deduplicate against a large table
 
