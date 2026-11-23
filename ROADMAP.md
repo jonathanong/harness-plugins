@@ -4,7 +4,7 @@ Planned work, most certain first. An item leaves this file when its pull request
 
 ## Skills: split
 
-- [ ] Move detail to references in `static-code-analysis` and `github-actions-authoring`.
+- [ ] Move detail to references in `github-actions-authoring`.
 
 ## Skills: add
 
