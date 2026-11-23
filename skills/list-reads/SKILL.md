@@ -32,6 +32,22 @@ ranking over every row is its global-ranking rule, not a list read.
    subqueries or semi-joins, because write limits bound them.
 7. **Measure against the plain single walk**, not only against the base branch, for a list-read
    change.
+8. **Only the flag ends the list.** A page a client fetches carries an explicit `has_next_page`
+   and a cursor, and nothing else says the list is over. A short or empty page with the flag
+   true is valid, so set the flag from whether the read can continue, not from the rows returned:
+   it is true when an inspected-row cap stopped the read, even with no rows to return. The
+   `page+1` row only answers it when the read ran to its `LIMIT`.
+9. **Bound a run of empty pages on the server.** A client keeps asking while the flag is true and
+   has no cap of its own. The time window of rule 3 is the bound: at its edge the flag is false.
+   Do not count empty pages in the cursor.
+10. **A client never infers the end from the rows.** Not from `items.length === 0`, and not from
+    `items.length < limit`. It requests the next page while the flag is true and a cursor came
+    back. It shows the empty state only when it holds no items and no further page can be
+    requested; an empty list with more pages still offers a way to load more. Otherwise a capped
+    read that returns an empty first page shows "nothing here" and hides every older item.
+
+Rules 8 to 10 are the contract for a page that crosses an API boundary. A sweep that reads its own
+table may still end on a short batch, as in [bounded-iteration](../bounded-iteration/SKILL.md).
 
 Names in parentheses are generic `jonathanong/no-mistakes` rules; check that the installed release
 has one before relying on it.

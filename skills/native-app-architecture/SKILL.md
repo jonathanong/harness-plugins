@@ -19,6 +19,9 @@ shared; the second is expensive to test and differs per platform.
   storage). The app target supplies the implementations.
 - A core with no platform imports builds and tests on any machine, and its tests need no
   simulator.
+- Paging state lives in the core. A list ends only when the API's flag says so, never because a
+  page came back short or empty; the view shows the empty state only when the core holds no
+  items and no further page. [list-reads](../list-reads/SKILL.md) owns the contract.
 
 ## Views
 
