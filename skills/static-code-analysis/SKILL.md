@@ -37,54 +37,16 @@ first appears, not when it first causes a problem.
 
 ## By what the repository contains
 
-### JavaScript and TypeScript
+The baseline is not the whole answer for any language. Before choosing, read the reference for
+each thing the repository contains; each lists the tools, the trigger for each, and the settings
+to start from.
 
-| Trigger                                      | Tool                       | Start from                                                                                                                                                                                                                                                                                  |
-| -------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Any JavaScript or TypeScript                 | `oxlint`                   | `--deny-warnings`. Categories `correctness`, `suspicious`, and `perf` as errors. `max-lines` 200, with a 500 override for test files. Enable the plugin for each framework in use: `typescript`, `import`, `node`, `promise`, `unicorn`, `vitest` or `jest`, `react`, `nextjs`, `jsx-a11y`. |
-| Any JavaScript or TypeScript                 | `oxfmt`                    | `oxfmt --check` in CI.                                                                                                                                                                                                                                                                      |
-| TypeScript                                   | `tsc --noEmit`             | `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `noImplicitReturns`, `noFallthroughCasesInSwitch`, `noUnusedLocals`, `noUnusedParameters`, `isolatedModules`, `verbatimModuleSyntax`, `erasableSyntaxOnly`. Type-check tests and scripts too.     |
-| TypeScript                                   | `oxlint --type-aware`      | Adds rules that need types, such as unawaited promises.                                                                                                                                                                                                                                     |
-| More than a handful of modules               | `knip`                     | Unused files, exports, and dependencies. Run it twice: default, and `--production` to find code only tests use. Model entry points in its config instead of tagging exports.                                                                                                                |
-| Two or more packages or layers               | `dependency-cruiser`       | `no-circular` as an error, plus one rule per boundary that must hold, such as "shared code does not import an app".                                                                                                                                                                         |
-| A workspace with several `package.json`      | `syncpack`                 | One version of each dependency across the workspace.                                                                                                                                                                                                                                        |
-| A pnpm lockfile                              | `pnpm dedupe --check`      | Fails when the lockfile holds duplicates that can be collapsed. Other package managers have their own check, such as `yarn dedupe --check`.                                                                                                                                                 |
-| A codebase past its first few thousand lines | `jscpd`                    | Copy-paste detection. Start near 50 lines and 0.8 similarity.                                                                                                                                                                                                                               |
-| React                                        | oxlint JS plugins          | `oxlint-plugin-react-doctor` for security and performance rules, and `eslint-plugin-react-you-might-not-need-an-effect` for effects that should be derived state or event handlers.                                                                                                         |
-| A package published to npm                   | `publint`, `attw`          | `publint` checks `package.json` fields against the files shipped; `@arethetypeswrong/cli` checks that the types resolve in each module format. Run both on the packed tarball.                                                                                                              |
-| Browser tests                                | the Playwright lint plugin | Missing awaits, hard waits, and focused tests.                                                                                                                                                                                                                                              |
-
-Cross-file rules that no per-file linter can express (who imports this, is this export reachable
-from an entry point, does each source file have a test) belong to a graph-based checker such as
-`no-mistakes`, not to a text search.
-
-### Rust
-
-| Trigger     | Tool                | Start from                                                                                                                                                                                                                           |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Any Rust    | `cargo fmt`         | `cargo fmt --all -- --check`.                                                                                                                                                                                                        |
-| Any Rust    | `cargo clippy`      | `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`. Drop `--locked` when `Cargo.lock` is not tracked. When features exclude each other, run once per supported combination instead of `--all-features`. |
-| Any Rust    | `rustc`             | `RUSTFLAGS: "-D warnings"` in CI, so a compiler warning fails the build.                                                                                                                                                             |
-| A workspace | `[workspace.lints]` | Declare lint levels once and set `[lints] workspace = true` in each crate. Worth enabling: `clippy::undocumented_unsafe_blocks`, `clippy::allow_attributes_without_reason`, `cargo::unused_dependencies`.                            |
-| Any Rust    | a file-size check   | 200 lines per source file, 500 per test file, tests in their own files. Clippy has no such lint; use a graph checker rule or a small script.                                                                                         |
-
-### Other languages and files
-
-| Trigger                       | Tool                                    | Start from                                                                                                                                                                                  |
-| ----------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Shell scripts                 | `shellcheck`                            | Every tracked `*.sh`. Put `shell=bash` and source paths in `.shellcheckrc`.                                                                                                                 |
-| A Dockerfile                  | `hadolint`                              | Default rules. Ignore a rule in `.hadolint.yaml` with a reason, not inline.                                                                                                                 |
-| A built container image       | `trivy`                                 | Scan the image in the build workflow. Keep ignores in a tracked file with an expiry.                                                                                                        |
-| OpenTofu or Terraform         | `tofu fmt`, `tofu validate`             | `tofu fmt -check -recursive`, then `tofu init -backend=false` and `tofu validate` per root. Run them before any cloud credential is granted to the job.                                     |
-| SQL migrations for PostgreSQL | `squawk`                                | Set the server version. Exclude a rule only with a written reason.                                                                                                                          |
-| Swift                         | `swiftformat`, `swiftlint`, `periphery` | `file_length` 200 warning and 250 error, `function_body_length` 50 and 80. `periphery` finds unused code.                                                                                   |
-| .NET                          | `dotnet format`, analyzers              | `dotnet format --verify-no-changes`. `TreatWarningsAsErrors` and `AnalysisMode` `AllEnabledByDefault` in `Directory.Build.props`, plus an analyzer package such as Meziantou or Roslynator. |
-| Python                        | `ruff`, `pyright`                       | `ruff check` and `ruff format --check`. `pyright` in strict mode.                                                                                                                           |
-| Go                            | `gofmt`, `golangci-lint`                | `gofmt -l` must print nothing. `golangci-lint run` with its default linters plus `gocyclo`.                                                                                                 |
-| Lua                           | `selene`                                | Declare the standard library in `selene.toml`.                                                                                                                                              |
-| Docs with links               | `lychee`                                | Offline mode for relative links on every push. Check external links on a schedule, because they fail for reasons outside the change.                                                        |
-| Public prose                  | `cspell`                                | README and docs only. Keep the word list in the repository.                                                                                                                                 |
-| Conventional commit messages  | `commitlint`                            | Only when a release tool reads the commit history.                                                                                                                                          |
+- JavaScript or TypeScript, including React, a workspace, a package published to npm, or browser
+  tests: [references/javascript-typescript.md](references/javascript-typescript.md).
+- Rust: [references/rust.md](references/rust.md).
+- Shell scripts, a Dockerfile or container image, OpenTofu or Terraform, SQL migrations, Swift,
+  .NET, Python, Go, Lua, docs with links, public prose, or conventional commit messages:
+  [references/other-languages.md](references/other-languages.md).
 
 ## Add a custom rule only for a repeated mistake
 

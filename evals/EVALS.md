@@ -95,8 +95,8 @@ unaided by design.
 | `skill-authoring/split-by-trigger`                                 | Gives browser-test guidance its own skill, or an existing one, instead of a reference under the unit-test skill.               | 0.83  | 2 of 3   | 0.00           |
 | `static-analysis-checklist/parses-yaml-with-fixtures`              | Parses YAML instead of matching text, and tests the check with fixtures.                                                       | 1.00  | 3 of 3   | 0.50           |
 | `static-analysis-checklist/tracked-files-only`                     | Limits a CI guard's file discovery to tracked workflow and action files.                                                       | 0.62  | 4 of 8   | 0.33           |
-| `static-code-analysis/new-rust-service`                            | Picks the static checks for a new Rust service.                                                                                | 1.00  | 3 of 3   | 0.83           |
-| `static-code-analysis/new-typescript-library`                      | Picks the static checks for a new TypeScript library.                                                                          | 1.00  | 3 of 3   | 0.00           |
+| `static-code-analysis/new-rust-service`                            | Picks the static checks for a new Rust service.                                                                                | 1.00  | 6 of 6   | 0.83           |
+| `static-code-analysis/new-typescript-library`                      | Picks the static checks for a new TypeScript library.                                                                          | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                     | Logs the customer id with a static message instead of looking up an email for the log.                                         | 1.00  | 3 of 3   | 0.00           |
 | `structured-logging/review-lookup-in-catch`                        | Logs the customer id with a static message instead of looking up the name in a catch.                                          | 1.00  | 3 of 3   | 0.00           |
 | `technical-writing/incident-writeup-from-notes`                    | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.                       | 1.00  | 3 of 3   | 0.00           |
@@ -171,6 +171,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `expand-contract-migrations` and `resuming-work` rows** are from the two-arm run on
   2026-11-22 that added the skills, three attempts per arm. Both are ceiling cases, and each
   loaded its skill in 3 of 3.
+- **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
+  after its per-language tables moved to references. Each "Without plugin" value is from an
+  earlier two-arm run.
 - **The `debugging`, `verification`, and `agent-coordination` rows** are from plugin-only runs of
   twelve attempts on 2026-11-22. All three are ceiling cases: every answer passed, with and
   without the plugin, and the rows are below 1.00 only because "Passed" counts the attempts that
