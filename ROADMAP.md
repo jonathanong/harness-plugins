@@ -44,7 +44,7 @@ Each still gets a loading case and an answer case.
       case inside real work on a fixture repository, as do `expand-contract-migrations` and
       `resuming-work`, whose cases pass unaided.
 - [ ] **`debugging` needs a case the model fails unaided.** Its fixture case loads the skill
-      in 12 of 12 and passes without it (`evals/HISTORY.md`, 2026-11-22). Candidates: a failure
+      in 14 of 15 and passes without it (`evals/HISTORY.md`, 2026-11-22). Candidates: a failure
       that cannot be reproduced locally, and one that needs a bisect to find.
 - [ ] **Three cases load their skill in most attempts, not all:**
       `review-ci-logs/quiet-log-keeps-errors` in 7 of 9,

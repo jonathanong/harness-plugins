@@ -3,7 +3,7 @@ description: A report that crashes on a missing customer gets its lookup fixed, 
 tags: [debugging, outcome, skill-fired]
 max_turns: 30
 timeout_seconds: 600
-allowed_tools: [Read, Glob, Grep, Skill, Bash, Edit, Write]
+allowed_tools: [Read, Glob, Grep, Skill, Bash]
 ---
 
 The nightly invoice report started crashing last night and finance needs it out in the next half hour. Get `node bin/report.js` running again.

@@ -6,8 +6,8 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-22: a `debugging` case on a fixture repository loads the skill every time
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $34.42 over four two-arm
-runs, one at a time.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $38.04 over four two-arm
+runs and one plugin-only run, one at a time.
 
 - **Case added:** `debugging/crash-fixed-at-cause-with-a-test`. The fixture is a small Node.js
   repository whose report command crashes on an undefined customer. The line above the crash
@@ -27,12 +27,16 @@ runs, one at a time.
   attempts without the plugin added a test against three of three with it; over the next nine
   attempts per arm that difference did not hold.
 
-- **The skill loaded in 12 of 12 attempts,** against 4 of 12 on `flaky-test-not-fixed-with-retry`,
+- **The skill loaded in 14 of 15 attempts,** against 4 of 12 on `flaky-test-not-fixed-with-retry`,
   which pastes the code into the prompt. The loading gap recorded for `debugging` belongs to that
   kind of prompt, not to the description. The case is kept as the loading check.
-- **Runner changed:** `scripts/run-evals.sh` now grants Edit and Write as well as Bash. With only
-  Bash granted, two of twelve attempts found the cause and declined to edit through the shell;
-  both failures in the second run are those. Only this case requests the tools.
+- **The case asks for Bash only.** The runner grants Bash to every case, and a grant applies
+  to all of them, not only to a case that lists the tool. While the case also listed Edit and
+  Write, which the runner does not grant, two of twelve attempts found the cause and declined
+  to edit through the shell; both failures in the second run are those. The third run granted
+  Edit and Write in the runner, which would have given them to every case, so that change was
+  dropped. A last plugin-only run of three attempts, listing Bash only, passed both graders in
+  3 of 3 and loaded the skill in 2 of 3 ($3.62). The row is from that run.
 - **The first run measured nothing and is not in the table:** the case had no `case.yaml`, so
   the fixture never ran and every attempt found an empty directory ($2.40); `evals/AGENTS.md`
   now says a fixture needs one.
