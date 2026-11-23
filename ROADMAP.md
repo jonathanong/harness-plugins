@@ -32,6 +32,9 @@ Each still gets a loading case and an answer case.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
+- [ ] **`postgres-node-performance-tuning/dedupe-keeps-statement-names-literal` loads its
+      skill in 5 of 12 attempts.** A request to clean up duplicated queries does not load it,
+      and naming refactoring in the description did not help.
 - [ ] **`error-handling` needs cases for two rules:** details as attributes, and reporting.
       Its reporting case is a ceiling case. Try a fixture where errors are thrown in one file
       and reported in another.
