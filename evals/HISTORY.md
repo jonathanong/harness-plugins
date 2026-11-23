@@ -6,7 +6,7 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-22: only the flag ends a paginated list, for the server and the client
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.50 over two runs.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $7 over four runs.
 
 - **Rules added to `list-reads`,** which owns the contract for a page that crosses an API
   boundary. Only `has_next_page` ends the list, and it is set from whether the read can continue,
@@ -19,22 +19,26 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.50 over 
   notifications list with a control to load older items, against a response type that has
   `has_next_page` and a cursor. Two graders: paging follows the flag and not the row count, and
   an empty first page with the flag true still offers the next page.
-- **Scores, two two-arm runs of three attempts per arm:**
+- **Scores, six attempts per arm** (two two-arm runs of three), on the graders as shipped:
 
   | Arm            | Passed | Loaded the skill |
   | -------------- | ------ | ---------------- |
-  | With plugin    | 4 of 6 | 4 of 6           |
-  | Without plugin | 4 of 6 | none             |
+  | With plugin    | 5 of 6 | 5 of 6           |
+  | Without plugin | 1 of 6 | none             |
 
-  Every attempt that loaded the skill passed both graders (4 of 4). Both attempts that did not
-  load it failed both, as did 2 of 6 without the plugin. The arms are equal, so this run does
-  not show the rule helps; it shows the model writes the mistake unaided in about a third of
-  attempts, and that the skill does not always load for a request to write a list component.
+  Every attempt that loaded the skill passed both graders (5 of 5); the one that did not load it
+  failed both. Without the plugin, three attempts stopped paging on the row count, and two more
+  followed the flag but showed the empty message while a further page could be requested.
 
-- **Why the rule is kept on an equal score:** the repository's owner asked for it. The mistake
-  was observed in a consuming repository: a read that capped the rows it inspected returned an
-  empty first page with the flag true, and two clients showed their empty state and stopped,
-  hiding older items.
+- **The grader changed during review, and the first scores are not comparable.** The first
+  `empty-state` grader passed a component that showed the empty message beside a control to load
+  more, and did not ask for the message when the list really was finished. On it, two two-arm
+  runs scored 4 of 6 in both arms, with the skill loaded in 4 of 6. The shipped grader fails the
+  message whenever a further page can be requested and requires it when none can.
+- **Why the rule is kept:** the repository's owner asked for it, and the case now shows it helps.
+  The mistake was also observed in a consuming repository: a read that capped the rows it
+  inspected returned an empty first page with the flag true, and two clients showed their empty
+  state and stopped, hiding older items.
 - **Not re-measured:** the other cases of the three skills. `ROADMAP.md` lists the loading gap
   and a case for the server side.
 
