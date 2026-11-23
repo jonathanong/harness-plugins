@@ -174,7 +174,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   loaded its skill in 3 of 3.
 - **`debugging/crash-fixed-at-cause-with-a-test`** is from a plugin-only run of three attempts on
   2026-11-22; the answer passed in all three and the skill loaded in two. Its "Without plugin"
-  value is from a two-arm run the same day. It is a ceiling case: the model passes it without
+  value is from a two-arm run the same day, in which the case listed Edit and Write and the
+  runner granted them; the plugin-only run listed Bash only. It is a ceiling case: the model passes it without
   the plugin. It is kept as the skill's loading check, because the skill loaded in 14 of 15
   attempts across its runs.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,

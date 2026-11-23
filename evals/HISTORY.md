@@ -4,7 +4,7 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-22: a `debugging` case on a fixture repository loads the skill every time
+## 2026-11-22: a `debugging` case on a fixture repository loads the skill in 14 of 15
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $38.04 over four two-arm
 runs and one plugin-only run, one at a time.
