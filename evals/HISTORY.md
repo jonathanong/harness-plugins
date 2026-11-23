@@ -4,6 +4,26 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a guard for `list-reads` on a fixed top-three query
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.32, one two-arm run of
+six attempts. No skill changed.
+
+- **Guard added:** `list-reads/fixed-top-three-is-not-a-page`, beside
+  `slow-inbox-bounds-the-scan`. The prompt asks for the three most recent sign-ins for an
+  account banner, always three, with no further page. The grader passes one query with a fixed
+  limit and fails a cursor, a next-page flag, or a scan bound the request has no use for. It has no `skill-fired` grader.
+- **Scores:** 6 of 6 with the plugin and 6 of 6 without.
+- **The skill loaded in 5 of the 6 attempts with the plugin and added nothing.** Its description
+  opens with any query that returns a list, so it loads here; its rules are written for a page
+  a client fetches, and the agent did not apply them to a fixed set.
+- **Grader edited after the run, not re-measured.** It failed "a page-size parameter" and
+  passed "a fixed limit of three", which left a `limit` argument defaulting to three undecided.
+  It now passes that and a named constant.
+- **Not done:** the roadmap also named a single-row query that must not load the skill. A guard
+  grades the answer, not the load, and a fixed top-three is the nearer temptation, so the
+  single-row case was not added.
+
 ## 2026-11-23: two `list-reads` cases that write a list read
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $6.50 over three two-arm
