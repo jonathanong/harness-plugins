@@ -22,9 +22,11 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
   3 without, the same as before the change.
 - **What it showed:** the new case is a ceiling case. It is kept because it is the only check
   that the widened description loads the skill for a generated file that is not a lockfile.
-  The rule is kept on that equal score for the mistake it prevents: an agent asked to get past
-  a small conflict pastes a merged hunk into generated output, or takes one side, and the file
-  no longer matches its inputs. The lockfile case's one failure resolved the lockfile with pnpm
+  The rule is kept on that equal score because the repository's owner asked for it, relayed by
+  another session. The mistake it guards against is a risk, not an observed incident: an agent
+  asked to get past a small conflict pastes a merged hunk into generated output, or takes one
+  side, and the file no longer matches its inputs. A hand merge is the default way to resolve
+  any conflict, and the rule reverses it for files a tool writes. The lockfile case's one failure resolved the lockfile with pnpm
   and then offered `--no-verify` as the person's choice; that rule did not change.
 - `stages-only-task-files` was not rerun; its rules did not change.
 

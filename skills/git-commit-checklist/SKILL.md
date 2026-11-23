@@ -58,8 +58,8 @@ file is output no run of the tool produced.
    not fall back to editing the output.
 3. Check that no markers remain and that the output differs from the base only by what the branch
    intends: where the inputs changed, and for a lockfile also an update the branch made within
-   an unchanged range. `git add` the inputs and the output, and continue the rebase or merge. A rebase of
-   several commits can stop on the same file again; regenerate at each stop.
+   an unchanged range. `git add` the inputs and the output, and continue the rebase or merge. A
+   rebase of several commits can stop on the same file again; regenerate at each stop.
 
 A lockfile needs more care, because it also records choices that are not in the manifest:
 regenerating it from nothing moves every dependency to its newest allowed version.
