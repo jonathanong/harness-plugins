@@ -14,7 +14,7 @@ needed.
 - **108 cases** across 44 skills.
 - **With the plugin:** mean score 0.94.
 - **Without it:** mean score 0.37, over the 107 cases measured both ways.
-- **83 cases** are ones the model fails unaided. The other 24 it already gets right: 3 check that a skill stays out of the way, and 21 show only that the skill loads.
+- **83 cases** are ones the model fails unaided. The other 24 it already gets right: 3 check that a skill stays out of the way, and 21 show at most that the skill loads.
 
 <!-- /evals:headline -->
 

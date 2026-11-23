@@ -43,7 +43,8 @@ def blocks():
             f" over the {len(both)} cases measured both ways.",
             f"- **{len(both) - len(unaided)} cases** are ones the model fails unaided."
             f" The other {len(unaided)} it already gets right: {len(guards)} check that a skill"
-            f" stays out of the way, and {len(unaided) - len(guards)} show only that the skill loads.",
+            f" stays out of the way, and {len(unaided) - len(guards)} show at most that the skill"
+            " loads.",
         ]
     )
     table = [
