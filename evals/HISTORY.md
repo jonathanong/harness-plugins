@@ -6,8 +6,8 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-23: a new `error-handling` skill
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.70: a pilot of one
-attempt per arm, then one two-arm run of six attempts.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $7.89: a pilot of one
+attempt per arm, one two-arm run of six attempts, and two runs of the neighboring skills.
 
 - **Skill added:** `error-handling`. Four rules: codes from one defined list, matching on type
   or code instead of message, details as attributes on the error, and reporting to an error
@@ -27,6 +27,9 @@ attempt per arm, then one two-arm run of six attempts.
   not comparable with the measured run.
 - **`expected-coupon-failure-skips-the-tracker` is a ceiling case.** The model moves the report
   below the expected branches unaided. It is kept as the check that the skill loads.
+- **The neighbors keep their loads.** The five `structured-logging` and `typescript-authoring`
+  cases were run three times with the new skill installed and three times with its directory
+  moved away. Every case passed and loaded its skill 3 of 3 both ways.
 - **No case yet** for details as attributes or for matching inside server code; the pilot
   suggests the model does both unaided when the prompt has the code inline.
 
