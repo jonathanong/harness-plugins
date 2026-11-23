@@ -38,6 +38,28 @@ runs, one at a time.
   now says a fixture needs one.
 - **Cost:** about $1.50 an attempt, several times an inline case.
 
+## 2026-11-22: `static-code-analysis` moves its per-language tables to references
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $6.73 over four plugin-only
+runs of six attempts, alternating the split and the unsplit skill in one session.
+
+- **Skill changed, no rule changed.** The tables for JavaScript and TypeScript, Rust, and other
+  languages and files moved to three files under `references/`. `SKILL.md` goes from 120 to 82
+  lines and names when to read each. The description, the baseline table, and the cases are
+  unchanged.
+- **Scores:**
+
+  | Case                     | Unsplit | Split  |
+  | ------------------------ | ------- | ------ |
+  | `new-typescript-library` | 6 of 6  | 6 of 6 |
+  | `new-rust-service`       | 6 of 6  | 6 of 6 |
+
+  In all twelve attempts on the split skill the agent read the reference for the repository's
+  language and the one for other languages and files, and not the third. Each attempt took
+  five turns against three.
+
+- **No without-plugin arm was run;** the rows keep their earlier values.
+
 ## 2026-11-22: three description changes not shipped, and the `list-reads` one checked against its neighbours
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $33 over sixteen
