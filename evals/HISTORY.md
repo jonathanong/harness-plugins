@@ -16,7 +16,8 @@ of six attempts, after a one-attempt pilot that scored the same in each arm.
 - **Case added.** Write a ticket classifier that should run on a cheap, fast model. The grader
   checks one rule: the model comes from configuration or an argument, and no model id is
   written in the code, as a constant, a default, or a fallback.
-- **What the run showed.** Without the plugin every answer wrote a model id in the code. With
+- **What the run showed.** Without the plugin the judge failed all six, and each of the six
+  answers passes a model id as a literal in the request. With
   it every answer took the model from configuration. Both arms also loaded the harness's own
   API reference skill, so the difference is the plugin's rule.
 - **No skill change.** `summarize-fetched-page` stays as a ceiling case.
