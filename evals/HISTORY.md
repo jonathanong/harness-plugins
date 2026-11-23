@@ -27,6 +27,10 @@ attempt per arm, one two-arm run of six attempts, and two runs of the neighborin
   not comparable with the measured run.
 - **`expected-coupon-failure-skips-the-tracker` is a ceiling case.** The model moves the report
   below the expected branches unaided. It is kept as the check that the skill loads.
+- **Edited after the run, not re-measured.** The list grader now also says the response body
+  carries the code in its own field; all six measured plugin answers already do. In the skill,
+  the example error class takes its message as a separate argument, and the rule on a 4xx
+  received from a called service says to convert it to an error with a 5xx status.
 - **The neighbors keep their loads.** The five `structured-logging` and `typescript-authoring`
   cases were run three times with the new skill installed and three times with its directory
   moved away. Every case passed and loaded its skill 3 of 3 both ways.

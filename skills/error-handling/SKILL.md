@@ -32,10 +32,11 @@ export class AppError extends Error {
   constructor(
     readonly code: ErrorCode,
     readonly status: number,
+    message: string,
     readonly details: Record<string, unknown> = {},
     options?: ErrorOptions,
   ) {
-    super(code, options)
+    super(message, options)
   }
 }
 ```
@@ -71,7 +72,11 @@ string.
 throw new Error(`Refund ${amount} exceeds total for order ${orderId}`)
 
 // Prefer
-throw new AppError('refund_exceeds_total', 422, { orderId, amount, total })
+throw new AppError('refund_exceeds_total', 422, 'Refund exceeds the order total', {
+  orderId,
+  amount,
+  total,
+})
 ```
 
 - A handler, a log line, and an error tracker can read an attribute. They would have to parse
@@ -95,7 +100,8 @@ something about it: a bug, an unexpected state, a dependency that failed, a 5xx.
 - Pass the error object itself, so the tracker keeps the stack and the cause, and pass its
   attributes as structured context, with the code as a tag that issues can be filtered by.
 - A 4xx that your service receives from a service it calls is often your bug, because your
-  request was wrong. Report that one. The rule is about what your service answers, not what it
+  request was wrong. Convert it to an error of your own with its own code and a 5xx status, so
+  the one decision above reports it. The rule is about what your service answers, not what it
   is told.
 
 ```ts

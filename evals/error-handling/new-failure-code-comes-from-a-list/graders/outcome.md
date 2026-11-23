@@ -12,7 +12,8 @@ PASS if both hold:
    enum, a union of string literals, or a constant array or object the type is derived from.
    The error's code field is typed with that list, so a code outside it does not type-check.
 2. The web client decides to show the "team is full" screen by comparing the code (or a typed
-   field carrying it), not by searching or comparing the message text.
+   field carrying it), not by searching or comparing the message text. The response body the
+   client reads carries that code in its own field.
 
 FAIL if the code field is typed `string` (or is optional `string`) and the code is a literal
 written where the error is thrown, with no list that defines the allowed codes. FAIL if there
