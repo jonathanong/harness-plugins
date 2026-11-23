@@ -37,6 +37,8 @@ runs, one at a time.
   the fixture never ran and every attempt found an empty directory ($2.40); `evals/AGENTS.md`
   now says a fixture needs one.
 - **Cost:** about $1.50 an attempt, several times an inline case.
+- **Not re-measured:** after the runs, review renamed the fixture's customers to plainly synthetic
+  names. Nothing else in the fixture or the graders changed.
 
 ## 2026-11-22: `github-actions-authoring` moves its persistent-runner section to a reference
 
