@@ -4,6 +4,39 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `test-authoring` loads for a review of a de-flake diff
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $24 over thirteen runs,
+one at a time, in one session.
+
+- **Description changed.** It now reads "including a review of a diff that adds tests or changes
+  test retries, timeouts, or skips", before the list of runners. The closing sentences were
+  shortened to stay under 400 characters (391).
+- **Case restored:** `review-flake-fix-is-tradeoff`, dropped in the entry of the same day below.
+  It is a ceiling case on the answer and is kept as the loading check for this description.
+- **Attempts that loaded the skill, twelve per cell:**
+
+  | Case                                 | Unchanged | Candidate, 410 characters | Shipped, 391 |
+  | ------------------------------------ | --------- | ------------------------- | ------------ |
+  | `review-flake-fix-is-tradeoff`       | 2 of 12   | 12 of 12                  | 11 of 12     |
+  | `review-direct-row-inserts`          | 12 of 12  | 12 of 12                  | 11 of 12     |
+  | `dotnet-private-field-not-reflected` | 8 of 12   | 8 of 12                   | 5 of 12      |
+
+  The candidate and the shipped text share the trigger wording and differ only in the closing
+  sentences. The other three cases loaded and passed 3 of 3 on the shipped text.
+
+- **What it shows:** the flake review goes from 2 of 12 to 11 of 12. The loss on
+  `review-direct-row-inserts` suspected in the entry below was noise: 12 of 12, 12 of 12, and 11
+  of 12. `dotnet-private-field-not-reflected` loads in about half its attempts on every wording;
+  5 of 12 against 8 of 12 is within what twelve attempts can produce, and this run cannot rule
+  out a small loss. Its answer passed in 12 of 12 attempts on the shipped text, loaded or not.
+- **A second answer case was drafted and dropped:** a review of a pull request that de-flakes
+  order tests with a database per worker and a sequential suite, and no retry or timeout. Two
+  arms, three attempts per arm: 3 of 3 in both, and the skill loaded in 2 of 3 on the unchanged
+  description. Sonnet names the hidden shared state unaided when the diff is in the prompt.
+- **No without-plugin arm was run** for these rows; each "Without plugin" value is from an
+  earlier entry.
+
 ## 2026-11-22: only the flag ends a paginated list, for the server and the client
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $7 over four runs.
