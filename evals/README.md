@@ -67,7 +67,7 @@ averaged over attempts.
 | `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     |
 | `structured-logging`               | 2     | 1.00        | 0.00           | 0                     |
 | `technical-writing`                | 3     | 0.89        | 0.00           | 0                     |
-| `test-authoring`                   | 5     | 1.00        | 0.40           | 1                     |
+| `test-authoring`                   | 5     | 0.94        | 0.40           | 1                     |
 | `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     |
 | `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     |
 | `verification`                     | 1     | 0.50        | 1.00           | 1                     |

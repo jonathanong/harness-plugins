@@ -77,6 +77,25 @@ case the guard exists for.
 - For a contract about docs or instructions, test real paths, links, or executable behavior. Do
   not freeze prose wording unless a consumer parses that exact text.
 
+## A flake fix removes the cause
+
+A change that makes a flaky test pass and leaves its cause in place is a trade-off, not a
+reliability fix. Do not describe it as one, and when reviewing, do not accept it as one. The
+`debugging` skill owns finding the cause, and its "Fix the cause" list covers a retry, a longer
+timeout, and a skipped or loosened test. A retry includes the runner's `retry` or `retries`
+setting and a rerun loop in CI; a loosened test includes a wider threshold, baseline, tolerance,
+or gate. Two more disguises:
+
+- A suite made sequential, or moved to a serial project, so tests stop sharing state at the same
+  time. The shared state is still there, and the suite is slower.
+- A private database, or another private copy of shared state, for each worker. It can be the
+  right design, but it costs setup time and stops the suite from catching interference between
+  callers, so a person decides it. One suite that needs a quiet database for a specific
+  assertion, such as a query plan, is not this.
+
+A change called test-only touches no production code. When the fix needed a production change,
+the defect was in the code: say so, and describe the change as a fix.
+
 ## Runner-specific rules
 
 After the rules above, read the one file for the runner in use:
