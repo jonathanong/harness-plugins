@@ -49,7 +49,9 @@ unaided by design.
 | `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                                         | 1.00  | 3 of 3   | 0.67           |
 | `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                              | 1.00  | 3 of 3   | 0.00           |
 | `http-api-design/uuid-slug-routes`                                 | Makes the slug the canonical route and permanently redirects old UUID links to it.                                             | 1.00  | 3 of 3   | 0.00           |
+| `list-reads/capped-walk-keeps-paging`                              | Caps an inbox read at 500 rows looked at and still tells the client to keep paging when the cap stops it short.                | 1.00  | 6 of 6   | 1.00           |
 | `list-reads/review-feed-candidate-pool`                            | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                          | 0.96  | 11 of 12 | 0.33           |
+| `list-reads/slow-inbox-bounds-the-scan`                            | Fixes a slow inbox read by bounding the rows one request scans, and keeps the client paging from where the scan stopped.       | 1.00  | 6 of 6   | 0.33           |
 | `llm-calls/summarize-fetched-page`                                 | Passes a fetched page to the model as delimited data, outside the system prompt, with an instruction not to follow it.         | 1.00  | 3 of 3   | 1.00           |
 | `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                                | 1.00  | 3 of 3   | 0.00           |
 | `native-app-architecture/generated-project-file`                   | Commits the project specification and ignores the generated Xcode project.                                                     | 1.00  | 3 of 3   | 0.00           |
@@ -172,6 +174,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `expand-contract-migrations` and `resuming-work` rows** are from the two-arm run on
   2026-11-22 that added the skills, three attempts per arm. Both are ceiling cases, and each
   loaded its skill in 3 of 3.
+- **`list-reads/slow-inbox-bounds-the-scan`** is from a two-arm run of six attempts on
+  2026-11-23, the second of two with the same result.
+- **`list-reads/capped-walk-keeps-paging`** is from a two-arm run of six attempts on 2026-11-23.
+  It is a ceiling case: the model passes it without the plugin. It is kept as the check that
+  the skill loads for a request to write a list read, which it did in 6 of 6.
 - **`debugging/crash-fixed-at-cause-with-a-test`** is from a plugin-only run of three attempts on
   2026-11-22; the answer passed in all three and the skill loaded in two. Its "Without plugin"
   value is from a two-arm run the same day, in which the case listed Edit and Write and the
