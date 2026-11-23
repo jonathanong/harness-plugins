@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **102 cases** across 44 skills.
+- **103 cases** across 44 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.35, over the 101 cases measured both ways.
-- **81 cases** are ones the model fails unaided. The other 20 it already gets right: 3 check that a skill stays out of the way, and 17 show only that the skill loads.
+- **Without it:** mean score 0.35, over the 102 cases measured both ways.
+- **81 cases** are ones the model fails unaided. The other 21 it already gets right: 3 check that a skill stays out of the way, and 18 show only that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -32,7 +32,7 @@ averaged over attempts.
 | `agent-workflow`                   | 1     | 1.00        | 0.00           | 0                     |
 | `bounded-iteration`                | 3     | 0.92        | 0.33           | 0                     |
 | `debugging`                        | 1     | 0.67        | 1.00           | 1                     |
-| `dependabot`                       | 3     | 1.00        | 0.50           | 0                     |
+| `dependabot`                       | 4     | 1.00        | 0.50           | 1                     |
 | `documentation`                    | 2     | 0.75        | 0.34           | 0                     |
 | `evals`                            | 2     | 1.00        | 0.00           | 0                     |
 | `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     |
