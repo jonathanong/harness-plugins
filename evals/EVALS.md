@@ -16,6 +16,7 @@ unaided by design.
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                         | 1.00  | 8 of 8   | 0.33           |
 | `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                       | 1.00  | 8 of 8   | 0.00           |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`              | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test.         | 0.75  | 4 of 8   | 0.67           |
+| `debugging/crash-fixed-at-cause-with-a-test`                       | Fixes a crashing report at the lookup that misses, not with a default value, and adds a test that fails without the fix.       | 1.00  | 3 of 3   | 1.00           |
 | `debugging/flaky-test-not-fixed-with-retry`                        | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                           | 0.67  | 4 of 12  | 1.00           |
 | `dependabot/groups-by-family`                                      | Groups updates by vendor or package family with a cooldown, not by version type, dependency type, or a catch-all.              | 1.00  | 3 of 3   | 0.33           |
 | `dependabot/repair-pr-with-pushed-fix`                             | Rebases a Dependabot pull request that carries a person's fix by hand, and does not ask Dependabot to rebuild it.              | 1.00  | 3 of 3   | 1.00           |
@@ -171,6 +172,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `expand-contract-migrations` and `resuming-work` rows** are from the two-arm run on
   2026-11-22 that added the skills, three attempts per arm. Both are ceiling cases, and each
   loaded its skill in 3 of 3.
+- **`debugging/crash-fixed-at-cause-with-a-test`** is from a two-arm run of three attempts on
+  2026-11-22. It is a ceiling case: the model passes it without the plugin. It is kept as the
+  skill's loading check, because the skill loaded in all 12 attempts across its runs.
 - **The `debugging`, `verification`, and `agent-coordination` rows** are from plugin-only runs of
   twelve attempts on 2026-11-22. All three are ceiling cases: every answer passed, with and
   without the plugin, and the rows are below 1.00 only because "Passed" counts the attempts that

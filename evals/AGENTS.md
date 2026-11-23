@@ -25,6 +25,11 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
 ## Cases
 
 - Layout: `evals/<skill>/<case>/prompt.md`, `graders/*.md`, and an optional `fixture.sh`.
+- A case with a `fixture.sh` also needs a `case.yaml` that names the case and sets
+  `context.scaffold_script: fixture.sh`. Without it the fixture does not run and the agent starts
+  in an empty directory. Read one pilot trace before measuring.
+- A case that edits files lists `Bash`, `Edit`, and `Write` in `allowed_tools`. The runner grants
+  those three; every other case stays read-only.
 - Tag every case with its skill name.
 - Every case has `graders/skill-fired.md`: a `tool_used` grader on the `Skill` tool that names the
   skill. `pnpm run evals:check` fails a skill with no such case.

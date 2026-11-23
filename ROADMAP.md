@@ -47,11 +47,9 @@ Each still gets a loading case and an answer case.
       not change that: their cases ask a direct question and the agent answers it. Each needs a
       case inside real work on a fixture repository, as do `expand-contract-migrations` and
       `resuming-work`, whose cases pass unaided.
-- [ ] **`debugging` loads in 4 of 12 and its case passes unaided.** A plainer description reached
-      9 of 12 but may cost loads on a `postgres-node-performance-tuning` case
-      (`evals/HISTORY.md`, 2026-11-22). Build a case on a fixture repository with a real failing
-      command, where the tempting fix is wrong, then measure descriptions with the arms
-      interleaved.
+- [ ] **`debugging` needs a case the model fails unaided.** Its fixture case loads the skill
+      in 12 of 12 and passes without it (`evals/HISTORY.md`, 2026-11-22). Candidates: a failure
+      that cannot be reproduced locally, and one that needs a bisect to find.
 - [ ] **`index-change-rechecks-neighbors` fails in 2 of 19 attempts that load its skill,** and
       `review-ci-logs/quiet-log-keeps-errors` loads in 7 of 9. Read the failing attempts.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with

@@ -23,5 +23,5 @@ claude plugin eval . \
   --no-publish \
   --json evals/results/latest.json \
   ${EVAL_FLAGS:-} \
-  --allow-tools Bash \
+  --allow-tools Bash Edit Write \
   ${tags[@]+"${tags[@]}"}
