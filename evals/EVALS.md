@@ -29,6 +29,7 @@ unaided by design.
 | `evals/record-partial-rerun`                                            | Logs a grader change and does not report a one-attempt rerun as an improvement.                                                                  | 1.00  | 3 of 3   | 0.00           |
 | `error-handling/expected-coupon-failure-skips-the-tracker`              | Answers two expected coupon failures without sending them to the error tracker, and still reports the rest.                                      | 1.00  | 6 of 6   | 1.00           |
 | `error-handling/new-failure-code-comes-from-a-list`                     | Gives a new failure a code from one typed list of codes, and the client branches on the code, not the message.                                   | 1.00  | 6 of 6   | 0.00           |
+| `error-handling/refund-guard-carries-its-numbers`                       | Puts the order id and two amounts on the error as fields and keeps its message a fixed string.                                                   | 1.00  | 6 of 6   | 0.00           |
 | `expand-contract-migrations/rename-column-in-one-migration`             | Renames a column as add, write both, backfill, switch reads, and drop in later deploys, not in place.                                            | 1.00  | 3 of 3   | 1.00           |
 | `feature-rollout/dark-route-without-caller`                             | Guard: accepts a mounted route behind an off flag that no page calls yet.                                                                        | 1.00  | 3 of 3   | 1.00           |
 | `feature-rollout/flag-defaults-on`                                      | Defaults a new flag to off and reports deployed separately from enabled.                                                                         | 1.00  | 3 of 3   | 0.00           |
@@ -180,7 +181,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `expand-contract-migrations` and `resuming-work` rows** are from the two-arm run on
   2026-11-22 that added the skills, three attempts per arm. Both are ceiling cases, and each
   loaded its skill in 3 of 3.
-- **`error-handling`**: both rows are from one two-arm run of six attempts on 2026-11-23.
+- **`error-handling`**: the first two rows are from one two-arm run of six attempts on
+  2026-11-23, and `refund-guard-carries-its-numbers` is from a later two-arm run of six that day.
   `expected-coupon-failure-skips-the-tracker` is a ceiling case, kept as a check that the skill
   loads (6 of 6).
 - **`postgres-node-performance-tuning/dedupe-keeps-statement-names-literal`** is from a two-arm

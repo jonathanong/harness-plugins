@@ -38,6 +38,23 @@ they were.
   The grader was edited after the runs to pass an answer that removes the stored position; no
   recorded attempt did that.
 
+## 2026-11-23: an `error-handling` case for details as attributes
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.58 for one two-arm run
+of six attempts, after a one-attempt pilot that scored the same in each arm.
+
+| Case                                              | With plugin | Loaded | Without plugin |
+| ------------------------------------------------- | ----------- | ------ | -------------- |
+| `error-handling/refund-guard-carries-its-numbers` | 6 of 6      | 6 of 6 | 0 of 6         |
+
+- **Case added.** A refund guard whose failure must show an order id and two amounts in the
+  response and in the error tracker. The grader checks one rule: the values are fields on the
+  error and the message is a fixed string.
+- **What the run showed.** Without the plugin every answer wrote an error class with the three
+  fields and also put all three values in the message, which gives the tracker a new issue for
+  each order. With the plugin every answer kept the message fixed.
+- **No skill change.** The reporting rule still has only its ceiling case.
+
 ## 2026-11-23: a review rule added without a case
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.06, one two-arm run of
