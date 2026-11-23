@@ -31,6 +31,10 @@ it beats that simple query, not merely the previous version; see
   functions; a search of call sites alone misses a query assembled elsewhere.
 - Start every statement with an operation-name comment, such as `/* invoices.listByAccount */`, so
   a slow-query log or `pg_stat_activity` row names its call site.
+- Write that comment as a literal in each statement. A shared query helper that takes the name
+  as an argument (`/* ${label} */`) takes the names out of the SQL, so a search for a name from
+  the slow-query log, or a static check keyed on it, no longer finds the statement. To remove
+  duplication, share the column list or a fragment and keep one literal statement per operation.
 - Run transactions through one helper that owns `BEGIN`, `COMMIT`, `ROLLBACK`, and client release.
   Hand-written transaction statements leak a connection on the path that forgot one. A function
   handed a client already inside a transaction joins it and never commits or rolls back; only the

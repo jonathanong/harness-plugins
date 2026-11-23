@@ -36,6 +36,30 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $13.61 over
   migration scope names rollback.
 - **No case** for the scope sentences in the other six skills.
 
+## 2026-11-23: SQL operation names stay literal
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $4.62: one two-arm run of
+six attempts, then one run of the skill's three cases with the plugin, six attempts.
+
+- **Rule added** to `postgres-node-performance-tuning`: write a statement's operation-name
+  comment as a literal, and remove duplication by sharing the column list or a fragment, not
+  with a helper that takes the name as an argument. A code review proposed it.
+- **Case added:** `dedupe-keeps-statement-names-literal`. Three lookups differ only in their
+  `WHERE`, one has drifted, and the prompt asks for the duplication to be cleaned up.
+- **Scores, first run:** the answer passes in 6 of 6 with the plugin and 0 of 6 without. Every
+  attempt without the plugin builds a helper with `/* ${label} */`.
+- **The skill loaded in only 2 of the 6 plugin attempts,** and the four that did not load it
+  also kept the names literal, with no tool call at all. The difference between the arms
+  therefore cannot be credited to the new rule alone; why the plugin arm passes without
+  loading the skill is not known.
+- **A description change was tried and dropped.** With "refactoring" added to the description,
+  the case loaded the skill in 3 of 6 and the answer passed in 5 of 6, which six attempts
+  cannot tell apart from 2 of 6. The description is unchanged. Over both runs the answer
+  passed in 5 of 5 attempts that loaded the skill and 6 of 7 that did not.
+- **Other rows not updated:** `index-change-rechecks-neighbors` and
+  `new-query-named-and-indexed` each passed and loaded 6 of 6 in the second run, but that run
+  used the dropped description.
+
 ## 2026-11-23: a new `error-handling` skill
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $7.89: a pilot of one
