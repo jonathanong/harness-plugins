@@ -26,14 +26,21 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    work remains, and resumes from a persisted position. Never loop until empty, and never default
    a cap to infinity.
 3. **Bound every statement.** A SELECT, UPDATE, or DELETE that can touch many rows has a `LIMIT`.
-   For writes the `LIMIT` goes in a CTE, with `FOR UPDATE SKIP LOCKED` when workers compete.
-   (`postgres-lock-ordering`) For list reads, the bound is the page `LIMIT` plus a window or keyset,
-   not a separate candidate cap.
+   For writes the `LIMIT` goes in a CTE. For list reads, the bound is the page `LIMIT` plus a
+   window or keyset, not a separate candidate cap.
+   **A sweep takes no locks.** Do not lock the candidate rows it selected or its cursor row. Each
+   write re-checks eligibility on its own target in the same statement
+   (`DELETE ... WHERE id = $1 AND <still eligible>`), so a row that stopped being eligible after
+   the read is left alone, and overlapping runs repeat work at worst. `FOR UPDATE SKIP LOCKED` is
+   only for a work-item claim, where two workers must not do the same non-idempotent work.
+   (`postgres-lock-ordering`, [postgres-locking](../postgres-locking/SKILL.md))
 4. **A stream is not a bound.** A cursor or stream bounds memory, not work. Cap the rows streamed
    per run.
 5. **Resume without restarting.** Keep a keyset position on the UUIDv7 key or a
    `<verb>_through_at` time position, fix the sweep's end when it starts, and rescan an overlap
-   when insert order differs from commit order. Prefer the position in job data; a cursor table is
+   when insert order differs from commit order. Advance a stored position with a compare-and-set
+   on the value the batch started from, never an unconditional write, so an overlapping or stale
+   run cannot move it backward. Prefer the position in job data; a cursor table is
    for a position that must be transactional with domain rows, and follows
    [table shapes](../postgres-schema-design/references/table-shapes.md).
    (`postgres-generated-column-predicates`)

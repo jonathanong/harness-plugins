@@ -13,6 +13,7 @@ unaided by design.
 | `agent-rules/path-scoped-rules`                                         | Scopes rules with a nested `AGENTS.md`, not `.claude/rules/`, so every agent sees them.                                                          | 1.00  | 3 of 3   | 1.00           |
 | `agent-rules/root-agents-md-placement`                                  | Moves a release procedure out of the root `AGENTS.md` and drops a file listing the code shows.                                                   | 1.00  | 3 of 3   | 0.00           |
 | `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                            | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a conditional cursor write, and takes no lock.                           | 0.83  | 4 of 6   | 0.33           |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                           | 1.00  | 8 of 8   | 0.33           |
 | `bounded-iteration/review-staged-reconciler`                            | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                                         | 1.00  | 8 of 8   | 0.00           |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`                   | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test.                           | 0.75  | 4 of 8   | 0.67           |
@@ -228,6 +229,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   "Score" and "Passed" from a plugin-only run of eight attempts on 2026-11-22, after their
   descriptions changed. On `main` in the same session each passed 1 of 8. "Without plugin" is
   from the earlier two-arm runs.
+- **`bounded-iteration/overlapping-purge-runs-stay-lock-free`** is from a two-arm run of six
+  attempts on 2026-11-23. All six answers with the plugin pass; the score is lower because the
+  skill loaded in 4 of them. The skill as it was before the rule also passed 6 of 6.
 - **The `bounded-iteration` rows** take "Score" and "Passed" from a plugin-only run of eight
   attempts per case after the description named sweeps, and "Without plugin" from the two-arm run
   before it (three attempts per arm).

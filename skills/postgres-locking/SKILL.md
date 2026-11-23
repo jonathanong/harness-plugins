@@ -85,7 +85,9 @@ starve request queries, and release it in a `finally`. Otherwise avoid advisory 
   for the operation.
 - `SKIP LOCKED` is only for competing workers that select rows they then write in the same
   transaction. When the queue already runs the job single-flight (an ordering lane, a job id), it
-  is not needed.
+  is not needed. A sweep that deletes or updates the rows it found is not a claim: it locks
+  neither its candidates nor its cursor row; see
+  [bounded-iteration](../bounded-iteration/SKILL.md).
 - Remove a lock by deleting it, not by swapping in another serializer.
 
 ## Lock order and deadlocks

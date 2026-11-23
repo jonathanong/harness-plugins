@@ -4,6 +4,37 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a sweep takes no locks
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.09 over three runs: a
+one-attempt pilot, a two-arm run of six, and a plugin-only control of six against the skills as
+they were.
+
+| Case `bounded-iteration/overlapping-purge-runs-stay-lock-free` | Answer passes | Skill loaded |
+| -------------------------------------------------------------- | ------------- | ------------ |
+| With the plugin, new rule                                      | 6 of 6        | 4 of 6       |
+| With the plugin, skills as they were                           | 6 of 6        | 5 of 6       |
+| Without the plugin                                             | 2 of 6        | n/a          |
+
+- **Rule added** to `bounded-iteration`, at the owner's request: a sweep does not lock the
+  candidate rows it selected or its cursor row; each write re-checks eligibility on its own
+  target in the same statement; a stored position advances by a compare-and-set;
+  `FOR UPDATE SKIP LOCKED` is only for a work-item claim. The step on writes used to say to add
+  `SKIP LOCKED` "when workers compete". `postgres-locking` links to the rule.
+- **Reference changed.** The bounded-delete example in `references/sweep-patterns.md` took
+  `FOR UPDATE SKIP LOCKED` in its CTE. It now takes no lock and repeats the retention predicate
+  in the `DELETE`.
+- **Mistake the rule prevents:** retention sweeps that take `FOR UPDATE` on their candidates and
+  on a cursor row, and a lock-free rewrite that keeps the re-check but leaves the cursor write
+  unconditional, so an overlapping run moves the position backward.
+- **Case added.** A purge job started by two hosts deletes a draft restored after the read and
+  moves its saved position backward. Without the plugin four of six answers add a lock.
+- **What the runs showed.** The plugin moves the answer from 2 of 6 to 6 of 6. The new rule does
+  not: the control scored the same, because the attempts that loaded `bounded-iteration` also
+  loaded `postgres-locking`, whose rules already give the answer. The rule is kept for a reader
+  that loads only the sweep skill, and because the old step and example pointed the other way.
+  Three attempts across the two plugin runs passed with no skill loaded.
+
 ## 2026-11-23: a review rule added without a case
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.06, one two-arm run of

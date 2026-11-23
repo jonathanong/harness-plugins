@@ -251,7 +251,9 @@ LIMIT $3;
 ## Bounded DELETE through a CTE
 
 DELETE has no `LIMIT`, so select the ids in a CTE and delete by join. The partial index serves the
-retention predicate, and `$1` is the cutoff and `$2` the batch size:
+retention predicate, and `$1` is the cutoff and `$2` the batch size. The CTE takes no lock: the
+DELETE repeats the retention predicate on the row it deletes, so a row that changed after the
+CTE read it is left alone, and two overlapping runs delete each row once:
 
 ```sql
 CREATE INDEX idx_invoice_delivery_work_items__completed_at
@@ -264,12 +266,16 @@ WITH expired AS (
   WHERE completed_at IS NOT NULL AND completed_at < $1
   ORDER BY completed_at, id
   LIMIT $2
-  FOR UPDATE SKIP LOCKED
 )
 DELETE FROM invoice_delivery_work_items AS item
 USING expired
-WHERE item.id = expired.id;
+WHERE item.id = expired.id
+  AND item.completed_at IS NOT NULL AND item.completed_at < $1;
 ```
+
+When the ids were read by an earlier statement, the write still carries the predicate:
+`DELETE ... WHERE id = ANY($1) AND <still eligible>`. `FOR UPDATE SKIP LOCKED` belongs to the
+capped claim above, where two workers must not take the same work item.
 
 Report `hasMore` when the deleted row count equals the batch size, and let the next run continue.
 
@@ -748,4 +754,4 @@ claim statement, and check the index scan's actual rows while several workers cl
 | A scheduled membership filter rebuild                       | Reads every key on every run                                             | Rebuild on operator action or detected failure only          |
 | Restarting an external listing at page one                  | Failing items at the front starve the rest                               | A continuation job carrying the provider's token             |
 | `OFFSET` pagination                                         | Every page rescans and discards the rows before it                       | Keyset on the indexed key                                    |
-| `UPDATE` or `DELETE` with a predicate but no `LIMIT`        | One statement locks and rewrites an unbounded row set in one transaction | A CTE that selects a capped, `SKIP LOCKED` id set            |
+| `UPDATE` or `DELETE` with a predicate but no `LIMIT`        | One statement locks and rewrites an unbounded row set in one transaction | A CTE that selects a capped id set; the write re-checks      |
