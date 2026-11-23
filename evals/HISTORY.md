@@ -17,9 +17,9 @@ corrects the entry below; its scores are not comparable with these.
 | Without the plugin                                             | 0 of 6        | n/a          |
 
 - **Grader corrected** after an automated review. It had accepted a forward-only cursor guard
-  (`WHERE last_id < $new`, `GREATEST`). Two overlapping runs with different cutoffs select
-  different rows, so the run that read sparser rows can move the position past rows the other
-  has not reached. The grader now requires a compare-and-set on the value the batch read, and
+  (`WHERE last_id < $new`, `GREATEST`). That guard lets a run write a
+  position it computed from a start another run has since replaced; a compare-and-set never
+  does. Rows a run with an older cutoff passes over are picked up when the sweep restarts. The grader now requires a compare-and-set on the value the batch read, and
   the eligibility test in the `DELETE`'s own `WHERE`, not only in a CTE that picks the ids.
 - **What the runs showed.** With the skills as they were, every answer re-checks in the delete
   and takes no lock, and every one guards the cursor forward-only. With the new rule, the five

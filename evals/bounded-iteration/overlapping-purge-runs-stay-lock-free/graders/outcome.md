@@ -22,8 +22,8 @@ cursor write to guard and passes the second point.
 FAIL if the fix serializes the runs or the rows with any lock named above, even when it also
 adds the re-check. FAIL if the delete still deletes by id alone. FAIL if the cursor write is
 still unconditional, or is only a forward-only guard such as `WHERE last_id < $new` or
-`GREATEST(last_id, $new)`: two runs with different cutoffs select different rows, and the run
-that read sparser rows can then move the position past rows the other has not reached.
+`GREATEST(last_id, $new)`: such a guard lets a run write a position it computed from a start
+that another run has since replaced. A compare-and-set never does.
 
 A suggestion to also make the scheduler single-flight later is fine and is not graded. Do not
 grade the batch size, the cap on batches, or whether the statements share a transaction.
