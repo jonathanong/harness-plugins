@@ -99,10 +99,10 @@ something about it: a bug, an unexpected state, a dependency that failed, a 5xx.
   runner, so that a new expected error is not reported by default at each `catch`.
 - Pass the error object itself, so the tracker keeps the stack and the cause, and pass its
   attributes as structured context, with the code as a tag that issues can be filtered by.
-- A 4xx that your service receives from a service it calls is often your bug, because your
-  request was wrong. Convert it to an error of your own with its own code and a 5xx status, so
-  the one decision above reports it. The rule is about what your service answers, not what it
-  is told.
+- A 4xx that your service receives from a service it calls is your bug when your service
+  built the bad request. Convert that one to an error of your own with its own code and a 5xx
+  status, so the one decision above reports it. When the 4xx reflects what the caller
+  supplied, such as an id that does not exist there, map it to a 4xx code of your own.
 
 ```ts
 const known = err instanceof AppError ? err : null
