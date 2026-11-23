@@ -8,8 +8,9 @@ scores are in [EVALS.md](EVALS.md).
 
 Commit of this entry. No run.
 
-- **Rule added** to the Review section of `evals`: a change kept on an equal score in both arms
-  names the specific mistake its rule prevents and why a model would make it unprompted; a
+- **Rule added** to the Review section of `evals`: an equal passing score is a ceiling and an equal
+  failing score means the rule did not work; a change kept on a ceiling score names the
+  specific mistake its rule prevents and why a model would make it unprompted; a
   bare "weaker models need it" is rejected, and a change that scores below the baseline needs
   a person to accept the trade. No case or grader changed.
 - **Not re-measured:** `evals/document-new-suite` and `evals/record-partial-rerun`. The rule is
