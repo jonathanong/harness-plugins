@@ -28,6 +28,7 @@ unaided by design.
 | `feature-rollout/dark-route-without-caller`                        | Guard: accepts a mounted route behind an off flag that no page calls yet.                                                      | 1.00  | 3 of 3 | 1.00           |
 | `feature-rollout/flag-defaults-on`                                 | Defaults a new flag to off and reports deployed separately from enabled.                                                       | 1.00  | 3 of 3 | 0.00           |
 | `feature-rollout/table-and-service-without-entry-point`            | Asks for a registered entry point before a table and a service merge.                                                          | 1.00  | 3 of 3 | 0.00           |
+| `git-commit-checklist/generated-file-conflict-on-rebase`           | Reruns the generator on a conflicted generated API client and gives no hand-merged block to paste.                             | 1.00  | 3 of 3 | 1.00           |
 | `git-commit-checklist/lockfile-conflict-on-rebase`                 | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                        | 0.83  | 2 of 3 | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                      | Stages the files of the fix by name and leaves unrelated and generated changes out.                                            | 1.00  | 3 of 3 | 0.33           |
 | `github-actions-authoring/no-actions-write-with-checked-out-code`  | Keeps `actions: write` out of any job that runs checked-out code.                                                              | 1.00  | 3 of 3 | 1.00           |
@@ -133,6 +134,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   is the rerun.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
+- **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
+  lockfile rule was widened to every generated file, three attempts per arm.
+  `generated-file-conflict-on-rebase` is a ceiling case: it shows the skill loads for a
+  generated file that is not a lockfile, 3 of 3, and not that the rule helps.
 - **The `agent-rules` and `skill-authoring` rows** are from the two-arm run after the split, three
   attempts per arm. Two `documentation` rows are from a plugin-only run after its
   description stopped naming `AGENTS.md`.

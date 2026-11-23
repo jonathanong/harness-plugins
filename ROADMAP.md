@@ -24,6 +24,9 @@ Each still gets a loading case and an answer case.
       `static-analysis-checklist/tracked-files-only` (6 of 8).
 - [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
       that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
+      `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
+      command is not in the file's header, or the conflict is in a generated project file.
 - [ ] **`llm-calls` needs a case the model fails unaided.** Its one case is a ceiling case.
       Candidates: a model id defaulted in code, and a tool that trusts a model-supplied limit.
 - [ ] **`agent-coordination` loads in 0 of 3** on a request to act on another agent's message.

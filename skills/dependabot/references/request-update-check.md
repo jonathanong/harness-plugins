@@ -13,4 +13,4 @@
   it. That does not check for new versions. `recreate` discards commits other people pushed to the
   pull request, so save those first.
 - When rebasing a dependency pull request by hand, a lockfile conflict is not resolved by taking
-  one side. The `git-commit-checklist` skill owns that procedure.
+  one side or by editing its hunks. The `git-commit-checklist` skill owns that procedure.
