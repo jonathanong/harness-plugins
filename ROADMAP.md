@@ -28,13 +28,12 @@ Each still gets a loading case and an answer case.
       case where a capped walk must set `has_next_page` on an empty page, and a
       `native-app-architecture` case for the client rule.
       `react-app-structure/load-more-follows-the-flag` loads its skill in 9 of 12 attempts.
-- [ ] **`test-authoring` does not load for a review of a de-flake diff.** Its flake-fix section
-      is read only when something else loads the skill. Two wordings that named retries,
-      timeouts, and skips fixed that and may have cost loads on `review-direct-row-inserts` (9
-      of 12 against 6 of 6). Measure both descriptions at about twelve attempts per case, and
-      write a case for it that the model fails unaided; the drafted one, described in
-      `evals/HISTORY.md`, passed without the skill. `dotnet-private-field-not-reflected` also
-      loads in only 7 of 12.
+- [ ] **`test-authoring` needs a flake-fix case the model fails unaided.** Two review cases with
+      the diff in the prompt passed without the skill. Try a task on a fixture repository with
+      a failing test, where the tempting change is a retry or a sequential suite.
+- [ ] **`test-authoring/dotnet-private-field-not-reflected` loads its skill in about half its
+      attempts** on every description tried (8, 8, and 5 of 12). Find out why a request to
+      write a .NET test does not load it.
 - [ ] **`dependabot` needs a repair case the model fails unaided.** `repair-pr-with-pushed-fix`
       is a ceiling case. Try a fixture where the commits are not in the prompt and the agent has
       to read them before it comments.
