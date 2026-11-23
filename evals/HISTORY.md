@@ -4,6 +4,28 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `github-actions-authoring` moves its persistent-runner section to a reference
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.47 over three plugin-only
+runs, one at a time in one session.
+
+- **Skill changed, no rule changed.** The "Persistent workspaces" section, which applies only to
+  a self-hosted or otherwise persistent runner, moved to `references/persistent-runners.md`.
+  `SKILL.md` goes from 121 to 104 lines and says when to read it. No case covers that section.
+- **Regression run on the split skill, three attempts:** `no-actions-write-with-checked-out-code`,
+  `publish-gated-on-ci`, and `rejects-polling` 3 of 3; `required-check-is-a-real-job` 2 of 3.
+- **`required-check-is-a-real-job`, six attempts each:** 5 of 6 on the unsplit skill, then 4 of 6
+  on the split one. Every miss was an attempt that loaded no skill, and the answer passed
+  exactly when the skill loaded. The description did not change, and 6 of 9 against 5 of 6 is
+  within what these samples produce. Its row said 3 of 3 and is corrected to 6 of 9.
+- **No without-plugin arm was run.**
+- **Read, no run:** the three saved attempts of
+  `postgres-node-performance-tuning/index-change-rechecks-neighbors` that loaded the skill and
+  failed. Each rechecks every query that depends on the index and searches the builders, not the
+  call sites. Each leaves out the last clause of the rule, tracing the callers that reach a
+  builder through a helper function. The grader requires that clause and the skill states it, so
+  neither changes; the model drops it in about one attempt in ten.
+
 ## 2026-11-22: `static-code-analysis` moves its per-language tables to references
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $6.73 over four plugin-only

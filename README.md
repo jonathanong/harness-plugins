@@ -104,7 +104,7 @@ Every skill has [eval cases](evals) run with
 <!-- evals:headline -->
 
 - **105 cases** across 44 skills.
-- **With the plugin:** mean score 0.95.
+- **With the plugin:** mean score 0.94.
 - **Without it:** mean score 0.36, over the 104 cases measured both ways.
 - **82 cases** are ones the model fails unaided. The other 22 it already gets right: 3 check that a skill stays out of the way, and 19 show only that the skill loads.
 
