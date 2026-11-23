@@ -32,6 +32,12 @@ Each still gets a loading case and an answer case.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
+- [ ] **`postgres-node-performance-tuning/dedupe-keeps-statement-names-literal` loads its
+      skill in 5 of 12 attempts.** A request to clean up duplicated queries does not load it,
+      and naming refactoring in the description did not help.
+- [ ] **`error-handling` needs cases for two rules:** details as attributes, and reporting.
+      Its reporting case is a ceiling case. Try a fixture where errors are thrown in one file
+      and reported in another.
 - [ ] **`llm-calls` needs a case the model fails unaided.** Its one case is a ceiling case.
       Candidates: a model id defaulted in code, and a tool that trusts a model-supplied limit.
 - [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
@@ -51,7 +57,8 @@ Each still gets a loading case and an answer case.
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
       handler order and API keys in `http-api-design`; a review's proposed fix following the
-      owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3.
+      owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
+      what a test may do in the six skills that gained a scope sentence on 2026-11-23.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts

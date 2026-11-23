@@ -7,6 +7,9 @@ description: Use when writing or reviewing code that calls another service or a 
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
+These rules are for runtime code. An end-to-end test may seed another service's store to set
+up a case. A captured payload is still scrubbed before it is committed.
+
 A boundary holds when each side can change its insides without asking the other. These rules
 keep one side's shapes and storage from leaking into the other.
 

@@ -114,6 +114,10 @@ Adding a lock, or a new use of the second allowed case, is the repository owner'
 
 ## Tests
 
+The rules above are for runtime code. A test is free to try to break the locking: it may take a
+lock itself, hold a row, or wait until other backends are blocked, to force the interleaving it
+wants to check. Do not report that as a locking defect.
+
 Do not assert that a lock was taken, the order locks were taken in, or an exact cap under
 concurrency. Those tests force the lock back in when someone removes it. Assert the final state
 under the interleaving: no negative balance, no duplicate effect, one winner. Where a race has

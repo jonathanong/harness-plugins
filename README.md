@@ -67,6 +67,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`list-reads`](skills/list-reads/SKILL.md)                                             | Writing a list endpoint, feed, or paginated query.                                    |
 | [`glide-mq`](skills/glide-mq/SKILL.md)                                                 | Designing glide-mq queues, lanes, concurrency, rate limits, and leases.               |
 | [`evals`](skills/evals/SKILL.md)                                                       | Choosing kinds of eval, and documenting scores, run history, and rules.               |
+| [`error-handling`](skills/error-handling/SKILL.md)                                     | Throwing, matching, and reporting errors: codes, attributes, and a tracker.           |
 | [`pr-description`](skills/pr-description/SKILL.md)                                     | Writing a pull request description: problem, change, impact, before/after.            |
 | [`pull-requests`](skills/pull-requests/SKILL.md)                                       | Scoping, stacking, answering review on, finishing, and merging pull requests.         |
 | [`documentation`](skills/documentation/SKILL.md)                                       | Deciding what goes in docs and code comments.                                         |
@@ -103,10 +104,10 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **109 cases** across 44 skills.
+- **113 cases** across 45 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.37, over the 108 cases measured both ways.
-- **83 cases** are ones the model fails unaided. The other 25 it already gets right: 4 check that a skill stays out of the way, and 21 show at most that the skill loads.
+- **Without it:** mean score 0.38, over the 112 cases measured both ways.
+- **85 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
 
 <!-- /evals:headline -->
 

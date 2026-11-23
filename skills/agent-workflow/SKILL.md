@@ -53,6 +53,11 @@ fix against the logging rules, a locking fix against the locking rules, a new te
 test rules. An author applies a reviewer's suggestion as written, so a suggestion that breaks a
 rule puts the defect in with a reviewer's approval on it.
 
+A skill's rules are written for production code unless the skill says otherwise. Do not hold a
+test, a fixture, or a seed to a runtime rule: a race test may take a lock, and a fixture may
+loop over single inserts. Rules about secrets and personal data, and rules that name tests,
+still apply there.
+
 ## Decide, then report
 
 Every question stops the work until a person answers. Ask only when the answer cannot be

@@ -45,6 +45,9 @@ An agent pays for every line of a skill it loads, so load detail only when the t
   these defaults."
 - Write each rule as what to do, with the reason when it is not obvious. A reader who knows the
   reason can handle the case the rule did not foresee.
+- A rule is for production code unless it says otherwise. When a rule also binds tests,
+  fixtures, or scripts, say so in the rule. When a reviewer would likely apply a runtime rule to
+  test code by mistake, say near the top of the skill what tests may do.
 - Prefer one short example to a paragraph of description.
 - Add the skill to the table in `README.md`.
 

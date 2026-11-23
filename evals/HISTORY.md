@@ -23,6 +23,97 @@ three attempts. No row changed.
 - **Do not repeat this case as written.** A case for the rule needs a diff with no example of
   the right form in it, and a suggestion whose owning skill the diff does not itself trigger.
 
+## 2026-11-23: runtime rules do not bind tests
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $13.61 over three runs.
+
+- **Scope added to seven skills.** The owner said the rules are for production code unless a
+  skill says otherwise, and that a test may try to break a lock. `postgres-locking`,
+  `bounded-iteration`, `postgres-node-performance-tuning`, `typescript-authoring`, `glide-mq`,
+  `service-boundaries`, and `expand-contract-migrations` each say what a test, a fixture, or
+  a seed may do. `agent-workflow` tells a reviewer not to hold test code to a runtime rule, and
+  the repository `AGENTS.md` tells a skill author to say when a rule binds tests.
+- **Guard added:** `postgres-locking/review-race-test-that-waits-on-a-lock`. A review is given
+  a test that holds a row with `FOR UPDATE`, waits until two withdrawals are blocked, and
+  asserts the final balance. The grader fails a review that objects to the lock or the wait.
+- **The model already accepts the test.** Six attempts with the skill as it was before this
+  change passed 6 of 6. After the change, 6 of 6 with the plugin and 6 of 6 without. The rule
+  is for weaker models; a cheaper reviewer raised this finding on real code.
+- **The guard has no `skill-fired` grader.** The skill loaded in 2 of 6 and then 0 of 3
+  attempts for a review of a test, and loading it is not what the case checks.
+- **Regression run:** all 25 cases of the eight changed skills, three attempts with the
+  plugin. Twenty-two scored as recorded. The rest, read attempt by attempt:
+  - `glide-mq/never-enqueue-and-wait` passed 2 of 3. The failing answer does not wait on the
+    job; it fails the grader on another point.
+  - `agent-workflow/status-note-asks-only-what-it-must` answered 3 of 3 and loaded the skill
+    in 1 of 3, against a recorded 3 of 3. Its description did not change.
+  - `postgres-node-performance-tuning/index-change-rechecks-neighbors` passed 2 of 3, against
+    a recorded 17 of 21.
+- **No row but the new one is updated.** Three attempts do not replace the recorded rows.
+- **Edited after the runs, not re-measured.** Four scope sentences were narrowed: a seed or a
+  one-off script is exempt only on a disposable database or a throwaway queue, and the
+  migration scope names rollback.
+- **No case** for the scope sentences in the other six skills.
+
+## 2026-11-23: SQL operation names stay literal
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $4.62: one two-arm run of
+six attempts, then one run of the skill's three cases with the plugin, six attempts.
+
+- **Rule added** to `postgres-node-performance-tuning`: write a statement's operation-name
+  comment as a literal, and remove duplication by sharing the column list or a fragment, not
+  with a helper that takes the name as an argument. A code review proposed it.
+- **Case added:** `dedupe-keeps-statement-names-literal`. Three lookups differ only in their
+  `WHERE`, one has drifted, and the prompt asks for the duplication to be cleaned up.
+- **Scores, first run:** the answer passes in 6 of 6 with the plugin and 0 of 6 without. Every
+  attempt without the plugin builds a helper with `/* ${label} */`.
+- **The skill loaded in only 2 of the 6 plugin attempts,** and the four that did not load it
+  also kept the names literal, with no tool call at all. The difference between the arms
+  therefore cannot be credited to the new rule alone; why the plugin arm passes without
+  loading the skill is not known.
+- **A description change was tried and dropped.** With "refactoring" added to the description,
+  the case loaded the skill in 3 of 6 and the answer passed in 5 of 6, which six attempts
+  cannot tell apart from 2 of 6. The description is unchanged. Over both runs the answer
+  passed in 5 of 5 attempts that loaded the skill and 6 of 7 that did not.
+- **Other rows not updated:** `index-change-rechecks-neighbors` and
+  `new-query-named-and-indexed` each passed and loaded 6 of 6 in the second run, but that run
+  used the dropped description.
+
+## 2026-11-23: a new `error-handling` skill
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $7.89: a pilot of one
+attempt per arm, one two-arm run of six attempts, and two runs of the neighboring skills.
+
+- **Skill added:** `error-handling`. Four rules: codes from one defined list, matching on type
+  or code instead of message, details as attributes on the error, and reporting to an error
+  tracker only what someone can act on.
+- **Scores:**
+
+  | Case                                        | With plugin | Loaded | Without |
+  | ------------------------------------------- | ----------- | ------ | ------- |
+  | `new-failure-code-comes-from-a-list`        | 6 of 6      | 6 of 6 | 0 of 6  |
+  | `expected-coupon-failure-skips-the-tracker` | 6 of 6      | 6 of 6 | 6 of 6  |
+
+- **Without the plugin the model adds a code but no list.** All six attempts add
+  `readonly code?: string` to the error class and write the literal where it is thrown. With
+  the plugin all six define the codes in one typed list.
+- **The first grader was re-aimed after the pilot.** It first asked for a code and for details
+  as fields; the pilot's no-plugin attempt passed that. It now grades the list. The pilot is
+  not comparable with the measured run.
+- **`expected-coupon-failure-skips-the-tracker` is a ceiling case.** The model moves the report
+  below the expected branches unaided. It is kept as the check that the skill loads.
+- **Edited after the run, not re-measured.** The list grader now also says the response body
+  carries the code in its own field; all six measured plugin answers already do. In the skill,
+  the example error class takes its message as a separate argument, and the rule on a 4xx
+  received from a called service says to convert it to an error with a 5xx status when your
+  service built the bad request, and to a 4xx code of your own when it reflects the caller's
+  input.
+- **The neighbors keep their loads.** The five `structured-logging` and `typescript-authoring`
+  cases were run three times with the new skill installed and three times with its directory
+  moved away. Every case passed and loaded its skill 3 of 3 both ways.
+- **No case yet** for details as attributes or for matching inside server code; the pilot
+  suggests the model does both unaided when the prompt has the code inline.
+
 ## 2026-11-23: a guard for `list-reads` on a fixed top-three query
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.32, one two-arm run of

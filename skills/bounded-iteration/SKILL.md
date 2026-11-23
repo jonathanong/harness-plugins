@@ -7,6 +7,9 @@ description: Use when writing or reviewing a sweep, scheduled job, reconciler, c
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
+These rules are for code that runs against production data, including a one-off backfill. A
+test, a fixture, or a seed on a disposable database may read, delete, or loop over every row.
+
 A run's cost is the rows it reads and the work it starts, not the memory it holds. Read
 [sweep patterns](references/sweep-patterns.md) for worked SQL and loop shapes. List endpoints,
 feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
