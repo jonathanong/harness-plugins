@@ -32,6 +32,9 @@ Each still gets a loading case and an answer case.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
+- [ ] **`postgres-node-performance-tuning/dedupe-keeps-statement-names-literal` loads its
+      skill in 5 of 12 attempts.** A request to clean up duplicated queries does not load it,
+      and naming refactoring in the description did not help.
 - [ ] **`llm-calls` needs a case the model fails unaided.** Its one case is a ceiling case.
       Candidates: a model id defaulted in code, and a tool that trusts a model-supplied limit.
 - [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
