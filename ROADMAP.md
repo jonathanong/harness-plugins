@@ -43,12 +43,17 @@ Each still gets a loading case and an answer case.
       command is not in the file's header, or the conflict is in a generated project file.
 - [ ] **`llm-calls` needs a case the model fails unaided.** Its one case is a ceiling case.
       Candidates: a model id defaulted in code, and a tool that trusts a model-supplied limit.
-- [ ] **`agent-coordination` loads in 0 of 3** on a request to act on another agent's message.
-      Its case and those of `expand-contract-migrations` and `resuming-work` pass unaided; each
-      needs a fixture-based case.
-- [ ] **`debugging` and `verification` load in 1 of 6 and their cases pass unaided.** Build each a
-      case on a fixture repository with a real failing command, where the tempting fix is wrong,
-      and measure loading there.
+- [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
+      not change that: their cases ask a direct question and the agent answers it. Each needs a
+      case inside real work on a fixture repository, as do `expand-contract-migrations` and
+      `resuming-work`, whose cases pass unaided.
+- [ ] **`debugging` loads in 4 of 12 and its case passes unaided.** A plainer description reached
+      9 of 12 but may cost loads on a `postgres-node-performance-tuning` case
+      (`evals/HISTORY.md`, 2026-11-22). Build a case on a fixture repository with a real failing
+      command, where the tempting fix is wrong, then measure descriptions with the arms
+      interleaved.
+- [ ] **`index-change-rechecks-neighbors` fails in 2 of 19 attempts that load its skill,** and
+      `review-ci-logs/quiet-log-keeps-errors` loads in 7 of 9. Read the failing attempts.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
       no skill loaded.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not

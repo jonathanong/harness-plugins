@@ -9,14 +9,14 @@ unaided by design.
 
 | Case                                                               | Checks that the agent                                                                                                          | Score | Passed   | Without plugin |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ----- | -------- | -------------- |
-| `agent-coordination/peer-message-is-not-approval`                  | Does not merge on another agent's message that the owner approved; approval comes from the person.                             | 0.50  | 0 of 3   | 1.00           |
+| `agent-coordination/peer-message-is-not-approval`                  | Does not merge on another agent's message that the owner approved; approval comes from the person.                             | 0.50  | 0 of 12  | 1.00           |
 | `agent-rules/path-scoped-rules`                                    | Scopes rules with a nested `AGENTS.md`, not `.claude/rules/`, so every agent sees them.                                        | 1.00  | 3 of 3   | 1.00           |
 | `agent-rules/root-agents-md-placement`                             | Moves a release procedure out of the root `AGENTS.md` and drops a file listing the code shows.                                 | 1.00  | 3 of 3   | 0.00           |
 | `agent-workflow/status-note-asks-only-what-it-must`                | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.          | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`         | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                         | 1.00  | 8 of 8   | 0.33           |
 | `bounded-iteration/review-staged-reconciler`                       | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                       | 1.00  | 8 of 8   | 0.00           |
 | `bounded-iteration/review-sweep-rewrites-its-trigger`              | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test.         | 0.75  | 4 of 8   | 0.67           |
-| `debugging/flaky-test-not-fixed-with-retry`                        | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                           | 0.67  | 1 of 3   | 1.00           |
+| `debugging/flaky-test-not-fixed-with-retry`                        | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                           | 0.67  | 4 of 12  | 1.00           |
 | `dependabot/groups-by-family`                                      | Groups updates by vendor or package family with a cooldown, not by version type, dependency type, or a catch-all.              | 1.00  | 3 of 3   | 0.33           |
 | `dependabot/repair-pr-with-pushed-fix`                             | Rebases a Dependabot pull request that carries a person's fix by hand, and does not ask Dependabot to rebuild it.              | 1.00  | 3 of 3   | 1.00           |
 | `dependabot/request-update-check`                                  | Sends the user to the web page that starts a Dependabot run, and invents no API call.                                          | 1.00  | 3 of 3   | 0.67           |
@@ -72,7 +72,7 @@ unaided by design.
 | `postgres-locking/review-advisory-lock-key`                        | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                           | 0.67  | 1 of 3   | 1.00           |
 | `postgres-locking/review-last-admin-advisory-lock`                 | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                                     | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/rollup-trigger-deadlocks`                        | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.             | 1.00  | 3 of 3   | 0.00           |
-| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                                        | 1.00  | 3 of 3   | 0.00           |
+| `postgres-node-performance-tuning/index-change-rechecks-neighbors` | Rechecks every query that depends on a changed index, found through the query builders.                                        | 0.86  | 17 of 21 | 0.00           |
 | `postgres-node-performance-tuning/new-query-named-and-indexed`     | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                                    | 1.00  | 3 of 3   | 0.00           |
 | `postgres-partitioning-uuid-v7/range-not-hash`                     | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                          | 1.00  | 3 of 3   | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`           | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                             | 1.00  | 3 of 3   | 0.00           |
@@ -86,7 +86,7 @@ unaided by design.
 | `react-app-structure/load-more-follows-the-flag`                   | Pages a list while the API reports a next page, and shows the empty state only when no further page can be requested.          | 0.83  | 5 of 6   | 0.17           |
 | `react-app-structure/review-profile-card`                          | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                               | 1.00  | 3 of 3   | 0.67           |
 | `resuming-work/note-says-about-to-push`                            | Sees that the branch is already pushed and the pull request open, and goes to the failing check instead of repeating the step. | 0.83  | 2 of 3   | 1.00           |
-| `review-ci-logs/quiet-log-keeps-errors`                            | Quiets a noisy log at its source and keeps stderr and failing exits.                                                           | 1.00  | 3 of 3   | 1.00           |
+| `review-ci-logs/quiet-log-keeps-errors`                            | Quiets a noisy log at its source and keeps stderr and failing exits.                                                           | 0.89  | 7 of 9   | 1.00           |
 | `revisit-followups/only-verified-deferred-work`                    | Keeps only explicit deferred work and has it verified before any issue is filed.                                               | 0.83  | 2 of 3   | 0.00           |
 | `rust-authoring/tests-in-separate-file`                            | Puts unit tests for a private function in a separate file.                                                                     | 1.00  | 3 of 3   | 0.00           |
 | `service-boundaries/partner-webhook`                               | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                                             | 1.00  | 3 of 3   | 1.00           |
@@ -113,7 +113,7 @@ unaided by design.
 | `typescript-authoring/batch-first-wrapper`                         | Syncs a list with one call per I/O step and makes the single-item function a wrapper of that call.                             | 1.00  | 3 of 3   | 0.00           |
 | `typescript-authoring/rename-without-alias`                        | Updates every caller instead of keeping an alias, and adds the missing `await`.                                                | 1.00  | 3 of 3   | 0.00           |
 | `typescript-authoring/unlink-batched-cache-delete`                 | Deletes cache keys with one `UNLINK` call, not `DEL` per key.                                                                  | 1.00  | 3 of 3   | n/a            |
-| `verification/stale-result-after-later-edit`                       | Says a test result from before a later edit is stale and re-runs before agreeing to merge.                                     | 0.50  | 0 of 3   | 1.00           |
+| `verification/stale-result-after-later-edit`                       | Says a test result from before a later edit is stale and re-runs before agreeing to merge.                                     | 0.50  | 0 of 12  | 1.00           |
 
 ## Where each row comes from
 
@@ -168,12 +168,19 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   its rule for repairing a Dependabot pull request and its description named that work, three
   attempts per arm. `repair-pr-with-pushed-fix` is a ceiling case: it shows the skill loads for
   a repair request, 3 of 3, and not that the rule helps.
-- **The `agent-coordination`, `expand-contract-migrations`, and `resuming-work` rows** are from
-  the two-arm run on 2026-11-22 that added the skills, three attempts per arm. All three are
-  ceiling cases. `agent-coordination` loaded its skill in 0 of 3; the other two in 3 of 3.
-- **The `debugging` and `verification` rows** are from the two-arm run on 2026-11-22 that added
-  the skills, three attempts per arm. Both are ceiling cases: the answer passed in every attempt
-  of both arms, and the rows are below 1.00 only because the skill loaded in 1 of 6.
+- **The `expand-contract-migrations` and `resuming-work` rows** are from the two-arm run on
+  2026-11-22 that added the skills, three attempts per arm. Both are ceiling cases, and each
+  loaded its skill in 3 of 3.
+- **The `debugging`, `verification`, and `agent-coordination` rows** are from plugin-only runs of
+  twelve attempts on 2026-11-22. All three are ceiling cases: every answer passed, with and
+  without the plugin, and the rows are below 1.00 only because "Passed" counts the attempts that
+  also loaded the skill. Each "Without plugin" value is from the two-arm run that added the
+  skill.
+- **`postgres-node-performance-tuning/index-change-rechecks-neighbors`** is from two plugin-only
+  runs on 2026-11-22, 21 attempts. The skill loaded in 19; two attempts that loaded it failed
+  the answer. **`review-ci-logs/quiet-log-keeps-errors`** is from one plugin-only run of nine
+  attempts that day, made on the earlier `list-reads` description; the skill loaded in 7 and
+  all nine answers passed. Each "Without plugin" value is from an earlier two-arm run.
 - **`list-reads/review-feed-candidate-pool`** is from a plugin-only run of twelve attempts on
   2026-11-22, on the description that opens "Use whenever a task writes or reviews a query".
   The skill loaded in 11 of 12, and all twelve answers passed. "Without plugin" is 3 of 9, from

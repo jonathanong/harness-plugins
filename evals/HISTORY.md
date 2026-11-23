@@ -4,6 +4,42 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: three description changes not shipped, and the `list-reads` one checked against its neighbours
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $33 over sixteen
+plugin-only runs, one at a time in one session. No skill changed.
+
+- **Candidates measured, twelve attempts each on the skill's one case.** Each opened "Use
+  whenever" and named the request more plainly.
+
+  | Skill                | Unchanged | Candidate | Answer passed |
+  | -------------------- | --------- | --------- | ------------- |
+  | `debugging`          | 4 of 12   | 9 of 12   | 12 of 12 both |
+  | `verification`       | 0 of 12   | 2 of 12   | 12 of 12 both |
+  | `agent-coordination` | 0 of 12   | 0 of 12   | 12 of 12 both |
+
+- **`verification` and `agent-coordination` are not a wording problem.** Their cases ask a
+  direct question, and the agent answers it, correctly, without calling any skill. They need a
+  case set inside real work, as `ROADMAP.md` lists.
+- **The `debugging` candidate is not shipped.** With it,
+  `postgres-node-performance-tuning/index-change-rechecks-neighbors` loaded its skill in 21 of
+  30 attempts, against 28 of 30 without it; the attempts that missed loaded no skill, not
+  `debugging`. That case fails without its skill, and the `debugging` case passes either way,
+  so the trade is a bad one. The cause is not understood, and later runs in the session missed
+  more often in both arms, so the two arms should be interleaved next time. The candidate text:
+  "Use whenever a task fixes a failure - a failing or flaky test, a CI failure, a bug report, a
+  crash, an error in logs, or "it works locally but not in CI" - before proposing or writing
+  the fix."
+- **The `list-reads` description from the entry below is cleared against its neighbours.** With
+  it and the unchanged `debugging` description, the same postgres case loaded its skill in 9 of
+  9, as it did on the earlier `list-reads` description (9 of 9).
+  `http-api-design/edge-claims-do-not-authorize` loaded 8 of 9, and the other four cases of
+  those two skills 3 of 3. No attempt loaded `list-reads` in place of the right skill.
+- **Rows corrected.** `index-change-rechecks-neighbors` is 17 of 21, with the skill loaded in 19:
+  two attempts loaded it and still failed the answer. `review-ci-logs/quiet-log-keeps-errors`
+  loads its skill in 7 of 9 on the unchanged descriptions, where its row said 3 of 3; its answer
+  passed in all nine.
+
 ## 2026-11-22: `list-reads` loads for a review of a feed query
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.23 over two plugin-only
