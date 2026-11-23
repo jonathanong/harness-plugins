@@ -39,7 +39,9 @@ ranking over every row is its global-ranking rule, not a list read.
    `page+1` row only answers it when the read ran to its `LIMIT`.
 9. **Bound a run of empty pages on the server.** A client keeps asking while the flag is true and
    has no cap of its own. The time window of rule 3 is the bound: at its edge the flag is false.
-   Do not count empty pages in the cursor.
+   Where the sort has no time window, the end of the index is the bound, so the filter must not
+   reject long runs there: move it into the index or the stored set. Do not count empty pages in
+   the cursor.
 10. **A client never infers the end from the rows.** Not from `items.length === 0`, and not from
     `items.length < limit`. It requests the next page while the flag is true and a cursor came
     back. It shows the empty state only when it holds no items and no further page can be
