@@ -4,6 +4,17 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `evals` says what an equal score needs
+
+Commit of this entry. No run.
+
+- **Rule added** to the Review section of `evals`: a change kept on an equal score in both arms
+  names the specific mistake its rule prevents and why a model would make it unprompted; a
+  bare "weaker models need it" is rejected, and a change that scores below the baseline needs
+  a person to accept the trade. No case or grader changed.
+- **Not re-measured:** `evals/document-new-suite` and `evals/record-partial-rerun`. The rule is
+  additive and neither case asks about an equal score.
+
 ## 2026-11-22: `dependabot` groups by vendor first
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
