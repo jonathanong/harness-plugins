@@ -34,6 +34,9 @@ they were.
   loaded `postgres-locking`, whose rules already give the answer. The rule is kept for a reader
   that loads only the sweep skill, and because the old step and example pointed the other way.
   Three attempts across the two plugin runs passed with no skill loaded.
+- **Not re-measured.** The `postgres-locking` cases were not run after its one-sentence pointer.
+  The grader was edited after the runs to pass an answer that removes the stored position; no
+  recorded attempt did that.
 
 ## 2026-11-23: a review rule added without a case
 

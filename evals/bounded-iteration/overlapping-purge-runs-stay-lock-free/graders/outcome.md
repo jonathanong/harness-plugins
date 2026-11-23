@@ -16,6 +16,9 @@ PASS if all three hold:
 - The job takes no lock to do this: no `FOR UPDATE` or `FOR UPDATE SKIP LOCKED` on the draft
   rows, no `FOR UPDATE` on the cursor row, no advisory lock, and no `LOCK TABLE`.
 
+An answer that removes the stored position, and says why the sweep no longer needs one, has no
+cursor write to guard and passes the second point.
+
 FAIL if the fix serializes the runs or the rows with any lock named above, even when it also
 adds the re-check. FAIL if the delete still deletes by id alone. FAIL if the cursor write is
 still unconditional.
