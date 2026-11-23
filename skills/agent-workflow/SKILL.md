@@ -47,6 +47,12 @@ compatibility of public contracts, failure paths, authorization, untrusted input
 Ask for dead paths and stale docs to be removed, not labeled legacy. Check the pull request
 description against the final behavior.
 
+A fix or a test that a finding proposes follows the same rules as the code under review. Before
+suggesting one, check it against the skill or the repository rule that owns that area: a logging
+fix against the logging rules, a locking fix against the locking rules, a new test against the
+test rules. An author applies a reviewer's suggestion as written, so a suggestion that breaks a
+rule puts the defect in with a reviewer's approval on it.
+
 ## Decide, then report
 
 Every question stops the work until a person answers. Ask only when the answer cannot be

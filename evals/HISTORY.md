@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a review rule added without a case
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.06, one two-arm run of
+three attempts. No row changed.
+
+- **Rule added** to `agent-workflow`, under "Review a change": a fix or a test that a finding
+  proposes follows the same rules as the code under review, so check it against the skill or
+  repository rule that owns that area before suggesting it. A code review proposed the rule
+  after one of its own findings asked for a test that another skill discourages.
+- **A case was drafted and dropped.** The prompt asked for a review of a new job that swallows
+  an error in an empty `catch`; the grader checked that the log call the review proposes has a
+  fixed message, fields, and the error object. It passed 3 of 3 with the plugin and 3 of 3
+  without: the diff already has one well-formed log call and the model copies it.
+- **`agent-workflow` loaded in 0 of the 3 plugin attempts.** A plain "can you review this
+  before I merge?" with a diff does not load it; one attempt loaded `structured-logging`,
+  `bounded-iteration`, and `typescript-authoring` instead.
+- **Do not repeat this case as written.** A case for the rule needs a diff with no example of
+  the right form in it, and a suggestion whose owning skill the diff does not itself trigger.
+
 ## 2026-11-23: a guard for `list-reads` on a fixed top-three query
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.32, one two-arm run of

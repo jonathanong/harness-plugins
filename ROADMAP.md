@@ -50,7 +50,8 @@ Each still gets a loading case and an answer case.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
-      handler order and API keys in `http-api-design`.
+      handler order and API keys in `http-api-design`; a review's proposed fix following the
+      owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
