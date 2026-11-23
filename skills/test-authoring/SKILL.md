@@ -1,6 +1,6 @@
 ---
 name: test-authoring
-description: Use whenever a task writes, reviews, fixes, or deletes an automated test, fixture, mock, or test helper, including a review of a diff that adds tests - Vitest, Jest, backend integration, Next.js, Storybook, Swift, or .NET (xUnit, NUnit). Decides which tests to keep and how to build fixtures and helpers so each test fails for one real reason. For browser tests, also use playwright-authoring.
+description: Use whenever a task writes, reviews, fixes, or deletes a test, fixture, mock, or test helper - Vitest, Jest, backend integration, Next.js, Storybook, Swift, or .NET (xUnit, NUnit) - including a review of a diff that adds tests or changes test retries, timeouts, or skips. Decides which tests to keep and how to build each to fail for one real reason. Browser tests: also playwright-authoring.
 ---
 
 # Test authoring
@@ -76,6 +76,26 @@ case the guard exists for.
   `agent-workflow` skill owns mapping each criterion to its evidence before handoff.
 - For a contract about docs or instructions, test real paths, links, or executable behavior. Do
   not freeze prose wording unless a consumer parses that exact text.
+
+## A flake fix removes the cause
+
+A change that makes a flaky test pass and leaves its cause in place is a trade-off, not a
+reliability fix. Do not describe it as one, and when reviewing, do not accept it as one. The
+`debugging` skill owns finding the cause. These are the usual disguises:
+
+- A retry: the runner's `retry` or `retries` setting, a retry action, or a rerun loop in CI. The
+  failure still happens and is now reported less often.
+- A wider timeout, threshold, baseline, tolerance, or gate. The test still passes when the code
+  gets slower or worse by that margin.
+- A `.skip`, a `.todo`, or a skip behind a condition. The check is gone.
+- A suite made sequential, or moved to a serial project, so tests stop sharing state at the same
+  time. The shared state is still there, and the suite is slower.
+- A private database, or another private copy of shared state, for each worker. It can be the
+  right design, but it costs setup time and stops the suite from catching interference between
+  callers, so a person decides it.
+
+A change called test-only touches no production code. When the fix needed a production change,
+the defect was in the code: say so, and describe the change as a fix.
 
 ## Runner-specific rules
 

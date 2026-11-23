@@ -24,6 +24,10 @@ Each still gets a loading case and an answer case.
       `static-analysis-checklist/tracked-files-only` (6 of 8).
 - [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
       that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **`test-authoring` loads unevenly.** `dotnet-private-field-not-reflected` loads the skill
+      in about half its attempts, and `review-direct-row-inserts` may have lost loads when the
+      description gained the retries-and-timeouts trigger (9 of 12 against 6 of 6). Measure both
+      with more attempts, and try a shorter description.
 - [ ] **`dependabot` needs a repair case the model fails unaided.** `repair-pr-with-pushed-fix`
       is a ceiling case. Try a fixture where the commits are not in the prompt and the agent has
       to read them before it comments.

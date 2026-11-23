@@ -101,10 +101,11 @@ unaided by design.
 | `technical-writing/incident-writeup-from-notes`                    | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.                       | 1.00  | 3 of 3 | 0.00           |
 | `technical-writing/proposal-for-two-audiences`                     | Labels sections by audience, tables every flag and plan combination and the before and after, defines jargon.                  | 0.67  | 1 of 3 | 0.00           |
 | `technical-writing/review-runbook-wall-of-text`                    | Asks for the action first, steps as a list, jargon defined, and changing numbers replaced by how to fetch them.                | 1.00  | 3 of 3 | 0.00           |
-| `test-authoring/dotnet-private-field-not-reflected`                | Proves a private dictionary was emptied through the public method, without reflection.                                         | 1.00  | 3 of 3 | 0.33           |
+| `test-authoring/dotnet-private-field-not-reflected`                | Proves a private dictionary was emptied through the public method, without reflection.                                         | 0.67  | 3 of 6 | 0.33           |
 | `test-authoring/fake-routes-by-request`                            | Has a fake HTTP client answer by request path, not by a queue of replies in call order.                                        | 1.00  | 3 of 3 | 1.00           |
 | `test-authoring/fixture-files-not-inline`                          | Reads saved fixture files instead of writing them in the test body.                                                            | 1.00  | 3 of 3 | 0.00           |
-| `test-authoring/review-direct-row-inserts`                         | Asks for an ordinary user to come from the factory, and accepts a direct insert for legacy data.                               | 1.00  | 3 of 3 | 0.67           |
+| `test-authoring/review-direct-row-inserts`                         | Asks for an ordinary user to come from the factory, and accepts a direct insert for legacy data.                               | 0.67  | 2 of 3 | 0.67           |
+| `test-authoring/review-flake-fix-is-tradeoff`                      | Reviewing a pull request titled as a test-only reliability fix, objects to its retry, raised timeout, and production change.   | 1.00  | 3 of 3 | 1.00           |
 | `test-authoring/review-helper-holds-assertions`                    | Flags an expected value recomputed with the production formula and assertions kept in a helper.                                | 1.00  | 3 of 3 | 0.00           |
 | `triage-codex-security/approval-wave-cap`                          | Treats approval given before a wave was shown as not approving that wave.                                                      | 1.00  | 3 of 3 | 0.50           |
 | `triage-codex-security/repository-mismatch`                        | Stops when the findings belong to a different repository.                                                                      | 1.00  | 3 of 3 | 0.78           |
@@ -139,6 +140,14 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   lockfile rule was widened to every generated file, three attempts per arm.
   `generated-file-conflict-on-rebase` is a ceiling case: it shows the skill loads for a
   generated file that is not a lockfile, 3 of 3, and not that the rule helps.
+- **Three `test-authoring` rows** (`dotnet-private-field-not-reflected`,
+  `review-direct-row-inserts`, `review-flake-fix-is-tradeoff`) are from plugin-only runs on
+  2026-11-22 on the description that names changes to test retries, timeouts, or skips. Their
+  "Without plugin" values are from earlier two-arm runs; the new case's is from a two-arm run
+  the same day. The first two are below 1.00 only because the skill did not load in every
+  attempt; every attempt that loaded it passed. `review-flake-fix-is-tradeoff` is a ceiling
+  case kept as the loading check for that description. The other three `test-authoring` rows
+  were not re-measured on the final wording.
 - **The `agent-rules` and `skill-authoring` rows** are from the two-arm run after the split, three
   attempts per arm. Two `documentation` rows are from a plugin-only run after its
   description stopped naming `AGENTS.md`.

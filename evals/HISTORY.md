@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `test-authoring` says a flake fix removes the cause, and its description changes
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $15 over eleven runs.
+
+- **Rule added:** "A flake fix removes the cause". A retry, a wider timeout or threshold, a
+  skip, a sequential suite, and a private database per worker make a flaky test pass and leave
+  the cause; each is a trade-off and is not described or accepted as a reliability fix. A
+  change called test-only touches no production code.
+- **Case added:** `review-flake-fix-is-tradeoff`, a review of a pull request titled as a
+  test-only reliability fix whose diff adds a retry, raises a timeout, makes a suite sequential,
+  and changes a production query.
+- **First run, two arms, three attempts per arm:** the answer passed 3 of 3 in both arms, and
+  the skill loaded in 0 of 3. The agent called no skill: the description named a diff that adds
+  tests, and this diff changes retries and timeouts.
+- **Description changed** to name "changes test retries, timeouts, or skips". On that wording
+  the new case loaded in 3 of 3, and in 9 of 9 over three runs; on the unchanged skill, measured
+  in the same session, 1 of 3.
+- **The description change may cost loads elsewhere, and the sample cannot say.** Attempts that
+  loaded the skill, same session:
+
+  | Case                                 | Unchanged | Trigger before the runner list | Trigger after it (shipped) |
+  | ------------------------------------ | --------- | ------------------------------ | -------------------------- |
+  | `review-flake-fix-is-tradeoff`       | 1 of 6    | 9 of 9                         | 3 of 3                     |
+  | `dotnet-private-field-not-reflected` | 7 of 12   | 5 of 15                        | 3 of 6                     |
+  | `review-direct-row-inserts`          | 6 of 6    | 7 of 9                         | 2 of 3                     |
+  | the other three cases                | 3 of 3    | 3 of 3, twice                  | not measured               |
+
+  One variant had dropped "(xUnit, NUnit)"; restoring it did not change the .NET case. The
+  shipped wording puts the runner list before the new trigger.
+
+- **What it showed:** the new case is a ceiling case on the answer, and is kept as the loading
+  check. The rule is kept on that equal score because the repository's owner asked for a
+  guardrail, relayed by another session; the mistake is a risk, not an observed incident: a
+  pull request that hides a retry or a production change under a test-only title is merged as
+  a reliability fix. `dotnet-private-field-not-reflected` loads the skill about half the time
+  on the unchanged skill too, where its row said 3 of 3; that predates this change.
+  `review-direct-row-inserts` loaded in 9 of 12 on the two new wordings against 6 of 6
+  unchanged, which this sample cannot tell from noise. Both are listed in `ROADMAP.md`.
+
 ## 2026-11-22: `dependabot` says how to repair a Dependabot pull request
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330.
