@@ -43,7 +43,7 @@ averaged over attempts.
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
 | `http-api-design`                  | 3     | 1.00        | 0.22           | 0                     |
-| `list-reads`                       | 1     | 0.58        | 0.33           | 0                     |
+| `list-reads`                       | 1     | 0.96        | 0.33           | 0                     |
 | `llm-calls`                        | 1     | 1.00        | 1.00           | 1                     |
 | `native-app-architecture`          | 2     | 1.00        | 0.00           | 0                     |
 | `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |

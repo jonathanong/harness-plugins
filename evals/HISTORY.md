@@ -4,6 +4,29 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-22: `list-reads` loads for a review of a feed query
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.23 over two plugin-only
+runs of twelve attempts, back to back in one session.
+
+- **Description changed.** It opens "Use whenever a task writes or reviews a query, function, or
+  endpoint that returns a list", names "a review of a feed or list query before merge", and
+  adds how a page signals the end to what the skill covers. 397 characters. No rule changed.
+- **`review-feed-candidate-pool`, twelve attempts each:**
+
+  | Description | Loaded the skill | Answer passed |
+  | ----------- | ---------------- | ------------- |
+  | Unchanged   | 6 of 12          | 6 of 12       |
+  | Shipped     | 11 of 12         | 12 of 12      |
+
+  On the unchanged description the answer passed exactly when the skill loaded. On the shipped
+  one, the attempt that did not load it still asked for the single walk.
+
+- **No without-plugin arm was run;** the row keeps 3 of 9 from the earlier entries.
+- **Not measured:** whether the wider opening loads the skill for work that is not a list read,
+  and whether it takes loads from `postgres-node-performance-tuning` or `bounded-iteration`.
+  `ROADMAP.md` lists that check.
+
 ## 2026-11-22: `test-authoring` loads for a review of a de-flake diff
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. About $24 over thirteen runs,

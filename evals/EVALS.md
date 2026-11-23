@@ -48,7 +48,7 @@ unaided by design.
 | `http-api-design/action-body-and-raw-tokens`                       | Uses resource paths, the public id, and hashed tokens.                                                                         | 1.00  | 3 of 3   | 0.67           |
 | `http-api-design/edge-claims-do-not-authorize`                     | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                              | 1.00  | 3 of 3   | 0.00           |
 | `http-api-design/uuid-slug-routes`                                 | Makes the slug the canonical route and permanently redirects old UUID links to it.                                             | 1.00  | 3 of 3   | 0.00           |
-| `list-reads/review-feed-candidate-pool`                            | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                          | 0.58  | 3 of 6   | 0.33           |
+| `list-reads/review-feed-candidate-pool`                            | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                          | 0.96  | 11 of 12 | 0.33           |
 | `llm-calls/summarize-fetched-page`                                 | Passes a fetched page to the model as delimited data, outside the system prompt, with an instruction not to follow it.         | 1.00  | 3 of 3   | 1.00           |
 | `native-app-architecture/core-tests-and-web-view`                  | Runs portable core tests once and asks for a written blocker before a web view.                                                | 1.00  | 3 of 3   | 0.00           |
 | `native-app-architecture/generated-project-file`                   | Commits the project specification and ignores the generated Xcode project.                                                     | 1.00  | 3 of 3   | 0.00           |
@@ -174,9 +174,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `debugging` and `verification` rows** are from the two-arm run on 2026-11-22 that added
   the skills, three attempts per arm. Both are ceiling cases: the answer passed in every attempt
   of both arms, and the rows are below 1.00 only because the skill loaded in 1 of 6.
-- **`list-reads/review-feed-candidate-pool`** is from a two-arm run of six attempts per arm on
-  2026-11-22. The skill loaded in 3 of 6 and every attempt that loaded it passed. "Without plugin"
-  is 3 of 9: that run and a three-attempt pilot.
+- **`list-reads/review-feed-candidate-pool`** is from a plugin-only run of twelve attempts on
+  2026-11-22, on the description that opens "Use whenever a task writes or reviews a query".
+  The skill loaded in 11 of 12, and all twelve answers passed. "Without plugin" is 3 of 9, from
+  an earlier two-arm run and a three-attempt pilot.
 - **`planning/plan-saved-outside-repo`** is from a two-arm run of six attempts per arm on
   2026-11-22, after its grader was narrowed to where the plan is saved.
 - **`planning/plan-states-before-after` and `static-analysis-checklist/tracked-files-only`** take

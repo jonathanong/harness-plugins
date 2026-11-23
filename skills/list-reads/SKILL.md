@@ -1,6 +1,6 @@
 ---
 name: list-reads
-description: Use when writing or reviewing a list endpoint, feed, timeline, inbox, search results, or any paginated query, including cursors and page size. Covers keyset pagination, one walk over the listed entity with filters in the query, bounding rows scanned, and ranked lists.
+description: Use whenever a task writes or reviews a query, function, or endpoint that returns a list - a feed, timeline, inbox, search results, or any paginated read - including a review of a feed or list query before merge, and its cursors and page size. Covers keyset pagination, one walk over the listed entity with filters in the query, bounding rows scanned, ranked lists, and how a page signals the end.
 ---
 
 # List reads
