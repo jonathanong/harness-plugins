@@ -29,7 +29,8 @@ Each still gets a loading case and an answer case.
       timeouts, and skips fixed that and may have cost loads on `review-direct-row-inserts` (9
       of 12 against 6 of 6). Measure both descriptions at about twelve attempts per case, and
       write a case for it that the model fails unaided; the drafted one, described in
-      `evals/HISTORY.md`, passed without the skill. `dotnet-private-field-not-reflected` also loads in only 7 of 12.
+      `evals/HISTORY.md`, passed without the skill. `dotnet-private-field-not-reflected` also
+      loads in only 7 of 12.
 - [ ] **`dependabot` needs a repair case the model fails unaided.** `repair-pr-with-pushed-fix`
       is a ceiling case. Try a fixture where the commits are not in the prompt and the agent has
       to read them before it comments.
