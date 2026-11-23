@@ -1,6 +1,6 @@
 ---
 name: dependabot
-description: Use when writing or reviewing dependabot.yml or a workflow that runs on Dependabot pull requests, or when asked to trigger, re-run, or force a Dependabot run. Configures Dependabot coverage, grouping, cooldowns, and secrets, and starts a Dependabot update check on demand.
+description: Use when writing or reviewing dependabot.yml or a workflow that runs on Dependabot pull requests, when asked to trigger, re-run, or force a Dependabot run, or when a Dependabot pull request has a conflict, a stale lockfile, or a failing bump. Configures coverage, grouping, cooldowns, and secrets, starts an update check on demand, and repairs a Dependabot pull request.
 ---
 
 # Dependabot policy
@@ -113,3 +113,18 @@ GitHub exposes no REST or GraphQL endpoint and no `gh` command that starts a ver
 Read [request update check](references/request-update-check.md) for the steps to start a run and to rebuild one pull request.
 
 - Do not push a no-op edit to `dependabot.yml` to force a run.
+
+## Repair a Dependabot pull request
+
+Decide first whether the pull request needs a commit Dependabot cannot write.
+
+- **It does not**, as with a conflict or a stale lockfile: comment `@dependabot recreate` and let
+  Dependabot build the pull request again. Do not push a fix to it. Dependabot stops rebasing a
+  pull request once someone else has pushed to it, so one push makes every later repair yours.
+- **It does**, as with a code change for a major bump: push the commit to Dependabot's branch.
+  After that, do not comment `@dependabot recreate` or `@dependabot rebase` on it. `recreate`
+  overwrites every edit made to the pull request, and GitHub does not document that `rebase`
+  keeps them. Rebase the branch by hand, and regenerate its lockfile and other generated files
+  with the package manager; the `git-commit-checklist` skill owns that procedure.
+- Before either comment, read the pull request's commits. A commit by anyone but Dependabot
+  means the second case.

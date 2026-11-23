@@ -24,6 +24,9 @@ Each still gets a loading case and an answer case.
       `static-analysis-checklist/tracked-files-only` (6 of 8).
 - [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
       that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **`dependabot` needs a repair case the model fails unaided.** `repair-pr-with-pushed-fix`
+      is a ceiling case. Try a fixture where the commits are not in the prompt and the agent has
+      to read them before it comments.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
