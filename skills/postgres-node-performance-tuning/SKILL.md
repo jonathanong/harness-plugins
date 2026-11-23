@@ -7,8 +7,8 @@ description: Use when writing or reviewing a SQL query or data-access function, 
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
-These rules are for queries that run in production. A query in a test, a fixture, or a seed
-needs no index, plan, or operation-name comment, and a test may run its own `BEGIN` and
+These rules are for queries that run in production. A query in a test or a fixture, or in a
+seed for a disposable database, needs no index, plan, or operation-name comment, and a test may run its own `BEGIN` and
 `ROLLBACK` or hold a second client to stage a race. The pool budget still counts test workers.
 
 Measure the query plan and the workload shape before changing code.

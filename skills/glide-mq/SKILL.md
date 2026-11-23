@@ -7,8 +7,9 @@ description: Use when writing or reviewing a queue producer, worker, dispatcher,
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
-These rules are for runtime code. A test or a one-off script may wait for a job to finish, keep
-finished jobs to inspect them, and add a job with no options to a throwaway queue.
+These rules are for runtime code. A test, or a one-off script on a throwaway queue, may wait
+for a job to finish, keep finished jobs to inspect them, and add a job with no options. A
+script that runs against a production queue follows every rule here.
 
 Names below are the glide-mq API: the job option `ordering: { key, concurrency }`, the worker
 option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToDelayed(timestamp)`,
