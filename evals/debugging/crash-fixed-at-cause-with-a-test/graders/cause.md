@@ -11,7 +11,7 @@ the lookup in `buildReport` returns `undefined`. That file is replaced by an exp
 
 PASS if, after the change, the lookup finds those customers because the code handles the padded
 id, for example by trimming fields or ids in `parseCustomers`, so INV-1004 and INV-1006 are
-reported under Brandt GmbH and Atelier Moreau in EUR. Adding a clear error for a customer that
+reported under Beispiel GmbH and Exemple SARL in EUR. Adding a clear error for a customer that
 is truly missing, on top of that, is fine.
 
 FAIL if the change only stops the crash while the lookup still misses: optional chaining, a

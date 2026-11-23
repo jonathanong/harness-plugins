@@ -12,7 +12,7 @@ needed.
 <!-- evals:headline -->
 
 - **106 cases** across 44 skills.
-- **With the plugin:** mean score 0.95.
+- **With the plugin:** mean score 0.94.
 - **Without it:** mean score 0.36, over the 105 cases measured both ways.
 - **82 cases** are ones the model fails unaided. The other 23 it already gets right: 3 check that a skill stays out of the way, and 20 show only that the skill loads.
 
@@ -38,7 +38,7 @@ averaged over attempts.
 | `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     |
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     |
 | `git-commit-checklist`             | 3     | 0.94        | 0.44           | 1                     |
-| `github-actions-authoring`         | 4     | 1.00        | 0.38           | 1                     |
+| `github-actions-authoring`         | 4     | 0.92        | 0.38           | 1                     |
 | `github-issue`                     | 2     | 0.92        | 0.17           | 0                     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |

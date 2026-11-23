@@ -46,7 +46,8 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
   rule prevents, as the Review section of the `evals` skill requires. Never cite a ceiling case as a reason to
   remove a rule or to hold back a new one. A new skill whose drafted cases all pass without it
   ships with one of them as its loading check; say in its `EVALS.md` note that it is a ceiling
-  case, and list a harder case in `ROADMAP.md`.
+  case, and list a harder case in `ROADMAP.md`. An existing skill may keep a ceiling case the same
+  way when it is the case that shows the skill loads.
 - The exception is a guard case: one that checks a rule is not applied where it does not hold.
   It may pass without the skill. Add one only beside a case for the same rule that the model
   fails without the skill, and start its `EVALS.md` row with "Guard:" and say so in `HISTORY.md`. A guard for a skill

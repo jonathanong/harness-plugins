@@ -2,10 +2,6 @@
 
 Planned work, most certain first. An item leaves this file when its pull request merges.
 
-## Skills: split
-
-- [ ] Move detail to references in `github-actions-authoring`.
-
 ## Skills: add
 
 A skill does not wait for a case the current model fails; weaker models need the rules too.
@@ -50,8 +46,10 @@ Each still gets a loading case and an answer case.
 - [ ] **`debugging` needs a case the model fails unaided.** Its fixture case loads the skill
       in 12 of 12 and passes without it (`evals/HISTORY.md`, 2026-11-22). Candidates: a failure
       that cannot be reproduced locally, and one that needs a bisect to find.
-- [ ] **`index-change-rechecks-neighbors` fails in 2 of 19 attempts that load its skill,** and
-      `review-ci-logs/quiet-log-keeps-errors` loads in 7 of 9. Read the failing attempts.
+- [ ] **Three cases load their skill in most attempts, not all:**
+      `review-ci-logs/quiet-log-keeps-errors` in 7 of 9,
+      `github-actions-authoring/required-check-is-a-real-job` in 11 of 15, and
+      `index-change-rechecks-neighbors` in 19 of 21. Read the misses.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
       no skill loaded.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
