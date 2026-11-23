@@ -22,8 +22,9 @@ Each still gets a loading case and an answer case.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
-- [ ] **`list-reads/review-feed-candidate-pool` loads its skill in 3 of 6.** Find a description
-      that loads for a plain review of a feed query, and add a case for writing a list endpoint.
+- [ ] **`list-reads` needs a case for writing a list endpoint, and a check that it stays out
+      of the way.** Its description now opens with any query that returns a list. Add a case
+      that writes one, and a guard where a single-row query must not load it.
 - [ ] **The pagination rules need a server-side case and a native case.** Add a `list-reads`
       case where a capped walk must set `has_next_page` on an empty page, and a
       `native-app-architecture` case for the client rule.
