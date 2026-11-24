@@ -4,6 +4,42 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `agent-workflow` verifies a finding before presenting or fixing it
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Six runs, $3.88. Each row
+is from a two-arm run of three attempts per arm on the committed skill text.
+
+| Case                                                  | With, outcome | Loaded | Without |
+| ----------------------------------------------------- | ------------- | ------ | ------- |
+| `postgres-locking/race-finding-that-cannot-happen`    | 3 of 3        | 3 of 3 | 3 of 3  |
+| `github-issue/unverified-finding-is-an-investigation` | 3 of 3        | 3 of 3 | 0 of 3  |
+| `postgres-locking/race-finding-on-unwritten-row`      | 3 of 3        | 3 of 3 | 0 of 3  |
+| `pull-requests/review-round-dispositions`             | 3 of 3        | 3 of 3 | 2 of 3  |
+
+- **Why.** The owner asked for a rule that a finding from a reviewer, a bot, a note, or the
+  agent's own review is verified before it is presented or fixed: reproduced, traced in the code,
+  or seen in staging or production data where that is available and relevant. A fix for a
+  problem that cannot happen is unreachable code.
+- **The rule.** `agent-workflow` gains "Verify a finding". Two sentences in it are mine, not the
+  owner's: a race finding names the two callers and shows they can run at the same time, and a
+  finding traced and found false gets a reply with the reason and no code change.
+  `postgres-locking` (race findings), `github-issue` rule 3, and the `pull-requests` review
+  response link to it and keep only the local instruction; the review response gains an
+  "Unverified" disposition. This replaces the roadmap item "A guard needs a reachable race".
+- **The case.** `race-finding-that-cannot-happen` is a synthetic ledger repository. A review
+  bot reports a lost update on an account balance and asks for `FOR UPDATE` or a version column.
+  The credit is one atomic `UPDATE ... SET balance_cents = balance_cents + ...` in a `.sql` file
+  two files from the handler. The answer passes when it says the race cannot happen, with the
+  reason, and changes nothing. (1) One attempt per arm, with the statement in the data-access
+  file: both passed ($0.24). (2) The statement moved to the `.sql` file and the handler passing
+  the whole account: both passed ($0.28). (3) Three per arm on the edited skills: a ceiling
+  ($0.89). It stays as the skill's check that the rule does no harm; it does not show that the
+  rule helps.
+- **The neighbours.** (4)-(6) The three cases whose rule text changed held, as in the table
+  ($0.60, $0.64, $1.23).
+- **Not measured.** No case tests the half of the rule for a finding that cannot be verified,
+  which is reported as unverified with no fix.
+
 ## 2026-11-24: `review-ci-logs` reads the repository when the log does not say why
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Four runs, $6.39. The

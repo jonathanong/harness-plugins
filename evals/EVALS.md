@@ -98,6 +98,7 @@ unaided by design.
 | `postgres-locking/exact-cap-no-lock`                                    | Enforces a cap as best effort, with no lock, counter, or claim table.                                                                                                                                                                    | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/prelock-before-conditional-update`                    | Asks for the `SELECT ... FOR UPDATE` before an already conditional `UPDATE` to be deleted.                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/race-finding-on-unwritten-row`                        | Answers a review bot's race finding with a guard inside the insert, not a lock on a row it does not write.                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
+| `postgres-locking/race-finding-that-cannot-happen`                      | Answers a review bot's lost-update finding on a balance credit by tracing the single atomic `UPDATE` two files away and saying it cannot happen, with no lock or code change. Ceiling case.                                              | 1.00  | 3 of 3   | 1.00           |
 | `postgres-locking/review-advisory-lock-key`                             | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                                                                                                                                     | 0.67  | 1 of 3   | 1.00           |
 | `postgres-locking/review-last-admin-advisory-lock`                      | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/review-race-test-that-waits-on-a-lock`                | Guard: accepts a race test that holds a row lock and waits for blocked writers, because it asserts the final balance; has no skill-fired grader.                                                                                         | 1.00  | 6 of 6   | 1.00           |
@@ -115,7 +116,7 @@ unaided by design.
 | `pr-description/behavior-change-shows-a-real-run`                       | Shows one real run of a changed command from a user's point of view, on the realistic scenario, not only a minimal fixture or a summary table.                                                                                           | 1.00  | 3 of 3   | 0.33           |
 | `pr-description/ci-gap-section`                                         | Adds a short section on what CI caught that the local check missed, without work history.                                                                                                                                                | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/perf-change-with-flag`                                  | Shows a before/after table, states what a flag does not cover, and omits routine checks.                                                                                                                                                 | 1.00  | 3 of 3   | 0.00           |
-| `pull-requests/review-round-dispositions`                               | Gives each review comment one disposition and settles the round with a single push.                                                                                                                                                      | 1.00  | 3 of 3   | 0.00           |
+| `pull-requests/review-round-dispositions`                               | Gives each review comment one disposition and settles the round with a single push.                                                                                                                                                      | 1.00  | 3 of 3   | 0.67           |
 | `react-app-structure/abort-superseded-search`                           | Aborts a superseded search request with an `AbortController`.                                                                                                                                                                            | 1.00  | 3 of 3   | 1.00           |
 | `react-app-structure/client-needs-current-user`                         | Reads the signed-in user in the client from auth context, not a prop passed from the server page.                                                                                                                                        | 1.00  | 3 of 3   | 0.00           |
 | `react-app-structure/load-more-follows-the-flag`                        | Pages a list while the API reports a next page, and shows the empty state only when no further page can be requested.                                                                                                                    | 0.83  | 5 of 6   | 0.17           |
@@ -274,10 +275,15 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `behavior-change-shows-a-real-run` is from a two-arm run of three attempts the same day on the
   same text and case; those of the other two rows are from earlier two-arm runs.
 - **The three `github-issue` rows** take their plugin score and loading from one plugin-only run
-  of three attempts on 2026-11-24, on the current skill text and grader, the second run of the
-  entry "lets an investigation issue carry a conditional fix". The "Without plugin" value of
-  `unverified-finding-is-an-investigation` is from a two-arm run of three attempts the same day on
-  the same text, case, and grader; those of the other two rows are from earlier two-arm runs.
+  of three attempts on 2026-11-24, the second run of the entry "lets an investigation issue carry
+  a conditional fix". `unverified-finding-is-an-investigation` is instead from a two-arm run of
+  three attempts on 2026-11-24 after rule 3 linked to `agent-workflow`, "Verify a finding". The
+  other two rows keep "Without plugin" values from earlier two-arm runs.
+- **`postgres-locking/race-finding-that-cannot-happen`,
+  `postgres-locking/race-finding-on-unwritten-row`, and
+  `pull-requests/review-round-dispositions`** are each from a two-arm run of three attempts on
+  2026-11-24, after `agent-workflow` gained "Verify a finding"; see that entry in
+  [HISTORY.md](HISTORY.md).
 - **`agent-rules/stated-rule-keeps-its-words`** takes its plugin score from a plugin-only run of
   all three `agent-rules` cases on 2026-11-24, three attempts, loading 3 of 3, and "Without
   plugin" from a two-arm run of three attempts the same day on the same text. The other two

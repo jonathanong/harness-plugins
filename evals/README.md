@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **144 cases** across 47 skills.
+- **145 cases** across 47 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.33, over the 143 cases measured both ways.
-- **112 cases** are ones the model fails unaided. The other 31 it already gets right: 5 check that a skill stays out of the way, and 26 show at most that the skill loads.
+- **Without it:** mean score 0.34, over the 144 cases measured both ways.
+- **112 cases** are ones the model fails unaided. The other 32 it already gets right: 5 check that a skill stays out of the way, and 27 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -53,12 +53,12 @@ averaged over attempts.
 | `package-json-checklist`           | 3     | 0.96        | 0.45           | 0                     |
 | `planning`                         | 7     | 0.92        | 0.38           | 2                     |
 | `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     |
-| `postgres-locking`                 | 8     | 0.96        | 0.38           | 3                     |
+| `postgres-locking`                 | 9     | 0.96        | 0.44           | 4                     |
 | `postgres-node-performance-tuning` | 3     | 0.84        | 0.00           | 0                     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
 | `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     |
 | `pr-description`                   | 3     | 1.00        | 0.11           | 0                     |
-| `pull-requests`                    | 1     | 1.00        | 0.00           | 0                     |
+| `pull-requests`                    | 1     | 1.00        | 0.67           | 0                     |
 | `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     |
 | `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     |
 | `review-ci-logs`                   | 4     | 0.96        | 0.58           | 2                     |
