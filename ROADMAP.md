@@ -67,6 +67,10 @@ Each still gets a loading case and an answer case.
       gave the thing anyway. Try the same kind of request on other skills' "do not" rules.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
+- [ ] **Skills that do not load for a one-edit request.** On 2026-11-23 a request to add
+      one block or change one call, with the code pasted in, loaded `structured-logging` in
+      0 of 3 and `github-actions-authoring` in 2 of 9 until their descriptions named the
+      request. Try such prompts on other skills.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.

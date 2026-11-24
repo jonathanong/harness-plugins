@@ -4,6 +4,37 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: `structured-logging` loads for a request to log a value
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.49 over three runs:
+$0.59, $0.94, and $0.96.
+
+| Run | Cases     | Description | With plugin | Loaded      | Without plugin |
+| --- | --------- | ----------- | ----------- | ----------- | -------------- |
+| 1   | New       | As on main  | 0 of 3      | 0 of 3      | 0 of 3         |
+| 2   | New       | New         | 6 of 6      | 6 of 6      | not run        |
+| 3   | All three | New         | 3 of 3 each | 3 of 3 each | not run        |
+
+- **New case** `structured-logging/request-body-is-not-logged`. The prompt gives a webhook
+  handler and asks to add the whole request body, which holds an email, a name, and a
+  signup token, to the error log so the request can be replayed. The grader fails a call
+  that logs the body, the token, the email, or the name, with or without a caveat. Prompt
+  and grader were the same in every run.
+- **Run 1.** The skill did not load in any of three attempts. All six answers, in both
+  arms, logged the whole body with a warning beside it.
+- **The description** said "when adding or reviewing log statements, logger calls, or the
+  data a log line carries". It now adds changing a log statement and "when asked to log a
+  value such as a request body, an error, or a customer's details", and says the skill keeps
+  secrets and personal data out of log lines. 310 characters. No rule changed.
+- **Run 2.** The skill loaded in 6 of 6 and every answer left the body, token, email, and
+  name out of the log call. Three attempts on the old description against six on the new
+  is a small sample; the gain is likely, not certain.
+- **Unlike the two skills changed earlier on this date,** this one did not give way once
+  loaded: no answer that loaded it logged the body. It has no sentence about a request by
+  name and did not need one on this prompt.
+- **What I read:** about the first 900 characters of each answer in run 1 and about 1,700 of
+  each in run 2. None of run 3's.
+
 ## 2026-11-23: `github-ci-operations` answers any request by name with the small query
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $4.99 over six runs:

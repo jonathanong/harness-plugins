@@ -122,6 +122,7 @@ unaided by design.
 | `static-code-analysis/new-rust-service`                                 | Picks the static checks for a new Rust service.                                                                                                  | 1.00  | 6 of 6   | 0.83           |
 | `static-code-analysis/new-typescript-library`                           | Picks the static checks for a new TypeScript library.                                                                                            | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                          | Logs the customer id with a static message instead of looking up an email for the log.                                                           | 1.00  | 3 of 3   | 0.00           |
+| `structured-logging/request-body-is-not-logged`                         | Asked to log a webhook's whole request body on failure, logs safe fields and not the body, token, email, or name.                                | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/review-lookup-in-catch`                             | Logs the customer id with a static message instead of looking up the name in a catch.                                                            | 1.00  | 3 of 3   | 0.00           |
 | `technical-writing/incident-writeup-from-notes`                         | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.                                         | 1.00  | 3 of 3   | 0.00           |
 | `technical-writing/proposal-for-two-audiences`                          | Labels sections by audience, tables every flag and plan combination and the before and after, defines jargon.                                    | 0.67  | 1 of 3   | 0.00           |
@@ -148,6 +149,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   "Without plugin" value from a two-arm run of three attempts earlier that day. The skill's other
   four rows take their plugin score and loading from a plugin-only run of three attempts on the
   current skill the same day, and keep their "Without plugin" values from earlier runs that day.
+- **`structured-logging/request-body-is-not-logged`** takes its plugin score and loading from a
+  plugin-only run of six attempts on 2026-11-23, on the current description, and its "Without
+  plugin" value from a two-arm run of three attempts earlier that day. The skill's other two rows
+  are from before the description changed; a plugin-only run of three attempts on the current
+  description gave each 3 of 3, loaded 3 of 3.
 - **`package-json-checklist/pinned-transitive-version-replaces-the-package`** is from one two-arm
   run of six attempts on 2026-11-23. The other two `package-json-checklist` rows take their plugin
   score and loading from a plugin-only run of three attempts the same day, after the skill's
