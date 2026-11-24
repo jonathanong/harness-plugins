@@ -20,7 +20,10 @@ Read every applicable `AGENTS.md` first. Repository-local policy overrides these
 - A seed or generator that replays on every bootstrap converges: `ON CONFLICT DO UPDATE` assigns
   constants, never `col = col + 1` or a volatile value.
 - Comment every table, column, and view; document reviewed exceptions explicitly.
-- Name every constraint and state `ON DELETE` on every foreign key. Index the referencing column.
+- Name every constraint, the primary key included, and state `ON DELETE` on every foreign key.
+  Index the referencing column. `NOT NULL` is written inline and needs no name. A generated name is not in the migration's text, so a later
+  migration that drops or alters the constraint has to guess it. See
+  [naming](references/naming.md).
 - Keys are generated ids. A natural text key stays a unique column on its owning table; other
   tables reference the id. See [relations](references/relations.md).
 

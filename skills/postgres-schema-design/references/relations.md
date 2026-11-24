@@ -17,12 +17,12 @@ references `accounts.id`). A 1:N child remains an ordinary child table.
 For one of several sources, use an exclusive arc:
 
 ```sql
-CHECK (num_nonnulls(order_id, invoice_id) = 1)
+CONSTRAINT ck_payments__one_source CHECK (num_nonnulls(order_id, invoice_id) = 1)
 ```
 
 Both source columns have their own FK. If a reference must belong to the same account, enforce
-`FOREIGN KEY (account_id, invoice_id) REFERENCES invoices (account_id, id)` with a corresponding
-unique key on the target. A validation trigger is unnecessary. With nullable `invoice_id`,
+`CONSTRAINT fk_payments__account_id_invoice_id FOREIGN KEY (account_id, invoice_id) REFERENCES
+invoices (account_id, id) ON DELETE RESTRICT` with a corresponding unique key on the target. A validation trigger is unnecessary. With nullable `invoice_id`,
 default `MATCH SIMPLE` skips that composite check when the reference is absent.
 
 A ledger that survives deletion references a retained identity row with explicit deletion
@@ -53,8 +53,20 @@ the row by id:
 
 ```sql
 -- avoid: orders.account_code text REFERENCES accounts (code)
-CREATE TABLE accounts (id uuid PRIMARY KEY, code text NOT NULL UNIQUE);
-CREATE TABLE orders (id uuid PRIMARY KEY, account_id uuid NOT NULL REFERENCES accounts (id));
+CREATE TABLE accounts (
+  id uuid NOT NULL DEFAULT uuidv7(),
+  code text NOT NULL,
+  CONSTRAINT pk_accounts PRIMARY KEY (id),
+  CONSTRAINT uq_accounts__code UNIQUE (code)
+);
+CREATE TABLE orders (
+  id uuid NOT NULL DEFAULT uuidv7(),
+  account_id uuid NOT NULL,
+  CONSTRAINT pk_orders PRIMARY KEY (id),
+  CONSTRAINT fk_orders__account_id FOREIGN KEY (account_id)
+    REFERENCES accounts (id) ON DELETE RESTRICT
+);
+CREATE INDEX idx_orders__account_id ON orders (account_id);
 ```
 
 Resolve the string to an id once at the boundary, then join `orders.account_id = accounts.id`.
