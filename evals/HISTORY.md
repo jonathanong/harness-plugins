@@ -4,6 +4,49 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `pr-description` shows one real run from a user's point of view
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.72 over four runs.
+
+| Run | What ran                                 | Skill text        | Case text | With plugin | Without |
+| --- | ---------------------------------------- | ----------------- | --------- | ----------- | ------- |
+| 1   | New case, two arms, 3 attempts           | Before the rule   | First     | 2 of 3      | 3 of 3  |
+| 2   | All three cases, plugin only, 3 attempts | First draft       | First     | 3 of 3      |         |
+| 3   | New case, two arms, 3 attempts           | Rule as committed | Second    | 3 of 3      | 1 of 3  |
+| 4   | All three cases, plugin only, 3 attempts | Rule as committed | Second    | 3 of 3      |         |
+
+The last two columns are the new case, `behavior-change-shows-a-real-run`. Costs: $0.65,
+$1.16, $0.66, $1.25. The skill loaded in every plugin attempt of every run.
+
+- **The rule.** A new section, "Show one real run": when a change alters what a command,
+  endpoint, screen, or job does, the description shows one real run from the point of view
+  of a customer or user, on a real scenario and not a contrived, narrow example, with the
+  inputs and outputs themselves. The owner's words for it were "show one real run in the
+  perspective of a customer or a user" and "don't make contrived, narrow examples"; the
+  reason given was a feature that was built wrongly and not understood from its description.
+  The bullets under that are this repository's wording.
+- **First case and run 1.** The notes held one run on a small fixture, with its output
+  pasted. Unaided answers copied it, 3 of 3. With the skill as it was, one answer of three
+  turned the output into a before and after table and dropped the command, which is what
+  the skill's table advice asked for.
+- **Second case.** The notes hold two runs: a minimal fixture with packages `a` and `b`
+  given in one line, and the application from the bug report with its input and printed
+  output. The prompt asks for a short description. The case passes only when the
+  application's run is shown with its input, command, and output as printed.
+- **Run 3** is the comparison on the committed text: 3 of 3 with the plugin, 1 of 3 without.
+  One unaided fail showed a run of the minimal fixture and gave the application's result
+  only as a table. The other showed the application's output and described its input file
+  in a sentence without showing it. Three attempts per arm is a small sample.
+- **Run 2 and a side effect.** On the first draft `perf-change-with-flag` passed 2 of 3. The
+  fail listed passing checks, which an older rule forbids; the same answer also wrote "I
+  have no command output to paste" for a performance change. The draft's "when nothing was
+  run, say so" became "when the behavior was not run", and a sentence says a performance
+  change's evidence is its measured numbers. In run 4 no answer of nine wrote such a line,
+  and `ci-gap-section` and `perf-change-with-flag` passed 3 of 3 each.
+- **Read:** every attempt's grades in all four runs; in full, the failing answer in run 2
+  and the two unaided fails and one plugin answer in run 3; and a search of the other
+  run-3 and run-4 answers for the command, the input, a table, and a "not run" line.
+
 ## 2026-11-24: `github-actions-authoring` answers a request by name for a chain or a job per upload
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $9.72 over six runs.

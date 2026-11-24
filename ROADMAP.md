@@ -75,10 +75,22 @@ Each still gets a loading case and an answer case.
       `working-shards-stay-parallel` loaded the skill in 1 of 3, 2 of 3 and 6 of 6 across runs
       and `short-shards-are-merged` in 1 of 3; every loaded answer passed.
 - [ ] **Candidate rules from an incident review, each needing a case first:** a CI change is
-      validated by a run that exercises the changed path; a feature pull request's body leads
-      with the problem and one worked example and is rewritten whole after revisions; before
+      validated by a run that exercises the changed path; a feature pull request's body is
+      rewritten whole after revisions; before
       handoff, run the change on its most common input and call a self-defeating result a
       bug; a spec's constraints cover every surface the change affects.
+- [ ] **Candidate rules from a review of one orchestrator's logs on 2026-11-24, each needing a
+      case first.** They are a review agent's wording, not the owner's.
+      `agent-rules`: record a person's rule in their exact words and add no sub-rules or scope
+      of your own; keep one current rule per topic and delete what it replaced.
+      `resuming-work`: a scheduled or repeating prompt is as old as the day it was written,
+      and every standing copy changes when the instruction does; after a context summary,
+      re-read the standing notes before acting on a limit, hold, or approval it states.
+      `agent-workflow`: a yes covers the action that was asked about, not a wider or permanent
+      mechanism; raise a pending question once, and check the actual condition before
+      flagging an item. `agent-coordination`: read the preferred workers' availability from
+      the live source before using a fallback; read the change behind a worker's numbers
+      before relaying them as a trade-off.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.
