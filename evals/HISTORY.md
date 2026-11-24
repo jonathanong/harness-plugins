@@ -6,36 +6,41 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `postgres-schema-design` says a stored cursor has a retention policy
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.03 over two two-arm
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.90 over three two-arm
 runs, three attempts per arm.
 
 | Run | What ran       | Reference text    | New case, with | Loaded | Without | Cost  |
 | --- | -------------- | ----------------- | -------------- | ------ | ------- | ----- |
 | 1   | New case       | `main`            | 3 of 3         | 3 of 3 | 1 of 3  | $0.93 |
-| 2   | All five cases | With the sentence | 3 of 3         | 3 of 3 | 1 of 3  | $4.10 |
+| 2   | All five cases | Unscoped sentence | 3 of 3         | 3 of 3 | 1 of 3  | $4.10 |
+| 3   | New case       | As committed      | 3 of 3         | 3 of 3 | 1 of 3  | $0.87 |
 
 - **The rule.** The owner's words: "if we are storing cursors in the db, it should have a
   retention policy (e.g. partition to drop old cursors, or delete cursors when that run is
-  complete)". The sentence in the cursor section of `references/table-shapes.md` is "A cursor
-  stored in the database has a retention policy: for example, partition the table to drop old
-  cursors, or delete a run's cursor when that run is complete." The change from "if we are
-  storing cursors in the db, it should have" to a statement is this repository's.
+  complete)". Run 2's sentence applied that to every stored cursor. A reviewer of the pull request
+  pointed out that it sat under the single-row shape, which does not accumulate, and so answered
+  an open question by accident. Asked, the owner said "both shapes stay (per run or global), it's
+  up to the implementor to decide based on requirements". The committed text says a stored cursor
+  is one row for the sweep when each run continues from where the last one stopped, or one row per
+  run when runs are independent, and that a cursor stored per run has a retention policy, with the
+  owner's two examples. The sentences on the two shapes and the words "stored per run" are this
+  repository's.
 - **No measured improvement from the sentence.** The skill passed the new case 3 of 3 before the
   sentence was added, on its existing rule that every durable row has a finite retention window.
-  The case shows the skill against no skill, 6 of 6 against 2 of 6 over the two runs, not the
+  The case shows the skill against no skill, 9 of 9 against 3 of 9 over the three runs, not the
   sentence against its absence. The sentence is a clarification with no behaviour claim: it names,
   in the place a reader designs a cursor table, the mistake of per-run cursor rows that accumulate
-  forever, which four of six unaided answers made.
+  forever, which six of nine unaided answers made.
 - **Case `per-run-cursor-rows-are-removed`.** Asks for a table holding one saved position per
   export run. It passes when finished runs' rows are removed, by a delete on completion or by
   dropping old rows, and fails when a run is only marked finished.
 - **Run 2, the other four cases:** all 3 of 3 with the plugin. Without it:
   `customer-code-key` and `membership-table-is-commented` 3 of 3, `uuidv7-no-created-at-default`
   2 of 3, `membership-table-names-its-constraints` 0 of 3.
-- **Not settled:** whether a stored cursor is always one row per run, or whether a single row
-  that runs share stays as a shape. The reference still shows the single row.
-- **Read:** every attempt's grades in both runs, and the closing lines of each run-1 answer.
-  I read no run-2 answer beyond its grades.
+- **Run 3** is the new case on the committed text, 3 of 3 against 1 of 3. The other four cases
+  were not rerun on it.
+- **Read:** every attempt's grades in all three runs, and the closing lines of each run-1 answer.
+  I read no run-2 or run-3 answer beyond its grades.
 
 ## 2026-11-24: a `lint-rule-authoring` skill, split from `static-analysis-checklist`
 

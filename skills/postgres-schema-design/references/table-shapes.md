@@ -79,8 +79,10 @@ its domain rows. A cursor key names the finite thing being swept. A singleton us
 `CHECK (is_singleton)`; the job seeds its own row
 with `ON CONFLICT DO NOTHING`. `cursor_<thing>_id` and optional `sweep_upper_bound_<thing>_id` are
 FK-free UUIDv7 positions; NULL means the start. Per-unit work progress belongs in work items.
-A cursor stored in the database has a retention policy: for example, partition the table to drop
-old cursors, or delete a run's cursor when that run is complete.
+A stored cursor is one row for the sweep when each run continues from where the last one stopped,
+or one row per run when runs are independent; choose by what the sweep requires. A cursor stored
+per run has a retention policy: for example, partition the table to drop old cursors, or delete a
+run's cursor when that run is complete. A single row for the sweep does not accumulate.
 A UUIDv7 is assigned at insert, not commit: jobs that must see every committed row re-scan an
 overlap rather than assuming an id high-water mark proves commit order.
 

@@ -284,7 +284,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   before this run they stood at: `customer-code-key` 3 of 3 with, 1.00 without;
   `membership-table-is-commented` 6 of 6 with, 0.17 without;
   `membership-table-names-its-constraints` 6 of 6 with, 0.00 without;
-  `uuidv7-no-created-at-default` 3 of 3 with, 0.00 without.
+  `uuidv7-no-created-at-default` 3 of 3 with, 0.00 without. `per-run-cursor-rows-are-removed` was
+  rerun the same day after the sentence was scoped to per-run cursors, with the same result; the
+  other four rows were not rerun on that wording.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
