@@ -73,9 +73,12 @@ loaded only when it is needed, and nowhere else.
 
 ## Writing a rule
 
-- Do not paraphrase or interpolate a rule a person stated: write it down in their words. If you
-  have questions or want elaboration, ask the human. A clause, an example, or a scope you add
-  is your reading of what they meant, and the next agent follows it as theirs.
+- Do not guess at a rule a person stated. Ask until you understand it. Think through the cases they
+  have not considered, and ask about those too. Then write the rule concisely and correctly, and
+  show them the wording. When they cannot be asked now, write only what you understand and list the
+  open questions with it. An exception, a reason, or a scope you add without asking is your reading
+  of what they meant, and the next agent follows it as theirs. Mark it as yours wherever you write
+  it down, above all in memory.
 - Write what to do, with the reason when it is not obvious. A reader who knows the reason can
   handle the case the rule did not foresee.
 - Write the rule, not the incident that produced it. The story belongs in the commit or the
