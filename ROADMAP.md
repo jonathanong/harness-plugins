@@ -35,9 +35,9 @@ Each still gets a loading case and an answer case.
 - [ ] **`postgres-node-performance-tuning/dedupe-keeps-statement-names-literal` loads its
       skill in 5 of 12 attempts.** A request to clean up duplicated queries does not load it,
       and naming refactoring in the description did not help.
-- [ ] **`error-handling` needs cases for two rules:** details as attributes, and reporting.
-      Its reporting case is a ceiling case. Try a fixture where errors are thrown in one file
-      and reported in another.
+- [ ] **`error-handling` needs a reporting case the model fails unaided.** Its reporting case
+      is a ceiling case. Try a fixture where errors are thrown in one file and reported in
+      another.
 - [ ] **`llm-calls` needs a case for tool arguments:** a tool that trusts a limit the model
       supplied.
 - [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
