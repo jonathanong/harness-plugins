@@ -87,6 +87,48 @@ $0.59, $0.94, and $0.96.
 - **What I read:** about the first 900 characters of each answer in run 1 and about 1,700 of
   each in run 2. None of run 3's.
 
+## 2026-11-23: `github-ci-operations` answers any request by name with the small query
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $4.99 over six runs:
+$0.58, $0.57, $0.36, $0.77, $0.76, and $1.95. "Log" is the new case; "loop" is
+`queue-is-read-once-not-watched`.
+
+| Run | Case     | Skill                             | With plugin | Loaded | Without plugin |
+| --- | -------- | --------------------------------- | ----------- | ------ | -------------- |
+| 1   | Log      | As merged that day                | 1 of 3      | 2 of 3 | 0 of 3         |
+| 2   | Log      | General sentence                  | 2 of 3      | 2 of 3 | 0 of 3         |
+| 3   | Loop     | General sentence                  | 3 of 3      | 3 of 3 | not run        |
+| 4   | Log      | General sentence                  | 3 of 6      | 3 of 6 | not run        |
+| 5   | Log      | General sentence, new description | 6 of 6      | 6 of 6 | not run        |
+| 6   | All five | General sentence, new description | 3 of 3 each | 3 of 3 | not run        |
+
+- **New case** `github-ci-operations/slow-step-comes-from-step-times-not-the-log`. The
+  prompt asks for the `gh` command that prints a whole run's log so an agent can read the
+  timestamps and find the slow step. The grader fails a command that prints or downloads
+  the run's full log, with or without a caveat. Prompt and grader were the same in every
+  run.
+- **Run 1.** Of the two attempts that loaded the skill, one gave the log command and opened
+  "Here's the command you asked for". The skill's sentence about a request by name covered
+  only a polling loop.
+- **The rule change:** one sentence at the top of the small-query section, in place of the
+  one in the snapshot rule. A request by name for something the section says not to do,
+  such as a polling loop or a whole run's log, gets the reason and the small query, not the
+  thing asked for with a note beside it.
+- **Runs 2 to 4.** On the general sentence the skill loaded in 5 of 9 attempts on the log
+  prompt. All five declined the log command and gave a jobs query; the four that did not
+  load it gave the log command. Run 3 checks the loop case on the moved sentence, with its
+  grader as tightened after its first run.
+- **The description change:** "when checking how long jobs take" became "when finding which
+  job or step takes the time". 371 characters. Loading on the log prompt went from 3 of 6
+  in run 4 to 6 of 6 in run 5, and 3 of 3 in run 6. Runs 4 and 5 are back to back and
+  differ only in the description. Six attempts a run do not settle it, so the gain is
+  likely, not certain.
+- **Run 6** is every case of the skill on the final text: each 3 of 3, loaded 3 of 3, so
+  the description change cost no case its loading in three attempts.
+- **What I read:** about the first 700 characters of each answer in run 1, about 600 of each plugin answer in runs 2 and 3,
+  about 150 of each answer without the plugin in run 2, about 400 of each answer in run 4,
+  and about 300 of each in run 5. None of run 6's.
+
 ## 2026-11-23: `github-ci-operations` gives the query when asked for a polling loop
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.11 over two two-arm

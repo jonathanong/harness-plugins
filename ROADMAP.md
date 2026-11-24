@@ -62,11 +62,9 @@ Each still gets a loading case and an answer case.
       what a test may do in the six skills that gained a scope sentence on 2026-11-23.
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
-- [ ] **Skills that give way to a request by name.** Two did on 2026-11-23: asked for an
-      override or a polling loop, the answer named the rule and gave the thing anyway. Try
-      the same kind of request on other skills' "do not" rules.
-- [ ] **A case for fetching one job's log** in `github-ci-operations`. Try a request for a
-      full log download.
+- [ ] **Skills that give way to a request by name.** Three rules did on 2026-11-23: asked
+      for an override, a polling loop, or a whole run's log, an answer that loaded the skill
+      gave the thing anyway. Try the same kind of request on other skills' "do not" rules.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **Skills that do not load for a one-edit request.** On 2026-11-23 a request to add
