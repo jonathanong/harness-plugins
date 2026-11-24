@@ -47,6 +47,7 @@ unaided by design.
 | `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                         | 1.00  | 3 of 3   | 1.00           |
 | `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.     | 1.00  | 3 of 3   | 0.00           |
 | `github-ci-operations/queue-is-read-once-not-watched`                   | Asked for a loop that polls a run until its jobs start, gives one query of the job timestamps and no loop.                                       | 1.00  | 3 of 3   | 0.00           |
+| `github-ci-operations/slow-step-comes-from-step-times-not-the-log`      | Asked for a command that prints a whole run's log to find a slow step, gives a query of step times and no log dump.                              | 1.00  | 6 of 6   | 0.00           |
 | `github-issue/search-before-filing`                                     | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                                                      | 0.83  | 2 of 3   | 0.00           |
 | `github-issue/stale-notes-before-filing`                                | Checks that a months-old note still holds on the default branch before filing it.                                                                | 1.00  | 3 of 3   | 0.33           |
 | `github-repository-settings/collaborators-only-prs`                     | Limits pull requests to collaborators and requires approval for every outside contributor's runs.                                                | 1.00  | 3 of 3   | 0.67           |
@@ -122,6 +123,7 @@ unaided by design.
 | `static-code-analysis/new-rust-service`                                 | Picks the static checks for a new Rust service.                                                                                                  | 1.00  | 6 of 6   | 0.83           |
 | `static-code-analysis/new-typescript-library`                           | Picks the static checks for a new TypeScript library.                                                                                            | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                          | Logs the customer id with a static message instead of looking up an email for the log.                                                           | 1.00  | 3 of 3   | 0.00           |
+| `structured-logging/request-body-is-not-logged`                         | Asked to log a webhook's whole request body on failure, logs safe fields and not the body, token, email, or name.                                | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/review-lookup-in-catch`                             | Logs the customer id with a static message instead of looking up the name in a catch.                                                            | 1.00  | 3 of 3   | 0.00           |
 | `technical-writing/incident-writeup-from-notes`                         | Opens with a summary, separates support from engineering, flags unchecked claims, ends with the queries.                                         | 1.00  | 3 of 3   | 0.00           |
 | `technical-writing/proposal-for-two-audiences`                          | Labels sections by audience, tables every flag and plan combination and the before and after, defines jargon.                                    | 0.67  | 1 of 3   | 0.00           |
@@ -143,12 +145,16 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
-- **`github-ci-operations/queue-is-read-once-not-watched`** is from one two-arm run of three
-  attempts on 2026-11-23, after the skill's snapshot rule changed that day. A plugin-only run of
-  three attempts on the changed rule gave the same plugin score and loading for all four of the
-  skill's rows; the other three rows keep their "Without plugin" values from earlier runs that
-  day. The new case's grader was tightened after its run, and one phrase of the rule was reworded
-  after every run; neither is re-measured.
+- **`github-ci-operations/slow-step-comes-from-step-times-not-the-log`** takes its plugin score
+  and loading from a plugin-only run of six attempts on 2026-11-23, on the current skill, and its
+  "Without plugin" value from a two-arm run of three attempts earlier that day. The skill's other
+  four rows take their plugin score and loading from a plugin-only run of three attempts on the
+  current skill the same day, and keep their "Without plugin" values from earlier runs that day.
+- **`structured-logging/request-body-is-not-logged`** takes its plugin score and loading from a
+  plugin-only run of six attempts on 2026-11-23, on the current description, and its "Without
+  plugin" value from a two-arm run of three attempts earlier that day. The skill's other two rows
+  are from before the description changed; a plugin-only run of three attempts on the current
+  description gave each 3 of 3, loaded 3 of 3.
 - **`package-json-checklist/pinned-transitive-version-replaces-the-package`** is from one two-arm
   run of six attempts on 2026-11-23. The other two `package-json-checklist` rows take their plugin
   score and loading from a plugin-only run of three attempts the same day, after the skill's

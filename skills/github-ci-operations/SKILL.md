@@ -1,6 +1,6 @@
 ---
 name: github-ci-operations
-description: Use when CI is slow, queued, backlogged, or expensive, when jobs wait for runners, when asked whether to add runners or upgrade a plan, or when checking how long jobs take on GitHub Actions. Measures job time and queue wait with small API queries, gives the hosted-runner concurrency limits, and says what to do, in order, when runs are backed up at a limit.
+description: Use when CI is slow, queued, backlogged, or expensive, when jobs wait for runners, when asked whether to add runners or upgrade a plan, or when finding which job or step takes the time on GitHub Actions. Measures job time and queue wait with small API queries, gives the hosted-runner concurrency limits, and says what to do, in order, when runs are backed up at a limit.
 ---
 
 # GitHub CI operations
@@ -15,6 +15,9 @@ suites run on pull requests, use `github-actions-authoring`.
 
 Ask the API for the fields you need. A log or a full JSON response costs thousands of tokens and
 answers the same question a five-column table does.
+When a request asks by name for something this section says not to do, such as a polling loop
+or a whole run's log, say why and give the small query in its place. Do not hand over what
+was asked for with a note beside it.
 
 - Job time and queue wait come from the jobs of a run, not from logs:
 
@@ -51,9 +54,7 @@ answers the same question a five-column table does.
   loop. A poll tells an agent nothing the timestamps will not: how long a job queued is
   `started_at - created_at` once it starts, so the jobs query at the top of this section,
   run once after the jobs start, gives the wait exactly. To wait for a result, use the
-  event-driven tool the repository provides. When the request asks for a polling loop by
-  name, say this and give the one query in its place; do not hand over the loop with a note
-  beside it.
+  event-driven tool the repository provides.
 - When a log is needed, fetch one job's log to a temporary file
   (`gh api repos/OWNER/REPO/actions/jobs/JOB_ID/logs`) and search it. `review-ci-logs` owns how
   to read it.
