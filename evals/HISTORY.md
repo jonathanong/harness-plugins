@@ -4,6 +4,87 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: review edits to `github-ci-operations` and the shard grader, not re-measured
+
+No run. These edits answer review findings and came after every run in the two entries below.
+
+- **`github-ci-operations`:** the query prints every runner label, not the first; the skill
+  says to check the account's total before blaming one label; and the backlog steps now start
+  by confirming that running jobs have reached a limit, and stop if they have not. A later
+  edit adds a per-repository query for that count, run once here with nothing in progress,
+  and limits "wait it out" to standard hosted runners.
+- **`short-shards-are-merged` grader:** it now also fails a job that no longer runs the whole
+  suite, such as eight shards whose command still says `/16`. I checked the ten recorded
+  passing answers by pattern: nine give the same count in the matrix and the command, and one
+  takes the count from a variable. So no recorded result would change, by that check.
+
+## 2026-11-23: the `github-actions-authoring` cases on the new description
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.25 for one plugin-only
+run of three attempts over the skill's five cases, on the description from the entry below.
+
+| Case                                     | Answer passed | Loaded |
+| ---------------------------------------- | ------------- | ------ |
+| `no-actions-write-with-checked-out-code` | 3 of 3        | 3 of 3 |
+| `publish-gated-on-ci`                    | 3 of 3        | 3 of 3 |
+| `rejects-polling`                        | 3 of 3        | 3 of 3 |
+| `required-check-is-a-real-job`           | 2 of 3        | 3 of 3 |
+| `short-shards-are-merged`                | 3 of 3        | 1 of 3 |
+
+- **This corrects the entry below on the shard case.** That entry says the new description
+  took loading from 1 of 3 to 6 of 6. On the same description this run loaded the skill in
+  1 of 3. Pooled, the new description loads it in 7 of 9 and the old in 1 of 3. That is weak
+  evidence the description helps, and not evidence that the case loads every time.
+- **The shard case separates less cleanly than the entry below says.** The two attempts in
+  this run that loaded no skill made no tool call at all, and both still wrote a job with
+  fewer shards. In the earlier two-arm run, all five attempts without the skill wrote the
+  32-shard job. So the model sometimes merges the shards unaided; the unaided 0 of 3 is one
+  small sample.
+- **The four older cases did not lose loading** on the longer description: 12 of 12.
+  `required-check-is-a-real-job` loaded in 3 of 3, against 6 of 9 before; one answer failed
+  its grader, and I read only its opening.
+- I read the tool calls of the three shard attempts and the opening of each answer for the
+  shard and required-check cases. No skill or case text changed for this run.
+
+## 2026-11-23: a skill for operating CI, and job sizing
+
+Corrected by the entry above: the shard case's loading and separation are weaker than stated
+here.
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 for three runs.
+
+| Case and run                                                       | With plugin | Loaded | Without plugin |
+| ------------------------------------------------------------------ | ----------- | ------ | -------------- |
+| `github-ci-operations/macos-queue-is-not-a-plan-problem`, two arms | 3 of 3      | 3 of 3 | 3 of 3         |
+| `github-actions-authoring/short-shards-are-merged`, two arms       | 1 of 3      | 1 of 3 | 0 of 3         |
+| The same case, plugin only, after the description changed          | 6 of 6      | 6 of 6 | not run        |
+
+- **Skill added: `github-ci-operations`,** requested through another session and scoped by the
+  user: measuring job time and queue wait with small API queries, the hosted-runner concurrency
+  limits, and a reference for what to do when runs are backed up at a limit. The user decided
+  that workflows still never cancel default-branch runs, and that an operator may cancel
+  superseded ones by hand during a backlog. The limits were read from GitHub's documentation on
+  2026-11-23.
+- **`github-actions-authoring` gains a job-sizing reference:** merge jobs that are mostly setup,
+  no `needs` edge for a short job, and a smoke tier for macOS and Windows on pull requests.
+  `review-ci-logs` links to the new skill.
+- **The macOS case is a ceiling case.** I read the opening of each of the six answers, about
+  700 characters. Each of the three unaided openings advised against the upgrade and gave a
+  macOS limit of 5 on both plans, and each said the numbers were from memory or might be out
+  of date. The skill's backlog steps moved from `SKILL.md` to a reference after this run, and
+  its description changed; not re-measured.
+- **The shard case separates, once the skill loads.** In the first run the skill loaded in one
+  attempt of three, and that attempt wrote a two-shard job. The two plugin attempts that did
+  not load it and all three unaided attempts wrote the 32-shard job that was asked for. Three
+  of those five opened by saying it would not help; the other two opened with the YAML, and I
+  did not read past it. The description of `github-actions-authoring` then gained "including
+  a change to its jobs, matrix, or test shards" and "job size". With it the skill loaded and
+  passed in 6 of 6. I read the opening and the shard lines of the first run's answers; for the
+  second run I read only the pass and loading results.
+- **Limits of this.** The unaided arm has three attempts. The other `github-actions-authoring`
+  cases were not re-run after the description changed. No case covers the small-query rules,
+  the backlog order, or the operating-system tiers.
+
 ## 2026-11-23: a `package-json-checklist` undeclared-dependency pilot, abandoned
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.61 for one two-arm run

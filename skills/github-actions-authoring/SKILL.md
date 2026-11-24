@@ -1,6 +1,6 @@
 ---
 name: github-actions-authoring
-description: Use when writing, editing, or reviewing a workflow or composite action. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, and pins.
+description: Use when writing, editing, or reviewing a workflow or composite action, including a change to its jobs, matrix, or test shards. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, pins, and job size.
 ---
 
 # GitHub Actions authoring
@@ -19,7 +19,9 @@ runner choice, and pinning. For a manually dispatched workflow that mutates shar
 or data, also read [destructive workflows](references/destructive-workflows.md). For a job on a
 self-hosted or otherwise persistent runner, or one moving from such a runner to a hosted one,
 also read [persistent runner workspaces](references/persistent-runners.md): checkout, workspace
-ownership and repair, and the runner-local state a move drops.
+ownership and repair, and the runner-local state a move drops. When adding a job, a matrix, a
+shard, or a `needs` edge, or choosing which suites run on a pull request, read
+[job sizing](references/job-sizing.md).
 
 ## Design the event graph
 
@@ -62,7 +64,8 @@ ownership and repair, and the runner-local state a move drops.
   repository-wide lint or graph check pass on the files it happened to fetch.
 - Do not cancel in-progress runs on the default branch. Each commit there needs its own result;
   cancelling leaves a gap in which a failure cannot be traced to its commit. Cancel superseded
-  runs on pull requests only.
+  runs on pull requests only. An operator cancelling old runs by hand while the account is at
+  its concurrency limit is a different act; `github-ci-operations` owns it.
 
 ## Permissions
 
