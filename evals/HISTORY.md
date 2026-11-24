@@ -4,6 +4,27 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: two pilots to replace the `bounded-iteration` sweep review, abandoned
+
+Main at `320a39a`, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.75 for two pilots of one
+attempt per arm. No case was added; `review-sweep-rewrites-its-trigger` stays.
+
+Both pilots ask the agent to write the job, where the kept case asks for a review. Each grader
+checked one half of the "a sweep converges" rule.
+
+| Pilot                                                                   | With plugin | Without plugin |
+| ----------------------------------------------------------------------- | ----------- | -------------- |
+| A search-text job on a table whose trigger bumps the selected timestamp | 1 of 1      | 1 of 1         |
+| A repair sweep that must not resend a customer email on every pass      | 1 of 1      | 1 of 1         |
+
+- **First pilot.** The schema in the prompt included the trigger. The unaided answer named the
+  feedback loop and guarded its update with `IS DISTINCT FROM`.
+- **Second pilot.** The job rescans a 30-minute window every 10 minutes. The unaided answer
+  added a table with an `email_done_at` column so the email is sent once.
+- **What this shows.** With the trigger or the rescan window stated in the prompt, the model
+  wrote a sweep that converges without the skill in both attempts. One attempt per arm is a grader check, not
+  a measurement.
+
 ## 2026-11-23: two `error-handling` reporting pilots on a fixture, abandoned
 
 Main at `a908232`, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for two pilots of one

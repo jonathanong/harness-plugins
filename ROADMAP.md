@@ -51,7 +51,8 @@ Each still gets a loading case and an answer case.
       `github-actions-authoring/required-check-is-a-real-job` in 11 of 15, and
       `index-change-rechecks-neighbors` in 19 of 21. Read the misses.
 - [ ] **Replace `bounded-iteration/review-sweep-rewrites-its-trigger`:** the model passes it with
-      no skill loaded.
+      no skill loaded. Two write-the-job pilots also passed unaided (`evals/HISTORY.md`,
+      2026-11-23); try one where the trigger is not in the prompt and has to be found.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
