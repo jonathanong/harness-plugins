@@ -337,11 +337,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
   passed 1 of 8. "Without plugin" is from the earlier two-arm run.
 - **The seven `bounded-iteration` rows** are from one two-arm run of three attempts per arm on
-  2026-11-24, on the committed text. The skill loaded in 20 of 21 attempts; the shared-cursor
+  2026-11-24, on the text before rule 16's last clause was narrowed. The skill loaded in 20 of 21 attempts; the shared-cursor
   case's one failure had not loaded it. The recovery case passed 2 of 3 with the plugin, and 2 of
   3 in a run of it alone on almost the same wording; on a stricter wording earlier that day it
   passed 3 of 3. `review-dispatcher-predicate-and-job-id` passed 3 of 3 without the plugin in this
-  run, and 1 or 2 of 3 in the four runs before it that day, so its ceiling mark rests on one run. The last clause of rule 16's recovery sentence was narrowed after this run and not measured again.
+  run, and 1 or 2 of 3 in the four runs before it that day, so its ceiling mark rests on one run. The last clause of rule 16's recovery sentence was narrowed after this run, and a sentence added after it, and neither was measured again.
 - **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
   from that run and is not updated as rows are replaced; a later loading miss is in the note for
   its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then

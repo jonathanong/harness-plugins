@@ -8,7 +8,7 @@ scores are in [EVALS.md](EVALS.md).
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Six runs, $20.64. The
 first table is the sixth: all seven `bounded-iteration` cases, both arms, three attempts per
-arm, on the committed text ($6.85).
+arm, on the text before rule 16's last clause was narrowed ($6.85).
 
 | Case                                      | With, outcome | Loaded | Without |
 | ----------------------------------------- | ------------- | ------ | ------- |
@@ -42,8 +42,7 @@ arm, on the committed text ($6.85).
 - **The exception does not reach a recovery sweep.** A recovery sweep looks for rows that are
   old, so another writer hides a stalled row and the work happens zero times; being safe to repeat
   does not help. Run 6 measured rule 16 ending "where rule 1 allows it", which let the exception
-  through. A review comment pointed at the same gap. The last clause was narrowed after the run
-  and was not measured again.
+  through. A review comment pointed at the same gap. The last clause was narrowed after the run, and review asked for a sentence after it: "Rule 1's no-harm exception does not apply here, because another writer can hide a stalled row." Neither was measured again.
 - **The case.** `recovery-sweep-marks-its-own-column` asks for a job that re-enqueues exports
   that have not moved for 15 minutes. The table has a title, a sharing list, and `updated_at`.
   It passes when the job finds and marks stuck exports by columns the export pipeline owns.
@@ -80,7 +79,7 @@ arm, on the committed text ($6.85).
   | `per-run-cursor-rows-are-removed`        | 3 of 3 | 3 of 3  |
   | `uuidv7-no-created-at-default`           | 3 of 3 | 2 of 3  |
 
-- **Read:** every attempt's grades in all four runs; the opening of every recovery-case
+- **Read:** every attempt's grades in all six runs; the opening of every recovery-case
   answer in runs 1 and 2, of the three unaided ones in run 3, of the three plugin ones in
   run 5, and of the two failing plugin answers in run 6. I read no other answer.
 
