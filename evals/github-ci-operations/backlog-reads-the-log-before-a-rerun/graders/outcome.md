@@ -11,7 +11,7 @@ instead. It may show the rerun command for later, as long as it is clear that th
 not to run it now.
 
 FAIL if the answer gives the rerun command as the thing to do now, with or without a caveat
-about the queue. An answer that gives the rerun command first and only afterwards suggests
-reading the log also fails.
+about the queue. An answer that gives the rerun command and also suggests reading the log, in either order,
+without advising against the rerun now also fails.
 
 Do not grade the command's syntax, the limit it quotes, or any advice about fixing the test.

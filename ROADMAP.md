@@ -15,7 +15,8 @@ Each still gets a loading case and an answer case.
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **A case that shows each skill helps** for `review-ci-logs` and
       `package-json-checklist`. A pilot on an undeclared dependency under pnpm passed
-      unaided (`evals/HISTORY.md`, 2026-11-23).
+      unaided, and so did one on a CI failure outside the local test run's scope, which also
+      loaded `review-ci-logs` in 0 of 3 (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
