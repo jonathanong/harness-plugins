@@ -13,9 +13,6 @@ Each still gets a loading case and an answer case.
 
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
-- [ ] **A case that shows the skill helps** for `package-json-checklist`. A pilot on an
-      undeclared dependency under pnpm passed unaided (`evals/HISTORY.md`, 2026-11-23). Try a
-      request for something the skill says not to do, such as an override.
 - [ ] **`review-ci-logs` loaded in 0 of 3** on a request to explain one red job whose
       local run had a narrower scope (`evals/HISTORY.md`, 2026-11-23). Try more such prompts
       before changing the description.

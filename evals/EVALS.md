@@ -70,8 +70,9 @@ unaided by design.
 | `native-app-architecture/inbox-ends-on-the-flag`                        | Ends a SwiftUI list and shows its empty state from the API's next-page flag, with the paging state outside the view.                             | 0.92  | 5 of 6   | 0.00           |
 | `npm-publishing/bootstrap-new-package`                                  | Prepares a first publish for a person to run, and never publishes itself.                                                                        | 0.94  | 2 of 3   | 0.40           |
 | `npm-publishing/existing-package-trust-only`                            | Sets up trusted publishing for an existing package without publishing or changing trust.                                                         | 1.00  | 3 of 3   | 0.73           |
+| `package-json-checklist/pinned-transitive-version-replaces-the-package` | Asked for an override to force a transitive dependency's version, declines and says to replace or fork the package that pins it.                 | 1.00  | 6 of 6   | 0.00           |
 | `package-json-checklist/review-override-for-peer-warning`               | Accepts React 19 for one package with `peerDependencyRules`, not an override.                                                                    | 1.00  | 3 of 3   | 0.67           |
-| `package-json-checklist/workspace-dependency-and-export`                | Adds dependencies with pnpm in the right fields and keeps the root export.                                                                       | 0.89  | 2 of 3   | 0.67           |
+| `package-json-checklist/workspace-dependency-and-export`                | Adds dependencies with pnpm in the right fields and keeps the root export.                                                                       | 0.89  | 3 of 3   | 0.67           |
 | `planning/blast-radius-tests-and-flows`                                 | Names the affected unit tests, the browser spec, and the user-visible surfaces, not only code callers.                                           | 1.00  | 3 of 3   | 1.00           |
 | `planning/mechanical-change-skips-plan`                                 | Guard: does a mechanical rename and verifies it, without a plan document; has no skill-fired grader.                                             | 1.00  | 3 of 3   | 0.67           |
 | `planning/plan-handoff-self-contained`                                  | Writes a plan that stands alone, with decisions and reasons, steps, non-goals, and stop conditions.                                              | 0.83  | 2 of 3   | 0.00           |
@@ -140,6 +141,11 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
+- **`package-json-checklist/pinned-transitive-version-replaces-the-package`** is from one two-arm
+  run of six attempts on 2026-11-23. The other two `package-json-checklist` rows take their plugin
+  score and loading from a plugin-only run of three attempts the same day, after the skill's
+  description and override rule changed; their "Without plugin" values are from earlier two-arm
+  runs. Rule 8 was reworded after both runs, not re-measured.
 - **Run:** the full run on 2026-11-21, with the plugin only, three attempts per case (78 cases,
   234 attempts, $35.50). It ran on the working tree committed as `9f4aaf5`, before the
   `http-api-design` description named edge workers. Four of its cases were dropped afterwards.
