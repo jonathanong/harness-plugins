@@ -53,7 +53,8 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [`static-code-analysis`](skills/static-code-analysis/SKILL.md)                         | Creating a repository: which static checks to add and how strict to start.            |
 | [`static-analysis-checklist`](skills/static-analysis-checklist/SKILL.md)               | Adding or changing one static-analysis invariant.                                     |
-| [`github-actions-authoring`](skills/github-actions-authoring/SKILL.md)                 | Writing workflows: events not polling, triggers, timeouts, runners, pins.             |
+| [`github-actions-authoring`](skills/github-actions-authoring/SKILL.md)                 | Writing workflows: events not polling, triggers, timeouts, runners, pins, job size.   |
+| [`github-ci-operations`](skills/github-ci-operations/SKILL.md)                         | CI that is slow, queued, or costly: measuring, runner limits, clearing a backlog.     |
 | [`dependabot`](skills/dependabot/SKILL.md)                                             | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.              |
 | [`github-repository-settings`](skills/github-repository-settings/SKILL.md)             | Limiting pull requests to collaborators and gating outside contributors' CI.          |
 | [`package-json-checklist`](skills/package-json-checklist/SKILL.md)                     | Changing `package.json`, a lockfile, or a package entry point.                        |
@@ -104,10 +105,10 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **120 cases** across 45 skills.
-- **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.36, over the 119 cases measured both ways.
-- **92 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
+- **122 cases** across 46 skills.
+- **With the plugin:** mean score 0.95.
+- **Without it:** mean score 0.36, over the 121 cases measured both ways.
+- **93 cases** are ones the model fails unaided. The other 28 it already gets right: 5 check that a skill stays out of the way, and 23 show at most that the skill loads.
 
 <!-- /evals:headline -->
 

@@ -6,7 +6,7 @@ description: Use when a CI run fails or flakes, when asked to make CI green or q
 # Review CI logs
 
 Read every applicable `AGENTS.md` first, then the CI docs. Repository-local policy overrides
-these defaults.
+these defaults. For CI that passes but is slow or queued, use `github-ci-operations`.
 
 1. Pick the runs. For a run you were given, inspect only that run. Otherwise choose a few failed
    and a few successful runs inside a bounded window.

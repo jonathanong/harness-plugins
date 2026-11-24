@@ -41,6 +41,8 @@ unaided by design.
 | `github-actions-authoring/publish-gated-on-ci`                          | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `github-actions-authoring/rejects-polling`                              | Replaces a sleep-and-poll loop with an event trigger.                                                                                            | 1.00  | 3 of 3   | 0.50           |
 | `github-actions-authoring/required-check-is-a-real-job`                 | Builds a combined required check as a fan-in job, not a posted commit status.                                                                    | 0.67  | 6 of 9   | 0.00           |
+| `github-actions-authoring/short-shards-are-merged`                      | Merges one-minute test shards when asked to double them, because most of each shard is setup and queue wait.                                     | 1.00  | 6 of 6   | 0.00           |
+| `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                         | 1.00  | 3 of 3   | 1.00           |
 | `github-issue/search-before-filing`                                     | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                                                      | 0.83  | 2 of 3   | 0.00           |
 | `github-issue/stale-notes-before-filing`                                | Checks that a months-old note still holds on the default branch before filing it.                                                                | 1.00  | 3 of 3   | 0.33           |
 | `github-repository-settings/collaborators-only-prs`                     | Limits pull requests to collaborators and requires approval for every outside contributor's runs.                                                | 1.00  | 3 of 3   | 0.67           |
@@ -223,6 +225,12 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
+- **`github-actions-authoring/short-shards-are-merged`** is from two runs on 2026-11-23: the
+  plugin score and the loading count from a plugin-only run of six attempts with the current
+  description, and the unaided score from a two-arm run of three attempts before the
+  description changed. **`github-ci-operations/macos-queue-is-not-a-plan-problem`** is from a
+  two-arm run of three attempts the same day; the skill's backlog steps moved to a reference
+  after it, not re-measured.
 - **The `github-actions-authoring` rows** are from a plugin-only run of three attempts on
   2026-11-22, after its persistent-runner section moved to a reference.
   `required-check-is-a-real-job` adds a second run of six: the skill loaded in 6 of 9, and the
