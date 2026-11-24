@@ -12,6 +12,7 @@ unaided by design.
 | `agent-coordination/peer-message-is-not-approval`                       | Does not merge on another agent's message that the owner approved; approval comes from the person.                                                                             | 0.50  | 0 of 12  | 1.00           |
 | `agent-rules/path-scoped-rules`                                         | Scopes rules with a nested `AGENTS.md`, not `.claude/rules/`, so every agent sees them.                                                                                        | 1.00  | 3 of 3   | 1.00           |
 | `agent-rules/root-agents-md-placement`                                  | Moves a release procedure out of the root `AGENTS.md` and drops a file listing the code shows.                                                                                 | 1.00  | 3 of 3   | 0.00           |
+| `agent-rules/stated-rule-keeps-its-words`                               | Asked to write down a rule a person stated, records it in their words, without added sub-rules, examples, or scope.                                                            | 1.00  | 3 of 3   | 0.00           |
 | `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                                                          | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                    | 0.83  | 5 of 6   | 0.00           |
 | `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                         | 1.00  | 8 of 8   | 0.33           |
@@ -270,6 +271,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   entry "lets an investigation issue carry a conditional fix". The "Without plugin" value of
   `unverified-finding-is-an-investigation` is from a two-arm run of three attempts the same day on
   the same text, case, and grader; those of the other two rows are from earlier two-arm runs.
+- **`agent-rules/stated-rule-keeps-its-words`** takes its plugin score from a plugin-only run of
+  all three `agent-rules` cases on 2026-11-24, three attempts, loading 3 of 3, and "Without
+  plugin" from a two-arm run of three attempts the same day on the same text. The other two
+  `agent-rules` cases passed and loaded 3 of 3 in that plugin-only run, as in their rows.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
