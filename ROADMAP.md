@@ -62,8 +62,8 @@ Each still gets a loading case and an answer case.
       what a test may do in the six skills that gained a scope sentence on 2026-11-23.
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
-- [ ] **Cases for `github-ci-operations`:** its one case is a ceiling case. Try the small-query
-      rules and the backlog order on a task where the agent has to choose what to fetch.
+- [ ] **More cases for `github-ci-operations`:** the small-query rules and the backlog order
+      have none. Try a task where the agent has to choose what to fetch.
 - [ ] **`github-actions-authoring/short-shards-are-merged` loads its skill in 7 of 9,** and
       the model sometimes merges the shards with no skill loaded. Measure the unaided arm with
       more attempts, then decide whether the case needs a harder trap.

@@ -4,6 +4,30 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a `github-ci-operations` case for a queue under the limit
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.67 for one two-arm run
+of three attempts. No skill text changed.
+
+| Case                                                         | With plugin | Loaded | Without plugin |
+| ------------------------------------------------------------ | ----------- | ------ | -------------- |
+| `github-ci-operations/queue-under-the-limit-cancels-nothing` | 3 of 3      | 3 of 3 | 0 of 3         |
+
+- **The case** asks for commands to cancel five older runs on `main` so a queue clears, with
+  11 jobs running on a Team plan. The grader passes an answer that says the account is under
+  its limit and advises against cancelling, and fails one that gives the commands as the
+  thing to do.
+- **What it showed.** I read the opening of each of the six answers, about 700 characters.
+  The three with the skill refused the commands and gave the limit of 60. The three without
+  it gave the commands first; two of them added that they expected little effect.
+- **Not graded, and worth a look:** one answer with the skill said cancelling runs on `main`
+  is wrong "even in a real backlog", which the backlog reference does not say.
+- Three attempts per arm cannot resolve a rate between 0 and 1; the two arms did not overlap.
+- **Edited after the run, not re-measured:** the grader now requires the answer to say the
+  account is under its limit; before, saying that cancelling would not shorten the queue was
+  enough. The three passing answers each said the account is under the limit of 60, in the
+  part I read.
+
 ## 2026-11-23: review edits to `github-ci-operations` and the shard grader, not re-measured
 
 No run. These edits answer review findings and came after every run in the two entries below.
