@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: an `http-api-design` case for handler order
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.61 for one two-arm run
+of six attempts, after a one-attempt pilot ($0.20) that passed with the plugin and failed
+without.
+
+| Case                                                          | With plugin | Loaded | Without plugin |
+| ------------------------------------------------------------- | ----------- | ------ | -------------- |
+| `http-api-design/invite-handler-resolves-before-it-validates` | 6 of 6      | 6 of 6 | 0 of 6         |
+
+- **Case added.** Write an invite endpoint from four given functions. The grader checks one
+  rule: the handler authenticates, resolves the project in the URL, validates the body, then
+  acts.
+- **What the run showed.** I listed the order of the four calls in each answer's code. All six
+  plugin answers look up the project before parsing the body. All six unaided answers
+  authenticate, parse the body, and only then look up the project.
+- **No skill change.** The rule had no case; `ROADMAP.md` listed it among the rules added
+  without one.
+
 ## 2026-11-23: two pilots to replace the `bounded-iteration` sweep review, abandoned
 
 Main at `320a39a`, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.75 for two pilots of one

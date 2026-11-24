@@ -52,6 +52,7 @@ unaided by design.
 | `glide-mq/review-webhook-lane`                                          | Gives a floodable webhook job family its own lane.                                                                                               | 1.00  | 3 of 3   | 0.00           |
 | `http-api-design/action-body-and-raw-tokens`                            | Uses resource paths, the public id, and hashed tokens.                                                                                           | 1.00  | 3 of 3   | 0.67           |
 | `http-api-design/edge-claims-do-not-authorize`                          | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                                                | 1.00  | 3 of 3   | 0.00           |
+| `http-api-design/invite-handler-resolves-before-it-validates`           | Orders a new handler: authenticate, resolve the project in the URL, validate the body, then act.                                                 | 1.00  | 6 of 6   | 0.00           |
 | `http-api-design/uuid-slug-routes`                                      | Makes the slug the canonical route and permanently redirects old UUID links to it.                                                               | 1.00  | 3 of 3   | 0.00           |
 | `list-reads/capped-walk-keeps-paging`                                   | Caps an inbox read at 500 rows looked at and still tells the client to keep paging when the cap stops it short.                                  | 1.00  | 6 of 6   | 1.00           |
 | `list-reads/fixed-top-three-is-not-a-page`                              | Guard: returns a banner's three latest sign-ins with one fixed-limit query and no cursor or next-page flag; has no skill-fired grader.           | 1.00  | 6 of 6   | 1.00           |
@@ -175,6 +176,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`http-api-design/invite-handler-resolves-before-it-validates`** is from a two-arm run of six
+  attempts on 2026-11-23. The skill loaded in 6 of 6.
 - **`native-app-architecture/inbox-ends-on-the-flag`** is from a two-arm run of six attempts on
   2026-11-23. The skill loaded in 6 of 6. Its grader gained one FAIL line after the run and the
   row was not re-measured.

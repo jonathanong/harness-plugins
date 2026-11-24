@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **118 cases** across 45 skills.
+- **119 cases** across 45 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.37, over the 117 cases measured both ways.
-- **90 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
+- **Without it:** mean score 0.36, over the 118 cases measured both ways.
+- **91 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -43,7 +43,7 @@ averaged over attempts.
 | `github-issue`                     | 2     | 0.92        | 0.17           | 0                     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
-| `http-api-design`                  | 3     | 1.00        | 0.22           | 0                     |
+| `http-api-design`                  | 4     | 1.00        | 0.17           | 0                     |
 | `list-reads`                       | 4     | 0.99        | 0.67           | 2                     |
 | `llm-calls`                        | 3     | 0.97        | 0.44           | 1                     |
 | `native-app-architecture`          | 3     | 0.97        | 0.00           | 0                     |
