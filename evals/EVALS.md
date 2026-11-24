@@ -247,10 +247,13 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
 - **`github-actions-authoring/main-runs-are-not-cancelled`** takes its plugin score and loading
-  from a plugin-only run of six attempts on 2026-11-23, on the current skill, and its "Without
-  plugin" value from a two-arm run of three attempts earlier that day. The skill's other five rows
-  are from before that day's change to its description and concurrency rule; a plugin-only run of
-  three attempts on the current skill gave each of them 3 of 3, loaded 3 of 3.
+  from a plugin-only run of six attempts on 2026-11-23, and its "Without plugin" value from a
+  two-arm run of three attempts earlier that day. Two later plugin-only runs of three attempts
+  gave this case 2 of 3, loaded 2 of 3, and then, after the concurrency rule was reworded in
+  review, 3 of 3, loaded 3 of 3. The skill's other five rows are from before that day's change to
+  its description and concurrency rule; a plugin-only run of three attempts on the changed
+  description gave each of them 3 of 3, loaded 3 of 3. They were not run again after the
+  rewording.
 - **`github-actions-authoring/short-shards-are-merged`** is from one two-arm run of six
   attempts on 2026-11-23, on the current description and grader. Across the
   three runs on that description the skill loaded in 13 of 15 plugin attempts.

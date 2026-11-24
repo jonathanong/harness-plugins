@@ -28,18 +28,21 @@ Check these before editing any workflow or composite action. A stricter reposito
   number, and cancel the superseded run with `cancel-in-progress: true`.
 - On the default branch every commit keeps its own run. A group shared by those runs drops
   them even with `cancel-in-progress: false`: by default a group holds one pending run, and
-  a newer run replaces it. Key the group by commit there so no two runs share one. When one
-  workflow handles both events:
+  a newer run replaces it. Give each run there a group of its own. When one workflow handles
+  both events:
 
   ```yaml
   concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
     cancel-in-progress: ${{ github.event_name == 'pull_request' }}
   ```
 
-- Where runs must not overlap, such as a deploy, keep the shared group and set `queue: max`
-  so pending runs wait their turn instead of replacing each other. Check the limit in
-  GitHub's
+  Default-branch runs then start as they are pushed and can run at the same time.
+
+- Where runs must not overlap, such as a deploy, a shared group needs `queue: max` so pending
+  runs wait their turn instead of replacing each other. It holds up to 100 pending runs and
+  cannot be combined with `cancel-in-progress: true`. Check that the repository's workflow
+  linter accepts the key before using it: actionlint 1.7.12 rejects `queue`. See GitHub's
   [concurrency documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
 - Give every concrete job `timeout-minutes` of at most 30. A job that calls a reusable workflow
   with `uses:` cannot take `timeout-minutes`; set it on each job inside the called workflow.

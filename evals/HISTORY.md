@@ -6,8 +6,8 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-23: `github-actions-authoring` keeps every default-branch run
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.38 over five runs:
-$0.66, $0.62, $0.67, $1.05, and $2.38.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.75 over six runs:
+$0.66, $0.62, $0.67, $1.05, $2.38, and $0.37.
 
 | Run | Cases   | Skill                                      | With plugin | Loaded | Without plugin |
 | --- | ------- | ------------------------------------------ | ----------- | ------ | -------------- |
@@ -16,6 +16,7 @@ $0.66, $0.62, $0.67, $1.05, and $2.38.
 | 3   | New     | New rule; description adds two words       | 3 of 6      | 3 of 6 | not run        |
 | 4   | New     | New rule; description names GitHub Actions | 5 of 6      | 5 of 6 | not run        |
 | 5   | All six | As run 4                                   | see below   |        | not run        |
+| 6   | New     | Reworded in review                         | 3 of 3      | 3 of 3 | not run        |
 
 - **New case** `github-actions-authoring/main-runs-are-not-cancelled`. The prompt gives the
   top of a `ci.yml` and asks for a `concurrency` block that makes a push to `main` cancel
@@ -31,7 +32,7 @@ $0.66, $0.62, $0.67, $1.05, and $2.38.
   stable group with `cancel-in-progress: false` on the default branch, so on a busy default
   branch pending runs were still replaced. The same page documents `queue: max`, up to 100
   pending runs. I did not try either behaviour in a workflow.
-- **The rule now:** key the default-branch group by commit so no two runs share one; cancel
+- **The rule at run 5:** key the default-branch group by commit so no two runs share one; cancel
   superseded runs on pull requests only; where runs must not overlap, such as a deploy,
   keep the shared group and set `queue: max`. A request for cancellation on the default
   branch by name gets the reason and the baseline's block, not the cancelling block with a
@@ -48,6 +49,20 @@ $0.66, $0.62, $0.67, $1.05, and $2.38.
 - **Run 5** is every case of the skill on the final text: the new case 2 of 3, loaded 2 of
   3; the other five each 3 of 3, loaded 3 of 3. I read the one fail's answer, which did not
   load the skill, and no other from this run.
+- **Reworded in review, then run 6.** The review found four things, and the text changed
+  after run 5:
+  - The group is keyed by run id, not by commit. Keyed by commit, a manual run on a commit
+    shares a group with that commit's push run and waits behind it. GitHub's own example
+    falls back to the run id.
+  - The baseline says default-branch runs then start as pushed and can run at the same time.
+  - actionlint 1.7.12 rejects `queue`, as the reviewer found by running it. The bullet says
+    so, says to check the repository's linter first, and says `queue: max` cannot be combined
+    with `cancel-in-progress: true`.
+  - The destructive-workflows reference points at the baseline, since a shared group still
+    replaces a pending run.
+
+  Run 6 measured the new case on that text: 3 of 3, loaded 3 of 3. I read about the first
+  420 characters of each answer. The other five cases were not run again.
 
 ## 2026-11-23: `github-ci-operations` gives the query when asked for a polling loop
 
