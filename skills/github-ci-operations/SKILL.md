@@ -19,15 +19,19 @@ answers the same question a five-column table does.
 - Job time and queue wait come from the jobs of a run, not from logs:
 
   ```bash
-  gh api repos/OWNER/REPO/actions/runs/RUN_ID/jobs --paginate \
-    --jq '.jobs[] | [.name, .labels[0], .status, .created_at, .started_at, .completed_at] | @tsv'
+  gh api repos/OWNER/REPO/actions/runs/RUN_ID/jobs --paginate --jq '.jobs[]
+    | [.name, (.labels | join(",")), .status, .created_at, .started_at, .completed_at]
+    | @tsv'
   ```
 
   Queue wait is `started_at - created_at`. Run time is `completed_at - started_at`. Step times
   are in `.steps[]` with the same two fields.
 
 - To find which runner pool is short, list the jobs that are still queued and group them by
-  runner label. The label with the queue is the pool to fix; the others are not the problem.
+  their full set of runner labels; a job waits for a runner that has every label it asks for.
+  First count the jobs running across the whole account against the total limit below. When
+  the total is full, every label queues, and the fix is the total, not the label that happens
+  to be waiting. When it is not, the label with the queue is the pool to fix.
 - Read one snapshot. Do not watch a run with `gh run watch`, `gh pr checks --watch`, or a sleep
   loop. To wait for a result, use the event-driven tool the repository provides.
 - When a log is needed, fetch one job's log to a temporary file
@@ -61,8 +65,9 @@ not per repository. The limits as documented on 2026-11-23:
 
 Jobs queuing for runners at the account's limit is its own situation, with steps that are wrong
 at any other time, such as cancelling runs on the default branch. When jobs wait minutes for a
-runner, read [backlog](references/backlog.md) and follow its order. Outside a backlog, cancel
-nothing by hand.
+runner and the count of running jobs has reached a limit in the table above, read
+[backlog](references/backlog.md) and follow its order. A queue while the account is under its
+limits is the provider's delay; wait it out. Outside a backlog, cancel nothing by hand.
 
 ## Report
 

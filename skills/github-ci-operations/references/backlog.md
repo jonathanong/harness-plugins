@@ -6,9 +6,11 @@ no run is cancelled by hand.
 
 Work in this order. Each step is cheaper than the next.
 
-1. **Find what holds the pool.** Group the running and queued jobs by run and by label. Look for
-   runs for commits that are no longer the head, and for many jobs that finish in a minute or
-   two.
+1. **Confirm the limit, then find what holds the pool.** Count the running jobs across the
+   account and check that they have reached the total limit or the macOS limit. If they have
+   not, this is not a backlog; stop here and cancel nothing. Then group the running and queued
+   jobs by run and by label. Look for runs for commits that are no longer the head, and for
+   many jobs that finish in a minute or two.
 2. **Cancel superseded runs.**
    - On a pull request, a run for an older push should already have been cancelled. If it was
      not, the workflow lacks `concurrency` with `cancel-in-progress`; fix the workflow.

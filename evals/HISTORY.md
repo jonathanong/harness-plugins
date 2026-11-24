@@ -4,6 +4,18 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: review edits to `github-ci-operations` and the shard grader, not re-measured
+
+No run. These edits answer review findings and came after every run in the two entries below.
+
+- **`github-ci-operations`:** the query prints every runner label, not the first; the skill
+  says to check the account's total before blaming one label; and the backlog steps now start
+  by confirming that running jobs have reached a limit, and stop if they have not.
+- **`short-shards-are-merged` grader:** it now also fails a job that no longer runs the whole
+  suite, such as eight shards whose command still says `/16`. I checked the ten recorded
+  passing answers by pattern: nine give the same count in the matrix and the command, and one
+  takes the count from a variable. So no recorded result would change, by that check.
+
 ## 2026-11-23: the `github-actions-authoring` cases on the new description
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.25 for one plugin-only
