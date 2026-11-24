@@ -4,6 +4,29 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-actions-authoring` keeps the shared group on the default branch
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.04, one plugin-only
+run of six attempts of `main-runs-are-not-cancelled`: 5 of 6, loaded 5 of 6.
+
+- **This replaces the concurrency advice in the entry below** ("keeps every default-branch
+  run", 2026-11-23). That entry gave each default-branch run a group of its own and added a
+  `queue: max` bullet. The repository's owner chose to keep the earlier advice: one stable
+  group per pull request or branch, `cancel-in-progress` true on pull requests and false on
+  the default branch. The per-run group, the `queue: max` bullet, and the sentence added to
+  the destructive-workflows reference are removed. None of them reached `main`.
+- **What stays from that entry:** the sentence that answers a request by name for
+  cancellation on the default branch, the description, and the case.
+- **Added:** the baseline shows the block, keyed on the pull-request number or the ref, and
+  says what the shared group does on the default branch: a started run finishes, one newer
+  run waits, and a run that arrives while one is waiting replaces it. That is from GitHub's
+  concurrency page; it was not tried in a workflow.
+- **The run.** The five answers that loaded the skill declined to cancel on `main` and gave
+  the baseline's block. The one that did not load it gave `cancel-in-progress: true`. The
+  prompt and grader are unchanged. I read about the first 260 characters of each answer and
+  the `concurrency` lines of each.
+- **Not re-measured:** the skill's other five cases on this text.
+
 ## 2026-11-23: `structured-logging` loads for a request to log a value
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.49 over three runs:
@@ -78,6 +101,8 @@ $0.58, $0.57, $0.36, $0.77, $0.76, and $1.95. "Log" is the new case; "loop" is
   and about 300 of each in run 5. None of run 6's.
 
 ## 2026-11-23: `github-actions-authoring` keeps every default-branch run
+
+Its concurrency advice was replaced before merging; see the 2026-11-24 entry above.
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.75 over six runs:
 $0.66, $0.62, $0.67, $1.05, $2.38, and $0.37.

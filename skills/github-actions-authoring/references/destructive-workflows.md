@@ -9,9 +9,7 @@ wins.
 - Bind the workflow to its target twice: in YAML (the environment gate, the resource names) and in
   the script, before any destructive statement runs.
 - Serialize with every workflow that touches the same state. Reuse its concurrency group, and keep
-  `cancel-in-progress: false` where cancelling could strand state. A shared group still
-  replaces a pending run with a newer one; the [workflow baseline](workflow-baseline.md) says
-  how to keep every pending run.
+  `cancel-in-progress: false` where cancelling could strand state.
 - Capture the original state before mutating, pause dependent services, and restore only from the
   captured values. Do not restore while an unfinished destructive task may still be running.
 - Trap cleanup around launched tasks and partial mutations. Stop unfinished work, wait until it has

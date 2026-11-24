@@ -24,26 +24,20 @@ Check these before editing any workflow or composite action. A stricter reposito
 
 ## Concurrency and timeouts
 
-- Give the runs of one pull request one stable concurrency group keyed on the pull-request
-  number, and cancel the superseded run with `cancel-in-progress: true`.
-- On the default branch every commit keeps its own run. A group shared by those runs drops
-  them even with `cancel-in-progress: false`: by default a group holds one pending run, and
-  a newer run replaces it. Give each run there a group of its own. When one workflow handles
-  both events:
+- Serialize runs for the same pull request or branch with one stable concurrency group. Keep the
+  pull-request number or the ref in the group.
+- Set `cancel-in-progress: true` for pull requests and `false` on the default branch. When one
+  workflow handles both events, make it conditional:
 
   ```yaml
   concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
     cancel-in-progress: ${{ github.event_name == 'pull_request' }}
   ```
 
-  Default-branch runs then start as they are pushed and can run at the same time.
-
-- Where runs must not overlap, such as a deploy, a shared group needs `queue: max` so pending
-  runs wait their turn instead of replacing each other. It holds up to 100 pending runs and
-  cannot be combined with `cancel-in-progress: true`. Check that the repository's workflow
-  linter accepts the key before using it: actionlint 1.7.12 rejects `queue`. See GitHub's
-  [concurrency documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
+- On the default branch a run that has started always finishes, and one newer run waits
+  behind it. A run that arrives while one is already waiting replaces it, so in a burst of
+  merges the newest commit is tested and some in between are not.
 - Give every concrete job `timeout-minutes` of at most 30. A job that calls a reusable workflow
   with `uses:` cannot take `timeout-minutes`; set it on each job inside the called workflow.
 - If the work cannot finish inside that bound, split it into phases joined by events. Keep a
