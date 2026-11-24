@@ -37,9 +37,9 @@ When the target repository cannot be written to, read
    reproduction, or the file and line that make it reachable. A review note, a hunch, or "this
    could happen" is not verification. When the problem is not verified, verify it first, or
    file an investigation issue: say so in the title and the body, list what is unknown, and
-   make the outcome a finding that proves the problem or rules it out. An investigation issue
-   asks for no fix, even a conditional one: no fix steps, and no acceptance test for a fix.
-   The fix gets its own issue once the problem is proven. Do not hand an investigation issue
+   make the outcome a finding that proves the problem or rules it out. The same issue may
+   carry the fix, as a step that happens only if the finding proves the problem: investigate,
+   then fix it here if it is real, and close it with the reason if it is not. Do not hand an investigation issue
    to an implementer as a fix; a fix built for a problem that cannot happen is wasted work
    and unreachable code. A symptom the reporter saw happen is a verified problem: file it as
    a bug, and put a guessed cause in the body as a guess.
