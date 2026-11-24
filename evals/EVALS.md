@@ -91,6 +91,7 @@ unaided by design.
 | `postgres-partitioning-uuid-v7/range-not-hash`                          | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                                            | 1.00  | 3 of 3   | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`                | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                                               | 1.00  | 3 of 3   | 0.00           |
 | `postgres-schema-design/customer-code-key`                              | References a generated id from other tables, not the customer's text code. Ceiling case.                                                         | 1.00  | 3 of 3   | 1.00           |
+| `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database.                                                                               | 1.00  | 6 of 6   | 0.17           |
 | `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                          | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/ci-gap-section`                                         | Adds a short section on what CI caught that the local check missed, without work history.                                                        | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/perf-change-with-flag`                                  | Shows a before/after table, states what a flag does not cover, and omits routine checks.                                                         | 1.00  | 3 of 3   | 0.00           |
@@ -176,6 +177,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`postgres-schema-design/membership-table-is-commented`** is from a two-arm run of six
+  attempts on 2026-11-23. The skill loaded in 6 of 6.
 - **`http-api-design/invite-handler-resolves-before-it-validates`** is from a two-arm run of six
   attempts on 2026-11-23. The skill loaded in 6 of 6. Its grader dropped a status check after
   the run and the row was not re-measured.
