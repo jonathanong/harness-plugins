@@ -1,6 +1,6 @@
 ---
 name: structured-logging
-description: Use when adding or reviewing log statements, logger calls, or the data a log line carries. Write log lines with a static message and structured fields, and load their context without extra queries.
+description: Use when adding, changing, or reviewing a log statement or logger call, or when asked to log a value such as a request body, an error, or a customer's details. Write log lines with a static message and structured fields, keep secrets and personal data out of them, and load their context without extra queries.
 ---
 
 # Structured logging
