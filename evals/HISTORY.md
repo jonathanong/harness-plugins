@@ -25,9 +25,9 @@ of three attempts ($0.86 and $0.59). No skill text changed.
   the migration a backstop.
 - **`review-ci-logs` now has a case that separates the arms.** Its other case passes unaided.
 - **The pilot not kept** asked what an agent should run to get, for each of about 40 jobs in
-  a run, how long it waited and how long it ran. All six answers queried the run's jobs for
-  `created_at`, `started_at`, and `completed_at` and nothing else. On this prompt the model
-  writes the small query unaided.
+  a run, how long it waited and how long it ran. I read about 640 characters of each of the
+  six answers. In that part all six queried the run's jobs for `created_at`, `started_at`,
+  and `completed_at`. On this prompt the model writes the small query unaided.
 - **A pattern,** my reading of eight prompts from today's entries: the four that separate
   the arms ask for something a skill says not to do (cancel under the limit, rerun in a
   backlog, add a retry, double short shards). The four that do not ask for something the
