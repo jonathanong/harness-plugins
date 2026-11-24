@@ -53,7 +53,7 @@ Each still gets a loading case and an answer case.
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
       API keys in `http-api-design`; a review's proposed fix following the
       owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
-      what a test may do in the six skills that gained a scope sentence on 2026-11-23.
+      what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep that must not overlap and has a deadline in `bounded-iteration`.
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Skills that give way to a request by name.** Three rules did on 2026-11-23: asked
@@ -91,9 +91,6 @@ Each still gets a loading case and an answer case.
       time, checking what already serializes them. The cursor part is settled another way:
       `bounded-iteration` now gives each run its own position, so there is no shared cursor to
       guard. The general rule for other guards still needs the owner's word and a case.
-- [ ] **A sweep that must not overlap and has a deadline.** `bounded-iteration` says what to do
-      when nothing needs a run to finish by a set time. The owner has not said what to do when
-      something does.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.
