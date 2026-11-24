@@ -52,15 +52,19 @@ marks it in the same transaction, and the reconciler claims only marks, as above
 
 ```sql
 CREATE TABLE order_reconcile_work_items (
-  id uuid PRIMARY KEY DEFAULT uuidv7(),
-  order_id uuid NOT NULL UNIQUE REFERENCES orders (id) ON DELETE CASCADE,
+  id uuid NOT NULL DEFAULT uuidv7(),
+  order_id uuid NOT NULL,
   available_at timestamptz NOT NULL DEFAULT now(),
   lease_token uuid,
   leased_at timestamptz,
   lease_expires_at timestamptz,
   attempt_count integer NOT NULL DEFAULT 0,
   generation integer NOT NULL DEFAULT 0,
-  completed_at timestamptz
+  completed_at timestamptz,
+  CONSTRAINT pk_order_reconcile_work_items PRIMARY KEY (id),
+  CONSTRAINT uq_order_reconcile_work_items__order_id UNIQUE (order_id),
+  CONSTRAINT fk_order_reconcile_work_items__order_id FOREIGN KEY (order_id)
+    REFERENCES orders (id) ON DELETE CASCADE
 );
 
 INSERT INTO order_reconcile_work_items (order_id)
@@ -90,9 +94,11 @@ sweep's fixed end, and the job seeds its own row:
 
 ```sql
 CREATE TABLE invoice_export_cursors (
-  is_singleton boolean PRIMARY KEY DEFAULT true CHECK (is_singleton),
+  is_singleton boolean NOT NULL DEFAULT true,
   cursor_invoice_id uuid,
-  sweep_upper_bound_invoice_id uuid
+  sweep_upper_bound_invoice_id uuid,
+  CONSTRAINT pk_invoice_export_cursors PRIMARY KEY (is_singleton),
+  CONSTRAINT ck_invoice_export_cursors__singleton CHECK (is_singleton)
 );
 
 INSERT INTO invoice_export_cursors DEFAULT VALUES ON CONFLICT DO NOTHING;
@@ -463,10 +469,11 @@ Each dispatcher keeps its window end and position in one cursor table keyed by a
 CREATE TYPE account_recalc_signals AS ENUM ('age_milestone', 'subscription_expiry', 'plan_change');
 
 CREATE TABLE account_recalc_cursors (
-  signal account_recalc_signals PRIMARY KEY,
+  signal account_recalc_signals NOT NULL,
   changes_through_at timestamptz NOT NULL,
   last_at timestamptz NOT NULL,
-  last_id uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+  last_id uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  CONSTRAINT pk_account_recalc_cursors PRIMARY KEY (signal)
 );
 ```
 

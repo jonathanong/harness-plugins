@@ -4,6 +4,43 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: every constraint is named, the primary key included
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.56 for two two-arm runs
+of six attempts on the changed skill, one per grader. The old text was measured once, in the
+abandoned pilot below, on the same prompt.
+
+| Run                                                           | With plugin | Loaded | Without plugin |
+| ------------------------------------------------------------- | ----------- | ------ | -------------- |
+| Second run: grader checks names and their prefixes ($1.69)    | 6 of 6      | 6 of 6 | 0 of 6         |
+| First run: grader checked names, `ON DELETE`, indexes ($1.87) | 6 of 6      | 6 of 6 | 6 of 6         |
+| The first grader on the old skill text (the pilot below)      | 0 of 1      | 1 of 1 | 1 of 1         |
+
+- **Skill changed, at the user's request.** The rule now says the primary key is included and
+  gives its reason. `references/naming.md` gains a pattern for constraint names: `pk_<table>`,
+  `fk_<table>__<columns>`, `uq_<table>__<columns>`, `ck_<table>__<purpose>`. The examples in
+  `references/relations.md`, `references/table-shapes.md`, and `bounded-iteration`'s
+  `references/sweep-patterns.md` now name every constraint and state `ON DELETE`. The user
+  chose the prefix pattern, and chose that `NOT NULL` needs no name.
+- **What was in the tree for each run.** The example and pattern edits were there for both. The
+  rule's reason was reworded between the runs: the first wording said a generated name changes
+  on a rename, which is wrong. The sentence that `NOT NULL` needs no name was also added
+  between the runs. So the second run measured the text as it now stands.
+- **Case added: `membership-table-names-its-constraints`.** Its first grader checked three
+  things in one grade: names, `ON DELETE`, and an index on each referencing column. A review
+  finding pointed out that this hides which rule was missed, and that the case was at the
+  ceiling. The grader now checks one rule: every constraint is named, with the prefix for its
+  kind. The second run is the case's measurement; the first is not comparable with it.
+- **What the runs showed.** I listed the `CONSTRAINT` names in each answer of both runs; I did
+  not read the answers in full. In both runs all six plugin answers used `pk_`, `fk_`, and
+  `uq_` names, and all six unaided answers used PostgreSQL's own suffixes (`_pkey`, `_fkey`,
+  `_check`). The model names its constraints without the skill, so the first grader passed
+  both arms. What the skill changes is the pattern of the names, and the second grader
+  measures that. The pattern is a convention the model cannot guess, so the unaided 0 of 6
+  shows the skill delivers the convention, not that unaided names are wrong in general.
+- **Not covered.** `ON DELETE` and referencing-column indexes have no case of their own; the
+  first run suggests the model does both unaided on this prompt.
+
 ## 2026-11-23: a `postgres-schema-design` case for comments
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for one two-arm run
