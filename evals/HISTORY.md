@@ -10,7 +10,9 @@ No run. These edits answer review findings and came after every run in the two e
 
 - **`github-ci-operations`:** the query prints every runner label, not the first; the skill
   says to check the account's total before blaming one label; and the backlog steps now start
-  by confirming that running jobs have reached a limit, and stop if they have not.
+  by confirming that running jobs have reached a limit, and stop if they have not. A later
+  edit adds a per-repository query for that count, run once here with nothing in progress,
+  and limits "wait it out" to standard hosted runners.
 - **`short-shards-are-merged` grader:** it now also fails a job that no longer runs the whole
   suite, such as eight shards whose command still says `/16`. I checked the ten recorded
   passing answers by pattern: nine give the same count in the matrix and the command, and one

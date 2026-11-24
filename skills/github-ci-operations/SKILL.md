@@ -32,6 +32,21 @@ answers the same question a five-column table does.
   First count the jobs running across the whole account against the total limit below. When
   the total is full, every label queues, and the fix is the total, not the label that happens
   to be waiting. When it is not, the label with the queue is the pool to fix.
+- No single call counts an account's running jobs. Count one repository's, and add up the
+  repositories that run CI:
+
+  ```bash
+  for status in in_progress queued; do
+    gh api "repos/OWNER/REPO/actions/runs?status=$status&per_page=100" --jq '.workflow_runs[].id'
+  done | while read -r id; do
+    gh api "repos/OWNER/REPO/actions/runs/$id/jobs" --paginate \
+      --jq '.jobs[] | select(.status != "completed") | [.status, (.labels | join(","))] | @tsv'
+  done | sort | uniq -c
+  ```
+
+  When that sum cannot be had, say the count is unknown; do not treat a queue alone as proof
+  of a limit.
+
 - Read one snapshot. Do not watch a run with `gh run watch`, `gh pr checks --watch`, or a sleep
   loop. To wait for a result, use the event-driven tool the repository provides.
 - When a log is needed, fetch one job's log to a temporary file
@@ -66,8 +81,10 @@ not per repository. The limits as documented on 2026-11-23:
 Jobs queuing for runners at the account's limit is its own situation, with steps that are wrong
 at any other time, such as cancelling runs on the default branch. When jobs wait minutes for a
 runner and the count of running jobs has reached a limit in the table above, read
-[backlog](references/backlog.md) and follow its order. A queue while the account is under its
-limits is the provider's delay; wait it out. Outside a backlog, cancel nothing by hand.
+[backlog](references/backlog.md) and follow its order. On standard hosted runners, a queue
+while the account is under those limits is the provider's delay; wait it out. A self-hosted or
+larger-runner pool has its own capacity, which the table does not give. Outside a backlog,
+cancel nothing by hand.
 
 ## Report
 
