@@ -13,10 +13,12 @@ Each still gets a loading case and an answer case.
 
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
-- [ ] **A case that shows each skill helps** for `review-ci-logs` and
-      `package-json-checklist`. A pilot on an undeclared dependency under pnpm passed
-      unaided, and so did one on a CI failure outside the local test run's scope, which also
-      loaded `review-ci-logs` in 0 of 3 (`evals/HISTORY.md`, 2026-11-23).
+- [ ] **A case that shows the skill helps** for `package-json-checklist`. A pilot on an
+      undeclared dependency under pnpm passed unaided (`evals/HISTORY.md`, 2026-11-23). Try a
+      request for something the skill says not to do, such as an override.
+- [ ] **`review-ci-logs` loaded in 0 of 3** on a request to explain one red job whose
+      local run had a narrower scope (`evals/HISTORY.md`, 2026-11-23). Try more such prompts
+      before changing the description.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
@@ -63,9 +65,10 @@ Each still gets a loading case and an answer case.
       what a test may do in the six skills that gained a scope sentence on 2026-11-23.
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
-- [ ] **More cases for `github-ci-operations`:** the small-query rules have none. Try a task
-      where the agent has to choose what to fetch. A pilot on which runs to spare when
-      cancelling passed unaided (`evals/HISTORY.md`, 2026-11-23).
+- [ ] **A case for the small-query rules in `github-ci-operations`.** A pilot asking what
+      to run for per-job wait passed unaided, as did one on which runs to spare when
+      cancelling (`evals/HISTORY.md`, 2026-11-23). Try a request for a watch loop or a full
+      log download.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts

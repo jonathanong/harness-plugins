@@ -107,6 +107,7 @@ unaided by design.
 | `react-app-structure/review-profile-card`                               | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                                                 | 1.00  | 3 of 3   | 0.67           |
 | `resuming-work/note-says-about-to-push`                                 | Sees that the branch is already pushed and the pull request open, and goes to the failing check instead of repeating the step.                   | 0.83  | 2 of 3   | 1.00           |
 | `review-ci-logs/quiet-log-keeps-errors`                                 | Quiets a noisy log at its source and keeps stderr and failing exits.                                                                             | 0.89  | 7 of 9   | 1.00           |
+| `review-ci-logs/retry-request-gets-the-cause-fixed`                     | Asked to wrap a migration that sometimes fails with connection refused in a retry, adds a database health check and no retry.                    | 1.00  | 3 of 3   | 0.00           |
 | `revisit-followups/only-verified-deferred-work`                         | Keeps only explicit deferred work and has it verified before any issue is filed.                                                                 | 0.83  | 2 of 3   | 0.00           |
 | `rust-authoring/tests-in-separate-file`                                 | Puts unit tests for a private function in a separate file.                                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `service-boundaries/partner-webhook`                                    | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                                                               | 1.00  | 3 of 3   | 1.00           |
@@ -252,10 +253,12 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   also loaded the skill. Each "Without plugin" value is from the two-arm run that added the
   skill.
 - **`postgres-node-performance-tuning/index-change-rechecks-neighbors`** is from two plugin-only
-  runs on 2026-11-22, 21 attempts. The skill loaded in 19; two attempts that loaded it failed
-  the answer. **`review-ci-logs/quiet-log-keeps-errors`** is from one plugin-only run of nine
-  attempts that day, made on the earlier `list-reads` description; the skill loaded in 7 and
-  all nine answers passed. Each "Without plugin" value is from an earlier two-arm run.
+  runs on 2026-11-22, 21 attempts. The skill loaded in 19; two attempts that loaded it failed the
+  answer. **`review-ci-logs/quiet-log-keeps-errors`** is from one plugin-only run of nine attempts
+  that day, made on the earlier `list-reads` description; the skill loaded in 7 and all nine
+  answers passed. Each "Without plugin" value is from an earlier two-arm run.
+  **`review-ci-logs/retry-request-gets-the-cause-fixed`** is from one two-arm run of three
+  attempts on 2026-11-23, both arms.
 - **`list-reads/review-feed-candidate-pool`** is from a plugin-only run of twelve attempts on
   2026-11-22, on the description that opens "Use whenever a task writes or reviews a query".
   The skill loaded in 11 of 12, and all twelve answers passed. "Without plugin" is 3 of 9, from
