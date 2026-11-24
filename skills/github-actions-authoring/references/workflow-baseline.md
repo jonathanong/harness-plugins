@@ -38,6 +38,18 @@ Check these before editing any workflow or composite action. A stricter reposito
 - On the default branch a run that has started always finishes, and one newer run waits
   behind it. A run that arrives while one is already waiting replaces it, so in a burst of
   merges the newest commit is tested and some in between are not.
+- Whether every commit is tested depends on the merge queue:
+  - With a merge queue, every commit is tested before it lands. That is the queue's job; run
+    the workflow on `merge_group` as well.
+  - Without one, a pull request can merge on a passing run that was not on the tip of the
+    default branch, and break it. That risk is accepted. Some repositories, such as personal
+    ones, cannot use a merge queue. Requiring branches to be up to date before merging closes
+    the gap, but every merge then sends each open pull request through CI again, which slows
+    merging a great deal.
+- Where there is no merge queue and CI is expensive, split CI into workflows by area, each
+  with its own group, so a burst of merges skips runs area by area. Then have an agent watch
+  the default branch and fix failures and flakes as they appear, for example with
+  `hook-harness`.
 - Give every concrete job `timeout-minutes` of at most 30. A job that calls a reusable workflow
   with `uses:` cannot take `timeout-minutes`; set it on each job inside the called workflow.
 - If the work cannot finish inside that bound, split it into phases joined by events. Keep a
