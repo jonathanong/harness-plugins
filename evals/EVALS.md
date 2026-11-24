@@ -17,8 +17,8 @@ unaided by design.
 | `bounded-iteration/no-new-run-while-one-runs`                           | Stops a no-deadline sweep's passes piling up by checking the queue before starting a pass, keeping the chain of capped jobs and its own position.                                                                                        | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                                                                              | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/recovery-sweep-marks-its-own-column`                 | Writes a job that re-enqueues stuck exports on a table users also edit; finds and marks them by columns the export pipeline owns, never `updated_at`.                                                                                    | 0.83  | 2 of 3   | 0.00           |
-| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                                                                                      | 1.00  | 3 of 3   | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                                                                                   | 1.00  | 3 of 3   | 0.33           |
+| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                                                                                      | 0.67  | 2 of 3   | 0.00           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity. Ceiling case.                                                                                                                                     | 1.00  | 3 of 3   | 1.00           |
 | `bounded-iteration/review-staged-reconciler`                            | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                                                                                                                                 | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/review-sweep-whose-trigger-is-elsewhere`             | Reviews a reindex sweep of profiles by `updated_at` in a repository where a trigger in the first migration bumps it; finds the trigger, takes the sweep off `updated_at`, and asks for an idempotent notification and a second-run test. | 1.00  | 3 of 3   | 0.00           |
 | `debugging/crash-fixed-at-cause-with-a-test`                            | Fixes a crashing report at the lookup that misses, not with a default value, and adds a test that fails without the fix.                                                                                                                 | 0.89  | 2 of 3   | 1.00           |
@@ -336,13 +336,12 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
   eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
   passed 1 of 8. "Without plugin" is from the earlier two-arm run.
-- **The seven `bounded-iteration` rows** are from 2026-11-24. Six are from one two-arm run of all
-  seven cases, three attempts per arm, in which the skill loaded in 21 of 21 attempts. The
-  recovery case's row is from a run of that case alone later the same day, after its rule became a
-  "should" with an exception: 2 of 3 with the plugin, all three loaded, 0 of 3 without. In the
-  seven-case run, on the stricter wording, it passed 3 of 3. The run before those, without the
-  recovery case, had the shared-cursor case at 1 of 3 and the purge case at 2 of 3 from loading
-  alone.
+- **The seven `bounded-iteration` rows** are from one two-arm run of three attempts per arm on
+  2026-11-24, on the committed text. The skill loaded in 20 of 21 attempts; the shared-cursor
+  case's one failure had not loaded it. The recovery case passed 2 of 3 with the plugin, and 2 of
+  3 in a run of it alone on almost the same wording; on a stricter wording earlier that day it
+  passed 3 of 3. `review-dispatcher-predicate-and-job-id` passed 3 of 3 without the plugin in this
+  run, and 1 or 2 of 3 in the four runs before it that day, so its ceiling mark rests on one run. The last clause of rule 16's recovery sentence was narrowed after this run and not measured again.
 - **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
   from that run and is not updated as rows are replaced; a later loading miss is in the note for
   its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then

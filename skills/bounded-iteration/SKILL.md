@@ -18,11 +18,14 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    serves: a work-item or dirty-marker row, a parent id, a due timestamp with a partial index, or a
    time or UUIDv7 window past a high-water mark. Column-to-column comparisons, `OR` of unrelated
    conditions, and `EXISTS` as the only condition are not filters. (`postgres-required-predicates`)
-   Base a sweep on `updated_at` only if the sweep controls all of `updated_at`'s inputs. A trigger
-   sets `updated_at` on any update to the row, so every other writer moves it. A table only for
-   post moderations can be swept by `updated_at`; posts cannot. A per-row threshold becomes one
-   bucket per distinct value, comparing the stored fact with a bound, never with another column;
-   `timestamptz + interval` is not immutable, so it cannot be indexed. See [per-row
+   Base a sweep on `updated_at` only if the sweep controls all of `updated_at`'s inputs, or doing
+   the work twice is no harm. A trigger sets `updated_at` on any update to the row, so every other
+   writer moves it. A table only for post moderations can be swept by `updated_at`; posts cannot.
+   Twice is no harm for an aggregation such as a vote tally, because it makes no external API
+   calls, needs no locks or transactions and has no potential conflicts, and already runs with
+   per-entity concurrency. A per-row threshold becomes one bucket per distinct value, comparing the
+   stored fact with a bound, never with another column; `timestamptz + interval` is not immutable,
+   so it cannot be indexed. See [per-row
    interval](references/sweep-patterns.md#per-row-interval-one-bucket-per-threshold) and [age
    milestones](references/sweep-patterns.md#age-milestones-from-the-uuidv7-key).
 2. **Cap every run.** Every loop has a per-run cap (batches, rows, or a deadline), reports whether
@@ -109,12 +112,11 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     `completed_at`, or a row in a history table ([table
     shapes](../postgres-schema-design/references/table-shapes.md)). The mark makes the row
     ineligible until it stalls again, and no other writer can hide a stalled row. `updated_at` is
-    not ruled out where rule 1 allows it, or where doing the work twice is no harm, such as a vote
-    tally aggregation. Replay only idempotent "ensure" effects: an on-create effect, such as a
-    notification or a charge, repeats on every run. Test it: once no eligible rows remain, another
-    run writes nothing and creates no new job (a repeated idempotent enqueue is not new work).
-    Recurring work that is unconditional by design, such as a scheduled materialized-view refresh,
-    is exempt.
+    not ruled out where the sweep controls all of its inputs (rule 1). Replay only idempotent
+    "ensure" effects: an on-create effect, such as a notification or a charge, repeats on every
+    run. Test it: once no eligible rows remain, another run writes nothing and creates no new job
+    (a repeated idempotent enqueue is not new work). Recurring work that is unconditional by
+    design, such as a scheduled materialized-view refresh, is exempt.
 17. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.

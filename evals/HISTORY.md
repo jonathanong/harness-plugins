@@ -6,19 +6,18 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `bounded-iteration` gives a recovery sweep columns of its own
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Five runs, $13.79. The
-first table is the third run: all seven `bounded-iteration` cases, both arms, three attempts
-per arm ($6.33), on a stricter wording of the rule than the committed one; the fifth run
-measured the committed wording on the new case.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Six runs, $20.64. The
+first table is the sixth: all seven `bounded-iteration` cases, both arms, three attempts per
+arm, on the committed text ($6.85).
 
 | Case                                      | With, outcome | Loaded | Without |
 | ----------------------------------------- | ------------- | ------ | ------- |
-| `recovery-sweep-marks-its-own-column`     | 3 of 3        | 3 of 3 | 0 of 3  |
+| `recovery-sweep-marks-its-own-column`     | 2 of 3        | 3 of 3 | 0 of 3  |
 | `review-sweep-whose-trigger-is-elsewhere` | 3 of 3        | 3 of 3 | 0 of 3  |
 | `no-new-run-while-one-runs`               | 3 of 3        | 3 of 3 | 0 of 3  |
-| `review-asks-to-guard-a-shared-cursor`    | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-asks-to-guard-a-shared-cursor`    | 2 of 3        | 2 of 3 | 0 of 3  |
 | `overlapping-purge-runs-stay-lock-free`   | 3 of 3        | 3 of 3 | 0 of 3  |
-| `review-dispatcher-predicate-and-job-id`  | 3 of 3        | 3 of 3 | 1 of 3  |
+| `review-dispatcher-predicate-and-job-id`  | 3 of 3        | 3 of 3 | 3 of 3  |
 | `review-staged-reconciler`                | 3 of 3        | 3 of 3 | 0 of 3  |
 
 - **Why.** Rule 16 said a recovery sweep "may touch the rows it enqueues". The review of the
@@ -26,30 +25,45 @@ measured the committed wording on the new case.
   other code writes, which rule 1 now forbids. The owner chose columns of the sweep's own,
   and connected it to: "events should either be in a history table or per-column fields (e.g.
   enqueued_at/completed_at)".
-- **The rule.** That sentence of rule 16 is replaced by: "A recovery sweep should use its own
-  columns: it finds stalled rows by a column the worker writes, such as a heartbeat, and marks the
-  rows it enqueues in a column of its own. An event is a per-column field, such as `enqueued_at`
-  or `completed_at`, or a row in a history table. The mark makes the row ineligible until it
-  stalls again, and no other writer can hide a stalled row. `updated_at` is not ruled out where
-  rule 1 allows it, or where doing the work twice is no harm, such as a vote tally aggregation."
-  The owner's words were "sweepers _should_ use its own columns, but i don't want to say they
-  should never use `updated_at`" and "an aggregation such as vote tally aggregations, where doing
-  this twice is no harm". The rest is mine.
+- **Rule 16.** That sentence is replaced by: "A recovery sweep should use its own columns: it
+  finds stalled rows by a column the worker writes, such as a heartbeat, and marks the rows it
+  enqueues in a column of its own. An event is a per-column field, such as `enqueued_at` or
+  `completed_at`, or a row in a history table. The mark makes the row ineligible until it stalls
+  again, and no other writer can hide a stalled row. `updated_at` is not ruled out where the sweep
+  controls all of its inputs (rule 1)." The owner's words were "sweepers _should_ use its own
+  columns, but i don't want to say they should never use `updated_at`". The rest is mine.
+- **Rule 1 gains an exception, from the owner.** It now allows a sweep based on `updated_at` when
+  "doing the work twice is no harm", and says: "Twice is no harm for an aggregation such as a vote
+  tally, because it makes no external API calls, needs no locks or transactions and has no
+  potential conflicts, and already runs with per-entity concurrency." The owner's words were "an
+  aggregation such as vote tally aggregations, where doing this twice is no harm" and "it's no
+  harm because 1) no external api calls 2) no locks, potential conflicts, or transactions needed
+  3\) it already runs with per entity concurrency". No case tests the exception.
+- **The exception does not reach a recovery sweep.** A recovery sweep looks for rows that are
+  old, so another writer hides a stalled row and the work happens zero times; being safe to repeat
+  does not help. Run 6 measured rule 16 ending "where rule 1 allows it", which let the exception
+  through. A review comment pointed at the same gap. The last clause was narrowed after the run
+  and was not measured again.
 - **The case.** `recovery-sweep-marks-its-own-column` asks for a job that re-enqueues exports
   that have not moved for 15 minutes. The table has a title, a sharing list, and `updated_at`.
   It passes when the job finds and marks stuck exports by columns the export pipeline owns.
-- **The four runs.** (1) The case alone, with schema comments saying users rename exports and
-  the touch trigger shown: 3 of 3 in both arms, a ceiling ($1.90). (2) Hints removed, first
-  draft of the rule, which named only the mark: 1 of 3 with, 0 of 3 without. Both plugin
-  misses marked rows in their own column and still found stuck exports by `updated_at`
-  ($0.81). (3) A stricter wording, which named finding as well and said "Neither is `updated_at`, to
-  read or to touch": the first table. All three unaided answers found stuck exports by
-  `updated_at`. (4) `postgres-schema-design`, below. (5) Review noted that the stricter
-  wording contradicted rule 1's exception, and the owner did not want a "never". The committed
-  wording, on the new case alone: 2 of 3 with the plugin, 3 of 3 loaded, 0 of 3 without
-  ($0.93). The plugin miss marked rows in its own column and found stuck exports by
-  `updated_at`, the same miss as in run 2. One attempt cannot say whether "should" costs
-  something; the other six cases were not rerun on the committed wording.
+- **The six runs.** (1) The case alone, with schema comments saying users rename exports and the
+  touch trigger shown: 3 of 3 in both arms, a ceiling ($1.90). (2) Hints removed, a first draft of
+  the rule that named only the mark: 1 of 3 with, 0 of 3 without. Both plugin misses marked rows
+  in their own column and still found stuck exports by `updated_at` ($0.81). (3) A strict wording,
+  "Neither is `updated_at`, to read or to touch", on all seven cases: 3 of 3 with the plugin on
+  every case, 21 of 21 loaded, and 1 of 21 unaided ($6.33). (4) `postgres-schema-design`, below
+  ($3.82). (5) Review noted that the strict wording contradicted rule 1, and the owner did not
+  want a "never". The "should" wording, with the no-harm exception still in rule 16, on the new
+  case alone: 2 of 3 with, 0 of 3 without ($0.93). (6) The exception moved to rule 1: the first
+  table.
+- **"Should" may cost the new case something.** It passed 3 of 3 on the strict wording and 4 of 6
+  across runs 5 and 6. Both misses loaded the skill, marked rows in their own column, and found
+  stuck exports by `updated_at`. Six attempts against three do not settle it. The prompt names no
+  other writer and no heartbeat, so a reader has to infer both from the columns.
+- **The other rows in the first table.** The shared-cursor case's one failure had not loaded the
+  skill. The dispatcher case passed 3 of 3 unaided, against 1 or 2 of 3 in the four runs before it
+  that day.
 - **A sentence in `postgres-schema-design`, from the owner, with no case.** Its table-shapes
   reference gains: "Per-column timestamps fit a flow that is unidirectional or limited, such
   as start, success, and fail. When there are a lot of scenarios, such as post statuses, the
@@ -67,8 +81,8 @@ measured the committed wording on the new case.
   | `uuidv7-no-created-at-default`           | 3 of 3 | 2 of 3  |
 
 - **Read:** every attempt's grades in all four runs; the opening of every recovery-case
-  answer in runs 1 and 2, of the three unaided ones in run 3, and of the three plugin ones in
-  run 5. I read no other answer.
+  answer in runs 1 and 2, of the three unaided ones in run 3, of the three plugin ones in
+  run 5, and of the two failing plugin answers in run 6. I read no other answer.
 
 ## 2026-11-24: two notes on the records, no run
 
