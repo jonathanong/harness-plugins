@@ -4,6 +4,41 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `bounded-iteration` gives the overlap rule its own number and says how to tell a starter from a run
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. One two-arm run of all
+six cases, three attempts per arm, $5.31.
+
+| Case                                     | With, outcome | Loaded | Without |
+| ---------------------------------------- | ------------- | ------ | ------- |
+| `no-new-run-while-one-runs`              | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-asks-to-guard-a-shared-cursor`   | 3 of 3        | 3 of 3 | 0 of 3  |
+| `overlapping-purge-runs-stay-lock-free`  | 2 of 3        | 2 of 3 | 0 of 3  |
+| `review-dispatcher-predicate-and-job-id` | 3 of 3        | 3 of 3 | 1 of 3  |
+| `review-staged-reconciler`               | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-sweep-rewrites-its-trigger`      | 3 of 3        | 0 of 3 | 3 of 3  |
+
+- **What changed.** Three notes from the review of the previous entry's pull request. The
+  rule on runs that must not overlap moved out of rule 5 into its own rule 6, and later rules
+  moved up by one; `glide-mq`'s reference to "rule 15" now says 16. Rule 6 says to give the
+  starter its own job name, or mark the jobs that continue a run, so the check can tell them
+  apart. Two sentences gained a reason: why overlap depends on the sweep, and why a position
+  moves instead of gaining a guard. The trailing rule name sits at the end of rule 5 again.
+- **The two cases those rules own** passed 3 of 3 against 0 of 3 again.
+- **`review-sweep-rewrites-its-trigger` loaded the skill in 0 of 3**, so its row reads worse
+  with the plugin than without. Its three plugin answers passed the outcome grader. The
+  skill's description did not change in this entry or the last, and a skill's body cannot
+  affect whether it loads. The case loaded 2 of 3 and 1 of 3 in the two six-case runs earlier
+  the same day and 4 of 8 on 2026-11-22. It is the ceiling case `ROADMAP.md` already lists
+  for replacement, and its prompt does not reliably load the skill.
+- **The purge case's one failure** had not loaded the skill either; it wrote a forward-only
+  guard on the cursor, which that case's grader fails.
+- **A point left open by the previous `postgres-schema-design` entry:** whether its "one row
+  for the sweep" wording would pull `review-asks-to-guard-a-shared-cursor` back to a shared
+  row. That case passed 3 of 3 here with that wording on `main`.
+- **Read:** every attempt's grades, and the opening of the failing purge answer. I read no
+  other answer.
+
 ## 2026-11-24: `postgres-schema-design` says a stored cursor has a retention policy
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.90 over three two-arm
