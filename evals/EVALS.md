@@ -92,7 +92,7 @@ unaided by design.
 | `postgres-partitioning-uuid-v7/retention-with-survivors`                | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                                               | 1.00  | 3 of 3   | 0.00           |
 | `postgres-schema-design/customer-code-key`                              | References a generated id from other tables, not the customer's text code. Ceiling case.                                                         | 1.00  | 3 of 3   | 1.00           |
 | `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database.                                                                               | 1.00  | 6 of 6   | 0.17           |
-| `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, states `ON DELETE`, and indexes each referencing column. Ceiling case.          | 1.00  | 6 of 6   | 1.00           |
+| `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, with the `pk_`, `fk_`, `uq_`, and `ck_` prefixes.                               | 1.00  | 6 of 6   | 0.00           |
 | `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                          | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/ci-gap-section`                                         | Adds a short section on what CI caught that the local check missed, without work history.                                                        | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/perf-change-with-flag`                                  | Shows a before/after table, states what a flag does not cover, and omits routine checks.                                                         | 1.00  | 3 of 3   | 0.00           |
@@ -178,9 +178,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
-- **`postgres-schema-design/membership-table-names-its-constraints`** is from a two-arm run of
-  six attempts on 2026-11-23, after the skill's examples were changed to name their
-  constraints. The skill loaded in 6 of 6.
+- **`postgres-schema-design/membership-table-names-its-constraints`** is from the second
+  two-arm run of six attempts on 2026-11-23, after its grader was narrowed to the naming rule
+  and its pattern. The skill loaded in 6 of 6.
 - **`postgres-schema-design/membership-table-is-commented`** is from a two-arm run of six
   attempts on 2026-11-23. The skill loaded in 6 of 6.
 - **`http-api-design/invite-handler-resolves-before-it-validates`** is from a two-arm run of six

@@ -1,5 +1,5 @@
 ---
-description: A migration for a new membership table names every constraint, its primary key included, states ON DELETE on each foreign key, and indexes each referencing column.
+description: A migration for a new membership table names every constraint, its primary key included, with the pk_, fk_, uq_, and ck_ prefixes.
 tags: [postgres-schema-design, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
