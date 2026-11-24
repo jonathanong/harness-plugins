@@ -231,8 +231,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
 - **`github-actions-authoring/short-shards-are-merged`** is from one two-arm run of six
-  attempts on 2026-11-23, on the current description and grader. Across that day's four runs
-  the skill loaded in 13 of 15 plugin attempts.
+  attempts on 2026-11-23, on the current description and grader. Across the
+  three runs on that description the skill loaded in 13 of 15 plugin attempts.
   **`github-ci-operations/queue-under-the-limit-cancels-nothing`** is from a two-arm run of
   three attempts on 2026-11-23, on the merged skill; its grader was tightened after the run,
   not re-measured.

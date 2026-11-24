@@ -21,8 +21,8 @@ run on that grader.
   grader, six here). The earlier worry was two plugin-arm attempts that passed with no skill
   loaded; in those the skill descriptions were still in context. With no plugin, no attempt
   has merged the shards.
-- **Loading** is 13 of 15 across the day's four runs (1 of 3 in one of them). It is noisy
-  between runs on the same description.
+- **Loading** is 13 of 15 across the three runs on the current description: 6 of 6, 1 of 3,
+  and 6 of 6 here. It is noisy between runs on the same description.
 
 ## 2026-11-23: a `github-ci-operations` case for a queue under the limit
 
