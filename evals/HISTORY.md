@@ -42,6 +42,69 @@ runs, three attempts per arm.
 - **Read:** every attempt's grades in all three runs, and the closing lines of each run-1 answer.
   I read no run-2 or run-3 answer beyond its grades.
 
+## 2026-11-24: `bounded-iteration` gives each run its own position, and does not start a run while one is active
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $17.06 over seven runs, three
+attempts per arm.
+
+| Run | What ran                     | Skill text           | Shared-cursor case, with | Without | Piling-up case, with | Without | Cost  |
+| --- | ---------------------------- | -------------------- | ------------------------ | ------- | -------------------- | ------- | ----- |
+| 1   | Shared-cursor case, two arms | `main`               | 1 of 3                   | 0 of 3  |                      |         | $1.01 |
+| 2   | Piling-up case, two arms     | `main`, first grader |                          |         | 1 of 3               | 1 of 3  | $1.14 |
+| 3   | All six, plugin only         | Rule 1               | 3 of 3                   |         | 0 of 3, first grader |         | $2.83 |
+| 4   | All six, two arms            | Rules 1 and 2        | 2 of 3                   | 0 of 3  | 3 of 3, hinted       | 3 of 3  | $5.09 |
+| 5   | Piling-up case, two arms     | Rules 1 and 2        |                          |         | 2 of 3               | 0 of 3  | $0.86 |
+| 6   | All six, two arms            | Before review fix    | 3 of 3                   | 0 of 3  | 3 of 3               | 0 of 3  | $5.25 |
+| 7   | Piling-up case, two arms     | As committed         |                          |         | 3 of 3               | 1 of 3  | $0.88 |
+
+The piling-up columns count the outcome grader only. In run 4 one attempt passed it without
+loading the skill.
+
+- **Where it came from.** A review asked for a compare-and-set and a race test on a sweep's
+  cursor whose jobs could not run at the same time. The owner's answer was to give each run its
+  own cursor, and, for runs that must not overlap, "if there's no SLA, i would just not start a
+  new cursor if the old one is running". Asked how a run that is a chain of jobs should do
+  that, the owner chose checking the queue before starting a pass.
+- **Rule 1, in rule 5 of the skill.** A run's position belongs to that run and travels in the
+  job's data. A stored cursor that runs share is only for a position that must commit with
+  domain rows, and that one keeps its compare-and-set. Asked to guard a shared cursor that need
+  not be shared, move the position instead. The wording is this repository's.
+- **Rule 2, after it.** When runs must not overlap and nothing needs a run to finish by a
+  deadline, the job that starts a run checks the queue for a waiting, delayed, or active job of a
+  run in progress and does nothing when it finds one. It counts neither itself nor another job
+  that is only starting a run. The run stays a chain of capped jobs; no single long job, no shared
+  row, no lock. The wording is this repository's.
+- **Case `review-asks-to-guard-a-shared-cursor`.** A review asks for a compare-and-set on a
+  cursor row. Every unaided attempt in runs 1, 4, and 6 added it, nine of nine. With rule 1,
+  eight of nine attempts moved the position into job data; the one that did not had not loaded
+  the skill.
+- **Case `no-new-run-while-one-runs`, three versions.** Run 2's grader passed any queue
+  mechanism and failed a shared row. Its answers showed that a job id cannot cover a chain of
+  jobs, and they either folded the pass into one job or stored the position in a shared row;
+  that is the question put to the owner. Run 4's prompt named a queue call that lists jobs, and
+  unaided answers used it, 3 of 3, so that version measured nothing. Run 5's prompt names only
+  the queue library. Runs 2 to 4 are not comparable with runs 5 and 6 for this case.
+- **Run 5's one failure** had loaded the skill. It counted every waiting or active job in the
+  queue, the checking job included, so it would never start a pass. The rule gained "other than
+  itself" and "delayed" after it. Run 6 is on that text.
+- **Run 7, after a review finding.** Run 6's text told the starter to look for a job of the sweep
+  "other than itself". A reviewer of the pull request pointed out that two starters active
+  together would each find the other and both do nothing. The rule now says the check looks for a
+  job of a run in progress and counts neither itself nor another starter. Run 7 is the piling-up
+  case on that text: 3 of 3 against 1 of 3. Two of the three plugin answers I read give the
+  starter its own job name and look only for the pass's jobs. The other five cases were not rerun
+  on this text; the change is confined to that clause.
+- **Run 6, the other four cases.** The purge case, where a shared cursor keeps its
+  compare-and-set, passed 3 of 3 against 0 of 3. The reconciler case 3 of 3 against 0 of 3, the
+  dispatcher case 3 of 3 against 2 of 3. `review-sweep-rewrites-its-trigger` passed its
+  outcome grader 3 of 3 in both arms and loaded the skill 2 of 3; it is still a ceiling case.
+- **Not covered:** what a sweep that must not overlap does when something sets a deadline for
+  a run. The owner has not said, and the skill does not say.
+- **Read:** every attempt's grades in all seven runs; the opening of each run-1 answer; the
+  opening and closing of each run-2 answer; the opening of each failing run-4 answer; the opening
+  of each run-5 answer and the failing one in full; the code of two run-7 plugin answers. I read
+  no run-3 or run-6 answer beyond its grades.
+
 ## 2026-11-24: a `lint-rule-authoring` skill, split from `static-analysis-checklist`
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $17.15 over ten runs:

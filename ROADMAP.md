@@ -94,9 +94,12 @@ Each still gets a loading case and an answer case.
 - [ ] **A guard needs a reachable race.** Proposed after the same incident as the
       `github-issue` investigation rule: before adding a guard, a conditional write, or a race
       test for a concurrency finding, name the two callers and show they can run at the same
-      time, checking what already serializes them. It would narrow `bounded-iteration`'s
-      compare-and-set rule for cursors to sweeps that can have concurrent runs, so it needs
-      the owner's word and a case.
+      time, checking what already serializes them. The cursor part is settled another way:
+      `bounded-iteration` now gives each run its own position, so there is no shared cursor to
+      guard. The general rule for other guards still needs the owner's word and a case.
+- [ ] **A sweep that must not overlap and has a deadline.** `bounded-iteration` says what to do
+      when nothing needs a run to finish by a set time. The owner has not said what to do when
+      something does.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.
