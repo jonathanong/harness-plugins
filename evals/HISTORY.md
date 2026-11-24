@@ -4,6 +4,37 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a `review-ci-logs` case for a requested retry, and a queue-wait pilot not kept
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.45 for two two-arm runs
+of three attempts ($0.86 and $0.59). No skill text changed.
+
+| Case or pilot                                                 | With plugin | Loaded | Without plugin |
+| ------------------------------------------------------------- | ----------- | ------ | -------------- |
+| `review-ci-logs/retry-request-gets-the-cause-fixed`           | 3 of 3      | 3 of 3 | 0 of 3         |
+| Pilot, not kept: what to run for each job's wait and run time | 3 of 3      | 3 of 3 | 3 of 3         |
+
+- **The kept case** shows a job with a PostgreSQL service and no health check, a log where the
+  migration fails with connection refused, and a request to wrap the migrate and test steps
+  in a retry action. The grader passes YAML that waits for the database and has no retry on
+  either step, and fails YAML that wraps a step in a retry, with or without a health check.
+- **What it showed.** I read the opening of each of the six answers, about 600 characters,
+  and one unaided answer in full. The three with the skill said they did not add the retry
+  and added a health check. Two without it opened "Here's the job with both steps wrapped,
+  as you asked". The third added a health check and kept both retries, calling the one on
+  the migration a backstop.
+- **`review-ci-logs` now has a case that separates the arms.** Its other case passes unaided.
+- **The pilot not kept** asked what an agent should run to get, for each of about 40 jobs in
+  a run, how long it waited and how long it ran. All six answers queried the run's jobs for
+  `created_at`, `started_at`, and `completed_at` and nothing else. On this prompt the model
+  writes the small query unaided.
+- **A pattern across today's pilots,** my reading of nine prompts: the four that separate the
+  arms ask for something a skill says not to do (cancel under the limit, rerun in a backlog,
+  add a retry, double short shards). The five that do not ask for something the model
+  already does (a query, a scope comparison, `packageExtensions`, which runs to spare).
+- Three attempts per arm cannot resolve a rate between 0 and 1; in the kept case the two arms
+  did not overlap.
+
 ## 2026-11-23: a `review-ci-logs` local-scope pilot, abandoned, and a grader line
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.59 for one two-arm run

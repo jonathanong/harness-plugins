@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **125 cases** across 46 skills.
+- **126 cases** across 46 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.35, over the 124 cases measured both ways.
-- **96 cases** are ones the model fails unaided. The other 28 it already gets right: 5 check that a skill stays out of the way, and 23 show at most that the skill loads.
+- **Without it:** mean score 0.35, over the 125 cases measured both ways.
+- **97 cases** are ones the model fails unaided. The other 28 it already gets right: 5 check that a skill stays out of the way, and 23 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -60,7 +60,7 @@ averaged over attempts.
 | `pull-requests`                    | 1     | 1.00        | 0.00           | 0                     |
 | `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     |
 | `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     |
-| `review-ci-logs`                   | 1     | 0.89        | 1.00           | 1                     |
+| `review-ci-logs`                   | 2     | 0.95        | 0.50           | 1                     |
 | `revisit-followups`                | 1     | 0.83        | 0.00           | 0                     |
 | `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     |
 | `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     |
