@@ -4,7 +4,47 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-issue` lets an investigation issue carry a conditional fix
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 over two runs of
+three attempts: $0.69 and $1.25.
+
+| Run | What ran           | `unverified-finding-is-an-investigation` | Without | Other two cases |
+| --- | ------------------ | ---------------------------------------- | ------- | --------------- |
+| 1   | New case, two arms | 3 of 3                                   | 0 of 3  |                 |
+| 2   | All three, plugin  | 3 of 3                                   |         | 2 of 3, 3 of 3  |
+
+The skill loaded in every plugin attempt.
+
+- **This changes the entry below.** That entry's rule said an investigation issue asks for no
+  fix, even a conditional one, and the fix gets its own issue. The owner had not answered
+  that sentence when it merged, and then said it should be "investigate, then fix in the
+  same issue if it's real". The rule now says the same issue may carry the fix as a step
+  that happens only if the finding proves the problem, and is closed with the reason if not.
+- **The grader follows the rule.** It passes an investigation that carries the fix under "if
+  the problem is proven", and one that stops at the finding. It still fails an issue that
+  asks for the fix whatever the finding: a fix in the title, an unconditional to-do item for
+  the conditional write, or acceptance criteria that require it. This case's results in the
+  entry below are not comparable with these.
+- **Runs.** Unaided, all three answers filed the cursor bug as a known problem. With the
+  plugin all six were titled "Investigate"; two of the six carried the fix as a conditional
+  step and four stopped at the finding.
+- **`search-before-filing`** was 2 of 3 in run 2. The failing answer filed a bug, searched
+  first, and checked the label, as the two passing answers did; I did not find which
+  condition the judge held against it. The row was 2 of 3 before either change and 3 of 3
+  in the entry below's last run.
+- **`stale-notes-before-filing`** passed 3 of 3. One of its three answers filed the
+  months-old, unchecked note as an investigation with a check of the current code first
+  and the fix conditional on it, which is the rule applied to that case; the other two
+  filed a bug after the same check.
+- **Read:** every attempt's grades and issue titles in both runs; in full, one passing
+  run-1 answer with a conditional fix; and the opening and issue head of that
+  `stale-notes-before-filing` answer.
+
 ## 2026-11-24: `github-issue` files an unverified problem as an investigation
+
+The entry above replaces this one's "no fix, even a conditional one" with a fix that is
+conditional on the finding.
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.87 over six runs of
 three attempts.
