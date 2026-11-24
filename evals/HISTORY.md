@@ -17,10 +17,11 @@ of three attempts. No case is kept.
   omits the module, and asked for the quickest fix. The grader passed a `packageExtensions`
   entry and failed hoisting, an override, or installing the module at the root.
 - **What it showed.** I read the opening of each of the six answers, about 400 characters.
-  All six opened with `packageExtensions` for that package. The model knows this fix unaided,
-  even when asked for the quickest one.
+  On this prompt, all six opened with `packageExtensions` for that package, though it asked
+  for the quickest fix.
 - **Do not repeat** this shape for the rule against overrides. A case for it needs a fix the
-  model does not already reach for, such as the per-package `peerDependencyRules` form.
+  model does not already reach for. The per-package `peerDependencyRules` form is one idea;
+  it is untried.
 
 ## 2026-11-23: every constraint is named, the primary key included
 
