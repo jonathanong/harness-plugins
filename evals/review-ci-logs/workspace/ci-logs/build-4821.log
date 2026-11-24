@@ -1,0 +1,260 @@
+2026-11-20T14:02:07.2078230Z ##[group]Runner Image
+2026-11-20T14:02:07.3153155Z Image: ubuntu-24.04
+2026-11-20T14:02:07.7128575Z Version: 20261115.1.0
+2026-11-20T14:02:07.7748706Z ##[endgroup]
+2026-11-20T14:02:08.1056821Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-11-20T14:02:08.3377817Z Syncing repository: acme/storefront
+2026-11-20T14:02:08.3914211Z Fetching the repository
+2026-11-20T14:02:08.7057338Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --depth=1 origin +refs/pull/4821/merge:refs/remotes/pull/4821/merge
+2026-11-20T14:02:08.7474813Z HEAD is now at 9c1e7a2 Merge 5b02d1f into 71aa0c4
+2026-11-20T14:02:09.0189958Z ##[endgroup]
+2026-11-20T14:02:09.0795119Z ##[group]Run pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
+2026-11-20T14:02:09.1521255Z Installing pnpm@10.4.1
+2026-11-20T14:02:09.4183466Z ##[endgroup]
+2026-11-20T14:02:09.9179208Z ##[group]Run actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+2026-11-20T14:02:10.0097260Z Found in cache @ /opt/hostedtoolcache/node/24.11.0/x64
+2026-11-20T14:02:10.1592046Z Cache restored from key: node-cache-Linux-x64-pnpm-3f0a91c7e2
+2026-11-20T14:02:10.5431158Z ##[endgroup]
+2026-11-20T14:02:11.1127870Z ##[group]Run pnpm install --frozen-lockfile
+2026-11-20T14:02:11.4675067Z Scope: all 4 workspace projects
+2026-11-20T14:02:11.7175814Z Lockfile is up to date, resolution step is skipped
+2026-11-20T14:02:11.7645994Z Progress: resolved 812, reused 4, downloaded 0, added 4
+2026-11-20T14:02:11.8618408Z Progress: resolved 812, reused 13, downloaded 0, added 13
+2026-11-20T14:02:11.9655087Z Progress: resolved 812, reused 19, downloaded 0, added 19
+2026-11-20T14:02:12.3166386Z Progress: resolved 812, reused 22, downloaded 0, added 22
+2026-11-20T14:02:12.8099919Z Progress: resolved 812, reused 29, downloaded 0, added 29
+2026-11-20T14:02:12.8897643Z Progress: resolved 812, reused 33, downloaded 0, added 33
+2026-11-20T14:02:13.2803341Z Progress: resolved 812, reused 40, downloaded 0, added 40
+2026-11-20T14:02:13.3568438Z Progress: resolved 812, reused 45, downloaded 0, added 45
+2026-11-20T14:02:13.4132614Z Progress: resolved 812, reused 53, downloaded 1, added 53
+2026-11-20T14:02:13.7922870Z Progress: resolved 812, reused 56, downloaded 1, added 56
+2026-11-20T14:02:14.2069190Z Progress: resolved 812, reused 62, downloaded 1, added 62
+2026-11-20T14:02:14.6777116Z Progress: resolved 812, reused 68, downloaded 1, added 68
+2026-11-20T14:02:15.0373375Z Progress: resolved 812, reused 74, downloaded 1, added 74
+2026-11-20T14:02:15.2670553Z Progress: resolved 812, reused 80, downloaded 1, added 80
+2026-11-20T14:02:15.7477954Z Progress: resolved 812, reused 84, downloaded 1, added 84
+2026-11-20T14:02:16.2200966Z Progress: resolved 812, reused 92, downloaded 1, added 92
+2026-11-20T14:02:16.5732623Z Progress: resolved 812, reused 95, downloaded 2, added 95
+2026-11-20T14:02:16.8804298Z Progress: resolved 812, reused 102, downloaded 2, added 102
+2026-11-20T14:02:17.3235081Z Progress: resolved 812, reused 107, downloaded 2, added 107
+2026-11-20T14:02:17.6967043Z Progress: resolved 812, reused 112, downloaded 2, added 112
+2026-11-20T14:02:17.7851825Z Progress: resolved 812, reused 115, downloaded 2, added 115
+2026-11-20T14:02:17.9008605Z Progress: resolved 812, reused 121, downloaded 2, added 121
+2026-11-20T14:02:18.0090115Z Progress: resolved 812, reused 126, downloaded 2, added 126
+2026-11-20T14:02:18.2735966Z Progress: resolved 812, reused 132, downloaded 2, added 132
+2026-11-20T14:02:18.3386164Z Progress: resolved 812, reused 140, downloaded 3, added 140
+2026-11-20T14:02:18.6909715Z Progress: resolved 812, reused 147, downloaded 3, added 147
+2026-11-20T14:02:18.8929450Z Progress: resolved 812, reused 156, downloaded 3, added 156
+2026-11-20T14:02:19.1160485Z Progress: resolved 812, reused 164, downloaded 3, added 164
+2026-11-20T14:02:19.4723877Z Progress: resolved 812, reused 170, downloaded 3, added 170
+2026-11-20T14:02:19.5322702Z Progress: resolved 812, reused 176, downloaded 3, added 176
+2026-11-20T14:02:20.1001853Z Progress: resolved 812, reused 179, downloaded 3, added 179
+2026-11-20T14:02:20.5244697Z Progress: resolved 812, reused 185, downloaded 3, added 185
+2026-11-20T14:02:20.5821697Z  WARN  deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-11-20T14:02:21.0090350Z Progress: resolved 812, reused 193, downloaded 4, added 193
+2026-11-20T14:02:21.4043698Z  WARN  deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2026-11-20T14:02:21.9010861Z Progress: resolved 812, reused 201, downloaded 4, added 201
+2026-11-20T14:02:22.3367303Z Progress: resolved 812, reused 206, downloaded 4, added 206
+2026-11-20T14:02:22.5579933Z Progress: resolved 812, reused 214, downloaded 4, added 214
+2026-11-20T14:02:22.7841625Z Progress: resolved 812, reused 220, downloaded 4, added 220
+2026-11-20T14:02:22.8720781Z Progress: resolved 812, reused 227, downloaded 4, added 227
+2026-11-20T14:02:23.0186386Z Progress: resolved 812, reused 230, downloaded 4, added 230
+2026-11-20T14:02:23.1136559Z Progress: resolved 812, reused 235, downloaded 4, added 235
+2026-11-20T14:02:23.3644365Z Progress: resolved 812, reused 239, downloaded 5, added 239
+2026-11-20T14:02:23.6724104Z Progress: resolved 812, reused 248, downloaded 5, added 248
+2026-11-20T14:02:23.9529391Z Progress: resolved 812, reused 252, downloaded 5, added 252
+2026-11-20T14:02:24.1340858Z Progress: resolved 812, reused 259, downloaded 5, added 259
+2026-11-20T14:02:24.6292681Z Progress: resolved 812, reused 263, downloaded 5, added 263
+2026-11-20T14:02:24.9683955Z Progress: resolved 812, reused 272, downloaded 5, added 272
+2026-11-20T14:02:25.2292674Z Progress: resolved 812, reused 280, downloaded 5, added 280
+2026-11-20T14:02:25.6452468Z Progress: resolved 812, reused 285, downloaded 5, added 285
+2026-11-20T14:02:26.2207309Z Progress: resolved 812, reused 291, downloaded 6, added 291
+2026-11-20T14:02:26.2888620Z Progress: resolved 812, reused 295, downloaded 6, added 295
+2026-11-20T14:02:26.4433970Z Progress: resolved 812, reused 299, downloaded 6, added 299
+2026-11-20T14:02:26.4703936Z Progress: resolved 812, reused 303, downloaded 6, added 303
+2026-11-20T14:02:26.8320852Z Progress: resolved 812, reused 312, downloaded 6, added 312
+2026-11-20T14:02:27.0156051Z Progress: resolved 812, reused 317, downloaded 6, added 317
+2026-11-20T14:02:27.2785940Z Progress: resolved 812, reused 321, downloaded 6, added 321
+2026-11-20T14:02:27.6522852Z Progress: resolved 812, reused 326, downloaded 6, added 326
+2026-11-20T14:02:28.2250820Z Progress: resolved 812, reused 331, downloaded 7, added 331
+2026-11-20T14:02:28.7434192Z Progress: resolved 812, reused 339, downloaded 7, added 339
+2026-11-20T14:02:29.1432997Z Progress: resolved 812, reused 346, downloaded 7, added 346
+2026-11-20T14:02:29.5923749Z  WARN  GET https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.25.1.tgz error (ETIMEDOUT). Will retry in 10 seconds. 2 retries left.
+2026-11-20T14:02:30.1341040Z Progress: resolved 812, reused 352, downloaded 7, added 352
+2026-11-20T14:02:30.7061980Z Progress: resolved 812, reused 361, downloaded 7, added 361
+2026-11-20T14:02:31.1889644Z Progress: resolved 812, reused 369, downloaded 7, added 369
+2026-11-20T14:02:31.4398448Z Progress: resolved 812, reused 375, downloaded 7, added 375
+2026-11-20T14:02:31.5198963Z Progress: resolved 812, reused 381, downloaded 7, added 381
+2026-11-20T14:02:31.7721531Z Progress: resolved 812, reused 389, downloaded 8, added 389
+2026-11-20T14:02:31.8312147Z Progress: resolved 812, reused 393, downloaded 8, added 393
+2026-11-20T14:02:32.1067783Z Progress: resolved 812, reused 397, downloaded 8, added 397
+2026-11-20T14:02:32.3240094Z Progress: resolved 812, reused 400, downloaded 8, added 400
+2026-11-20T14:02:32.4033895Z Progress: resolved 812, reused 403, downloaded 8, added 403
+2026-11-20T14:02:32.5111232Z Progress: resolved 812, reused 410, downloaded 8, added 410
+2026-11-20T14:02:33.0815135Z Progress: resolved 812, reused 413, downloaded 8, added 413
+2026-11-20T14:02:33.1163040Z Progress: resolved 812, reused 420, downloaded 8, added 420
+2026-11-20T14:02:33.2569166Z Progress: resolved 812, reused 429, downloaded 9, added 429
+2026-11-20T14:02:33.3630758Z Progress: resolved 812, reused 435, downloaded 9, added 435
+2026-11-20T14:02:33.9372473Z Progress: resolved 812, reused 440, downloaded 9, added 440
+2026-11-20T14:02:34.1684621Z Progress: resolved 812, reused 447, downloaded 9, added 447
+2026-11-20T14:02:34.2553671Z Progress: resolved 812, reused 450, downloaded 9, added 450
+2026-11-20T14:02:34.8513667Z Progress: resolved 812, reused 456, downloaded 9, added 456
+2026-11-20T14:02:35.1416406Z  WARN  deprecated inflight@1.0.6: This module is not supported, and leaks memory.
+2026-11-20T14:02:35.3425149Z Progress: resolved 812, reused 462, downloaded 9, added 462
+2026-11-20T14:02:35.4217837Z Progress: resolved 812, reused 466, downloaded 9, added 466
+2026-11-20T14:02:35.8711875Z Progress: resolved 812, reused 471, downloaded 10, added 471
+2026-11-20T14:02:36.3719236Z Progress: resolved 812, reused 477, downloaded 10, added 477
+2026-11-20T14:02:36.6913976Z Progress: resolved 812, reused 481, downloaded 10, added 481
+2026-11-20T14:02:37.2629692Z Progress: resolved 812, reused 485, downloaded 10, added 485
+2026-11-20T14:02:37.4927857Z Progress: resolved 812, reused 492, downloaded 10, added 492
+2026-11-20T14:02:37.8278257Z Progress: resolved 812, reused 500, downloaded 10, added 500
+2026-11-20T14:02:38.2875486Z Progress: resolved 812, reused 503, downloaded 10, added 503
+2026-11-20T14:02:38.8750793Z Progress: resolved 812, reused 508, downloaded 10, added 508
+2026-11-20T14:02:38.9478654Z Progress: resolved 812, reused 517, downloaded 11, added 517
+2026-11-20T14:02:39.1193122Z Progress: resolved 812, reused 526, downloaded 11, added 526
+2026-11-20T14:02:39.6661022Z Progress: resolved 812, reused 531, downloaded 11, added 531
+2026-11-20T14:02:40.1338262Z Progress: resolved 812, reused 536, downloaded 11, added 536
+2026-11-20T14:02:40.4679351Z Progress: resolved 812, reused 543, downloaded 11, added 543
+2026-11-20T14:02:40.6791408Z Progress: resolved 812, reused 550, downloaded 11, added 550
+2026-11-20T14:02:41.0548132Z Progress: resolved 812, reused 554, downloaded 11, added 554
+2026-11-20T14:02:41.6460703Z Progress: resolved 812, reused 563, downloaded 11, added 563
+2026-11-20T14:02:41.7792550Z Progress: resolved 812, reused 572, downloaded 12, added 572
+2026-11-20T14:02:42.2738881Z Progress: resolved 812, reused 576, downloaded 12, added 576
+2026-11-20T14:02:42.7598172Z Progress: resolved 812, reused 584, downloaded 12, added 584
+2026-11-20T14:02:43.0800477Z Progress: resolved 812, reused 588, downloaded 12, added 588
+2026-11-20T14:02:43.5240300Z Progress: resolved 812, reused 593, downloaded 12, added 593
+2026-11-20T14:02:44.0022962Z Progress: resolved 812, reused 596, downloaded 12, added 596
+2026-11-20T14:02:44.2961954Z  WARN  Issues with peer dependencies found
+2026-11-20T14:02:44.7178581Z Progress: resolved 812, reused 600, downloaded 12, added 600
+2026-11-20T14:02:45.2926369Z .  └─┬ @graphql-codegen/cli 5.0.5
+2026-11-20T14:02:45.5720289Z    └── ✕ unmet peer graphql@^16.0.0: found 15.9.0 in @acme/admin
+2026-11-20T14:02:46.1650910Z Progress: resolved 812, reused 608, downloaded 12, added 608
+2026-11-20T14:02:46.2318031Z Progress: resolved 812, reused 613, downloaded 13, added 613
+2026-11-20T14:02:46.3833737Z Progress: resolved 812, reused 616, downloaded 13, added 616
+2026-11-20T14:02:46.5992614Z Progress: resolved 812, reused 620, downloaded 13, added 620
+2026-11-20T14:02:46.9812200Z Progress: resolved 812, reused 626, downloaded 13, added 626
+2026-11-20T14:02:47.4886726Z Progress: resolved 812, reused 633, downloaded 13, added 633
+2026-11-20T14:02:48.0360081Z Progress: resolved 812, reused 639, downloaded 13, added 639
+2026-11-20T14:02:48.5198015Z Progress: resolved 812, reused 644, downloaded 13, added 644
+2026-11-20T14:02:49.0238978Z Progress: resolved 812, reused 647, downloaded 13, added 647
+2026-11-20T14:02:49.5715685Z Progress: resolved 812, reused 650, downloaded 14, added 650
+2026-11-20T14:02:50.0042344Z Progress: resolved 812, reused 659, downloaded 14, added 659
+2026-11-20T14:02:50.3014934Z Progress: resolved 812, reused 663, downloaded 14, added 663
+2026-11-20T14:02:50.5731700Z Progress: resolved 812, reused 667, downloaded 14, added 667
+2026-11-20T14:02:50.7860300Z Progress: resolved 812, reused 675, downloaded 14, added 675
+2026-11-20T14:02:51.3548059Z Progress: resolved 812, reused 684, downloaded 14, added 684
+2026-11-20T14:02:51.6043922Z Progress: resolved 812, reused 692, downloaded 14, added 692
+2026-11-20T14:02:52.0555368Z Progress: resolved 812, reused 698, downloaded 14, added 698
+2026-11-20T14:02:52.4959200Z Progress: resolved 812, reused 701, downloaded 15, added 701
+2026-11-20T14:02:53.0919251Z Progress: resolved 812, reused 705, downloaded 15, added 705
+2026-11-20T14:02:53.1995926Z Progress: resolved 812, reused 708, downloaded 15, added 708
+2026-11-20T14:02:53.6873637Z Progress: resolved 812, reused 714, downloaded 15, added 714
+2026-11-20T14:02:54.0620762Z Progress: resolved 812, reused 718, downloaded 15, added 718
+2026-11-20T14:02:54.6506537Z Progress: resolved 812, reused 725, downloaded 15, added 725
+2026-11-20T14:02:55.2143848Z Progress: resolved 812, reused 733, downloaded 15, added 733
+2026-11-20T14:02:55.5526077Z Progress: resolved 812, reused 737, downloaded 15, added 737
+2026-11-20T14:02:55.5850177Z Progress: resolved 812, reused 741, downloaded 16, added 741
+2026-11-20T14:02:56.1681340Z Progress: resolved 812, reused 750, downloaded 16, added 750
+2026-11-20T14:02:56.2477418Z Progress: resolved 812, reused 758, downloaded 16, added 758
+2026-11-20T14:02:56.8092442Z Progress: resolved 812, reused 766, downloaded 16, added 766
+2026-11-20T14:02:57.4014429Z Progress: resolved 812, reused 772, downloaded 16, added 772
+2026-11-20T14:02:57.9006129Z Progress: resolved 812, reused 776, downloaded 16, added 776
+2026-11-20T14:02:57.9368493Z Progress: resolved 812, reused 780, downloaded 16, added 780
+2026-11-20T14:02:58.1267700Z Progress: resolved 812, reused 784, downloaded 16, added 784
+2026-11-20T14:02:58.5897042Z Progress: resolved 812, reused 788, downloaded 17, added 788
+2026-11-20T14:02:58.7601358Z Progress: resolved 812, reused 790, downloaded 17, added 793
+2026-11-20T14:02:59.2639689Z Progress: resolved 812, reused 790, downloaded 17, added 799
+2026-11-20T14:02:59.8117788Z Progress: resolved 812, reused 790, downloaded 17, added 802
+2026-11-20T14:03:00.3524471Z Progress: resolved 812, reused 790, downloaded 17, added 807
+2026-11-20T14:03:00.7107894Z Progress: resolved 812, reused 790, downloaded 17, added 812
+2026-11-20T14:03:00.9747538Z Progress: resolved 812, reused 790, downloaded 17, added 812
+2026-11-20T14:03:01.0705965Z Progress: resolved 812, reused 790, downloaded 17, added 812
+2026-11-20T14:03:01.3942303Z Progress: resolved 812, reused 790, downloaded 18, added 812
+2026-11-20T14:03:01.9204576Z Progress: resolved 812, reused 790, downloaded 18, added 812
+2026-11-20T14:03:02.0466601Z Progress: resolved 812, reused 790, downloaded 18, added 812
+2026-11-20T14:03:02.5167627Z Progress: resolved 812, reused 790, downloaded 18, added 812
+2026-11-20T14:03:02.6367238Z Progress: resolved 812, reused 790, downloaded 18, added 812
+2026-11-20T14:03:03.0158025Z Progress: resolved 812, reused 790, downloaded 18, added 812
+2026-11-20T14:03:03.2248722Z + chalk 2.17.0
+2026-11-20T14:03:03.5247147Z + debug 9.16.8
+2026-11-20T14:03:03.6888414Z + glob 2.17.0
+2026-11-20T14:03:04.0033155Z + rimraf 5.1.1
+2026-11-20T14:03:04.2803996Z + semver 9.0.1
+2026-11-20T14:03:04.4160534Z + yargs 9.19.8
+2026-11-20T14:03:04.7453590Z + ws 5.14.8
+2026-11-20T14:03:05.1709053Z + undici 8.16.3
+2026-11-20T14:03:05.6781052Z + graphql 5.17.3
+2026-11-20T14:03:05.9256766Z + tslib 3.13.1
+2026-11-20T14:03:06.1941130Z + minimatch 6.2.3
+2026-11-20T14:03:06.7343883Z + lru-cache 4.9.1
+2026-11-20T14:03:06.8373161Z + picocolors 3.20.5
+2026-11-20T14:03:07.2903917Z + esbuild 3.14.3
+2026-11-20T14:03:07.4048129Z + rollup 2.12.7
+2026-11-20T14:03:08.0013751Z + vite 4.5.6
+2026-11-20T14:03:08.1349070Z + zod 7.10.6
+2026-11-20T14:03:08.1662071Z + dotenv 6.2.5
+2026-11-20T14:03:08.5940349Z + commander 9.14.7
+2026-11-20T14:03:08.9759126Z + execa 7.10.8
+2026-11-20T14:03:09.5672609Z + fast-glob 9.2.1
+2026-11-20T14:03:09.7412881Z + micromatch 4.3.1
+2026-11-20T14:03:10.1996385Z + nanoid 1.5.4
+2026-11-20T14:03:10.3062719Z + postcss 7.8.6
+2026-11-20T14:03:10.7325141Z + source-map-js 9.18.7
+2026-11-20T14:03:11.2162748Z + ansi-styles 2.8.0
+2026-11-20T14:03:11.3922504Z + supports-color 3.13.1
+2026-11-20T14:03:11.8771950Z + cross-spawn 1.20.1
+2026-11-20T14:03:11.9358361Z + which 2.19.3
+2026-11-20T14:03:12.1525441Z + signal-exit 2.14.0
+2026-11-20T14:03:12.4933213Z Done in 41.3s
+2026-11-20T14:03:13.0507895Z ##[endgroup]
+2026-11-20T14:03:13.2261481Z ##[group]Run pnpm codegen
+2026-11-20T14:03:13.3210985Z > acme-storefront@ codegen /home/runner/work/storefront/storefront
+2026-11-20T14:03:13.6467092Z > graphql-codegen --config codegen.config.json
+2026-11-20T14:03:13.8050022Z ✔ Parse Configuration
+2026-11-20T14:03:13.8884841Z ❯ Generate outputs
+2026-11-20T14:03:14.0021245Z   0 schema sources matched packages/api/schema.graphql
+2026-11-20T14:03:14.0513448Z   0 outputs written
+2026-11-20T14:03:14.1883704Z ✔ Generate outputs
+2026-11-20T14:03:14.3893259Z ##[endgroup]
+2026-11-20T14:03:14.5862291Z ##[group]Run pnpm lint
+2026-11-20T14:03:15.0467381Z > acme-storefront@ lint /home/runner/work/storefront/storefront
+2026-11-20T14:03:15.2349154Z > oxlint
+2026-11-20T14:03:15.5449667Z   ⚠ eslint(no-unused-vars): Parameter '_' is declared but never used.
+2026-11-20T14:03:15.6681487Z    ╭─[packages/api/src/resolvers.ts:6:15]
+2026-11-20T14:03:15.8894093Z    ╰────
+2026-11-20T14:03:15.9199439Z Found 1 warning and 0 errors.
+2026-11-20T14:03:16.0852041Z Finished in 38ms on 5 files with 101 rules using 4 threads.
+2026-11-20T14:03:16.1141049Z ##[endgroup]
+2026-11-20T14:03:16.5592915Z ##[group]Run pnpm typecheck
+2026-11-20T14:03:16.8989000Z > acme-storefront@ typecheck /home/runner/work/storefront/storefront
+2026-11-20T14:03:17.0287848Z > pnpm -r typecheck
+2026-11-20T14:03:17.3241459Z Scope: 3 of 4 workspace projects
+2026-11-20T14:03:17.8862388Z packages/admin typecheck$ tsc --noEmit
+2026-11-20T14:03:17.9678820Z packages/admin typecheck: src/order-table.ts(1,28): error TS2307: Cannot find module './generated/types.js' or its corresponding type declarations.
+2026-11-20T14:03:18.4628557Z packages/admin typecheck: Failed
+2026-11-20T14:03:18.7335187Z /home/runner/work/storefront/storefront/packages/admin:
+2026-11-20T14:03:19.0406196Z  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @acme/admin@ typecheck: `tsc --noEmit`
+2026-11-20T14:03:19.5446957Z Exit status 2
+2026-11-20T14:03:19.7926856Z packages/api typecheck$ tsc --noEmit
+2026-11-20T14:03:20.1065634Z packages/api typecheck: src/resolvers.ts(1,37): error TS2307: Cannot find module './generated/types.js' or its corresponding type declarations.
+2026-11-20T14:03:20.5254536Z packages/api typecheck: src/store.ts(1,37): error TS2307: Cannot find module './generated/types.js' or its corresponding type declarations.
+2026-11-20T14:03:21.1152691Z packages/api typecheck: src/resolvers.ts(6,30): error TS7006: Parameter 'args' implicitly has an 'any' type.
+2026-11-20T14:03:21.3340378Z packages/api typecheck: Failed
+2026-11-20T14:03:21.8367640Z /home/runner/work/storefront/storefront/packages/api:
+2026-11-20T14:03:22.2666648Z  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @acme/api@ typecheck: `tsc --noEmit`
+2026-11-20T14:03:22.6555314Z Exit status 2
+2026-11-20T14:03:22.9102561Z packages/web typecheck$ tsc --noEmit
+2026-11-20T14:03:23.1318363Z packages/web typecheck: src/product-card.ts(1,30): error TS2307: Cannot find module './generated/types.js' or its corresponding type declarations.
+2026-11-20T14:03:23.1833817Z packages/web typecheck: src/order-summary.ts(1,28): error TS2307: Cannot find module './generated/types.js' or its corresponding type declarations.
+2026-11-20T14:03:23.2786765Z packages/web typecheck: src/order-summary.ts(4,36): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+2026-11-20T14:03:23.3396957Z packages/web typecheck: src/order-summary.ts(4,41): error TS7006: Parameter 'line' implicitly has an 'any' type.
+2026-11-20T14:03:23.7894114Z packages/web typecheck: Failed
+2026-11-20T14:03:23.9576559Z /home/runner/work/storefront/storefront/packages/web:
+2026-11-20T14:03:24.0723388Z  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @acme/web@ typecheck: `tsc --noEmit`
+2026-11-20T14:03:24.1413401Z Exit status 2
+2026-11-20T14:03:24.6492761Z  ELIFECYCLE  Command failed with exit code 2.
+2026-11-20T14:03:25.1741880Z ##[error]Process completed with exit code 2.
+2026-11-20T14:03:25.5831031Z ##[group]Post Run actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+2026-11-20T14:03:25.7666244Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-3f0a91c7e2, not saving cache.
+2026-11-20T14:03:25.9271079Z ##[endgroup]
+2026-11-20T14:03:26.1170819Z Cleaning up orphan processes
