@@ -342,7 +342,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case's one failure had not loaded it. The recovery case passed 2 of 3 with the plugin, and 2 of
   3 in a run of it alone on almost the same wording; on a stricter wording earlier that day it
   passed 3 of 3. `review-dispatcher-predicate-and-job-id` passed 3 of 3 without the plugin in this
-  run, and 1 or 2 of 3 in the four runs before it that day, so its ceiling mark rests on one run. The last clause of rule 16's recovery sentence was narrowed after this run, and a sentence added after it, and neither was measured again.
+  run, and 1 or 2 of 3 in the four runs before it that day, so its ceiling mark rests on one run. The last clause of rule 16's recovery sentence was narrowed after this run, and a sentence added after it, and neither was measured again. Rule 6 later gained a sentence on runs with a deadline, also not measured.
 - **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
   from that run and is not updated as rows are replaced; a later loading miss is in the note for
   its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then
