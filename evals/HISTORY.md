@@ -23,6 +23,10 @@ of three attempts. No skill text changed.
 - **Not graded, and worth a look:** one answer with the skill said cancelling runs on `main`
   is wrong "even in a real backlog", which the backlog reference does not say.
 - Three attempts per arm cannot resolve a rate between 0 and 1; the two arms did not overlap.
+- **Edited after the run, not re-measured:** the grader now requires the answer to say the
+  account is under its limit; before, saying that cancelling would not shorten the queue was
+  enough. The three passing answers each said the account is under the limit of 60, in the
+  part I read.
 
 ## 2026-11-23: review edits to `github-ci-operations` and the shard grader, not re-measured
 

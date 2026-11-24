@@ -236,7 +236,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   before the description changed, and is not stable: two plugin attempts that loaded no skill
   also passed. Its grader gained a line after those runs, not re-measured.
   **`github-ci-operations/queue-under-the-limit-cancels-nothing`** is from a two-arm run of
-  three attempts on 2026-11-23, on the merged skill.
+  three attempts on 2026-11-23, on the merged skill; its grader was tightened after the run,
+  not re-measured.
   **`github-ci-operations/macos-queue-is-not-a-plan-problem`** is from a two-arm run of three
   attempts the same day; the skill's backlog steps moved to a reference and its measuring and
   backlog rules were edited after it, not re-measured.
