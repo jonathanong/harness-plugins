@@ -4,6 +4,49 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `bounded-iteration` replaces the trigger case with one where the trigger has to be found
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Four runs, $8.50: three
+pilots of the new case ($0.35, $1.36, $1.42) and one two-arm run of all six cases, three
+attempts per arm ($5.37).
+
+| Case                                      | With, outcome | Loaded | Without |
+| ----------------------------------------- | ------------- | ------ | ------- |
+| `review-sweep-whose-trigger-is-elsewhere` | 3 of 3        | 3 of 3 | 2 of 3  |
+| `no-new-run-while-one-runs`               | 3 of 3        | 3 of 3 | 2 of 3  |
+| `review-asks-to-guard-a-shared-cursor`    | 3 of 3        | 3 of 3 | 0 of 3  |
+| `overlapping-purge-runs-stay-lock-free`   | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-dispatcher-predicate-and-job-id`  | 3 of 3        | 3 of 3 | 2 of 3  |
+| `review-staged-reconciler`                | 3 of 3        | 3 of 3 | 0 of 3  |
+
+- **The case.** `review-sweep-rewrites-its-trigger` is removed: it pasted the trigger into
+  the prompt, passed 3 of 3 without the plugin, and loaded the skill unevenly (0 of 3 in the
+  previous entry). `review-sweep-whose-trigger-is-elsewhere` asks for a review of a job file
+  in a small synthetic repository where the touch trigger is in the first migration. Rows for
+  the old case in earlier entries do not compare with the new one.
+- **The new case loads the skill, and does not separate the arms at three attempts.** It
+  loaded in 10 of 10 plugin attempts across the four runs. Without the plugin it passed 2 of
+  3 here, and 1 of 3 and 2 of 3 in the pilots.
+- **The pilots.** The first, one attempt per arm, ran on a grader that passed a review saying
+  only that the job "may" loop if a trigger exists; both arms passed and it compares with
+  nothing. The grader now fails that. The second ran `main`'s skill text: 2 of 3 with, 1 of 3
+  without. The plugin miss loaded the skill and never opened the migrations. The third ran
+  the new sentence below: 3 of 3 with, 2 of 3 without. In the pilots the test imported a
+  helper file the fixture lacked; the fixture now has it, so the pilots do not compare with
+  the six-case run either.
+- **The rule, with no measured improvement.** Rule 16 now says the write back into the
+  selection can be indirect, and to read the table's triggers and column defaults before
+  judging a sweep. It was written from the one plugin miss. Reviews found the trigger in 5 of
+  6 plugin attempts and 5 of 6 unaided across the second and third pilots, and in 3 of 3 of
+  each in the six-case run, so nothing here shows the sentence changes what a review finds.
+  It names a mistake a loaded review made once.
+- **The other five cases** passed 3 of 3 with the plugin. `no-new-run-while-one-runs` passed
+  2 of 3 without it, against 0 of 3 and 1 of 3 in earlier entries.
+- **Read:** every attempt's grades in all four runs; the opening of every answer in the first
+  pilot; in the later runs, the lines of each new-case answer that mention the trigger or the
+  schema, and the opening of each failing new-case answer. I read no answer to the other five
+  cases.
+
 ## 2026-11-24: `bounded-iteration` gives the overlap rule its own number and says how to tell a starter from a run
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. One two-arm run of all
