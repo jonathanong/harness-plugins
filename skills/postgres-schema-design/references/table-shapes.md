@@ -75,7 +75,8 @@ counter needs evidence that nothing simpler works.
 
 Prefer keeping the position in job data; a cursor table is for a sweep whose position must commit with
 its domain rows. A cursor key names the finite thing being swept. A singleton uses
-`is_singleton boolean PRIMARY KEY DEFAULT true CHECK (is_singleton)`; the job seeds its own row
+`is_singleton boolean NOT NULL DEFAULT true` with a named primary key on it and a named
+`CHECK (is_singleton)`; the job seeds its own row
 with `ON CONFLICT DO NOTHING`. `cursor_<thing>_id` and optional `sweep_upper_bound_<thing>_id` are
 FK-free UUIDv7 positions; NULL means the start. Per-unit work progress belongs in work items.
 A UUIDv7 is assigned at insert, not commit: jobs that must see every committed row re-scan an

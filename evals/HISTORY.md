@@ -4,6 +4,31 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: every constraint is named, the primary key included
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.87 for one two-arm run
+of six attempts on the changed skill. The old text was measured once, in the abandoned pilot
+below, on the same prompt and the same three grading points.
+
+| Case                                                            | With plugin | Loaded | Without plugin |
+| --------------------------------------------------------------- | ----------- | ------ | -------------- |
+| `postgres-schema-design/membership-table-names-its-constraints` | 6 of 6      | 6 of 6 | 6 of 6         |
+| The same prompt on the old skill text (the pilot below)         | 0 of 1      | 1 of 1 | 1 of 1         |
+
+- **Skill changed, at the user's request.** The rule now says the primary key is included and
+  gives its reason. `references/naming.md` gains a pattern for constraint names: `pk_<table>`,
+  `fk_<table>__<column>`, `uq_<table>__<columns>`, `ck_<table>__<purpose>`. The examples in
+  `references/relations.md`, `references/table-shapes.md`, and `bounded-iteration`'s
+  `references/sweep-patterns.md` now name every constraint and state `ON DELETE`. These edits
+  were in the tree during the run.
+- **Case added, a ceiling case.** It is the abandoned pilot's case; its grader now also says the
+  pattern of the names is not graded.
+- **What the run showed.** I listed the constraint names in each answer. All six plugin answers
+  name the primary key, the three foreign keys, and the unique constraint, with the new
+  prefixes. All six unaided answers name theirs with PostgreSQL's own suffixes (`_pkey`,
+  `_fkey`, `_check`). So the case does not show the skill helps; it shows the plugin answer no
+  longer leaves the primary key inline, against one attempt on the old text.
+
 ## 2026-11-23: a `postgres-schema-design` case for comments
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for one two-arm run
