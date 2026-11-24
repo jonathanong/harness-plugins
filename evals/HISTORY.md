@@ -16,8 +16,10 @@ of six attempts, after a one-attempt pilot that passed with the plugin and faile
 - **Case added.** Add a `list_refunds` tool beside two tools, one that caps its limit with an
   inline `Math.min` and one that does not cap it. The grader checks one rule: the limit and the
   day range are bounded from both sides through one shared helper or shared schema.
-- **What the run showed.** Without the plugin two answers wrote a shared helper; the other four
-  bounded the values inside the new tool, and none left them unbounded. With the plugin five
+- **What the run showed.** Without the plugin two answers passed, and the judge failed the
+  other four. I read those four: all bound both values, three of them inside the new tool, and
+  one with a shared helper for the limit and the day count bounded in the tool's own schema.
+  With the plugin five
   answers put both values through one helper. The sixth wrote a helper for the limit and
   bounded the day count in the tool's own schema, which the grader fails.
 - **No skill change.** The difference is 3 of 6 attempts, which this sample does not settle.
