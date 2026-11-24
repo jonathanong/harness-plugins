@@ -143,8 +143,10 @@ unaided by design.
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
 - **`github-ci-operations/queue-is-read-once-not-watched`** is from one two-arm run of three
-  attempts on 2026-11-23, after the skill's snapshot rule changed that day. The skill's other rows
-  are from before that change, not re-measured.
+  attempts on 2026-11-23, after the skill's snapshot rule changed that day. A plugin-only run of
+  three attempts on the changed rule gave the same plugin score and loading for all four of the
+  skill's rows; the other three rows keep their "Without plugin" values from earlier runs that
+  day.
 - **`package-json-checklist/pinned-transitive-version-replaces-the-package`** is from one two-arm
   run of six attempts on 2026-11-23. The other two `package-json-checklist` rows take their plugin
   score and loading from a plugin-only run of three attempts the same day, after the skill's

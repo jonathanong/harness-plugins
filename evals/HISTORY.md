@@ -30,8 +30,8 @@ runs of three attempts on one prompt: $0.53 and $0.58.
   declined the loop and gave the jobs query to run once after the jobs start; two also gave a
   single count of queued jobs to read now. I read about 200 characters of each answer without
   it: each opens "Here's the loop".
-- **Not re-measured:** the skill's other three cases, whose rows are from before this rule
-  change.
+- **All four cases, re-measured** on run 2's skill in a plugin-only run of three attempts
+  ($1.46): each 3 of 3, loaded 3 of 3, the same as their rows. I read none of its answers.
 - **Edited after the runs, not re-measured:** the grader's PASS no longer accepts a pointer
   to an event-driven tool with no query. In the part of run 2's three passing answers that
   I read, each gave the query.

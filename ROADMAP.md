@@ -65,8 +65,8 @@ Each still gets a loading case and an answer case.
 - [ ] **Skills that give way to a request by name.** Two did on 2026-11-23: asked for an
       override or a polling loop, the answer named the rule and gave the thing anyway. Try
       the same kind of request on other skills' "do not" rules.
-- [ ] **Re-measure the other `github-ci-operations` cases** on the snapshot rule changed on
-      2026-11-23, and try a case for a full log download.
+- [ ] **A case for fetching one job's log** in `github-ci-operations`. Try a request for a
+      full log download.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
