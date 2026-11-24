@@ -18,9 +18,10 @@ three attempts.
 | 5   | New case, two arms | As committed    | Second | 3 of 3         | 3 of 3 | 0 of 3  | $0.50 |
 | 6   | All three, plugin  | As committed    | Second | 3 of 3         | 3 of 3 |         | $1.07 |
 
-- **The rule.** The owner's words: "don't paraphrase / interpolate. if you have questions or
-  want elaboration, ask the human". It is the first bullet under "Writing a rule". Its last
-  sentence, the reason, is this repository's wording.
+- **The rule.** The owner's words: "don't paraphrase / interpolate. if you have questions or want
+  elaboration, ask the human". It is the first bullet under "Writing a rule". The bullet keeps
+  those words and adds "a rule a person stated: write it down in their words" to the first
+  sentence, and a third sentence giving the reason. Both additions are this repository's wording.
 - **Where it came from.** A person's four-word rule was written into a pull request with
   sub-clauses they had not said, and relayed onward in a paraphrase.
 - **The first prompt** said the rule was stated "word for word" and asked only to add it.
