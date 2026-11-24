@@ -4,6 +4,28 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a `postgres-schema-design` constraint-naming pilot, abandoned
+
+Main at `e162033`, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.23 for one pilot of one
+attempt per arm. No case was added.
+
+| Pilot                                                                 | With plugin | Loaded | Without plugin |
+| --------------------------------------------------------------------- | ----------- | ------ | -------------- |
+| A membership table names its constraints, states `ON DELETE`, indexes | 0 of 1      | 1 of 1 | 1 of 1         |
+
+- **The pilot.** Write a team-membership migration. The grader checked the one bullet "Name
+  every constraint and state `ON DELETE` on every foreign key. Index the referencing column."
+- **What the two answers did.** I read the SQL of both. The unaided answer named its primary
+  key, three foreign keys, and check, gave each foreign key an `ON DELETE`, and indexed the
+  user and inviter columns. The plugin answer did the same for its foreign keys, unique
+  constraint, and indexes, but wrote `id uuid PRIMARY KEY DEFAULT uuidv7()` inline, which
+  leaves the primary key for PostgreSQL to name.
+- **A finding about the skill, not fixed here.** The skill's own examples do not follow the
+  bullet: `references/relations.md` has `id uuid PRIMARY KEY`, `code text NOT NULL UNIQUE`, and
+  a `REFERENCES accounts (id)` with no name and no `ON DELETE`, and
+  `references/table-shapes.md` has an inline `PRIMARY KEY` with an unnamed `CHECK`. One attempt
+  does not show that the examples caused the inline key.
+
 ## 2026-11-23: two pilots for rules with no case, abandoned
 
 Main at `e9b2310`, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.40 for two pilots of one
