@@ -73,6 +73,10 @@ loaded only when it is needed, and nowhere else.
 
 ## Writing a rule
 
+- When a person stated the rule, write down their words and stop. A reason or an example goes
+  in only when they gave it. A sub-rule, a scope, or an exception you add is your reading of
+  what they meant, and the next agent will follow it as theirs. Put your reading, and any doubt
+  about how far the rule reaches, in a question to them outside the rule.
 - Write what to do, with the reason when it is not obvious. A reader who knows the reason can
   handle the case the rule did not foresee.
 - Write the rule, not the incident that produced it. The story belongs in the commit or the
