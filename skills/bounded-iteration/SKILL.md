@@ -40,11 +40,21 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    per run.
 5. **Resume without restarting.** Keep a keyset position on the UUIDv7 key or a
    `<verb>_through_at` time position, fix the sweep's end when it starts, and rescan an overlap
-   when insert order differs from commit order. Advance a stored position with a compare-and-set
-   on the value the batch started from, never an unconditional write, so an overlapping or stale
-   run cannot move it backward. Prefer the position in job data; a cursor table is
-   for a position that must be transactional with domain rows, and follows
-   [table shapes](../postgres-schema-design/references/table-shapes.md).
+   when insert order differs from commit order. A run's position belongs to that run: keep it in
+   the job's data and pass it to the job that continues the run. No two runs then write the same
+   position, and overlapping runs repeat work at worst. A stored cursor that runs share is only
+   for a position that must commit in the same transaction as domain rows. It follows
+   [table shapes](../postgres-schema-design/references/table-shapes.md) and advances with a
+   compare-and-set on the value the batch started from, never an unconditional write, so an
+   overlapping or stale run cannot move it backward. Asked to guard a shared cursor that does
+   not need to be shared, move the position into the job's data instead of adding the guard.
+   **Runs that must not overlap do not start.** Whether runs may overlap depends on what the sweep
+   does. When they must not, and nothing needs a run to finish by a deadline, do not start a new
+   run while one is active: the job that starts a run first checks the queue for a waiting,
+   delayed, or active job of that sweep other than itself, and does nothing when it finds one. The
+   run stays a chain of capped jobs with its own position. Do not fold it into one long job, move
+   the position into a shared row, or take a lock to keep runs apart. A second run that slips past
+   the check only repeats work.
    (`postgres-generated-column-predicates`)
 6. **No unbounded fan-out.** Use `Promise.all` only over a bounded result, with bounded
    concurrency.
