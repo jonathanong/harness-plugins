@@ -11,9 +11,10 @@ No run.
 - **The rule, from the owner.** Rule 6 covered runs that must not overlap when nothing needs a run
   to finish by a deadline, and said nothing for when something does. It gains: "When something
   does need a run to finish by a deadline, what to do depends on the feature; most likely, add
-  capacity or concurrency so the run finishes in time." The owner's words were "i woudl say this
-  depends on the feature. most likely, we should add capacity/concurrency/etc." "So the run
-  finishes in time" is mine.
+  capacity, or concurrency inside the run, so it finishes in time." The owner said it depends on
+  the feature and is most likely more capacity or concurrency; review asked which concurrency, and
+  the owner agreed to "inside the run", since a second run of the same sweep is what the rule
+  keeps apart.
 - **Not measured.** No case tests the sentence, and no `bounded-iteration` row was run again on
   it. The rows in `evals/EVALS.md` are from the text before it.
 

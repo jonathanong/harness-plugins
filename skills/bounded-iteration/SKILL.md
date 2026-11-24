@@ -67,7 +67,7 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    jobs with its own position. Do not fold it into one long job, move the position into a shared
    row, or take a lock to keep runs apart. A second run that slips past the check only repeats
    work. When something does need a run to finish by a deadline, what to do depends on the feature;
-   most likely, add capacity or concurrency so the run finishes in time.
+   most likely, add capacity, or concurrency inside the run, so it finishes in time.
 7. **No unbounded fan-out.** Use `Promise.all` only over a bounded result, with bounded
    concurrency.
 8. **Tunables are runtime configuration.** Batch sizes, page sizes, caps, and windows come from the
