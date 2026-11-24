@@ -1,7 +1,7 @@
 # Job sizing and operating-system tiers
 
 Read this when adding a job, a matrix, a shard, or a `needs` edge, or when choosing which suites
-run on a pull request. A stricter repository rule wins.
+run on a pull request. These are defaults; the repository's own policy overrides them.
 
 Every job pays for its own setup before it does any work: waiting for a runner, checkout,
 toolchain install, cache restore. That is often 20 to 50 seconds. Every job also holds one of

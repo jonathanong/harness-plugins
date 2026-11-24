@@ -23,16 +23,19 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 for t
 - **`github-actions-authoring` gains a job-sizing reference:** merge jobs that are mostly setup,
   no `needs` edge for a short job, and a smoke tier for macOS and Windows on pull requests.
   `review-ci-logs` links to the new skill.
-- **The macOS case is a ceiling case.** All three unaided answers gave the macOS limit of 5 on
-  both plans from memory and advised against the upgrade. The skill's backlog steps moved from
-  `SKILL.md` to a reference after this run, and its description changed; not re-measured.
+- **The macOS case is a ceiling case.** I read the opening of each of the six answers, about
+  700 characters. Each of the three unaided openings advised against the upgrade and gave a
+  macOS limit of 5 on both plans, and each said the numbers were from memory or might be out
+  of date. The skill's backlog steps moved from `SKILL.md` to a reference after this run, and
+  its description changed; not re-measured.
 - **The shard case separates, once the skill loads.** In the first run the skill loaded in one
   attempt of three, and that attempt wrote a two-shard job. The two plugin attempts that did
-  not load it and all three unaided attempts wrote the 32-shard job that was asked for, most
-  with a warning that it would not help. The description of `github-actions-authoring` then
-  gained "including a change to its jobs, matrix, or test shards" and "job size". With it the
-  skill loaded and passed in 6 of 6. I read the opening and the shard lines of the first run's
-  answers; for the second run I read only the pass and loading results.
+  not load it and all three unaided attempts wrote the 32-shard job that was asked for. Three
+  of those five opened by saying it would not help; the other two opened with the YAML, and I
+  did not read past it. The description of `github-actions-authoring` then gained "including
+  a change to its jobs, matrix, or test shards" and "job size". With it the skill loaded and
+  passed in 6 of 6. I read the opening and the shard lines of the first run's answers; for the
+  second run I read only the pass and loading results.
 - **Limits of this.** The unaided arm has three attempts. The other `github-actions-authoring`
   cases were not re-run after the description changed. No case covers the small-query rules,
   the backlog order, or the operating-system tiers.

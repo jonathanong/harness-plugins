@@ -37,7 +37,7 @@ answers the same question a five-column table does.
 ## Know the limits before proposing more runners
 
 Concurrency on GitHub-hosted standard runners is counted across every repository in the account,
-not per repository.
+not per repository. The limits as documented on 2026-11-23:
 
 | Plan       | Total concurrent jobs | Concurrent macOS jobs |
 | ---------- | --------------------- | --------------------- |
