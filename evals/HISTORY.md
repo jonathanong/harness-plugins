@@ -4,6 +4,33 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `review-ci-logs` loads for a request to say why a job failed
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.50 over six runs.
+
+| Run | What ran, attempts                  | Description  | Passed the answer | Loaded       | Without | Cost  |
+| --- | ----------------------------------- | ------------ | ----------------- | ------------ | ------- | ----- |
+| 1-3 | Three probe prompts, plugin, 3 each | On `main`    | not graded        | 3, 1, 3 of 3 |         | $0.69 |
+| 4   | New case, two arms, 6               | On `main`    | 6 of 6            | 0 of 6       | 6 of 6  | $1.16 |
+| 5   | New case, plugin, 6                 | As committed | 6 of 6            | 4 of 6       |         | $0.72 |
+| 6   | All three cases, plugin, 3          | As committed | 3 of 3 each       | 2, 3, 3 of 3 |         | $0.93 |
+
+- **The question** was left open on 2026-11-23: the skill loaded in 0 of 3 on one prompt
+  that asked to explain a red job, and one prompt was too few to change the description on.
+- **Runs 1 to 3, probes not kept.** Each pasted the end of a CI log. "ci is red on my PR"
+  with typecheck errors loaded the skill 3 of 3, and "can you fix it?" with a registry 503
+  in a Docker build 3 of 3. "why did the `build` job fail?" with a long log loaded it 1 of 3. The probes had only the loading grader and no answer was read.
+- **The case** is the third probe with a grader for the answer: the first failure is a
+  stale lockfile at the install step, and the later errors follow from it.
+- **The description** gains "when asked why a job or check failed or handed a failing log".
+  On the same case in one session, loading went from 0 of 6 to 4 of 6.
+- **The answer is at the ceiling.** All six unaided answers and all fifteen plugin answers
+  passed the grader. The case measures loading; it does not show that the skill improves
+  the answer.
+- **Run 6.** The two existing cases passed 3 of 3 and loaded 3 of 3. `quiet-log-keeps-errors`
+  had loaded in 7 of 9 on 2026-11-22.
+- **Read:** every attempt's grades. I read no answer in these runs.
+
 ## 2026-11-24: `github-issue` lets an investigation issue carry a conditional fix
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 over two runs of
