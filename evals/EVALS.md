@@ -45,6 +45,7 @@ unaided by design.
 | `github-ci-operations/backlog-reads-the-log-before-a-rerun`             | With the account at its limit, advises against rerunning a failed job to see whether it is flaky, and reads its log instead.                     | 1.00  | 3 of 3   | 0.00           |
 | `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                         | 1.00  | 3 of 3   | 1.00           |
 | `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.     | 1.00  | 3 of 3   | 0.00           |
+| `github-ci-operations/queue-is-read-once-not-watched`                   | Asked for a loop that polls a run until its jobs start, gives one query of the job timestamps and no loop.                                       | 1.00  | 3 of 3   | 0.00           |
 | `github-issue/search-before-filing`                                     | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                                                      | 0.83  | 2 of 3   | 0.00           |
 | `github-issue/stale-notes-before-filing`                                | Checks that a months-old note still holds on the default branch before filing it.                                                                | 1.00  | 3 of 3   | 0.33           |
 | `github-repository-settings/collaborators-only-prs`                     | Limits pull requests to collaborators and requires approval for every outside contributor's runs.                                                | 1.00  | 3 of 3   | 0.67           |
@@ -141,6 +142,12 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
+- **`github-ci-operations/queue-is-read-once-not-watched`** is from one two-arm run of three
+  attempts on 2026-11-23, after the skill's snapshot rule changed that day. A plugin-only run of
+  three attempts on the changed rule gave the same plugin score and loading for all four of the
+  skill's rows; the other three rows keep their "Without plugin" values from earlier runs that
+  day. The new case's grader was tightened after its run, and one phrase of the rule was reworded
+  after every run; neither is re-measured.
 - **`package-json-checklist/pinned-transitive-version-replaces-the-package`** is from one two-arm
   run of six attempts on 2026-11-23. The other two `package-json-checklist` rows take their plugin
   score and loading from a plugin-only run of three attempts the same day, after the skill's
