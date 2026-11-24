@@ -4,6 +4,34 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: the `github-actions-authoring` cases on the new description
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.25 for one plugin-only
+run of three attempts over the skill's five cases, on the description from the entry below.
+
+| Case                                     | Answer passed | Loaded |
+| ---------------------------------------- | ------------- | ------ |
+| `no-actions-write-with-checked-out-code` | 3 of 3        | 3 of 3 |
+| `publish-gated-on-ci`                    | 3 of 3        | 3 of 3 |
+| `rejects-polling`                        | 3 of 3        | 3 of 3 |
+| `required-check-is-a-real-job`           | 2 of 3        | 3 of 3 |
+| `short-shards-are-merged`                | 3 of 3        | 1 of 3 |
+
+- **This corrects the entry below on the shard case.** That entry says the new description
+  took loading from 1 of 3 to 6 of 6. On the same description this run loaded the skill in
+  1 of 3. Pooled, the new description loads it in 7 of 9 and the old in 1 of 3. That is weak
+  evidence the description helps, and not evidence that the case loads every time.
+- **The shard case separates less cleanly than the entry below says.** The two attempts in
+  this run that loaded no skill made no tool call at all, and both still wrote a job with
+  fewer shards. In the earlier two-arm run, all five attempts without the skill wrote the
+  32-shard job. So the model sometimes merges the shards unaided; the unaided 0 of 3 is one
+  small sample.
+- **The four older cases did not lose loading** on the longer description: 12 of 12.
+  `required-check-is-a-real-job` loaded in 3 of 3, against 6 of 9 before; one answer failed
+  its grader, and I read only its opening.
+- I read the tool calls of the three shard attempts and the opening of each answer for the
+  shard and required-check cases. No skill or case text changed for this run.
+
 ## 2026-11-23: a skill for operating CI, and job sizing
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 for three runs.
