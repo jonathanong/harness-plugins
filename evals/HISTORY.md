@@ -21,6 +21,9 @@ of six attempts, after a one-attempt pilot that passed with the plugin and faile
   pass. The sixth split the judges two to one: its empty state checks the flag, but it offers
   the next page only when the list already has items, so an empty first page with a next page
   shows nothing to continue from.
+- **Grader edited after the run, not re-measured.** It now says that an empty page with a next
+  page and no way to request it fails, which is the case that split the judges. The recorded
+  failure would still fail; no passing answer was re-checked against the new line.
 - **No skill change.** Four of the six plugin attempts also loaded `list-reads`.
 
 ## 2026-11-23: an `llm-calls` case for tool arguments

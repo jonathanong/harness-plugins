@@ -16,7 +16,9 @@ PASS if all three hold:
 
 FAIL if the list is treated as finished because a page had fewer items than the limit or no
 items, for example `items.count < 20` or `page.items.isEmpty`. FAIL if the empty state is shown
-whenever the item array is empty and nothing is loading, without checking the flag. FAIL if the
+whenever the item array is empty and nothing is loading, without checking the flag. FAIL if an empty
+page with `hasNextPage` true leaves no way to request the next page, for example a load-more
+row that is shown only when the list already has items. FAIL if the
 paging state is `@State` inside the view and the view calls the API itself.
 
 Do not grade error handling, pull to refresh, or how the bottom of the list is detected.
