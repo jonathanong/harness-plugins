@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `agent-rules` asks about a stated rule and then improves its wording
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Two runs, $2.81. Run 1 is
+all three `agent-rules` cases, both arms, three attempts per arm ($2.02); run 2 is the changed
+case alone ($0.79).
+
+| Case                            | Run | With, outcome | Loaded | Without |
+| ------------------------------- | --- | ------------- | ------ | ------- |
+| `path-scoped-rules`             | 1   | 3 of 3        | 3 of 3 | 1 of 3  |
+| `root-agents-md-placement`      | 1   | 3 of 3        | 3 of 3 | 0 of 3  |
+| `stated-rule-is-not-guessed-at` | 1   | 0 of 3        | 2 of 3 | 0 of 3  |
+| `stated-rule-is-not-guessed-at` | 2   | 2 of 3        | 3 of 3 | 0 of 3  |
+
+- **Why.** The rule said "Do not paraphrase or interpolate a rule a person stated: write it down
+  in their words." The owner said that was being followed too strictly: what matters is to ask
+  questions to understand the person, think through the cases they have not considered, and then
+  give a more concise, correct, and thorough wording.
+- **The rule.** "Do not guess at a rule a person stated. Ask until you understand it. Think
+  through the cases they have not considered, and ask about those too. Then write the rule
+  concisely and correctly, and show them the wording. When they cannot be asked now, write only
+  what you understand and list the open questions with it. An exception, a reason, or a scope you
+  add without asking is your reading of what they meant, and the next agent follows it as theirs."
+  The owner approved the first four sentences in a draft; the sentence on a person who cannot be
+  asked is mine, from run 1.
+- **The case** is renamed from `stated-rule-keeps-its-words`; its prompt is unchanged. Its grader
+  no longer requires the lead's words alone. It passes when what is added holds only the lead's
+  rule and the pattern the lead rejected, and the answer names a concrete question for the lead.
+  It fails on an added exception, reason, wider scope, or further rule, and when no question is
+  named. Its scores are not comparable with earlier entries.
+- **Run 1** had the rule without the sentence on a person who cannot be asked, and a grader that
+  failed any wording beyond the lead's. All three plugin answers added the rejected pattern to the
+  line; two named a question and one named none.
+- **Run 2** is on the committed rule and grader. The plugin miss added a reason of its own to the
+  line. All three unaided answers named no question, and two added a further rule.
+- **The other two cases** were run only in run 1, before the added sentence. They do not turn on
+  this rule.
+- **Read:** every attempt's grades, and all six answers of the changed case in run 1 and the three
+  plugin answers in run 2 in full.
+
 ## 2026-11-24: `review-ci-logs` reads the repository when the log does not say why
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Four runs, $6.39. The
