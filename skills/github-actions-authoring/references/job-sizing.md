@@ -44,7 +44,9 @@ Then:
 - Jobs that do not depend on each other run in parallel. Add a `needs` edge only when the
   later job uses what the earlier one produced, or when the earlier job failing means the
   later one would very likely fail too: there is no point running the tests when a static
-  check has failed. Do not chain independent jobs to save runners.
+  check has failed. Such an edge puts the earlier job on the later one's path, so it usually
+  suits a fast check; a slow one usually runs beside the tests. Do not chain independent jobs
+  to save runners.
 - Do not put a short job behind a `needs` edge of its own. Each edge waits for a new runner,
   which adds wall time and holds a slot. Run the short step inside the job that needs it.
 - These jobs are separate for a reason other than time, and stay separate however short they
