@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Checks the Claude Code and Codex marketplaces against each other, the local plugin, the README,
 // and the repositories they point at. Pass --offline to skip the checks that fetch from GitHub.
+// A fetch that fails for a transient reason is retried.
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -91,11 +92,36 @@ const rawUrl = (source, file) => {
   const dir = source.path ? `${source.path.replace(/^\.?\/|\/$/g, '')}/` : ''
   return `https://raw.githubusercontent.com/${repo}/${source.ref ?? 'HEAD'}/${dir}${file}`
 }
-const fetchJson = async (url) => {
+// GitHub's raw file host sometimes answers 5xx or times out for a few seconds. Those are retried;
+// a 404 or any other 4xx is an answer about the source and is not.
+const attempts = 4
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const fetchOnce = async (url) => {
   const response = await fetch(url, { signal: AbortSignal.timeout(15_000) })
-  if (response.status === 404) return null
+  if (response.status === 404) return { value: null }
+  if (response.status >= 500 || response.status === 429) {
+    return { retry: `${url} returned ${response.status}` }
+  }
   if (!response.ok) throw new Error(`${url} returned ${response.status}`)
-  return response.json()
+  return { value: await response.json() }
+}
+const fetchJson = async (url) => {
+  let reason
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    if (attempt > 1) await sleep(1000 * 2 ** (attempt - 2))
+    const result = await fetchOnce(url).catch((error) => {
+      // A network failure or a timeout, not an HTTP answer.
+      if (error.name === 'TypeError' || error.name === 'TimeoutError') {
+        return { retry: `${url}: ${error.cause?.message ?? error.message}` }
+      }
+      throw error
+    })
+    if (result.retry === undefined) return result.value
+    reason = result.retry
+    // A retry that succeeds would otherwise leave no trace of how often the host fails.
+    if (attempt < attempts) console.log(`::warning::${reason} (attempt ${attempt}); retrying`)
+  }
+  throw new Error(`${reason} (after ${attempts} attempts)`)
 }
 const checkRemote = async ({ host, manifest }, plugin) => {
   const label = `${host} entry "${plugin.name}"`
