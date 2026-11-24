@@ -1,6 +1,6 @@
 ---
 name: github-actions-authoring
-description: Use when writing, editing, or reviewing a workflow or composite action, including a change to its jobs, matrix, or test shards. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, pins, and job size.
+description: Use when writing, editing, or reviewing a GitHub Actions workflow such as ci.yml, or a composite action, including a change to its triggers, concurrency, jobs, matrix, or test shards. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, pins, and job size.
 ---
 
 # GitHub Actions authoring
@@ -64,7 +64,10 @@ shard, or a `needs` edge, or choosing which suites run on a pull request, read
   repository-wide lint or graph check pass on the files it happened to fetch.
 - Do not cancel in-progress runs on the default branch. Each commit there needs its own result;
   cancelling leaves a gap in which a failure cannot be traced to its commit. Cancel superseded
-  runs on pull requests only. An operator cancelling old runs by hand while the account is at
+  runs on pull requests only, and key the default-branch group by commit: a group those runs
+  share drops the pending one when a newer run arrives, even without cancellation. When the
+  request asks for cancellation on the default branch by name, say this and give the block
+  from the baseline in its place; do not hand over the cancelling block with a note beside it. An operator cancelling old runs by hand while the account is at
   its concurrency limit is a different act; `github-ci-operations` owns it.
 
 ## Permissions

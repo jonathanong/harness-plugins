@@ -37,6 +37,7 @@ unaided by design.
 | `git-commit-checklist/generated-file-conflict-on-rebase`                | Reruns the generator on a conflicted generated API client and gives no hand-merged block to paste.                                               | 1.00  | 3 of 3   | 1.00           |
 | `git-commit-checklist/lockfile-conflict-on-rebase`                      | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                                          | 0.83  | 2 of 3   | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                           | Stages the files of the fix by name and leaves unrelated and generated changes out.                                                              | 1.00  | 3 of 3   | 0.33           |
+| `github-actions-authoring/main-runs-are-not-cancelled`                  | Asked to make pushes to main cancel the older run, cancels superseded runs on pull requests only and keeps every run on main.                    | 0.83  | 5 of 6   | 0.00           |
 | `github-actions-authoring/no-actions-write-with-checked-out-code`       | Keeps `actions: write` out of any job that runs checked-out code.                                                                                | 1.00  | 3 of 3   | 1.00           |
 | `github-actions-authoring/publish-gated-on-ci`                          | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `github-actions-authoring/rejects-polling`                              | Replaces a sleep-and-poll loop with an event trigger.                                                                                            | 1.00  | 3 of 3   | 0.50           |
@@ -245,6 +246,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
+- **`github-actions-authoring/main-runs-are-not-cancelled`** takes its plugin score and loading
+  from a plugin-only run of six attempts on 2026-11-23, on the current skill, and its "Without
+  plugin" value from a two-arm run of three attempts earlier that day. The skill's other five rows
+  are from before that day's change to its description and concurrency rule; a plugin-only run of
+  three attempts on the current skill gave each of them 3 of 3, loaded 3 of 3.
 - **`github-actions-authoring/short-shards-are-merged`** is from one two-arm run of six
   attempts on 2026-11-23, on the current description and grader. Across the
   three runs on that description the skill loaded in 13 of 15 plugin attempts.

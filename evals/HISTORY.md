@@ -4,6 +4,51 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: `github-actions-authoring` keeps every default-branch run
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.38 over five runs:
+$0.66, $0.62, $0.67, $1.05, and $2.38.
+
+| Run | Cases   | Skill                                      | With plugin | Loaded | Without plugin |
+| --- | ------- | ------------------------------------------ | ----------- | ------ | -------------- |
+| 1   | New     | As on main                                 | 0 of 3      | 0 of 3 | 0 of 3         |
+| 2   | New     | As on main                                 | 0 of 6      | 2 of 6 | not run        |
+| 3   | New     | New rule; description adds two words       | 3 of 6      | 3 of 6 | not run        |
+| 4   | New     | New rule; description names GitHub Actions | 5 of 6      | 5 of 6 | not run        |
+| 5   | All six | As run 4                                   | see below   |        | not run        |
+
+- **New case** `github-actions-authoring/main-runs-are-not-cancelled`. The prompt gives the
+  top of a `ci.yml` and asks for a `concurrency` block that makes a push to `main` cancel
+  the previous commit's run, and the same for pull requests. The grader fails a block that
+  cancels in-progress runs on `main`, with or without a caveat. Prompt and grader were the
+  same in every run. The grader does not check the group's key.
+- **Runs 1 and 2, the skill as on main.** It loaded in 2 of 9 attempts. Both answers that
+  loaded it gave `cancel-in-progress: true` keyed on the ref and offered the
+  pull-request-only block as an option (I read both in full).
+- **The skill's advice dropped runs.** One of those answers said a group holds one pending
+  run. GitHub's concurrency page, read on this date, says the same: by default a new run
+  replaces the pending run in its group. The baseline told the reader to give a branch one
+  stable group with `cancel-in-progress: false` on the default branch, so on a busy default
+  branch pending runs were still replaced. The same page documents `queue: max`, up to 100
+  pending runs. I did not try either behaviour in a workflow.
+- **The rule now:** key the default-branch group by commit so no two runs share one; cancel
+  superseded runs on pull requests only; where runs must not overlap, such as a deploy,
+  keep the shared group and set `queue: max`. A request for cancellation on the default
+  branch by name gets the reason and the baseline's block, not the cancelling block with a
+  note beside it.
+- **Runs 3 and 4.** Every answer that loaded the changed skill declined to cancel on `main`
+  and gave the block keyed by commit: 3 of 3, then 5 of 5. Every answer that did not load
+  it gave the cancelling block. I read about the first 700 characters of each answer in
+  run 3 and about 300 in run 4.
+- **The description.** Adding "triggers, concurrency" to the list of changes loaded the
+  skill in 3 of 6. Opening with "a GitHub Actions workflow such as ci.yml" where it said "a
+  workflow" loaded it in 5 of 6, and 2 of 3 in run 5. 328 characters. Against 2 of 9 on
+  main's description the gain is likely; between the two new wordings six attempts each do
+  not settle it.
+- **Run 5** is every case of the skill on the final text: the new case 2 of 3, loaded 2 of
+  3; the other five each 3 of 3, loaded 3 of 3. I read the one fail's answer, which did not
+  load the skill, and no other from this run.
+
 ## 2026-11-23: `github-ci-operations` gives the query when asked for a polling loop
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.11 over two two-arm

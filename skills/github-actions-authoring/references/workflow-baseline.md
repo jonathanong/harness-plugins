@@ -24,11 +24,23 @@ Check these before editing any workflow or composite action. A stricter reposito
 
 ## Concurrency and timeouts
 
-- Serialize runs for the same pull request or branch with one stable concurrency group. Keep the
-  pull-request number or the ref in the group.
-- Set `cancel-in-progress: true` for pull requests and `false` on the default branch. When one
-  workflow handles both events, make it conditional:
-  `cancel-in-progress: ${{ github.event_name == 'pull_request' }}`.
+- Give the runs of one pull request one stable concurrency group keyed on the pull-request
+  number, and cancel the superseded run with `cancel-in-progress: true`.
+- On the default branch every commit keeps its own run. A group shared by those runs drops
+  them even with `cancel-in-progress: false`: by default a group holds one pending run, and
+  a newer run replaces it. Key the group by commit there so no two runs share one. When one
+  workflow handles both events:
+
+  ```yaml
+  concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  ```
+
+- Where runs must not overlap, such as a deploy, keep the shared group and set `queue: max`
+  so pending runs wait their turn instead of replacing each other. Check the limit in
+  GitHub's
+  [concurrency documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
 - Give every concrete job `timeout-minutes` of at most 30. A job that calls a reusable workflow
   with `uses:` cannot take `timeout-minutes`; set it on each job inside the called workflow.
 - If the work cannot finish inside that bound, split it into phases joined by events. Keep a
