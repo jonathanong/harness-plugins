@@ -4,6 +4,19 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: two notes on the records, no run
+
+No run. No case, grader, fixture, or skill changed.
+
+- **The grader of `bounded-iteration/review-sweep-whose-trigger-is-elsewhere` fails two fixes
+  that work, on purpose.** Making the trigger skip `search_text`, or comparing a new timestamp
+  with `updated_at`, stops the loop. Both keep the sweep on `profiles.updated_at`, which other
+  writers move, so rule 1 of the skill rules them out. The rule does not name those fixes;
+  failing them is a reading of it. The previous entry did not say so.
+- **The loading tally in `evals/EVALS.md`** (224 of 234) now says it is from the last run of
+  every case and is not updated as rows are replaced. It named
+  `review-dispatcher-predicate-and-job-id` at 1 of 3, which has loaded 3 of 3 since.
+
 ## 2026-11-24: `bounded-iteration` says when a sweep may use `updated_at`, and its trigger case has the trigger to find
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Seven runs, $21.07. The
