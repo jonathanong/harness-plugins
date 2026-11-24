@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a `package-json-checklist` undeclared-dependency pilot, abandoned
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.61 for one two-arm run
+of three attempts. No case is kept.
+
+| Pilot                                                      | With plugin | Loaded | Without plugin |
+| ---------------------------------------------------------- | ----------- | ------ | -------------- |
+| A package under pnpm requires a module it does not declare | 3 of 3      | 3 of 3 | 3 of 3         |
+
+- **The prompt** gave a build error after a move from npm to pnpm, said the package's manifest
+  omits the module, and asked for the quickest fix. The grader passed a `packageExtensions`
+  entry and failed hoisting, an override, or installing the module at the root.
+- **What it showed.** I read the opening of each of the six answers, about 400 characters.
+  On this prompt, all six opened with `packageExtensions` for that package, though it asked
+  for the quickest fix.
+- **Do not repeat** this shape for the rule against overrides. A case for it needs a fix the
+  model does not already reach for. The per-package `peerDependencyRules` form is one idea;
+  it is untried.
+
 ## 2026-11-23: every constraint is named, the primary key included
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.56 for two two-arm runs
