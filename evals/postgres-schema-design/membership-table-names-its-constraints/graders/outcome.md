@@ -3,7 +3,7 @@ type: llm
 ---
 
 Grade the SQL in the final message on one rule: every constraint is named, and the name follows
-the pattern `pk_<table>`, `fk_<table>__<column>`, `uq_<table>__<columns>`,
+the pattern `pk_<table>`, `fk_<table>__<columns>`, `uq_<table>__<columns>`,
 `ck_<table>__<purpose>`.
 
 PASS if every constraint on the membership table is written with `CONSTRAINT <name>`, its

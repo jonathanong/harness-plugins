@@ -13,7 +13,7 @@ stay whole. `idx_ord_line_itms__invoice_id` can name an index on `order_line_ite
 Initialisms and dropped words cannot. All identifiers stay within 63 bytes.
 
 Constraints follow the same pattern, written as `CONSTRAINT <name>` in the table definition and
-never left for PostgreSQL to name: `pk_<table>`, `fk_<table>__<column>`, `uq_<table>__<columns>`,
+never left for PostgreSQL to name: `pk_<table>`, `fk_<table>__<columns>`, `uq_<table>__<columns>`,
 and `ck_<table>__<purpose>`.
 
 Column names and types imply each other:

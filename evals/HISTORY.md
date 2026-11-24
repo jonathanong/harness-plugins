@@ -18,7 +18,7 @@ abandoned pilot below, on the same prompt.
 
 - **Skill changed, at the user's request.** The rule now says the primary key is included and
   gives its reason. `references/naming.md` gains a pattern for constraint names: `pk_<table>`,
-  `fk_<table>__<column>`, `uq_<table>__<columns>`, `ck_<table>__<purpose>`. The examples in
+  `fk_<table>__<columns>`, `uq_<table>__<columns>`, `ck_<table>__<purpose>`. The examples in
   `references/relations.md`, `references/table-shapes.md`, and `bounded-iteration`'s
   `references/sweep-patterns.md` now name every constraint and state `ON DELETE`. The user
   chose the prefix pattern, and chose that `NOT NULL` needs no name.
