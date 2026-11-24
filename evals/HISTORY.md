@@ -35,7 +35,7 @@ per arm ($5.37, the table below), and one more run of the new case alone ($1.37)
   the new sentence below: 3 of 3 with, 2 of 3 without. In the pilots the test imported a
   helper file the fixture lacked; the fixture now has it, so the pilots do not compare with
   the six-case run either.
-- **The last run, after two fixture and grader edits from review.** A comment in the fixture's
+- **The last run, and two edits from review.** A comment in the fixture's
   test helper said it applied migrations "triggers included"; those two words are gone. The new
   case then ran alone: 3 of 3 with the plugin, 3 of 3 loaded, 3 of 3 without, and all six reviews
   found the trigger. `evals/EVALS.md` takes the case's row from this run. After that run the
@@ -50,7 +50,7 @@ per arm ($5.37, the table below), and one more run of the new case alone ($1.37)
   It names a mistake a loaded review made once.
 - **The other five cases** passed 3 of 3 with the plugin. `no-new-run-while-one-runs` passed
   2 of 3 without it, against 0 of 3 and 1 of 3 in earlier entries.
-- **Read:** every attempt's grades in all four runs; the opening of every answer in the first
+- **Read:** every attempt's grades in all five runs; the opening of every answer in the first
   pilot; in the later runs, the lines of each new-case answer that mention the trigger or the
   schema, and the opening of each failing new-case answer. In the last run I read only the
   grades and whether each answer named the trigger. I read no answer to the other five cases.
