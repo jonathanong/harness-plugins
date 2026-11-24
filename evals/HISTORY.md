@@ -20,7 +20,9 @@ below, on the same prompt and the same three grading points.
   `fk_<table>__<column>`, `uq_<table>__<columns>`, `ck_<table>__<purpose>`. The examples in
   `references/relations.md`, `references/table-shapes.md`, and `bounded-iteration`'s
   `references/sweep-patterns.md` now name every constraint and state `ON DELETE`. These edits
-  were in the tree during the run.
+  were in the tree during the run, except the rule's reason, which was reworded after it and
+  not re-measured: the first wording said a generated name changes on a rename, which is
+  wrong.
 - **Case added, a ceiling case.** It is the abandoned pilot's case; its grader now also says the
   pattern of the names is not graded.
 - **What the run showed.** I listed the constraint names in each answer. All six plugin answers
