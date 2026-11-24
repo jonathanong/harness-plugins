@@ -14,10 +14,12 @@ unaided by design.
 | `agent-rules/root-agents-md-placement`                                  | Moves a release procedure out of the root `AGENTS.md` and drops a file listing the code shows.                                                                                 | 1.00  | 3 of 3   | 0.00           |
 | `agent-rules/stated-rule-keeps-its-words`                               | Asked to write down a rule a person stated, records it in their words, without added sub-rules, examples, or scope.                                                            | 1.00  | 3 of 3   | 0.00           |
 | `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                                                          | 1.00  | 3 of 3   | 0.00           |
-| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                    | 0.83  | 5 of 6   | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                         | 1.00  | 8 of 8   | 0.33           |
-| `bounded-iteration/review-staged-reconciler`                            | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                                                                       | 1.00  | 8 of 8   | 0.00           |
-| `bounded-iteration/review-sweep-rewrites-its-trigger`                   | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test.                                                         | 0.75  | 4 of 8   | 0.67           |
+| `bounded-iteration/no-new-run-while-one-runs`                           | Stops a no-deadline sweep's passes piling up by checking the queue before starting a pass, keeping the chain of capped jobs and its own position.                              | 1.00  | 3 of 3   | 0.33           |
+| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                    | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                            | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                         | 1.00  | 3 of 3   | 0.67           |
+| `bounded-iteration/review-staged-reconciler`                            | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                                                                       | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-sweep-rewrites-its-trigger`                   | Flags a sweep whose write re-arms its own selection, a notification repeated each pass, and a missing second-run test.                                                         | 0.83  | 2 of 3   | 1.00           |
 | `debugging/crash-fixed-at-cause-with-a-test`                            | Fixes a crashing report at the lookup that misses, not with a default value, and adds a test that fails without the fix.                                                       | 0.89  | 2 of 3   | 1.00           |
 | `debugging/flaky-test-not-fixed-with-retry`                             | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                                                                           | 0.67  | 4 of 12  | 1.00           |
 | `dependabot/groups-by-family`                                           | Groups updates by vendor or package family with a cooldown, not by version type, dependency type, or a catch-all.                                                              | 1.00  | 3 of 3   | 0.33           |
@@ -324,12 +326,14 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
   eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
   passed 1 of 8. "Without plugin" is from the earlier two-arm run.
-- **`bounded-iteration/overlapping-purge-runs-stay-lock-free`** is from the second two-arm run
-  of six attempts on 2026-11-23, after its grader was tightened. The skill loaded in 5 of 6, and
-  the attempt that did not load it failed. The skill as it was before the rule passed 0 of 6.
-- **The `bounded-iteration` rows** take "Score" and "Passed" from a plugin-only run of eight
-  attempts per case after the description named sweeps, and "Without plugin" from the two-arm run
-  before it (three attempts per arm).
+- **The six `bounded-iteration` rows** are from one two-arm run of three attempts per arm on
+  2026-11-24, after the skill gained the rules on a run's own position and on not starting a run
+  while one is active. The skill loaded in 17 of 18 attempts; the one miss, in
+  `review-sweep-rewrites-its-trigger`, passed its outcome grader and is that row's failed attempt,
+  so that row reads lower with the plugin than without on loading alone.
+  `no-new-run-while-one-runs` is from a later two-arm run the same day, after one clause of its
+  rule was reworded in review; the other five rows were not rerun on that wording. Before these
+  runs the purge case stood at 5 of 6 and the three review cases at 8 of 8, 8 of 8, and 4 of 8.
 - **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
   `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
   of 3, before its description named edge workers), `bounded-iteration/review-dispatcher-predicate-and-job-id`
