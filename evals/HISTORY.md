@@ -14,12 +14,12 @@ attempt per arm. No case was added.
 | `http-api-design`: a notifications endpoint returns entity ids, not web paths | 1 of 1      | 1 of 1         |
 | `llm-calls`: customer data stays out of an assistant's system prompt          | 1 of 1      | 1 of 1         |
 
-- **First pilot.** The prompt listed the web app's page routes. The unaided answer returned
-  the order, invoice, and comment ids and said the web app builds the paths itself.
-- **Second pilot.** The unaided answer kept the system prompt identical for every customer,
-  put the customer's data in a message, and gave prompt caching as its reason.
+- **First pilot.** The prompt listed the web app's page routes. The unaided answer said it
+  returns the order, invoice, and comment ids and that the web app builds the paths itself.
+- **Second pilot.** The unaided answer said it kept the system prompt identical for every
+  customer and put the customer's data in a message, and gave prompt caching as its reason.
 - **What this shows.** One attempt per arm is a grader check, not a measurement; it was enough
-  to stop, because each unaided answer stated the rule's own reason.
+  to stop, because each unaided answer stated a reason the rule gives.
 
 ## 2026-11-23: an `http-api-design` case for handler order
 
