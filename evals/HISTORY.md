@@ -38,10 +38,11 @@ $0.58, $0.57, $0.36, $0.77, $0.76, and $1.95. "Log" is the new case; "loop" is
 - **The description change:** "when checking how long jobs take" became "when finding which
   job or step takes the time". 371 characters. Loading on the log prompt went from 3 of 6
   in run 4 to 6 of 6 in run 5, and 3 of 3 in run 6. Runs 4 and 5 are back to back and
-  differ only in the description.
+  differ only in the description. Six attempts a run do not settle it, so the gain is
+  likely, not certain.
 - **Run 6** is every case of the skill on the final text: each 3 of 3, loaded 3 of 3, so
   the description change cost no case its loading in three attempts.
-- **What I read:** about the first 600 characters of each plugin answer in runs 2 and 3,
+- **What I read:** about the first 700 characters of each answer in run 1, about 600 of each plugin answer in runs 2 and 3,
   about 150 of each answer without the plugin in run 2, about 400 of each answer in run 4,
   and about 300 of each in run 5. None of run 6's.
 
