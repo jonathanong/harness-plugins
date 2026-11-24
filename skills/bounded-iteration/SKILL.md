@@ -103,16 +103,18 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     creates the next run's work and the sweep never ends. Read the table's triggers in the
     migrations before judging a sweep, and say what they do instead of asking the author to check.
     A write that takes a row out of the selection, such as setting `processed_at` on rows selected
-    by `processed_at IS NULL`, is the point. A recovery sweep finds stalled rows by a column the
-    worker writes, such as a heartbeat, and marks the rows it enqueues in a column of its own.
-    Neither is `updated_at`, to read or to touch: an event is a per-column field, such as
-    `enqueued_at` or `completed_at`, or a row in a history table ([table
+    by `processed_at IS NULL`, is the point. A recovery sweep should use its own columns: it finds
+    stalled rows by a column the worker writes, such as a heartbeat, and marks the rows it enqueues
+    in a column of its own. An event is a per-column field, such as `enqueued_at` or
+    `completed_at`, or a row in a history table ([table
     shapes](../postgres-schema-design/references/table-shapes.md)). The mark makes the row
-    ineligible until it stalls again, and no other writer can hide a stalled row. Replay only
-    idempotent "ensure" effects: an on-create effect, such as a notification or a charge, repeats
-    on every run. Test it: once no eligible rows remain, another run writes nothing and creates no
-    new job (a repeated idempotent enqueue is not new work). Recurring work that is unconditional
-    by design, such as a scheduled materialized-view refresh, is exempt.
+    ineligible until it stalls again, and no other writer can hide a stalled row. `updated_at` is
+    not ruled out where rule 1 allows it, or where doing the work twice is no harm, such as a vote
+    tally aggregation. Replay only idempotent "ensure" effects: an on-create effect, such as a
+    notification or a charge, repeats on every run. Test it: once no eligible rows remain, another
+    run writes nothing and creates no new job (a repeated idempotent enqueue is not new work).
+    Recurring work that is unconditional by design, such as a scheduled materialized-view refresh,
+    is exempt.
 17. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
