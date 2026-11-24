@@ -13,6 +13,10 @@ Each still gets a loading case and an answer case.
 
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
+- [ ] **`postgres-schema-design` examples break its own rule.** The skill says to name every
+      constraint and state `ON DELETE`; examples in `references/relations.md` and
+      `references/table-shapes.md` have inline unnamed keys, checks, and a foreign key with no
+      `ON DELETE`. Decide whether a primary key needs a name, then make the examples agree.
 - [ ] **A case that shows each skill helps** for `postgres-schema-design`, `review-ci-logs`, and
       `package-json-checklist`.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
