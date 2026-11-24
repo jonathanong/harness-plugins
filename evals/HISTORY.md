@@ -28,10 +28,10 @@ of three attempts ($0.86 and $0.59). No skill text changed.
   a run, how long it waited and how long it ran. All six answers queried the run's jobs for
   `created_at`, `started_at`, and `completed_at` and nothing else. On this prompt the model
   writes the small query unaided.
-- **A pattern across today's pilots,** my reading of nine prompts: the four that separate the
-  arms ask for something a skill says not to do (cancel under the limit, rerun in a backlog,
-  add a retry, double short shards). The five that do not ask for something the model
-  already does (a query, a scope comparison, `packageExtensions`, which runs to spare).
+- **A pattern,** my reading of eight prompts from today's entries: the four that separate
+  the arms ask for something a skill says not to do (cancel under the limit, rerun in a
+  backlog, add a retry, double short shards). The four that do not ask for something the
+  model already does (a query, a scope comparison, `packageExtensions`, which runs to spare).
 - Three attempts per arm cannot resolve a rate between 0 and 1; in the kept case the two arms
   did not overlap.
 
