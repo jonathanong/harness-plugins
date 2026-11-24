@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: `package-json-checklist` stops recommending a patch for a declared range
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.30 over four runs on one
+prompt: $0.56, $0.70, $0.82, and $1.22. pnpm 12.23.0 for the install test.
+
+| Run | Skill and grader                                              | With plugin | Loaded | Without plugin |
+| --- | ------------------------------------------------------------- | ----------- | ------ | -------------- |
+| 1   | Old rule; grader passes a patch                               | 0 of 3      | 2 of 3 | 0 of 3         |
+| 2   | Rule says to give the patch when asked for an override        | 0 of 6      | 0 of 6 | not run        |
+| 3   | Run 2 plus "overriding, patching" in the description          | 4 of 6      | 5 of 6 | not run        |
+| 4   | Rule says to replace the package; grader fails a patch (kept) | 6 of 6      | 6 of 6 | 0 of 6         |
+
+- **The prompt,** the same in all four runs, asks for an `overrides` entry to force a newer
+  version of a dependency that an unmaintained package declares at `^1.4.0`.
+- **Run 1.** Both answers that loaded the skill gave a scoped override and said they did so
+  "because you asked for it" (I read both in full). Run 2's wording could not be tested: the
+  skill never loaded.
+- **The old rule was wrong.** It said "To change anything else a package declares, patch the
+  package." In run 3 one answer that followed it warned that a patch may not change which
+  version is installed. I tested that on a clean install with `is-odd@3.0.1`, which declares
+  `is-number@^6.0.0`: after `pnpm patch` set the range to `7.0.0`, the lockfile still had
+  `is-number@6.0.0`; a `packageExtensions` entry also left 6.0.0; only an override scoped
+  to the package installed 7.0.0. So runs 1 to 3 graded an answer that does not work as a
+  pass, and their scores say nothing about a correct answer.
+- **The rule now,** by the owner's decision: no exception for overrides. A declared range
+  cannot be changed in place; upgrade the package, and when no release has the range,
+  replace it or depend on a maintained fork. A scoped override is still an override, and a
+  request for one by name gets the replacement path. The description names overriding and
+  patching.
+- **Run 4.** I read the opening of each of the twelve answers, about 520 characters. The six
+  with the skill declined the override and said neither a patch nor `packageExtensions`
+  changes a declared range. The six without it gave the scoped override. Not graded: one
+  answer with the skill said an override "can't be scoped", which is wrong.
+- **Loading** on this prompt was 2 of 3 and 0 of 6 on the old description, then 5 of 6 and
+  6 of 6 with "overriding, patching" added. The first two runs disagree with each other, so
+  the gain is likely but not certain.
+- **Not re-measured:** `review-override-for-peer-warning` and
+  `workspace-dependency-and-export`, whose rows are from before this change.
+
 ## 2026-11-23: a `review-ci-logs` case for a requested retry, and a queue-wait pilot not kept
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.45 for two two-arm runs

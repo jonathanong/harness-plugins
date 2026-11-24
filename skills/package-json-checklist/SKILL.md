@@ -1,6 +1,6 @@
 ---
 name: package-json-checklist
-description: Use when writing or reviewing a package.json, adding, upgrading, or moving a dependency, setting a package's entrypoints or exports, changing workspace metadata such as pnpm-workspace.yaml, or resolving a lockfile change. Checks package metadata, dependencies, entrypoints, and lockfiles.
+description: Use when writing or reviewing a package.json, adding, upgrading, overriding, patching, or moving a dependency, setting a package's entrypoints or exports, changing workspace metadata such as pnpm-workspace.yaml, or resolving a lockfile change. Checks package metadata, dependencies, entrypoints, and lockfiles.
 ---
 
 # Package metadata checklist
@@ -33,4 +33,11 @@ and package layout, and override these defaults.
    needs, add it with `packageExtensions`; that only adds what the manifest lacks and cannot
    change a declared range. When a package's peer range is too narrow for a version that works,
    accept that version for that package only with pnpm's `peerDependencyRules.allowedVersions`
-   (`"old-pkg>react": "19"`). To change anything else a package declares, patch the package.
+   (`"old-pkg>react": "19"`). A scoped override (`"pkg>dep"`) is still an override.
+8. A dependency range that a package declares cannot be changed in place. A patch edits the
+   package's files after the versions are resolved, so a patched range installs the old
+   version, and `packageExtensions` cannot change a declared range. Upgrade the package to a
+   release that declares the range you need; when there is none, replace the package or
+   depend on a maintained fork. A package that pins a dependency you cannot use is one to
+   move off. When the request asks for an override by name, say this and give the
+   replacement path; do not hand over the override with a note beside it.

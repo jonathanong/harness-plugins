@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **126 cases** across 46 skills.
+- **127 cases** across 46 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.35, over the 125 cases measured both ways.
-- **97 cases** are ones the model fails unaided. The other 28 it already gets right: 5 check that a skill stays out of the way, and 23 show at most that the skill loads.
+- **Without it:** mean score 0.35, over the 126 cases measured both ways.
+- **98 cases** are ones the model fails unaided. The other 28 it already gets right: 5 check that a skill stays out of the way, and 23 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -49,7 +49,7 @@ averaged over attempts.
 | `llm-calls`                        | 3     | 0.97        | 0.44           | 1                     |
 | `native-app-architecture`          | 3     | 0.97        | 0.00           | 0                     |
 | `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |
-| `package-json-checklist`           | 2     | 0.95        | 0.67           | 0                     |
+| `package-json-checklist`           | 3     | 0.96        | 0.45           | 0                     |
 | `planning`                         | 7     | 0.92        | 0.38           | 2                     |
 | `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     |
 | `postgres-locking`                 | 8     | 0.96        | 0.38           | 3                     |
