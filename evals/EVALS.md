@@ -280,10 +280,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   the same text, case, and grader; those of the other two rows are from earlier two-arm runs.
 - **The three `agent-rules` rows** are from 2026-11-24. `path-scoped-rules` and
   `root-agents-md-placement` are from a two-arm run of all three cases, three attempts per arm,
-  loading 6 of 6. `stated-rule-is-not-guessed-at` is from a two-arm run of that case alone
-  afterwards, on the committed rule and grader, loading 3 of 3; the first run had it at 0 of 3
-  with the plugin on an earlier wording and a stricter grader. The other two cases were not run
-  again after the rule gained its sentence on a person who cannot be asked.
+  loading 6 of 6. `stated-rule-is-not-guessed-at` is from the last of two later two-arm runs of
+  that case alone, on the committed rule and grader, loading 3 of 3; both gave 2 of 3 against 0 of 3. The first run had it at 0 of 3 with the plugin on an earlier wording and a stricter grader.
+  The other two cases were not run again after the rule changed.
 - **The five `postgres-schema-design` rows** are from one two-arm run of three attempts per arm on
   2026-11-24, after its table-shapes reference said when events are per-column timestamps and when
   a history table. No case tests that sentence. Without the plugin,
