@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **139 cases** across 47 skills.
+- **140 cases** across 47 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.33, over the 138 cases measured both ways.
-- **109 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
+- **Without it:** mean score 0.34, over the 139 cases measured both ways.
+- **109 cases** are ones the model fails unaided. The other 30 it already gets right: 5 check that a skill stays out of the way, and 25 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -56,7 +56,7 @@ averaged over attempts.
 | `postgres-locking`                 | 8     | 0.96        | 0.38           | 3                     |
 | `postgres-node-performance-tuning` | 3     | 0.84        | 0.00           | 0                     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
-| `postgres-schema-design`           | 4     | 1.00        | 0.29           | 1                     |
+| `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     |
 | `pr-description`                   | 3     | 1.00        | 0.11           | 0                     |
 | `pull-requests`                    | 1     | 1.00        | 0.00           | 0                     |
 | `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     |
