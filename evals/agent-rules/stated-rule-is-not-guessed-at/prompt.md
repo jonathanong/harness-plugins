@@ -1,5 +1,5 @@
 ---
-description: Asked to write down a rule a person stated, the rule is recorded in their words, without added sub-rules, examples, or scope.
+description: Asked to write down a rule a person stated in five words, the answer does not guess at its scope; it records what was said and names what to ask, including a case the person has not considered.
 tags: [agent-rules, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
