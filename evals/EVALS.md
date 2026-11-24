@@ -190,7 +190,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   plugin-only run of three attempts on 2026-11-24, on the current skill text. "Without plugin" for
   `rule-follows-indirect-imports` is from a two-arm run of three attempts the same day, before the
   rule was added to the skill; it is a ceiling case. "Without plugin" for the other two is from
-  earlier two-arm runs.
+  earlier two-arm runs. Its grader passes an option that names the extra modules, with a test, so
+  it does not measure whether the rule reports an import it cannot resolve.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
