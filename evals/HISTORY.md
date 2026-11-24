@@ -21,7 +21,7 @@ $13.06 for runs 1 to 8, made on a pull request that put the rule in
 | 7   | Checklist's three, plugin, 3 | Third wording, checklist   | Second | 2 of 3      | 2 of 3      |         | $1.99 |
 | 8   | Case, two arms, 3            | Third wording, checklist   | Second | 2 of 3      | 2 of 3      | 0 of 3  | $1.39 |
 | 9   | Case, two arms, 6            | As committed, new skill    | Second | 6 of 6      | 6 of 6      | 0 of 6  | $3.15 |
-| 10  | Checklist's two, plugin, 3   | Checklist description only |        | 3 of 3 each | 3 of 3 each |         | $0.94 |
+| 10  | Checklist's two, plugin, 3   | Checklist description only | Theirs | 3 of 3 each | 3 of 3 each |         | $0.94 |
 
 - **Where it came from.** A reviewing agent reported a review miss: a lint rule found its
   subject by a direct import, its fixtures only imported it directly, and it reported
@@ -39,13 +39,14 @@ $13.06 for runs 1 to 8, made on a pull request that put the rule in
   holds when the rule must stay quiet on other things of the same name. On it, across runs
   6 to 8, all nine attempts that loaded the skill passed and all three that did not failed.
   Loading was 9 of 12.
-- **The split.** The owner's view is that `static-analysis-checklist` is for using such
-  tools in a repository, not for writing them. The rule moved to a new skill,
-  `lint-rule-authoring`, stated as three results for a name (the subject, something else,
-  unknown) with a short section on finding the subject by its binding and one on fixtures.
-  The binding section and the table are new text that no run before 9 measured.
-  `static-analysis-checklist` gets no new rule; its description stops naming the writing of
-  a lint rule and points to the new skill.
+- **The split.** The owner's view is that `static-analysis-checklist` is for using such tools in a
+  repository, not for writing them. The rule moved to a new skill, `lint-rule-authoring`, stated
+  as three results for a name (the subject, something else, unknown) with a short section on
+  finding the subject by its binding and one on fixtures. The binding section and the table are
+  new text that no run before 9 measured, and no case isolates them: the one case grades the
+  indirect forms and the report for an unknown name, not whether a rule resolves a name by its
+  binding instead of its spelling. That rule is not measured. `static-analysis-checklist` gets no
+  new rule; its description stops naming the writing of a lint rule and points to the new skill.
 - **Run 9.** 6 of 6 with the plugin, the skill loading 6 of 6, against 0 of 6 without, in
   one run on the committed text. Loading rose from 9 of 12 to 6 of 6 with a description
   that names the request.

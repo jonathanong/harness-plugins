@@ -191,7 +191,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   on the current skill text; the skill loaded 6 of 6. **The two `static-analysis-checklist` rows**
   take their plugin score from a plugin-only run of three attempts the same day, after that
   skill's description stopped naming the writing of a lint rule; the skill loaded 3 of 3 in each.
-  Their "Without plugin" is from earlier two-arm runs.
+  Their "Without plugin" is from earlier two-arm runs. These two rows were not measured against
+  the earlier description in the same session, so they show that the skill still loads and passes,
+  not a gain from the description change; `tracked-files-only` stood at 4 of 8 on 2026-11-22.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
