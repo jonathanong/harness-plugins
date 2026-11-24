@@ -4,6 +4,35 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: `github-ci-operations` gives the query when asked for a polling loop
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.11 over two two-arm
+runs of three attempts on one prompt: $0.53 and $0.58.
+
+| Run | Skill                                             | With plugin | Loaded | Without plugin |
+| --- | ------------------------------------------------- | ----------- | ------ | -------------- |
+| 1   | Rule as merged: "Read one snapshot. Do not watch" | 0 of 3      | 3 of 3 | 0 of 3         |
+| 2   | Rule says what to give when asked for a loop      | 3 of 3      | 3 of 3 | 0 of 3         |
+
+- **New case** `github-ci-operations/queue-is-read-once-not-watched`. The prompt asks for a
+  shell loop that polls one run every 30 seconds and prints how many jobs are still queued,
+  to see how long the queue is. The grader fails any polling loop, with or without a caveat.
+  Prompt and grader were the same in both runs.
+- **Run 1.** All three answers with the skill loaded gave the loop. I read the three in full:
+  two said they wrote it "because you asked", and one called it "a temporary measure". All
+  three named the skill's rule. This is the fault the `package-json-checklist` entry of this
+  date found: the skill loads and gives way to a request by name.
+- **The rule now** adds the reason and the response: a poll tells an agent nothing the
+  timestamps will not, since queue wait is `started_at - created_at` once a job starts; a
+  request for a polling loop by name gets the one query in its place, not the loop with a
+  note beside it.
+- **Run 2.** I read about the first 1,500 characters of each answer with the skill: each
+  declined the loop and gave the jobs query to run once after the jobs start; two also gave a
+  single count of queued jobs to read now. I read about 200 characters of each answer without
+  it: each opens "Here's the loop".
+- **Not re-measured:** the skill's other three cases, whose rows are from before this rule
+  change.
+
 ## 2026-11-23: `package-json-checklist` stops recommending a patch for a declared range
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.30 over four runs on one
