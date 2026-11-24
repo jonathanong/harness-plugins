@@ -6,7 +6,7 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `static-analysis-checklist` covers how a rule's subject is reached
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $11.67 over seven runs.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $13.06 over eight runs.
 This entry was rewritten in its own pull request before merge, after the grader changed; the
 first version reported runs 1 to 3 only and called the case a ceiling case.
 
@@ -19,6 +19,7 @@ first version reported runs 1 to 3 only and called the case a ceiling case.
 | 5   | New case, plugin, 6   | Second wording  | Write the rule, second | 2 of 6         | 5 of 6 |         | $1.75 |
 | 6   | New case, plugin, 6   | As committed    | Write the rule, second | 5 of 6         | 5 of 6 |         | $1.77 |
 | 7   | All three, plugin, 3  | As committed    | Write the rule, second | 2 of 3         | 2 of 3 |         | $1.99 |
+| 8   | New case, two arms, 3 | As committed    | Write the rule, second | 2 of 3         | 2 of 3 | 0 of 3  | $1.39 |
 
 - **The rule** is new text in step 3: when a rule finds its subject by an import or a name,
   add fixtures for the indirect ways code reaches it, and a name the rule cannot trace is
@@ -47,16 +48,24 @@ first version reported runs 1 to 3 only and called the case a ceiling case.
   on other things of the same name: quiet on a name traced to something else, a report for
   a name that could not be traced, and a note in the documentation is no substitute. All
   five attempts that loaded the skill passed; the one that did not load it failed.
-- **Run 7.** The new case passed in the two attempts that loaded the skill and failed in
-  the one that did not. `parses-yaml-with-fixtures` passed 3 of 3. `tracked-files-only`
-  passed 1 of 3, loading 2 of 3; both failing reviews ask for `git ls-files` and name
-  untracked files, and I did not find which grader condition they missed. That row stood
-  at 4 of 8 on 2026-11-22 and 3 of 3 in run 3; it is noisy.
-- **Read:** every attempt's grades in all seven runs; the lines about the indirect import
-  in each run-1, run-2, and run-4 answer; the tests of one run-3 answer; the opening and
-  closing of the three loaded failing answers in run 5; the lines that classify a name in
-  each run-6 answer and the tests of one; the opening of each run-7 `tracked-files-only`
-  answer; the failing run-3 `parses-yaml-with-fixtures` plan in full.
+- **Run 7.** The new case passed in the two attempts that loaded the skill and failed in the one
+  that did not. `parses-yaml-with-fixtures` passed 3 of 3. `tracked-files-only` passed 1 of 3,
+  loading 2 of 3. I read both failing reviews in full. One did not load the skill and gives `git
+  ls-files` third, as "better still", after explicit glob patterns. The other loaded it, asks for
+  `git ls-files` first and then narrows to the workflow and action paths; the judges split, one
+  pass and two fails, and it does not say that fixtures meant to hold rejected patterns would be
+  scanned, which that grader asks for. Neither failure touches the new paragraph. That row stood
+  at 4 of 8 on 2026-11-22 and 3 of 3 in run 3.
+- **Run 8** measures both arms in one run on the committed text: 2 of 3 with the plugin against 0
+  of 3 without. The two attempts that loaded the skill passed, and the one that did not failed.
+  Across runs 6, 7, and 8 on the committed text, all nine attempts that loaded the skill passed
+  and all three that did not failed, as did all six unaided attempts in runs 4 and 8. Loading, at
+  9 of 12, is what limits the row.
+- **Read:** every attempt's grades in all eight runs; the lines about the indirect import in each
+  run-1, run-2, and run-4 answer; the tests of one run-3 answer; the opening and closing of the
+  three loaded failing answers in run 5; the lines that classify a name in each run-6 answer and
+  the tests of one; the two failing run-7 `tracked-files-only` reviews in full; the failing run-3
+  `parses-yaml-with-fixtures` plan in full. I read no run-8 answer beyond its grades.
 
 ## 2026-11-24: `github-issue` lets an investigation issue carry a conditional fix
 

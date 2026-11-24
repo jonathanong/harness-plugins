@@ -186,11 +186,12 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`, and
   `service-boundaries` rows** are from the two-arm run after their generic rules were added, three
   attempts per arm.
-- **The three `static-analysis-checklist` rows** take their plugin score from one plugin-only run
-  of three attempts on 2026-11-24, on the current skill text and graders (run 7 of that day's
-  entry). The skill loaded in 3 of 3, 2 of 3, and 2 of 3 attempts, in table order. "Without
-  plugin" for `rule-follows-indirect-imports` is from a two-arm run of three attempts the same day
-  on the same prompt and grader (run 4); in a six-attempt plugin-only run on the current text (run 6) it passed 5 of 6. "Without plugin" for the other two is from earlier two-arm runs.
+- **The three `static-analysis-checklist` rows.** `rule-follows-indirect-imports` is from one
+  two-arm run of three attempts on 2026-11-24 on the current skill text and grader (run 8 of that
+  day's entry): 2 of 3 with the plugin, loading 2 of 3, against 0 of 3 without. A six-attempt
+  plugin-only run on the same text (run 6) passed 5 of 6. The other two rows take their plugin
+  score from a plugin-only run of three attempts the same day (run 7), loading 3 of 3 and 2 of 3;
+  their "Without plugin" is from earlier two-arm runs.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
