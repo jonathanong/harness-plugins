@@ -7,8 +7,10 @@ scores are in [EVALS.md](EVALS.md).
 ## 2026-11-23: a `postgres-schema-design` case for comments
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for one two-arm run
-of six attempts. There was no separate pilot: the abandoned constraint-naming pilot below used
-the same prompt, and its two answers already differed on comments.
+of six attempts. There was no separate pilot, so this run is also the first check of the new
+grader. The abandoned constraint-naming pilot below used the same prompt under a different
+grader; counting `COMMENT ON` statements in its two answers gives one for the table and six for
+columns with the plugin, and none without.
 
 | Case                                                   | With plugin | Loaded | Without plugin |
 | ------------------------------------------------------ | ----------- | ------ | -------------- |
