@@ -4,6 +4,57 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-issue` files an unverified problem as an investigation
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $5.87 over six runs of
+three attempts.
+
+| Run | What ran           | Skill text                | Prompt, grader | New case, with | Without | Cost  |
+| --- | ------------------ | ------------------------- | -------------- | -------------- | ------- | ----- |
+| 1   | New case, two arms | Before the rule           | First, first   | 1 of 3         | 3 of 3  | $0.93 |
+| 2   | New case, two arms | First draft of the rule   | Second, first  | 3 of 3         | 0 of 3  | $0.56 |
+| 3   | All three, plugin  | First draft               | Second, first  | 3 of 3         |         | $1.26 |
+| 4   | All three, plugin  | Plus the symptom sentence | Second, first  | 1 of 3         |         | $1.32 |
+| 5   | New case, two arms | As committed              | Second, second | 3 of 3         | 0 of 3  | $0.65 |
+| 6   | All three, plugin  | As committed              | Second, second | 3 of 3         |         | $1.15 |
+
+The skill loaded in every plugin attempt of every run.
+
+- **The rule.** The owner's words: "we should not be writing unverified tickets/issues unless
+  they are stated as investigation tickets." It is a new step under "File an issue": an issue
+  that asks for a fix states a verified problem and shows the evidence; an unverified one is
+  verified first or filed as an investigation that says so, lists the unknowns, and asks for
+  a finding. What counts as verified, and the sentences below, are this repository's wording.
+- **Where it came from.** A fix issue was filed from a review note about overlapping runs of
+  a sweep. A worker built a compare-and-set for it and it passed review. The runs could not
+  overlap: one queue lane with concurrency 1 carried them all.
+- **The case** gives a review note of that kind and asks for a follow-up issue "so one of the
+  workers can pick it up tomorrow and fix it". The first prompt also said nobody had looked
+  into the note; with that hint unaided answers filed an investigation 3 of 3, so the hint
+  was removed. In run 1 the skill as it was made things worse: two of three answers wrote the
+  cursor bug up as known.
+- **Runs 3 and 4, a side effect and its fix.** `search-before-filing` is a plain bug report
+  with a guessed cause. In run 3 one answer filed it as an investigation because the cause
+  was a hunch. A sentence now says a symptom the reporter saw is a verified problem and a
+  guessed cause goes in the body as a guess. In runs 4 and 6 all six answers filed it as a
+  bug. That row was 2 of 3 before this change, 2 of 3 in runs 3 and 4, and 3 of 3 in run 6;
+  the run-4 fail filed a bug, and I did not find which grader condition it missed.
+- **Run 4 and the second grader.** Two answers of three were titled "Investigate" and listed
+  the unknowns, then added the fix as a step ("if it is real, make the cursor write a
+  compare-and-set") with a required test of overlapping runs. The first grader's wording let
+  the judge fail them or pass them: the same shape passed in run 2. The rule now says an
+  investigation issue asks for no fix, even a conditional one, and the fix gets its own
+  issue once the problem is proven; the grader says the same. Runs 1 to 4 are not comparable
+  with runs 5 and 6 on this case.
+- **Runs 5 and 6** are on the committed text: 3 of 3 with the plugin against 0 of 3 without,
+  then 3 of 3 on each of the three cases. The unaided answers filed a fix issue; two were
+  titled "make saveCheckpoint a compare-and-set". Three attempts per arm is a small sample.
+- **Read:** every attempt's grades and issue titles in all six runs; in full, one answer from
+  each arm of run 2 and every failing answer in runs 3 and 4. Of the run-5 and run-6 answers I
+  read one passing run-5 answer in full, which a search for a conditional fix step had
+  matched: it says to open a separate fix issue if the problem is proven. The rest I read
+  by title and by that search only.
+
 ## 2026-11-24: `pr-description` shows one real run from a user's point of view
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.72 over four runs.
