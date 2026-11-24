@@ -21,8 +21,8 @@ Read every applicable `AGENTS.md` first. Repository-local policy overrides these
   constants, never `col = col + 1` or a volatile value.
 - Comment every table, column, and view; document reviewed exceptions explicitly.
 - Name every constraint, the primary key included, and state `ON DELETE` on every foreign key.
-  Index the referencing column. A name PostgreSQL generates changes when the table or column is
-  renamed around it, and a migration cannot drop what it cannot name. See
+  Index the referencing column. A generated name is not in the migration's text, so a later migration
+  that drops or alters the constraint has to guess it, and an error that reports it says less. See
   [naming](references/naming.md).
 - Keys are generated ids. A natural text key stays a unique column on its owning table; other
   tables reference the id. See [relations](references/relations.md).
