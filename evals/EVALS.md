@@ -343,8 +343,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   how to tell a starter from a run's job. The skill loaded in 14 of 18 attempts.
   `review-sweep-rewrites-its-trigger` did not load it in any of its three, so its row reads 0 of 3
   with the plugin against 3 of 3 without; all three plugin answers passed the outcome grader, and
-  its description did not change. The purge case's one failure also had not loaded the skill.
-  Earlier the same day these rows stood at 3 of 3 for five cases and 2 of 3 for
+  its description did not change. The "Without plugin" column has no loading grader, so the two
+  columns of that row are not graded on the same set. The purge case's one failure also had not
+  loaded the skill. Earlier the same day these rows stood at 3 of 3 for five cases and 2 of 3 for
   `review-sweep-rewrites-its-trigger`; before that day, the purge case at 5 of 6 and the three
   review cases at 8 of 8, 8 of 8, and 4 of 8.
 - **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
