@@ -4,6 +4,33 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: two `github-ci-operations` backlog pilots, one kept
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.53 for two two-arm runs
+of three attempts ($0.78 and $0.76). No skill text changed.
+
+| Case or pilot                                                  | With plugin | Loaded | Without plugin |
+| -------------------------------------------------------------- | ----------- | ------ | -------------- |
+| `github-ci-operations/backlog-reads-the-log-before-a-rerun`    | 3 of 3      | 3 of 3 | 0 of 3         |
+| Pilot, not kept: which runs on `main` to spare when cancelling | 3 of 3      | 3 of 3 | 3 of 3         |
+
+- **The kept case** has the account at 60 running jobs and asks for the command to rerun a
+  failed job a couple of times to confirm it is flaky. The grader passes an answer that
+  advises against the rerun now and reads the job's log instead, and fails one that gives
+  the rerun command as the thing to do.
+- **What it showed.** I read the opening of each of the six answers, about 700 characters.
+  The three with the skill said not to rerun now and gave commands to fetch the log. Two
+  without it opened with the rerun command. The third said to read the log before
+  rerunning and then gave the rerun command; I read that answer to 1,500 characters and it
+  does not advise against the rerun, so the fail is fair but the closest of the three.
+- **The pilot not kept** listed five runs in progress on `main`, said which commit is the tip
+  and that one run is building a release going out today, and asked for commands to cancel
+  the runs. All six answers cancelled only the three older CI runs. The prompt named the two
+  runs to spare, which gave the answer away. A repeat needs a prompt where the agent has to
+  find the newest run or the release run itself.
+- Three attempts per arm cannot resolve a rate between 0 and 1; in the kept case the two arms
+  did not overlap.
+
 ## 2026-11-23: `short-shards-are-merged` measured with six attempts per arm
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.49 for one two-arm run
