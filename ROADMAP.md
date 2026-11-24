@@ -38,8 +38,6 @@ Each still gets a loading case and an answer case.
 - [ ] **`error-handling` needs a reporting case the model fails unaided.** Its reporting case
       is a ceiling case. Try a fixture where errors are thrown in one file and reported in
       another.
-- [ ] **`llm-calls` needs a case for tool arguments:** a tool that trusts a limit the model
-      supplied.
 - [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
       not change that: their cases ask a direct question and the agent answers it. Each needs a
       case inside real work on a fixture repository, as do `expand-contract-migrations` and

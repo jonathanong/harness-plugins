@@ -4,6 +4,26 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: an `llm-calls` case for tool arguments
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.66 for one two-arm run
+of six attempts, after a one-attempt pilot that passed with the plugin and failed without.
+
+| Case                                           | With plugin | Loaded | Without plugin |
+| ---------------------------------------------- | ----------- | ------ | -------------- |
+| `llm-calls/new-tool-clamps-through-one-helper` | 5 of 6      | 6 of 6 | 2 of 6         |
+
+- **Case added.** Add a `list_refunds` tool beside two tools, one that caps its limit with an
+  inline `Math.min` and one that does not cap it. The grader checks one rule: the limit and the
+  day range are bounded from both sides through one shared helper or shared schema.
+- **What the run showed.** Without the plugin two answers passed, and the judge failed the
+  other four. I read those four: all bound both values, three of them inside the new tool, and
+  one with a shared helper for the limit and the day count bounded in the tool's own schema.
+  With the plugin five
+  answers put both values through one helper. The sixth wrote a helper for the limit and
+  bounded the day count in the tool's own schema, which the grader fails.
+- **No skill change.** The difference is 3 of 6 attempts, which this sample does not settle.
+
 ## 2026-11-23: an `llm-calls` case the model fails unaided
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.78 for one two-arm run
