@@ -123,9 +123,9 @@ unaided by design.
 | `service-boundaries/topology-in-app-repo`                               | Moves instance counts and regions out of the application repo into configuration.                                                                                              | 1.00  | 3 of 3   | 0.33           |
 | `skill-authoring/repo-rule-not-in-shared-skill`                         | Keeps one team's package, field, and path out of a shared skill and puts them in that team's repository.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `skill-authoring/split-by-trigger`                                      | Gives browser-test guidance its own skill, or an existing one, instead of a reference under the unit-test skill.                                                               | 0.83  | 2 of 3   | 0.00           |
-| `static-analysis-checklist/parses-yaml-with-fixtures`                   | Parses YAML instead of matching text, and tests the check with fixtures.                                                                                                       | 0.89  | 2 of 3   | 0.50           |
-| `static-analysis-checklist/rule-follows-indirect-imports`               | Asked to write a lint rule that finds its subject by an import, tests an indirect form such as a re-export or a local wrapper. Ceiling case.                                   | 1.00  | 3 of 3   | 1.00           |
-| `static-analysis-checklist/tracked-files-only`                          | Limits a CI guard's file discovery to tracked workflow and action files.                                                                                                       | 1.00  | 3 of 3   | 0.33           |
+| `static-analysis-checklist/parses-yaml-with-fixtures`                   | Parses YAML instead of matching text, and tests the check with fixtures.                                                                                                       | 1.00  | 3 of 3   | 0.50           |
+| `static-analysis-checklist/rule-follows-indirect-imports`               | Asked to write a lint rule that finds its subject by an import, tests an indirect form and reports a name it cannot trace instead of passing silently.                         | 0.67  | 2 of 3   | 0.00           |
+| `static-analysis-checklist/tracked-files-only`                          | Limits a CI guard's file discovery to tracked workflow and action files.                                                                                                       | 0.50  | 1 of 3   | 0.33           |
 | `static-code-analysis/new-rust-service`                                 | Picks the static checks for a new Rust service.                                                                                                                                | 1.00  | 6 of 6   | 0.83           |
 | `static-code-analysis/new-typescript-library`                           | Picks the static checks for a new TypeScript library.                                                                                                                          | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                          | Logs the customer id with a static message instead of looking up an email for the log.                                                                                         | 1.00  | 3 of 3   | 0.00           |
@@ -186,12 +186,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`, and
   `service-boundaries` rows** are from the two-arm run after their generic rules were added, three
   attempts per arm.
-- **The three `static-analysis-checklist` rows** take their plugin score and loading from one
-  plugin-only run of three attempts on 2026-11-24, on the current skill text. "Without plugin" for
-  `rule-follows-indirect-imports` is from a two-arm run of three attempts the same day, before the
-  rule was added to the skill; it is a ceiling case. "Without plugin" for the other two is from
-  earlier two-arm runs. Its grader passes an option that names the extra modules, with a test, so
-  it does not measure whether the rule reports an import it cannot resolve.
+- **The three `static-analysis-checklist` rows** take their plugin score from one plugin-only run
+  of three attempts on 2026-11-24, on the current skill text and graders (run 7 of that day's
+  entry). The skill loaded in 3 of 3, 2 of 3, and 2 of 3 attempts, in table order. "Without
+  plugin" for `rule-follows-indirect-imports` is from a two-arm run of three attempts the same day
+  on the same prompt and grader (run 4); in a six-attempt plugin-only run on the current text (run 6) it passed 5 of 6. "Without plugin" for the other two is from earlier two-arm runs.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the

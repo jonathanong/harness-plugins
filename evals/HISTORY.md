@@ -6,42 +6,57 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `static-analysis-checklist` covers how a rule's subject is reached
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.86 over three runs of
-three attempts.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $11.67 over seven runs.
+This entry was rewritten in its own pull request before merge, after the grader changed; the
+first version reported runs 1 to 3 only and called the case a ceiling case.
 
-| Run | What ran           | Skill text      | Case form        | New case, with | Without | Cost  |
-| --- | ------------------ | --------------- | ---------------- | -------------- | ------- | ----- |
-| 1   | New case, two arms | Before the rule | Review of a rule | 3 of 3         | 3 of 3  | $0.78 |
-| 2   | New case, two arms | Before the rule | Write the rule   | 3 of 3         | 3 of 3  | $1.52 |
-| 3   | All three, plugin  | As committed    | Write the rule   | 3 of 3         |         | $1.56 |
+| Run | What ran, attempts    | Skill text      | Case and grader        | New case, with | Loaded | Without | Cost  |
+| --- | --------------------- | --------------- | ---------------------- | -------------- | ------ | ------- | ----- |
+| 1   | New case, two arms, 3 | Before the rule | Review of a rule       | 3 of 3         | 1 of 3 | 3 of 3  | $0.78 |
+| 2   | New case, two arms, 3 | Before the rule | Write the rule, first  | 3 of 3         | 3 of 3 | 3 of 3  | $1.52 |
+| 3   | All three, plugin, 3  | First wording   | Write the rule, first  | 3 of 3         | 3 of 3 |         | $1.56 |
+| 4   | New case, two arms, 3 | First wording   | Write the rule, second | 0 of 3         | 1 of 3 | 0 of 3  | $2.30 |
+| 5   | New case, plugin, 6   | Second wording  | Write the rule, second | 2 of 6         | 5 of 6 |         | $1.75 |
+| 6   | New case, plugin, 6   | As committed    | Write the rule, second | 5 of 6         | 5 of 6 |         | $1.77 |
+| 7   | All three, plugin, 3  | As committed    | Write the rule, second | 2 of 3         | 2 of 3 |         | $1.99 |
 
-- **The rule** is new text in step 3: when a rule finds its subject by an import or a name, add
-  fixtures for the indirect ways code reaches it (an alias, a re-export, a namespace import, a
-  local wrapper or factory), and where the rule cannot tell what a name is bound to it reports
-  that, since silence reads as a clean result. The wording is this repository's. It was proposed
-  by a reviewing agent after a review miss: a lint rule found its subject by a direct import, its
-  fixtures only imported it directly, and it reported nothing in a repository that imports the
-  subject from a local module that extends it.
-- **No measured improvement.** Both forms of the case are at the ceiling: unaided answers passed 3
-  of 3 before the rule existed. In run 1 all six reviews named the local fixtures module built
-  with `.extend(...)`; the skill loaded in 1 of 3 plugin attempts. In run 2 all six answers wrote
-  a rule that follows `.extend(...)` and tested it; the skill loaded 3 of 3. The rule is kept for
-  weaker models, as this repository's rules say, and the case shows it loads and does no harm. The
-  miss happened inside a larger pull request, which a one-prompt case does not reproduce.
-- **The case kept** is the second form; the review form's prompt and grader were not committed.
-  Runs 1 and 2 are different prompts and graders and are not comparable.
-- **Run 3, the neighbouring cases.** `tracked-files-only` passed 3 of 3 and
-  `parses-yaml-with-fixtures` 2 of 3, each loading 3 of 3. The failing plan parses YAML, lists
-  tracked files, and has accepted and rejected fixtures; it does not look for an existing analyzer
-  first, which that grader requires. It also says an unparseable file must fail the check because
-  silence would look like a pass, which is the new rule carried over. `tracked-files-only` had
-  stood at 4 of 8 from 2026-11-22; three attempts do not show that it moved.
-- **Read:** every attempt's grades in all three runs; the lines of each run-1 and run-2 answer
-  that mention the indirect import; the failing run-3 plan in full; the tests of one run-3 answer
-  to the new case. That answer covers a local fixtures module through an option and tests it, but
-  without the option it accepts the file silently and does not report that it could not tell, so
-  it follows the first half of the rule and not the second. The grader passes an option with a
-  test. I did not read the other two run-3 answers to the new case beyond their grades.
+- **The rule** is new text in step 3: when a rule finds its subject by an import or a name,
+  add fixtures for the indirect ways code reaches it, and a name the rule cannot trace is
+  unknown, not clean, so the rule reports there. The wording is this repository's. A
+  reviewing agent proposed it after a review miss: a lint rule found its subject by a direct
+  import, its fixtures only imported it directly, and it reported nothing in a repository
+  that imports the subject from a local module that extends it.
+- **Runs 1 to 3, the first grader.** It passed an answer that tests an indirect form and
+  offers an option to list extra modules. Unaided answers passed 3 of 3 in both forms of
+  the case. A reviewer of the pull request pointed out that this grader did not measure the
+  second half of the rule: one run-3 answer accepted an unlisted local import silently and
+  passed.
+- **The second grader** also requires that a serial suite on a `test` imported from an
+  unlisted local module is not met with silence: the rule reports the suite or reports that
+  it could not tell, and a test pins that. Runs 1 to 3 are not comparable with runs 4 to 7.
+- **Run 4.** 0 of 3 in both arms. All six answers tested an indirect import, and all six
+  rules say nothing for an unlisted local module. The one attempt that loaded the skill
+  failed the same way.
+- **Run 5, the second wording,** said an untraceable name is unknown, not clean, and that an
+  option does not replace the report. The two passing answers report with a separate
+  message. The three that loaded the skill and failed chose silence on purpose, citing the
+  request, which says the rule should not fire on other objects called `test`; one wrote
+  "By default it stays silent for those, because you said unit-test `test` objects
+  shouldn't fire."
+- **Run 6, the committed wording,** adds that the report holds when the rule must stay quiet
+  on other things of the same name: quiet on a name traced to something else, a report for
+  a name that could not be traced, and a note in the documentation is no substitute. All
+  five attempts that loaded the skill passed; the one that did not load it failed.
+- **Run 7.** The new case passed in the two attempts that loaded the skill and failed in
+  the one that did not. `parses-yaml-with-fixtures` passed 3 of 3. `tracked-files-only`
+  passed 1 of 3, loading 2 of 3; both failing reviews ask for `git ls-files` and name
+  untracked files, and I did not find which grader condition they missed. That row stood
+  at 4 of 8 on 2026-11-22 and 3 of 3 in run 3; it is noisy.
+- **Read:** every attempt's grades in all seven runs; the lines about the indirect import
+  in each run-1, run-2, and run-4 answer; the tests of one run-3 answer; the opening and
+  closing of the three loaded failing answers in run 5; the lines that classify a name in
+  each run-6 answer and the tests of one; the opening of each run-7 `tracked-files-only`
+  answer; the failing run-3 `parses-yaml-with-fixtures` plan in full.
 
 ## 2026-11-24: `github-issue` lets an investigation issue carry a conditional fix
 

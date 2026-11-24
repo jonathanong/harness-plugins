@@ -26,8 +26,13 @@ syntax, and rollout policy.
    rewrite cannot quietly stop blocking a case the old guard caught.
    When a rule finds its subject by an import or a name, add fixtures for the indirect ways code
    reaches it: an alias, a re-export, a namespace import, and a local wrapper or factory that
-   returns it. Where the rule cannot tell what a name is bound to, it reports that it could not
-   analyze the file. A rule that stays silent there reads as a clean result.
+   returns it. A name the rule cannot trace, such as an import from a local module it does not
+   read, is unknown, not clean. The rule reports there: either the violation, or that it could
+   not tell what the name is bound to. This holds when the rule must stay quiet on other
+   things of the same name: stay quiet on a name traced to something else, and report a name
+   that could not be traced. An option that lists extra modules does not replace this, and
+   neither does a note in the documentation, because an unlisted module then passes with no
+   report. Pin the unknown case with a fixture.
 4. Keep discovery limited to tracked, intended files. A guard validates tracked git state:
    untracked and ignored files neither fail it nor satisfy it. A scan of tracked files sees a new file only
    after `git add`, so when a check says a new path does not exist, stage it before changing the

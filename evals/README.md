@@ -14,7 +14,7 @@ needed.
 - **137 cases** across 46 skills.
 - **With the plugin:** mean score 0.95.
 - **Without it:** mean score 0.33, over the 136 cases measured both ways.
-- **107 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
+- **108 cases** are ones the model fails unaided. The other 28 it already gets right: 5 check that a skill stays out of the way, and 23 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -65,7 +65,7 @@ averaged over attempts.
 | `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     |
 | `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     |
 | `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     |
-| `static-analysis-checklist`        | 3     | 0.96        | 0.61           | 1                     |
+| `static-analysis-checklist`        | 3     | 0.72        | 0.28           | 0                     |
 | `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     |
 | `structured-logging`               | 3     | 1.00        | 0.00           | 0                     |
 | `technical-writing`                | 3     | 0.89        | 0.00           | 0                     |
