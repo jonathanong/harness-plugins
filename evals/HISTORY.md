@@ -4,6 +4,60 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `agent-workflow` verifies a finding before presenting or fixing it
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Ten runs, $7.48. Each
+row is from a two-arm run of three attempts per arm on the skill text of this commit; formatting
+ran after the runs. The first three rows are from runs 8 to 10, after review.
+
+| Case                                                  | With, outcome | Loaded | Without |
+| ----------------------------------------------------- | ------------- | ------ | ------- |
+| `postgres-locking/race-finding-that-cannot-happen`    | 3 of 3        | 3 of 3 | 3 of 3  |
+| `github-issue/unverified-finding-is-an-investigation` | 3 of 3        | 3 of 3 | 1 of 3  |
+| `postgres-locking/race-finding-on-unwritten-row`      | 3 of 3        | 3 of 3 | 0 of 3  |
+| `pull-requests/review-round-dispositions`             | 3 of 3        | 3 of 3 | 2 of 3  |
+| `agent-workflow/status-note-asks-only-what-it-must`   | 1 of 3        | 0 of 3 | 0 of 3  |
+
+- **Why.** The owner asked for a rule that a finding from a reviewer, a bot, a note, or the
+  agent's own review is verified before it is presented or fixed: reproduced, traced in the code,
+  or seen in staging or production data where that is available and relevant. A fix for a
+  problem that cannot happen is unreachable code.
+- **The rule.** `agent-workflow` gains "Verify a finding". Two sentences in it are mine, not the
+  owner's: a race finding names the two callers and shows they can run at the same time, and a
+  finding traced and found false gets a reply with the reason and no code change.
+  `postgres-locking` (race findings), `github-issue` rule 3, and the `pull-requests` review
+  response link to it and keep only the local instruction; the review response gains an
+  "Unverified" disposition. This replaces the roadmap item "A guard needs a reachable race".
+- **The case.** `race-finding-that-cannot-happen` is a synthetic ledger repository. A review
+  bot reports a lost update on an account balance and asks for `FOR UPDATE` or a version column.
+  The credit is one atomic `UPDATE ... SET balance_cents = balance_cents + ...` in a `.sql` file
+  two files from the handler. The answer passes when it says the race cannot happen, with the
+  reason, and changes nothing. (1) One attempt per arm, with the statement in the data-access
+  file: both passed ($0.24). (2) The statement moved to the `.sql` file and the handler passing
+  the whole account: both passed ($0.28). (3) Three per arm on the edited skills: passed unaided
+  ($0.89). It is a guard beside `race-finding-on-unwritten-row`, which fails unaided: it checks
+  that the locking answers stay out of the way when the race cannot happen. It does not show
+  that the rule helps.
+- **The neighbours.** (4)-(6) The three cases whose rule text changed held, as in the table
+  ($0.60, $0.64, $1.23).
+- **After review.** `code-reviewer` found that the `postgres-locking` bullet sent a race that was
+  neither shown nor ruled out to its list of fixes ("Otherwise answer it in this order"). It now
+  says to show the two writers can run at the same time, to reply "unverified" when that cannot
+  be told, to change nothing in either case, and to answer only a verified race with the list.
+  `github-issue` rule 3 gains "where that is available and relevant", which its copy had dropped.
+  (8)-(10) The table's first three rows ($1.34, $0.67, $0.80). Before review, the same three
+  passed 3 of 3 with the plugin and 3, 0 and 0 of 3 without.
+- **The pointer was not followed.** In none of the nine plugin attempts of runs 3, 5 and 6 did
+  the agent read `agent-workflow`; each loaded only `postgres-locking` or `pull-requests` and
+  passed on that skill's local instruction. That is why each neighbour keeps one.
+- **The owning skill's case.** (7) `status-note-asks-only-what-it-must` loaded `agent-workflow`
+  in 0 of 3 attempts, so no answer read the changed text; its outcome passed 1 of 3, and 0 of 3
+  unaided ($0.79). Its row recorded 3 of 3 and loaded 3 of 3 on 2026-11-22, and an entry on
+  2026-11-23 had loading at 1 of 3 with the description unchanged. The description did not
+  change here either.
+- **Not measured.** No case tests the half of the rule for a finding that cannot be verified,
+  which is reported as unverified with no fix.
+
 ## 2026-11-24: `agent-rules` asks about a stated rule and then improves its wording
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Three runs, $3.55. Run 1 is

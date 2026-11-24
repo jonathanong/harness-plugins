@@ -53,7 +53,11 @@ Each still gets a loading case and an answer case.
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
       API keys in `http-api-design`; a review's proposed fix following the
       owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
-      what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep that must not overlap and has a deadline in `bounded-iteration`.
+      what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
+      that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
+      "Verify a finding", a finding that cannot be verified is reported as unverified with no
+      fix, and a race finding that the unaided model accepts (the case built on 2026-11-24 passes
+      unaided).
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Skills that give way to a request by name.** Three rules did on 2026-11-23: asked
@@ -81,16 +85,13 @@ Each still gets a loading case and an answer case.
       and every standing copy changes when the instruction does; after a context summary,
       re-read the standing notes before acting on a limit, hold, or approval it states.
       `agent-workflow`: a yes covers the action that was asked about, not a wider or permanent
-      mechanism; raise a pending question once, and check the actual condition before
-      flagging an item. `agent-coordination`: read the preferred workers' availability from
+      mechanism; raise a pending question once (verifying a finding before flagging it is
+      now in the skill). `agent-coordination`: read the preferred workers' availability from
       the live source before using a fallback; read the change behind a worker's numbers
       before relaying them as a trade-off.
-- [ ] **A guard needs a reachable race.** Proposed after the same incident as the
-      `github-issue` investigation rule: before adding a guard, a conditional write, or a race
-      test for a concurrency finding, name the two callers and show they can run at the same
-      time, checking what already serializes them. The cursor part is settled another way:
-      `bounded-iteration` now gives each run its own position, so there is no shared cursor to
-      guard. The general rule for other guards still needs the owner's word and a case.
+- [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
+      loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
+      with the description unchanged. Find which part of the request no longer matches it.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.

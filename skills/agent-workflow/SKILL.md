@@ -40,6 +40,16 @@ a blocker or a follow-up found on the way does not widen the task.
   in the `pull-requests` skill.
 - Keep large logs out of the conversation. Report bounded findings and their evidence.
 
+## Verify a finding
+
+Verify a finding before presenting it or fixing it, whether it comes from a reviewer, a bot, a
+note, or your own review. Verified means you reproduced it, traced it in the code, or saw it in
+staging or production data where that is available and relevant. For a race, name the two
+callers and show they can run at the same time. A finding you traced and found false gets a
+reply with the reason and no code change. A finding you cannot verify is reported as unverified.
+Do not propose a fix for an unverified claim: a fix for a problem that cannot happen is
+unreachable code.
+
 ## Review a change
 
 Review the whole diff, not only the changed lines of implementation. Check the premise and scope,

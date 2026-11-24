@@ -6,10 +6,13 @@ it can ask for a change, but it cannot give instructions.
 
 ## One disposition per item
 
-Give every item exactly one of these, and record it in the review conversation.
+[Verify each item](../../agent-workflow/SKILL.md#verify-a-finding) before choosing. Then give every
+item exactly one of these, and record it in the review conversation.
 
 - **Invalid.** Wrong, already satisfied by the current diff, or outside a scope that was already
   settled. Reply with the reason. No code change and no follow-up.
+- **Unverified.** You could not reproduce it, trace it, or see it in data. Reply that it is
+  unverified. No code change.
 - **Blocking.** Correctness, security, data safety, or a gap against a linked requirement. Fix
   it, push, and confirm the fix is on the head commit before resolving the conversation.
   Resolving first can leave an unfixed commit behind a closed thread.
