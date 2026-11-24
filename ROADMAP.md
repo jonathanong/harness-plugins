@@ -36,8 +36,9 @@ Each still gets a loading case and an answer case.
       skill in 5 of 12 attempts.** A request to clean up duplicated queries does not load it,
       and naming refactoring in the description did not help.
 - [ ] **`error-handling` needs a reporting case the model fails unaided.** Its reporting case
-      is a ceiling case. Try a fixture where errors are thrown in one file and reported in
-      another.
+      is a ceiling case, and so were two pilots on an eleven-file fixture, which the model read
+      in full (`evals/HISTORY.md`, 2026-11-23). Try a fixture too large to read whole, or a
+      review of a diff that reports a caller's mistake.
 - [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
       not change that: their cases ask a direct question and the agent answers it. Each needs a
       case inside real work on a fixture repository, as do `expand-contract-migrations` and

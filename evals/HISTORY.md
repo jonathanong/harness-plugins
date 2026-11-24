@@ -4,6 +4,30 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: two `error-handling` reporting pilots on a fixture, abandoned
+
+Main at `a908232`, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for two pilots of one
+attempt per arm. No case was added and the fixture was not kept.
+
+The fixture was a service of eleven small files: a route, a redeem function, a ledger client,
+error middleware that sends every error to the tracker unless its code is in a quiet list, and
+separate middleware that writes the response.
+
+| Pilot                                                              | With plugin | Without plugin |
+| ------------------------------------------------------------------ | ----------- | -------------- |
+| An already-used gift card gets a 409 and stays out of the tracker  | 1 of 1      | 1 of 1         |
+| A 422 from the ledger for a credit we built becomes a reported 5xx | 1 of 1      | 1 of 1         |
+
+- **First pilot.** The request named only the route. The unaided attempt read every source
+  file, reached the tracker middleware through the server file, and added the new code to the
+  quiet list.
+- **Second pilot.** The unaided attempt answered 502 and left the code out of the quiet list.
+  Its message gives the reason: the amount comes from our own row, so the shopper cannot fix
+  it.
+- **What this shows.** In a repository this small the model reads all of it, so putting the
+  tracker call in another file hides nothing. One attempt per arm is a grader check, not a
+  measurement.
+
 ## 2026-11-23: a native case for the client pagination rule
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.55 for one two-arm run
