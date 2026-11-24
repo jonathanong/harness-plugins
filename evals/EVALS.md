@@ -347,13 +347,13 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   grader, so the two columns of those rows are not graded on the same set. The run before it, the
   same day on an earlier wording, had those two cases at 3 of 3 and `no-new-run-while-one-runs` at
   1 of 3.
-- **The skill loaded in 224 of the 234 attempts.** The misses were in four cases:
-  `documentation/write-scale-numbers` (0 of 3, then 2 of 3 on a rerun), the edge-claims case (0
-  of 3, before its description named edge workers), `bounded-iteration/review-dispatcher-predicate-and-job-id`
-  (1 of 3), and `postgres-schema-design/review-advisory-lock-key` (1 of 3; 2 of 3 after it moved to
-  `postgres-locking`). In the rerun,
-  `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no
-  skill at all; it did not pick a wrong one.
+- **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
+  from that run and is not updated as rows are replaced; a later loading miss is in the note for
+  its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then
+  2 of 3 on a rerun), the edge-claims case (0 of 3, before its description named edge workers),
+  `bounded-iteration/review-dispatcher-predicate-and-job-id` (1 of 3 then; 3 of 3 in its current
+  row), and `postgres-schema-design/review-advisory-lock-key` (1 of 3; 2 of 3 after it moved to
+  `postgres-locking`). In the rerun, `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no skill at all; it did not pick a wrong one.
 - **Rows below 1.00 for other reasons** failed on the answer: `git-commit-checklist/lockfile-conflict-on-rebase`,
   `github-issue/search-before-filing`, `npm-publishing/bootstrap-new-package`,
   `package-json-checklist/workspace-dependency-and-export`, `revisit-followups/only-verified-deferred-work`,
