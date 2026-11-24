@@ -4,6 +4,24 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: an `llm-calls` case the model fails unaided
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.78 for one two-arm run
+of six attempts, after a one-attempt pilot that scored the same in each arm.
+
+| Case                                          | With plugin | Loaded | Without plugin |
+| --------------------------------------------- | ----------- | ------ | -------------- |
+| `llm-calls/ticket-classifier-takes-its-model` | 6 of 6      | 6 of 6 | 0 of 6         |
+
+- **Case added.** Write a ticket classifier that should run on a cheap, fast model. The grader
+  checks one rule: the model comes from configuration or an argument, and no model id is
+  written in the code, as a constant, a default, or a fallback.
+- **What the run showed.** Without the plugin the judge failed all six, and each of the six
+  answers passes a model id as a literal in the request. With
+  it every answer took the model from configuration. Both arms also loaded the harness's own
+  API reference skill, so the difference is the plugin's rule.
+- **No skill change.** `summarize-fetched-page` stays as a ceiling case.
+
 ## 2026-11-23: the sweep grader was too loose, and the rule does help
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.58 over two runs: a
