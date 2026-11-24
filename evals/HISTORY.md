@@ -13,8 +13,8 @@ No run. No case, grader, fixture, or skill changed.
   with `updated_at`, stops the loop. Both keep the sweep on `profiles.updated_at`, which other
   writers move, so rule 1 of the skill rules them out. The rule does not name those fixes;
   failing them is a reading of it. The previous entry did not say so.
-- **The loading tally in `evals/EVALS.md`** (224 of 234) now says it is from the last run of
-  every case and is not updated as rows are replaced. It named
+- **The loading tally in `evals/EVALS.md`** (224 of 234) now says it is from the full run on
+  2026-11-21 and is not updated as rows are replaced. It named
   `review-dispatcher-predicate-and-job-id` at 1 of 3, which has loaded 3 of 3 since.
 
 ## 2026-11-24: `bounded-iteration` says when a sweep may use `updated_at`, and its trigger case has the trigger to find

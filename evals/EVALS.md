@@ -347,7 +347,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   grader, so the two columns of those rows are not graded on the same set. The run before it, the
   same day on an earlier wording, had those two cases at 3 of 3 and `no-new-run-while-one-runs` at
   1 of 3.
-- **In the last run of every case, the skill loaded in 224 of the 234 attempts.** That tally is
+- **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
   from that run and is not updated as rows are replaced; a later loading miss is in the note for
   its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then
   2 of 3 on a rerun), the edge-claims case (0 of 3, before its description named edge workers),
