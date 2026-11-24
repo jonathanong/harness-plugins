@@ -4,6 +4,46 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `review-ci-logs` reads the repository when the log does not say why
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Four runs, $6.39. The
+table is the fourth: all four `review-ci-logs` cases, both arms, three attempts per arm ($3.30).
+
+| Case                                      | With, outcome | Loaded | Without |
+| ----------------------------------------- | ------------- | ------ | ------- |
+| `cause-is-a-quiet-line-before-the-errors` | 3 of 3        | 2 of 3 | 1 of 3  |
+| `first-error-in-a-long-log`               | 3 of 3        | 3 of 3 | 3 of 3  |
+| `quiet-log-keeps-errors`                  | 3 of 3        | 3 of 3 | 3 of 3  |
+| `retry-request-gets-the-cause-fixed`      | 3 of 3        | 3 of 3 | 0 of 3  |
+
+- **Why.** `first-error-in-a-long-log` is a ceiling case with the log pasted in the prompt. The
+  roadmap asked for a log where the first cause is harder to find.
+- **The case.** `cause-is-a-quiet-line-before-the-errors` is a synthetic repository with a
+  260-line log in a file. A code generation step matches 0 schema sources, writes nothing, and
+  exits 0; no line of it says error or warning. The type check then fails in three packages. The
+  log also has a registry timeout that retried and a peer dependency warning.
+  `codegen.config.json` names a path the schema is no longer at. The answer passes when it names
+  that path, and fails when it stops at the log.
+- **The log was not the hard part.** Every answer in every run found the code generation lines.
+  (1) One attempt per arm: the plugin answer failed and the unaided one passed ($0.31). (2) Three
+  per arm: 2 of 3 in both arms, all three loaded ($1.56). Each failing answer, in either arm,
+  listed possible reasons the schema did not match and did not open the configuration file; the
+  plugin answer in run 1 said it "couldn't check any of these".
+- **The rule, mine.** Rule 3 gains: "When the log shows what failed but not why, read what that
+  step reads in the repository, such as its configuration and the file it names, and say why. Do
+  not hand back a list of possible reasons you could have checked." The owner has not seen this
+  wording.
+- **With the sentence.** (3) The case alone: 3 of 3 with the plugin, all loaded, 0 of 3 without
+  ($1.22). (4) The table. Across runs 3 and 4 the outcome passed in 6 of 6 plugin attempts and 1
+  of 6 unaided; before the sentence it passed in 2 of 4 plugin attempts and 3 of 4 unaided. The
+  unaided arm ran on the same prompt throughout and went from 3 of 4 to 1 of 6, so part of the
+  difference is noise.
+- **The other three cases** passed 3 of 3 with the plugin. `quiet-log-keeps-errors` passed 3 of 3
+  unaided and is now marked a ceiling case, on this one run.
+- **Read:** every attempt's grades in all four runs, and every failing answer in runs 1 to 3 in
+  full or to the point where it listed possibilities. I did not read the failing unaided answers
+  of run 4.
+
 ## 2026-11-24: `bounded-iteration` gives a recovery sweep columns of its own
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Six runs, $20.64. The

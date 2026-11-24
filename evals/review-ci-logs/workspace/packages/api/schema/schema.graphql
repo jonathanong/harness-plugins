@@ -1,0 +1,20 @@
+type Product {
+  id: ID!
+  title: String!
+  priceCents: Int!
+}
+
+type Order {
+  id: ID!
+  lines: [OrderLine!]!
+}
+
+type OrderLine {
+  product: Product!
+  quantity: Int!
+}
+
+type Query {
+  product(id: ID!): Product
+  order(id: ID!): Order
+}

@@ -13,9 +13,6 @@ Each still gets a loading case and an answer case.
 
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
-- [ ] **`review-ci-logs/first-error-in-a-long-log` loads its skill in 6 of 9 attempts** after
-      its description named the request (`evals/HISTORY.md`, 2026-11-24), and the model
-      passes its answer unaided. It needs a log where the first cause is harder to find.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).

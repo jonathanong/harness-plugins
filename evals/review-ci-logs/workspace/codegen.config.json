@@ -1,0 +1,9 @@
+{
+  "schema": "packages/api/schema.graphql",
+  "ignoreNoDocuments": true,
+  "generates": {
+    "packages/api/src/generated/types.ts": { "plugins": ["typescript"] },
+    "packages/web/src/generated/types.ts": { "plugins": ["typescript"] },
+    "packages/admin/src/generated/types.ts": { "plugins": ["typescript"] }
+  }
+}

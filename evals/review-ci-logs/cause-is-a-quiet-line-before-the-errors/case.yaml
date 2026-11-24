@@ -1,0 +1,4 @@
+schema_version: '1.1'
+name: cause-is-a-quiet-line-before-the-errors
+context:
+  scaffold_script: fixture.sh

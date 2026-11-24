@@ -13,8 +13,10 @@ these defaults. For CI that passes but is slow or queued, use `github-ci-operati
 2. Download logs to a temporary directory and read the failed steps there. Do not stream whole
    archives into the conversation. Remove the files afterwards.
 3. Classify each finding: a real error, misleading output, a cascade from an earlier error, a
-   diagnostic worth keeping, or volume only. Find the first cause the repository owns. Later
-   errors are usually the cascade.
+   diagnostic worth keeping, or volume only. Find the first cause the repository owns. Later errors
+   are usually the cascade. When the log shows what failed but not why, read what that step reads
+   in the repository, such as its configuration and the file it names, and say why. Do not hand
+   back a list of possible reasons you could have checked.
 4. Compare the failing job with what was run locally before the push: the same commit, project,
    target, fixtures, and configuration. Say which of these holds: the local check was skipped, it
    passed in a different scope or environment, the failure can only happen in CI, or it is
