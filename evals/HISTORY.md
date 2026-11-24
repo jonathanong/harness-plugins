@@ -35,6 +35,8 @@ runs of three attempts on one prompt: $0.53 and $0.58.
 - **Edited after the runs, not re-measured:** the grader's PASS no longer accepts a pointer
   to an event-driven tool with no query. In the part of run 2's three passing answers that
   I read, each gave the query.
+- **Also edited after every run, not re-measured:** the rule says "the jobs query at the top
+  of this section" where the measured text said "the query above".
 
 ## 2026-11-23: `package-json-checklist` stops recommending a patch for a declared range
 

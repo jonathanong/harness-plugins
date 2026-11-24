@@ -49,10 +49,11 @@ answers the same question a five-column table does.
 
 - Read one snapshot. Do not watch a run with `gh run watch`, `gh pr checks --watch`, or a sleep
   loop. A poll tells an agent nothing the timestamps will not: how long a job queued is
-  `started_at - created_at` once it starts, so the query above, run once after the jobs
-  start, gives the wait exactly. To wait for a result, use the event-driven tool the
-  repository provides. When the request asks for a polling loop by name, say this and give
-  the one query in its place; do not hand over the loop with a note beside it.
+  `started_at - created_at` once it starts, so the jobs query at the top of this section,
+  run once after the jobs start, gives the wait exactly. To wait for a result, use the
+  event-driven tool the repository provides. When the request asks for a polling loop by
+  name, say this and give the one query in its place; do not hand over the loop with a note
+  beside it.
 - When a log is needed, fetch one job's log to a temporary file
   (`gh api repos/OWNER/REPO/actions/jobs/JOB_ID/logs`) and search it. `review-ci-logs` owns how
   to read it.
