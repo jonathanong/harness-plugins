@@ -13,8 +13,6 @@ Each still gets a loading case and an answer case.
 
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
-- [ ] **Re-measure the other two `package-json-checklist` cases** on the description and
-      override rule changed on 2026-11-23.
 - [ ] **`review-ci-logs` loaded in 0 of 3** on a request to explain one red job whose
       local run had a narrower scope (`evals/HISTORY.md`, 2026-11-23). Try more such prompts
       before changing the description.

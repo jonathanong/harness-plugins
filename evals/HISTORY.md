@@ -40,8 +40,16 @@ prompt: $0.56, $0.70, $0.82, and $1.22. pnpm 12.23.0 for the install test.
 - **Loading** on this prompt was 2 of 3 and 0 of 6 on the old description, then 5 of 6 and
   6 of 6 with "overriding, patching" added. The first two runs disagree with each other, so
   the gain is likely but not certain.
-- **Not re-measured:** `review-override-for-peer-warning` and
-  `workspace-dependency-and-export`, whose rows are from before this change.
+- **The skill's other two cases, re-measured** on run 4's skill in a plugin-only run of
+  three attempts ($1.10): `review-override-for-peer-warning` 3 of 3, loaded 3 of 3;
+  `workspace-dependency-and-export` 2 of 3, loaded 3 of 3, as before apart from loading
+  (2 of 3 before). The one fail's final message was a note about a blocked registry lookup,
+  not an answer. The new case passed 3 of 3 in that run too.
+- **What the install test does not cover:** one package and a regular dependency range on
+  pnpm 12.23.0. pnpm 10, which the prompt names, npm, and yarn were not tested.
+- **Edited after every run, not re-measured:** rule 8 now opens by keeping the patch for a
+  declared field other than a dependency range, such as `exports` or `bin`, which the old
+  sentence covered, and says "under pnpm" for what a patch does to a range.
 
 ## 2026-11-23: a `review-ci-logs` case for a requested retry, and a queue-wait pilot not kept
 

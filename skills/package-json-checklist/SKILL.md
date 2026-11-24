@@ -34,9 +34,10 @@ and package layout, and override these defaults.
    change a declared range. When a package's peer range is too narrow for a version that works,
    accept that version for that package only with pnpm's `peerDependencyRules.allowedVersions`
    (`"old-pkg>react": "19"`). A scoped override (`"pkg>dep"`) is still an override.
-8. A dependency range that a package declares cannot be changed in place. A patch edits the
-   package's files after the versions are resolved, so a patched range installs the old
-   version, and `packageExtensions` cannot change a declared range. Upgrade the package to a
+8. To change anything else a package declares, such as `exports` or `bin`, patch the package.
+   A dependency range is the exception: it cannot be changed in place. Under pnpm, a patch
+   edits the package's files after the versions are resolved, so a patched range installs the
+   old version, and `packageExtensions` cannot change a declared range. Upgrade the package to a
    release that declares the range you need; when there is none, replace the package or
    depend on a maintained fork. A package that pins a dependency you cannot use is one to
    move off. When the request asks for an override by name, say this and give the
