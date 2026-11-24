@@ -22,7 +22,7 @@ checked one half of the "a sweep converges" rule.
 - **Second pilot.** The job rescans a 30-minute window every 10 minutes. The unaided answer
   added a table with an `email_done_at` column so the email is sent once.
 - **What this shows.** With the trigger or the rescan window stated in the prompt, the model
-  writes a sweep that converges without the skill. One attempt per arm is a grader check, not
+  wrote a sweep that converges without the skill in both attempts. One attempt per arm is a grader check, not
   a measurement.
 
 ## 2026-11-23: two `error-handling` reporting pilots on a fixture, abandoned
