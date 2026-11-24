@@ -16,7 +16,8 @@ PASS if all hold:
   users get repeats, and asks to make it idempotent (keyed to the edit, sent once per change,
   or sent by the edit itself rather than the sweep) or to remove it.
 - It asks for a test that runs the sweep a second time over the same data and checks that the
-  second run updates nothing and enqueues nothing.
+  second run updates nothing and creates no new notification. A test that allows a repeated
+  enqueue of the same idempotent job, as long as no new job results, passes.
 
 FAIL if any of those is missing. FAIL if the review never connects the job's write to
 `updated_at`. FAIL if it only says the job would loop if such a trigger exists, or asks the

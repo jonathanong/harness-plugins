@@ -3,7 +3,7 @@ import { Pool } from 'pg'
 
 const migrations = new URL('../migrations/', import.meta.url)
 
-// Creates an empty schema and applies every migration in order, triggers included.
+// Creates an empty schema and applies every migration in order.
 export async function createTestDatabase(): Promise<Pool> {
   const db = new Pool({ connectionString: process.env.TEST_DATABASE_URL })
   await db.query(`DROP SCHEMA public CASCADE; CREATE SCHEMA public`)

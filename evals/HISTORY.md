@@ -6,9 +6,9 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `bounded-iteration` replaces the trigger case with one where the trigger has to be found
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Four runs, $8.50: three
-pilots of the new case ($0.35, $1.36, $1.42) and one two-arm run of all six cases, three
-attempts per arm ($5.37).
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Five runs, $9.87: three
+pilots of the new case ($0.35, $1.36, $1.42), one two-arm run of all six cases, three attempts
+per arm ($5.37, the table below), and one more run of the new case alone ($1.37).
 
 | Case                                      | With, outcome | Loaded | Without |
 | ----------------------------------------- | ------------- | ------ | ------- |
@@ -24,9 +24,10 @@ attempts per arm ($5.37).
   previous entry). `review-sweep-whose-trigger-is-elsewhere` asks for a review of a job file
   in a small synthetic repository where the touch trigger is in the first migration. Rows for
   the old case in earlier entries do not compare with the new one.
-- **The new case loads the skill, and does not separate the arms at three attempts.** It
-  loaded in 10 of 10 plugin attempts across the four runs. Without the plugin it passed 2 of
-  3 here, and 1 of 3 and 2 of 3 in the pilots.
+- **The new case loads the skill, and is at or near the ceiling.** It loaded in 13 of 13 plugin
+  attempts across the five runs. Without the plugin it passed 2 of 3 in the table, 1 of 3 and 2 of
+  3 in the pilots, and 3 of 3 in the last run. `ROADMAP.md` keeps an item for a case the model
+  fails unaided.
 - **The pilots.** The first, one attempt per arm, ran on a grader that passed a review saying
   only that the job "may" loop if a trigger exists; both arms passed and it compares with
   nothing. The grader now fails that. The second ran `main`'s skill text: 2 of 3 with, 1 of 3
@@ -34,6 +35,13 @@ attempts per arm ($5.37).
   the new sentence below: 3 of 3 with, 2 of 3 without. In the pilots the test imported a
   helper file the fixture lacked; the fixture now has it, so the pilots do not compare with
   the six-case run either.
+- **The last run, after two fixture and grader edits from review.** A comment in the fixture's
+  test helper said it applied migrations "triggers included"; those two words are gone. The new
+  case then ran alone: 3 of 3 with the plugin, 3 of 3 loaded, 3 of 3 without, and all six reviews
+  found the trigger. `evals/EVALS.md` takes the case's row from this run. After that run the
+  grader's test clause changed from "enqueues nothing" to "creates no new notification", and now
+  passes a test that allows a repeated idempotent enqueue, as rule 16 does. That only widens what
+  passes and all six attempts had passed, so the case was not run again.
 - **The rule, with no measured improvement.** Rule 16 now says the write back into the
   selection can be indirect, and to read the table's triggers and column defaults before
   judging a sweep. It was written from the one plugin miss. Reviews found the trigger in 5 of
@@ -44,8 +52,8 @@ attempts per arm ($5.37).
   2 of 3 without it, against 0 of 3 and 1 of 3 in earlier entries.
 - **Read:** every attempt's grades in all four runs; the opening of every answer in the first
   pilot; in the later runs, the lines of each new-case answer that mention the trigger or the
-  schema, and the opening of each failing new-case answer. I read no answer to the other five
-  cases.
+  schema, and the opening of each failing new-case answer. In the last run I read only the
+  grades and whether each answer named the trigger. I read no answer to the other five cases.
 
 ## 2026-11-24: `bounded-iteration` gives the overlap rule its own number and says how to tell a starter from a run
 

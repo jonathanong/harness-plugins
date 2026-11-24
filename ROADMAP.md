@@ -51,6 +51,10 @@ Each still gets a loading case and an answer case.
       `review-ci-logs/quiet-log-keeps-errors` in 7 of 9,
       `github-actions-authoring/required-check-is-a-real-job` in 11 of 15, and
       `index-change-rechecks-neighbors` in 19 of 21. Read the misses.
+- [ ] **A `bounded-iteration` case for a sweep that re-selects its own writes, that the model
+      fails unaided.** `review-sweep-whose-trigger-is-elsewhere` loads the skill but passes
+      without it in 8 of 12 attempts (`evals/HISTORY.md`, 2026-11-24). Two write-the-job pilots
+      also passed unaided (2026-11-23).
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
