@@ -4,6 +4,63 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: a `lint-rule-authoring` skill, split from `static-analysis-checklist`
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $17.15 over ten runs:
+$13.06 for runs 1 to 8, made on a pull request that put the rule in
+`static-analysis-checklist` and was closed for this one, and $4.09 for runs 9 and 10.
+
+| Run | What ran, attempts           | Rule text, and where       | Grader | Case, with  | Loaded      | Without | Cost  |
+| --- | ---------------------------- | -------------------------- | ------ | ----------- | ----------- | ------- | ----- |
+| 1   | Review form, two arms, 3     | None                       | Review | 3 of 3      | 1 of 3      | 3 of 3  | $0.78 |
+| 2   | Case, two arms, 3            | None                       | First  | 3 of 3      | 3 of 3      | 3 of 3  | $1.52 |
+| 3   | Checklist's three, plugin, 3 | First wording, checklist   | First  | 3 of 3      | 3 of 3      |         | $1.56 |
+| 4   | Case, two arms, 3            | First wording, checklist   | Second | 0 of 3      | 1 of 3      | 0 of 3  | $2.30 |
+| 5   | Case, plugin, 6              | Second wording, checklist  | Second | 2 of 6      | 5 of 6      |         | $1.75 |
+| 6   | Case, plugin, 6              | Third wording, checklist   | Second | 5 of 6      | 5 of 6      |         | $1.77 |
+| 7   | Checklist's three, plugin, 3 | Third wording, checklist   | Second | 2 of 3      | 2 of 3      |         | $1.99 |
+| 8   | Case, two arms, 3            | Third wording, checklist   | Second | 2 of 3      | 2 of 3      | 0 of 3  | $1.39 |
+| 9   | Case, two arms, 6            | As committed, new skill    | Second | 6 of 6      | 6 of 6      | 0 of 6  | $3.15 |
+| 10  | Checklist's two, plugin, 3   | Checklist description only |        | 3 of 3 each | 3 of 3 each |         | $0.94 |
+
+- **Where it came from.** A reviewing agent reported a review miss: a lint rule found its
+  subject by a direct import, its fixtures only imported it directly, and it reported
+  nothing in a repository that imports the subject from a local module that extends it.
+- **Runs 1 to 3.** With a grader that passed an answer for testing an indirect form and
+  offering an option to list extra modules, unaided answers passed 3 of 3. A reviewer of
+  the pull request pointed out that one such answer accepted an unlisted local import
+  silently. The second grader fails that: with no configuration the rule must report the
+  suite, or report that it could not tell, and a test must pin it. Runs 1 to 3 are not
+  comparable with the rest.
+- **Runs 4 to 8, the rule inside `static-analysis-checklist`.** The first wording did
+  nothing, 0 of 3 in both arms. The second said an untraceable name is unknown, not clean;
+  three answers that loaded the skill still chose silence, citing the request, which says
+  the rule should not fire on other objects called `test`. The third added that the report
+  holds when the rule must stay quiet on other things of the same name. On it, across runs
+  6 to 8, all nine attempts that loaded the skill passed and all three that did not failed.
+  Loading was 9 of 12.
+- **The split.** The owner's view is that `static-analysis-checklist` is for using such
+  tools in a repository, not for writing them. The rule moved to a new skill,
+  `lint-rule-authoring`, stated as three results for a name (the subject, something else,
+  unknown) with a short section on finding the subject by its binding and one on fixtures.
+  The binding section and the table are new text that no run before 9 measured.
+  `static-analysis-checklist` gets no new rule; its description stops naming the writing of
+  a lint rule and points to the new skill.
+- **Run 9.** 6 of 6 with the plugin, the skill loading 6 of 6, against 0 of 6 without, in
+  one run on the committed text. Loading rose from 9 of 12 to 6 of 6 with a description
+  that names the request.
+- **Run 10.** The checklist's two cases passed 3 of 3 and loaded 3 of 3 on its trimmed
+  description. `tracked-files-only` was 1 of 3 in run 7 and 4 of 8 on 2026-11-22; I read
+  the two run-7 failures in full, one had not loaded the skill and the other split the
+  judges, and neither concerned this rule.
+- **Not in the skill:** when an autofix is safe, and what a rule does with a file it cannot
+  parse. Neither has a case.
+- **Read:** every attempt's grades in all ten runs; the lines about the indirect import in
+  each run-1, run-2, and run-4 answer; the tests of one run-3 and one run-6 answer; the
+  opening and closing of the three loaded failing answers in run 5; the two failing run-7
+  `tracked-files-only` reviews in full. I read no run-8, run-9, or run-10 answer beyond its
+  grades.
+
 ## 2026-11-24: `review-ci-logs` loads for a request to say why a job failed
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.50 over six runs.
