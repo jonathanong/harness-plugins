@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Checks the Claude Code and Codex marketplaces against each other, the local plugin, the README,
 // and the repositories they point at. Pass --offline to skip the checks that fetch from GitHub.
-// A fetch that fails with a 5xx, a 429, a network error, or a timeout is retried three times.
+// A fetch that fails for a transient reason is retried.
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -118,6 +118,8 @@ const fetchJson = async (url) => {
     })
     if (result.retry === undefined) return result.value
     reason = result.retry
+    // A retry that succeeds would otherwise leave no trace of how often the host fails.
+    if (attempt < attempts) console.log(`::warning::${reason} (attempt ${attempt}); retrying`)
   }
   throw new Error(`${reason} (after ${attempts} attempts)`)
 }
