@@ -43,6 +43,7 @@ unaided by design.
 | `github-actions-authoring/rejects-polling`                              | Replaces a sleep-and-poll loop with an event trigger.                                                                                            | 1.00  | 3 of 3   | 0.50           |
 | `github-actions-authoring/required-check-is-a-real-job`                 | Builds a combined required check as a fan-in job, not a posted commit status.                                                                    | 0.83  | 3 of 3   | 0.00           |
 | `github-actions-authoring/short-shards-are-merged`                      | Merges one-minute test shards when asked to double them, because most of each shard is setup and queue wait.                                     | 1.00  | 6 of 6   | 0.00           |
+| `github-actions-authoring/working-shards-stay-parallel`                 | Asked to fold 24 parallel shards into 4 jobs that each loop over six, keeps one shard to a job and at least 12 shards.                           | 1.00  | 6 of 6   | 0.00           |
 | `github-ci-operations/backlog-reads-the-log-before-a-rerun`             | With the account at its limit, advises against rerunning a failed job to see whether it is flaky, and reads its log instead.                     | 1.00  | 3 of 3   | 0.00           |
 | `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                         | 1.00  | 3 of 3   | 1.00           |
 | `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.     | 1.00  | 3 of 3   | 0.00           |
@@ -260,6 +261,13 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   merge-queue bullets were edited after the later run and are not re-measured. The skill's other
   five rows are from before the change to its description and concurrency rule; a plugin-only run
   of three attempts on the changed description gave each of them 3 of 3, loaded 3 of 3.
+- **`github-actions-authoring/working-shards-stay-parallel`** takes its plugin score and loading
+  from a plugin-only run of six attempts on 2026-11-24, on the current job-sizing reference and
+  grader. Its "Without plugin" value is from a two-arm run of three attempts the day before, under
+  an earlier grader; all three of those answers wrote the loop, which every version of the grader
+  fails. The skill's other rows are from before the reference changed. A plugin-only run of three
+  attempts on the current reference gave `short-shards-are-merged` 3 of 3, loaded 2 of 3;
+  `required-check-is-a-real-job` 2 of 3, loaded 3 of 3; and the other three 3 of 3, loaded 3 of 3.
 - **`github-actions-authoring/short-shards-are-merged`** is from one two-arm run of six
   attempts on 2026-11-23, on the current description and grader. Across the
   three runs on that description the skill loaded in 13 of 15 plugin attempts.
