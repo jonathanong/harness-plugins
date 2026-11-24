@@ -20,6 +20,9 @@ without.
 - **What the run showed.** I listed the order of the four calls in each answer's code. All six
   plugin answers look up the project before parsing the body. All six unaided answers
   authenticate, parse the body, and only then look up the project.
+- **Grader edited after the run, not re-measured.** It no longer asks for a 404 when the
+  project is missing, only that the handler stops there; the status is a second thing and the
+  prompt does not give one.
 - **No skill change.** The rule had no case; `ROADMAP.md` listed it among the rules added
   without one.
 

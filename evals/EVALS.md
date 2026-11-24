@@ -177,7 +177,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
 - **`http-api-design/invite-handler-resolves-before-it-validates`** is from a two-arm run of six
-  attempts on 2026-11-23. The skill loaded in 6 of 6.
+  attempts on 2026-11-23. The skill loaded in 6 of 6. Its grader dropped a status check after
+  the run and the row was not re-measured.
 - **`native-app-architecture/inbox-ends-on-the-flag`** is from a two-arm run of six attempts on
   2026-11-23. The skill loaded in 6 of 6. Its grader gained one FAIL line after the run and the
   row was not re-measured.
