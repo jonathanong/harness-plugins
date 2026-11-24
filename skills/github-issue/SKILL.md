@@ -32,11 +32,22 @@ When the target repository cannot be written to, read
    instead of filing a second.
 2. Check that the paths and the behavior the issue names are still true on the default branch. An
    issue copied from an older note often describes code that has moved.
-3. Write it so a reader with no other context can act: the problem, the desired outcome, what is
+3. An issue that asks for a fix or a change states a verified problem. Verified means you
+   reproduced it or traced it in the code, and the issue shows the evidence: a failing run, a
+   reproduction, or the file and line that make it reachable. A review note, a hunch, or "this
+   could happen" is not verification. When the problem is not verified, verify it first, or
+   file an investigation issue: say so in the title and the body, list what is unknown, and
+   make the outcome a finding that proves the problem or rules it out. An investigation issue
+   asks for no fix, even a conditional one: no fix steps, and no acceptance test for a fix.
+   The fix gets its own issue once the problem is proven. Do not hand an investigation issue
+   to an implementer as a fix; a fix built for a problem that cannot happen is wasted work
+   and unreachable code. A symptom the reporter saw happen is a verified problem: file it as
+   a bug, and put a guessed cause in the body as a guess.
+4. Write it so a reader with no other context can act: the problem, the desired outcome, what is
    out of scope, the files or areas involved, how to verify it, and links to outside context.
-4. Fetch the live labels and milestones. Apply the ones that match. Omit an optional label rather
+5. Fetch the live labels and milestones. Apply the ones that match. Omit an optional label rather
    than inventing one.
-5. Read the created issue back and check its labels, milestone, and project. Report the URL and
+6. Read the created issue back and check its labels, milestone, and project. Report the URL and
    what was applied. If part of it failed, report that; do not create the issue again.
 
 For a batch, validate every entry before creating any. If creation fails partway, stop and list

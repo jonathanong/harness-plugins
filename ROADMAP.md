@@ -91,6 +91,12 @@ Each still gets a loading case and an answer case.
       flagging an item. `agent-coordination`: read the preferred workers' availability from
       the live source before using a fallback; read the change behind a worker's numbers
       before relaying them as a trade-off.
+- [ ] **A guard needs a reachable race.** Proposed after the same incident as the
+      `github-issue` investigation rule: before adding a guard, a conditional write, or a race
+      test for a concurrency finding, name the two callers and show they can run at the same
+      time, checking what already serializes them. It would narrow `bounded-iteration`'s
+      compare-and-set rule for cursors to sweeps that can have concurrent runs, so it needs
+      the owner's word and a case.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.
