@@ -69,7 +69,8 @@ pnpm run marketplace:check
 
 `marketplace:check` checks that the Claude Code and Codex marketplaces list the same plugins, that
 the README lists every plugin, and that every source resolves to a manifest
-with the plugin's name. It fetches from GitHub; pass `-- --offline` to skip that part. CI also checks
+with the plugin's name. It fetches from GitHub, retrying a 5xx, a 429, a network error, or a timeout three times; pass
+`-- --offline` to skip that part. CI also checks
 every Markdown link and the marketplace URLs with `lychee`, and runs every check daily, since a
 change in another repository can break a source.
 
