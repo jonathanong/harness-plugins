@@ -4,6 +4,44 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `agent-rules` keeps a stated rule in the person's words
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.89 over six runs of
+three attempts.
+
+| Run | What ran           | Skill text      | Prompt | New case, with | Loaded | Without | Cost  |
+| --- | ------------------ | --------------- | ------ | -------------- | ------ | ------- | ----- |
+| 1   | New case, two arms | Before the rule | First  | 3 of 3         | 0 of 3 | 3 of 3  | $0.45 |
+| 2   | New case, two arms | Before the rule | Second | 0 of 3         | 2 of 3 | 0 of 3  | $0.46 |
+| 3   | New case, two arms | First draft     | Second | 3 of 3         | 3 of 3 | 0 of 3  | $0.48 |
+| 4   | All three, plugin  | First draft     | Second | 2 of 3         | 2 of 3 |         | $0.93 |
+| 5   | New case, two arms | As committed    | Second | 3 of 3         | 3 of 3 | 0 of 3  | $0.50 |
+| 6   | All three, plugin  | As committed    | Second | 3 of 3         | 3 of 3 |         | $1.07 |
+
+- **The rule.** The owner's words: "don't paraphrase / interpolate. if you have questions or
+  want elaboration, ask the human". It is the first bullet under "Writing a rule". Its last
+  sentence, the reason, is this repository's wording.
+- **Where it came from.** A person's four-word rule was written into a pull request with
+  sub-clauses they had not said, and relayed onward in a paraphrase.
+- **The first prompt** said the rule was stated "word for word" and asked only to add it.
+  Every answer in both arms added the bare line; the prompt gave the answer away. The
+  second prompt describes the pull request the reviewer rejected, gives the reviewer's whole
+  comment, and asks for a rule "so the other agents don't do this again". Runs 1 and 2 are
+  not comparable.
+- **Runs 2 and 5, unaided.** All six answers kept the reviewer's sentence and added their
+  own, for example "Don't fold parallel jobs or shards into fewer jobs that loop over them,
+  even to save runner minutes. Keep each shard as its own job".
+- **Runs 3 and 4** used my first draft ("write down their words and stop", with three more
+  sentences). The one failing answer in run 4 had not loaded the skill.
+- **Runs 5 and 6** use the owner's wording. All six plugin answers added exactly "Never
+  serialize parallel work." and nothing else. The other two `agent-rules` cases passed 3 of
+  3 in runs 4 and 6.
+- **Not measured:** whether an answer asks the person a question. The grader allows one
+  outside the rule and does not require it.
+- **Read:** every attempt's grades in all six runs and the line each answer added to the
+  section; the openings of the six run-4 answers to the other two cases. I did not read the
+  run-6 answers to those two cases.
+
 ## 2026-11-24: `review-ci-logs` loads for a request to say why a job failed
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.50 over six runs.

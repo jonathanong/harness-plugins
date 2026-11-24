@@ -81,8 +81,8 @@ Each still gets a loading case and an answer case.
       bug; a spec's constraints cover every surface the change affects.
 - [ ] **Candidate rules from a review of one orchestrator's logs on 2026-11-24, each needing a
       case first.** They are a review agent's wording, not the owner's.
-      `agent-rules`: record a person's rule in their exact words and add no sub-rules or scope
-      of your own; keep one current rule per topic and delete what it replaced.
+      `agent-rules`: keep one current rule per topic and delete what it replaced (the other
+      candidate, a stated rule keeps its words, is in the skill with a case).
       `resuming-work`: a scheduled or repeating prompt is as old as the day it was written,
       and every standing copy changes when the instruction does; after a context summary,
       re-read the standing notes before acting on a limit, hold, or approval it states.
