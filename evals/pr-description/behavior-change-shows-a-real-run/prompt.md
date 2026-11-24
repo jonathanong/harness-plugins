@@ -1,5 +1,5 @@
 ---
-description: A description for a change in a command's behavior shows the real input, the exact command that was run, and its real output before and after, not only a summary table or checklist.
+description: A description for a change in a command's behavior shows one real run from a user's point of view, on the realistic scenario and not only on a minimal fixture or in a summary table.
 tags: [pr-description, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
@@ -7,45 +7,44 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 Write the pull request description for this change to our `depcheck` CLI. Notes from my work:
 
-- `depcheck unused` reported a package as unused when it was only imported through a re-export (`export * from "pkg"`). People deleted packages that were in use. Issue #212.
-- The import scanner now follows `export ... from` statements, both `export *` and named re-exports. Type-only re-exports (`export type { X } from "pkg"`) count as a use only with `--include-types`, same as type-only imports today.
+- `depcheck unused` reported a package as unused when it was only imported through a re-export (`export * from "pkg"`). Issue #212: the storefront team ran it before a cleanup, it listed their payments client as unused, they removed it, and checkout broke in staging.
+- The import scanner now follows `export ... from` statements, both `export *` and named re-exports. Type-only re-exports count as a use only with `--include-types`, same as type-only imports today.
 - No change to `depcheck missing` or to the JSON output's shape.
-- I checked it on the fixture `fixtures/reexport/`, which has this `src/index.ts`:
+- Unit fixture I added, `fixtures/reexport/`: `src/index.ts` is `export * from "a";` and `package.json` has `a` and `b`. On `main` `depcheck unused fixtures/reexport` prints `Unused dependencies (2): a, b`; on this branch `Unused dependencies (1): b`.
+- I also ran it on the storefront app from the issue. Its `src/payments/index.ts`:
 
 ```ts
-export * from 'left-pad-lite'
-export { parse } from 'tiny-args'
-export type { Options } from 'opts-types'
+export * from '@shopkit/payments-client'
+export { formatMoney } from '@shopkit/currency'
+export type { Cart } from '@shopkit/cart-types'
 ```
-
-and `left-pad-lite`, `tiny-args`, `opts-types` and `unused-thing` in `package.json`.
 
 On `main`:
 
 ```console
-$ depcheck unused fixtures/reexport
+$ depcheck unused apps/storefront
 Unused dependencies (4):
-  left-pad-lite
-  opts-types
-  tiny-args
-  unused-thing
+  @shopkit/cart-types
+  @shopkit/currency
+  @shopkit/payments-client
+  lodash.debounce
 exit status 1
 ```
 
 On this branch:
 
 ```console
-$ depcheck unused fixtures/reexport
+$ depcheck unused apps/storefront
 Unused dependencies (2):
-  opts-types
-  unused-thing
+  @shopkit/cart-types
+  lodash.debounce
 exit status 1
-$ depcheck unused fixtures/reexport --include-types
+$ depcheck unused apps/storefront --include-types
 Unused dependencies (1):
-  unused-thing
+  lodash.debounce
 exit status 1
 ```
 
-- Added 6 unit tests for the scanner and the fixture above. Tests, lint and typecheck are green.
+- Added 6 unit tests for the scanner. Tests, lint and typecheck are green.
 
-Reply in your message; you don't need to create files.
+Keep it short, reviewers skim. Reply in your message; you don't need to create files.

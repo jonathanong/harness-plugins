@@ -26,19 +26,25 @@ code is this way. Write for both. Build it from the final diff, not from the pla
 
 ## Show one real run
 
-When the change alters what a command, endpoint, or job does, show it working on one realistic
-case: the input, the exact command that was run, and the output as it was printed, before and
-after the change, in code blocks.
+When the change alters what a command, endpoint, screen, or job does, show one real run of it
+from the point of view of a customer or user: what they had, what they did, and what they got
+back, before and after the change.
 
-- The reader should be able to tell from the description alone what the change does on that
-  case. That is how a feature built wrongly is caught before merge: the reviewer sees the real
-  output and it is not what they expected.
-- A table, a checklist, or a sentence such as "now reports 2 instead of 4" summarizes a run and
-  does not replace it. A table may sit beside the run when there are several cases.
+- Take the example from a real scenario: the business case or the report that led to the
+  change, with realistic names and data. Do not use a contrived, narrow example such as a
+  minimal fixture with `foo` and `bar`. That shows a code path ran, not that the feature does
+  what its user needs. Replace anything private.
+- The reader should be able to tell from the description alone how the feature works. That is
+  how a feature built wrongly is caught before merge: the reviewer sees what the user gets and
+  it is not what they expected.
+- Show the inputs and outputs themselves, in code blocks, or in screenshots for an interface.
+  A table, a checklist, or a sentence such as "now reports 2 instead of 4" summarizes a run
+  and does not replace it. A table may sit beside the run when there are several cases.
 - Copy the output; do not retype or tidy it. Cut a long output only with a visible marker, and
   keep the lines that differ.
-- When nothing was run, say so. Do not write output that was not produced.
-- A change with no behavior to run, such as documentation or a dependency bump, has none to show.
+- When the behavior was not run, say so. Do not write output that was not produced.
+- A change with no behavior to run, such as documentation or a dependency bump, has none to
+  show. For a performance change, the measured numbers and their method are the evidence.
 
 ## Before and after tables
 
