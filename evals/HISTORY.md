@@ -20,11 +20,12 @@ runs, three attempts per arm.
   stored in the database has a retention policy: for example, partition the table to drop old
   cursors, or delete a run's cursor when that run is complete." The change from "if we are
   storing cursors in the db, it should have" to a statement is this repository's.
-- **No measured improvement from the sentence.** The skill passed the new case 3 of 3 before
-  the sentence was added, on its existing rule that every durable row has a finite retention
-  window. The case shows the skill against no skill, 6 of 6 against 2 of 6 over the two runs,
-  not the sentence against its absence. The sentence is kept because the skills also have to
-  work on weaker models.
+- **No measured improvement from the sentence.** The skill passed the new case 3 of 3 before the
+  sentence was added, on its existing rule that every durable row has a finite retention window.
+  The case shows the skill against no skill, 6 of 6 against 2 of 6 over the two runs, not the
+  sentence against its absence. The sentence is a clarification with no behaviour claim: it names,
+  in the place a reader designs a cursor table, the mistake of per-run cursor rows that accumulate
+  forever, which four of six unaided answers made.
 - **Case `per-run-cursor-rows-are-removed`.** Asks for a table holding one saved position per
   export run. It passes when finished runs' rows are removed, by a delete on completion or by
   dropping old rows, and fails when a run is only marked finished.

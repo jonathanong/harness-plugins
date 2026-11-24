@@ -175,7 +175,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **Other rows** are from later two-arm runs, three attempts per arm: the edge-claims
   and topology rows after the `http-api-design` change, and five new cases after their graders
   were narrowed in review. The `postgres-locking` rows and
-  `postgres-schema-design/customer-code-key` are from the two-arm run on 2026-11-22 after the
+  `postgres-schema-design/customer-code-key` (an earlier run; its row is now from 2026-11-24) are from the two-arm run on 2026-11-22 after the
   locking rules moved into their own skill, three attempts per arm. The `postgres-locking` "Score"
   and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
 - **The `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
@@ -217,11 +217,13 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
-- **`postgres-schema-design/membership-table-names-its-constraints`** is from the second
-  two-arm run of six attempts on 2026-11-23, after its grader was narrowed to the naming rule
-  and its pattern. The skill loaded in 6 of 6.
-- **`postgres-schema-design/membership-table-is-commented`** is from a two-arm run of six
-  attempts on 2026-11-23. The skill loaded in 6 of 6.
+- **`postgres-schema-design/membership-table-names-its-constraints`** had an earlier run: the
+  second two-arm run of six attempts on 2026-11-23, after its grader was narrowed to the naming
+  rule and its pattern, where it passed 6 of 6 with the skill loaded in 6 of 6. Its row is now
+  from the 2026-11-24 run.
+- **`postgres-schema-design/membership-table-is-commented`** had an earlier run: a two-arm run of
+  six attempts on 2026-11-23, where it passed 6 of 6 with the skill loaded in 6 of 6 against 1 of
+  6 without. Its row is now from the 2026-11-24 run.
 - **`http-api-design/invite-handler-resolves-before-it-validates`** is from a two-arm run of six
   attempts on 2026-11-23. The skill loaded in 6 of 6. Its grader dropped a status check after
   the run and the row was not re-measured.
@@ -351,7 +353,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   and `technical-writing/proposal-for-two-audiences`.
 - **The 10 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
   except rows from a later two-arm run.
-- **`glide-mq/review-retry-from-failed-jobs`, `postgres-schema-design/uuidv7-no-created-at-default`,
+- **`glide-mq/review-retry-from-failed-jobs`, `postgres-schema-design/uuidv7-no-created-at-default`
+  (an earlier run; its row is now from 2026-11-24),
   and the "Without plugin" score of `postgres-node-performance-tuning/index-change-rechecks-neighbors`**
   are from the two-arm run on 2026-11-22 after the second round of generic rules, three attempts
   per arm. The other rows of the skills that round changed were not replaced; HISTORY.md has their
