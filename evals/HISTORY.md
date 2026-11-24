@@ -43,6 +43,9 @@ plugin-only runs of six attempts of `main-runs-are-not-cancelled`: $1.04 and $0.
   lines.
 - **Not re-measured:** the merge-queue bullets, edited after run 2, and the skill's other
   five cases on this text.
+- **One sentence added to the job-sizing reference,** not measured: a `needs` edge from a
+  check to the tests usually suits a fast check, and a slow one usually runs beside the
+  tests. The owner's answer to a review question was "probably, but not absolutely".
 - **Wording after run 2.** The case's description and its grader said runs on `main` are
   "kept"; they now say a run in progress there is left to finish, which is what the
   baseline says. The grader passes and fails the same blocks as before.
