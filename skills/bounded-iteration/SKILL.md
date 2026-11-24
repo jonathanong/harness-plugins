@@ -15,13 +15,16 @@ A run's cost is the rows it reads and the work it starts, not the memory it hold
 feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 
 1. **Choose work, not entities.** Read only rows that need work, through a predicate an index
-   serves: a work-item or dirty-marker row, a parent id, a due timestamp with a partial index, or
-   a time or UUIDv7 window past a high-water mark. Column-to-column comparisons, `OR` of unrelated
+   serves: a work-item or dirty-marker row, a parent id, a due timestamp with a partial index, or a
+   time or UUIDv7 window past a high-water mark. Column-to-column comparisons, `OR` of unrelated
    conditions, and `EXISTS` as the only condition are not filters. (`postgres-required-predicates`)
-   A per-row threshold becomes one bucket per distinct value, comparing the stored fact with a
-   bound, never with another column; `timestamptz + interval` is not immutable, so it cannot be
-   indexed. See [per-row interval](references/sweep-patterns.md#per-row-interval-one-bucket-per-threshold)
-   and [age milestones](references/sweep-patterns.md#age-milestones-from-the-uuidv7-key).
+   Base a sweep on `updated_at` only if the sweep controls all of `updated_at`'s inputs. A trigger
+   sets `updated_at` on any update to the row, so every other writer moves it. A table only for
+   post moderations can be swept by `updated_at`; posts cannot. A per-row threshold becomes one
+   bucket per distinct value, comparing the stored fact with a bound, never with another column;
+   `timestamptz + interval` is not immutable, so it cannot be indexed. See [per-row
+   interval](references/sweep-patterns.md#per-row-interval-one-bucket-per-threshold) and [age
+   milestones](references/sweep-patterns.md#age-milestones-from-the-uuidv7-key).
 2. **Cap every run.** Every loop has a per-run cap (batches, rows, or a deadline), reports whether
    work remains, and resumes from a persisted position. Never loop until empty, and never default
    a cap to infinity.
@@ -95,16 +98,17 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     the next phase after commit. See
     [separate stage jobs](references/sweep-patterns.md#separate-stage-jobs).
 16. **A sweep converges.** It finds its work in database rows, never in a queue's failed jobs
-    ([glide-mq](../glide-mq/SKILL.md)). It never writes a row back into its own selection, such as bumping the
-    `updated_at` it selects by, unless that write is a lease; otherwise each run creates the next
-    run's work and the sweep never ends. A write that takes a row out of the selection, such as
-    setting `processed_at` on rows selected by `processed_at IS NULL`, is the point. A recovery
-    sweep with a fixed staleness cutoff may touch the rows it enqueues, because the touch makes
-    them ineligible until they stall again. Replay only idempotent "ensure" effects: an on-create
-    effect, such as a notification or a charge, repeats on every run. Test it: once no eligible
-    rows remain, another run writes nothing and creates no new job (a repeated idempotent enqueue
-    is not new work). Recurring work that is unconditional by design, such as a scheduled
-    materialized-view refresh, is exempt.
+    ([glide-mq](../glide-mq/SKILL.md)). It never writes a row back into its own selection, such as
+    bumping the `updated_at` it selects by, unless that write is a lease; otherwise each run
+    creates the next run's work and the sweep never ends. Read the table's triggers in the
+    migrations before judging a sweep, and say what they do instead of asking the author to check.
+    A write that takes a row out of the selection, such as setting `processed_at` on rows selected
+    by `processed_at IS NULL`, is the point. A recovery sweep with a fixed staleness cutoff may
+    touch the rows it enqueues, because the touch makes them ineligible until they stall again.
+    Replay only idempotent "ensure" effects: an on-create effect, such as a notification or a
+    charge, repeats on every run. Test it: once no eligible rows remain, another run writes nothing
+    and creates no new job (a repeated idempotent enqueue is not new work). Recurring work that is
+    unconditional by design, such as a scheduled materialized-view refresh, is exempt.
 17. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.

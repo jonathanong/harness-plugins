@@ -4,6 +4,66 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `bounded-iteration` says when a sweep may use `updated_at`, and its trigger case has the trigger to find
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Seven runs, $21.07. The
+table is the last: all six cases in both arms, three attempts per arm, on the committed text
+($5.60).
+
+| Case                                      | With, outcome | Loaded | Without |
+| ----------------------------------------- | ------------- | ------ | ------- |
+| `review-sweep-whose-trigger-is-elsewhere` | 3 of 3        | 3 of 3 | 1 of 3  |
+| `no-new-run-while-one-runs`               | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-asks-to-guard-a-shared-cursor`    | 3 of 3        | 1 of 3 | 0 of 3  |
+| `overlapping-purge-runs-stay-lock-free`   | 2 of 3        | 2 of 3 | 0 of 3  |
+| `review-dispatcher-predicate-and-job-id`  | 3 of 3        | 3 of 3 | 2 of 3  |
+| `review-staged-reconciler`                | 3 of 3        | 3 of 3 | 0 of 3  |
+
+- **The rule, from the owner.** Rule 1 gains: "Base a sweep on `updated_at` only if the sweep
+  controls all of `updated_at`'s inputs. A trigger sets `updated_at` on any update to the row,
+  so every other writer moves it. A table only for post moderations can be swept by
+  `updated_at`; posts cannot." The owner's words were "a sweep can only use updated_at if it
+  controls all of updated_at's inputs", "if updated_at is a trigger, it would trigger on any
+  updates", and the post moderations and posts examples. "So every other writer moves it" is
+  mine, and the owner agreed to the text as a whole.
+- **A second sentence, mine, with no measured improvement.** Rule 16 gains: "Read the table's
+  triggers in the migrations before judging a sweep, and say what they do instead of asking
+  the author to check." It was written from one plugin attempt in the second run below that
+  loaded the skill and never opened the migrations. Across runs 2 and 3 reviews found the
+  trigger 5 of 6 times in each arm, and in every attempt of both arms from run 4 on.
+- **The case.** `review-sweep-rewrites-its-trigger` is removed: it pasted the trigger into
+  the prompt, passed 3 of 3 without the plugin, and loaded the skill 0 of 3 in the previous
+  entry. `review-sweep-whose-trigger-is-elsewhere` asks for a review of a job file in a small
+  synthetic repository; the job sweeps `profiles` by `updated_at`, and the touch trigger is in
+  the first migration. Its grader fails a review that only says the job "may" loop, and one
+  whose only fixes keep selecting `profiles` by `updated_at`. Rows for the old case in earlier
+  entries do not compare with it.
+- **The case separates the arms on the owner's rule.** In the last two runs, the only ones on
+  the final grader, it passed 6 of 6 with the plugin and 2 of 6 without. The unaided failures
+  I read proposed making the trigger skip `search_text` and kept the sweep on `updated_at`.
+- **The seven runs.** (1) One attempt per arm on a grader that passed a hedge; compares with
+  nothing ($0.35). (2) `main`'s text, hedge now failing: 2 of 3 with, 1 of 3 without ($1.36).
+  (3) An earlier, longer form of the rule 16 sentence: 3 of 3, 2 of 3 ($1.42). (4) All six
+  cases after the fixture gained the test helper its test imports: new case 3 of 3, 2 of 3;
+  others 3 of 3 with ($5.37). (5) New case alone after a comment hinting at the trigger left
+  the fixture: 3 of 3 in both arms ($1.37). Up to here a fix that kept the sweep on
+  `updated_at` passed, and the case was at or near the ceiling: 8 of 12 unaided across runs
+  2 to 5. (6) All six on the owner's first wording of the rule ("only if the whole row is just
+  a sweep") and the final grader: new case 3 of 3, 1 of 3 ($5.60). (7) The table.
+- **Review edits to the grader.** Its test clause changed from "enqueues nothing" to "creates
+  no new notification" and passes a test that allows a repeated idempotent enqueue, as rule
+  16 does. That was before run 6.
+- **Loading moved between runs 6 and 7 with the description unchanged.** In run 6
+  `no-new-run-while-one-runs` passed 1 of 3 with the plugin: one attempt did not load the
+  skill, and one loaded it and failed the outcome grader. I read the opening of that answer
+  and did not find why it failed. It passed 3 of 3 in run 7. In run 7 the shared-cursor case
+  loaded the skill 1 of 3 with all three outcomes passing, and the purge case's one failure
+  had not loaded it; both loaded 3 of 3 in run 6.
+- **Read:** every attempt's grades in all seven runs; for the new case, the opening of every
+  answer in run 1, and in later runs the lines about the trigger, the schema, or the fix, and
+  the opening of each failing answer through run 4. For the other cases, the opening of the
+  loaded failure in run 6 and of the purge failure in run 7, and no other answer.
+
 ## 2026-11-24: `bounded-iteration` gives the overlap rule its own number and says how to tell a starter from a run
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. One two-arm run of all
