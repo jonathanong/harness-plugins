@@ -51,10 +51,11 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    **Runs that must not overlap do not start.** Whether runs may overlap depends on what the sweep
    does. When they must not, and nothing needs a run to finish by a deadline, do not start a new
    run while one is active: the job that starts a run first checks the queue for a waiting,
-   delayed, or active job of that sweep other than itself, and does nothing when it finds one. The
-   run stays a chain of capped jobs with its own position. Do not fold it into one long job, move
-   the position into a shared row, or take a lock to keep runs apart. A second run that slips past
-   the check only repeats work.
+   delayed, or active job of a run in progress, and does nothing when it finds one. It does not
+   count itself or another job that is only starting a run, or two starters would each defer to
+   the other and no run would start. The run stays a chain of capped jobs with its own position.
+   Do not fold it into one long job, move the position into a shared row, or take a lock to keep
+   runs apart. A second run that slips past the check only repeats work.
    (`postgres-generated-column-predicates`)
 6. **No unbounded fan-out.** Use `Promise.all` only over a bounded result, with bounded
    concurrency.
