@@ -46,51 +46,55 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    for a position that must commit in the same transaction as domain rows. It follows
    [table shapes](../postgres-schema-design/references/table-shapes.md) and advances with a
    compare-and-set on the value the batch started from, never an unconditional write, so an
-   overlapping or stale run cannot move it backward. Asked to guard a shared cursor that does
-   not need to be shared, move the position into the job's data instead of adding the guard.
-   **Runs that must not overlap do not start.** Whether runs may overlap depends on what the sweep
-   does. When they must not, and nothing needs a run to finish by a deadline, do not start a new
-   run while one is active: the job that starts a run first checks the queue for a waiting,
-   delayed, or active job of a run in progress, and does nothing when it finds one. It does not
-   count itself or another job that is only starting a run, or two starters would each defer to
-   the other and no run would start. The run stays a chain of capped jobs with its own position.
-   Do not fold it into one long job, move the position into a shared row, or take a lock to keep
-   runs apart. A second run that slips past the check only repeats work.
+   overlapping or stale run cannot move it backward. Asked to guard a shared cursor that does not
+   need to be shared, move the position into the job's data instead of adding the guard: that
+   removes the race, and a guard only survives it.
    (`postgres-generated-column-predicates`)
-6. **No unbounded fan-out.** Use `Promise.all` only over a bounded result, with bounded
+6. **Runs that must not overlap do not start.** Whether runs may overlap depends on what the sweep
+   does: overlapping runs of an idempotent sweep only repeat work, but runs that together overload
+   the database or an upstream must be kept apart. When they must not overlap, and nothing needs a
+   run to finish by a deadline, do not start a new run while one is active: the job that starts a
+   run first checks the queue for a waiting, delayed, or active job of a run in progress, and does
+   nothing when it finds one. Give the starter its own job name, or mark the jobs that continue a
+   run, so the check can tell them apart. It does not count itself or another starter, or two
+   starters would each defer to the other and no run would start. The run stays a chain of capped
+   jobs with its own position. Do not fold it into one long job, move the position into a shared
+   row, or take a lock to keep runs apart. A second run that slips past the check only repeats
+   work.
+7. **No unbounded fan-out.** Use `Promise.all` only over a bounded result, with bounded
    concurrency.
-7. **Tunables are runtime configuration.** Batch sizes, page sizes, caps, and windows come from the
+8. **Tunables are runtime configuration.** Batch sizes, page sizes, caps, and windows come from the
    consumer's runtime configuration with a validated default and a hard maximum, and are bound as
    SQL parameters. `LIMIT 1` and an external API's page maximum are contracts, not tunables.
-8. **One dispatcher per signal.** Split an `OR` of unrelated reasons into one dispatcher per
+9. **One dispatcher per signal.** Split an `OR` of unrelated reasons into one dispatcher per
    reason, each with its own index-served predicate, position, and schedule, all enqueuing the same
    idempotent job. Writes that cause a signal enqueue directly; the sweep is the backstop. See
    [one dispatcher per signal](references/sweep-patterns.md#one-dispatcher-per-signal).
-9. **Deduplicate jobs by entity and triggering event.** A job id keyed only by the entity drops a
-   new trigger while the last job runs or is retained. Key it by entity and event; dedup lasts
-   only while the record is retained, and a failed retained job still claims its id. See
-   [queue job ids](references/sweep-patterns.md#queue-job-ids-for-deduplication).
-10. **Repair through an existing reconciler.** Repeat a fire-and-forget side effect (cache fill,
+10. **Deduplicate jobs by entity and triggering event.** A job id keyed only by the entity drops a
+    new trigger while the last job runs or is retained. Key it by entity and event; dedup lasts
+    only while the record is retained, and a failed retained job still claims its id. See
+    [queue job ids](references/sweep-patterns.md#queue-job-ids-for-deduplication).
+11. **Repair through an existing reconciler.** Repeat a fire-and-forget side effect (cache fill,
     filter add, enqueue) idempotently from the reconciler that already sweeps recently changed
     rows. Do not add a sweeper. See
     [repair](references/sweep-patterns.md#repair-through-an-existing-reconciler).
-11. **Membership filters are never rebuilt on a schedule.** Add on write, rebuild in full only on
+12. **Membership filters are never rebuilt on a schedule.** Add on write, rebuild in full only on
     an operator action or a detected failure, and stop trusting the filter after a failed add.
     Deleted keys and growth only cost false positives. See
     [membership filters](references/sweep-patterns.md#membership-filters).
-12. **Global rankings stay one periodic aggregate.** A result over every row needs every score;
+13. **Global rankings stay one periodic aggregate.** A result over every row needs every score;
     incremental per-row inputs move the cost to every write without freshening the ranking. Give
     the pass an EXPLAIN budget. See [global ranking](references/sweep-patterns.md#global-ranking).
-13. **External listings carry the provider's continuation token.** Cap pages per run and enqueue a
+14. **External listings carry the provider's continuation token.** Cap pages per run and enqueue a
     continuation with the token; restarting at page one lets failing front items starve the rest.
     See [external listing](references/sweep-patterns.md#external-listing-with-a-continuation-token).
-14. **Each stage is its own job.** A reconciler with several sweeps, stages, or phases enqueues one
+15. **Each stage is its own job.** A reconciler with several sweeps, stages, or phases enqueues one
     job per stage, with its own name, cursor in job data, cap, retry, and failure. Stages share no
     mutable budget, tally, error list, or cursor map; the queue's lane and concurrency bound the
     total load. Independent stages read committed state and do not chain. Ordered phases enqueue
     the next phase after commit. See
     [separate stage jobs](references/sweep-patterns.md#separate-stage-jobs).
-15. **A sweep converges.** It finds its work in database rows, never in a queue's failed jobs
+16. **A sweep converges.** It finds its work in database rows, never in a queue's failed jobs
     ([glide-mq](../glide-mq/SKILL.md)). It never writes a row back into its own selection, such as bumping the
     `updated_at` it selects by, unless that write is a lease; otherwise each run creates the next
     run's work and the sweep never ends. A write that takes a row out of the selection, such as
@@ -101,7 +105,7 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     rows remain, another run writes nothing and creates no new job (a repeated idempotent enqueue
     is not new work). Recurring work that is unconditional by design, such as a scheduled
     materialized-view refresh, is exempt.
-16. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
+17. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
 
