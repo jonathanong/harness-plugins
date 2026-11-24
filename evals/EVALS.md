@@ -15,11 +15,12 @@ unaided by design.
 | `agent-rules/stated-rule-keeps-its-words`                               | Asked to write down a rule a person stated, records it in their words, without added sub-rules, examples, or scope.                                                                                                                      | 1.00  | 3 of 3   | 0.00           |
 | `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                                                                                                                    | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/no-new-run-while-one-runs`                           | Stops a no-deadline sweep's passes piling up by checking the queue before starting a pass, keeping the chain of capped jobs and its own position.                                                                                        | 1.00  | 3 of 3   | 0.00           |
-| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                                                                              | 0.67  | 2 of 3   | 0.00           |
-| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                                                                                      | 0.67  | 1 of 3   | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                                                                                   | 1.00  | 3 of 3   | 0.67           |
+| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                                                                              | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/recovery-sweep-marks-its-own-column`                 | Writes a job that re-enqueues stuck exports on a table users also edit; finds and marks them by columns the export pipeline owns, never `updated_at`.                                                                                    | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                                                                                      | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                                                                                   | 1.00  | 3 of 3   | 0.33           |
 | `bounded-iteration/review-staged-reconciler`                            | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                                                                                                                                 | 1.00  | 3 of 3   | 0.00           |
-| `bounded-iteration/review-sweep-whose-trigger-is-elsewhere`             | Reviews a reindex sweep of profiles by `updated_at` in a repository where a trigger in the first migration bumps it; finds the trigger, takes the sweep off `updated_at`, and asks for an idempotent notification and a second-run test. | 1.00  | 3 of 3   | 0.33           |
+| `bounded-iteration/review-sweep-whose-trigger-is-elsewhere`             | Reviews a reindex sweep of profiles by `updated_at` in a repository where a trigger in the first migration bumps it; finds the trigger, takes the sweep off `updated_at`, and asks for an idempotent notification and a second-run test. | 1.00  | 3 of 3   | 0.00           |
 | `debugging/crash-fixed-at-cause-with-a-test`                            | Fixes a crashing report at the lookup that misses, not with a default value, and adds a test that fails without the fix.                                                                                                                 | 0.89  | 2 of 3   | 1.00           |
 | `debugging/flaky-test-not-fixed-with-retry`                             | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                                                                                                                                     | 0.67  | 4 of 12  | 1.00           |
 | `dependabot/groups-by-family`                                           | Groups updates by vendor or package family with a cooldown, not by version type, dependency type, or a catch-all.                                                                                                                        | 1.00  | 3 of 3   | 0.33           |
@@ -107,9 +108,9 @@ unaided by design.
 | `postgres-partitioning-uuid-v7/range-not-hash`                          | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                                                                                                                                    | 1.00  | 3 of 3   | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`                | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                                                                                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `postgres-schema-design/customer-code-key`                              | References a generated id from other tables, not the customer's text code. Ceiling case.                                                                                                                                                 | 1.00  | 3 of 3   | 1.00           |
-| `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database. Ceiling case.                                                                                                                                                         | 1.00  | 3 of 3   | 1.00           |
+| `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database.                                                                                                                                                                       | 1.00  | 3 of 3   | 0.33           |
 | `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, with the `pk_`, `fk_`, `uq_`, and `ck_` prefixes.                                                                                                                       | 1.00  | 3 of 3   | 0.00           |
-| `postgres-schema-design/per-run-cursor-rows-are-removed`                | Gives a table of one saved position per run a way to remove finished runs' rows: delete on completion, or drop old rows.                                                                                                                 | 1.00  | 3 of 3   | 0.33           |
+| `postgres-schema-design/per-run-cursor-rows-are-removed`                | Gives a table of one saved position per run a way to remove finished runs' rows: delete on completion, or drop old rows. Ceiling case.                                                                                                   | 1.00  | 3 of 3   | 1.00           |
 | `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                                                                                                                  | 1.00  | 3 of 3   | 0.67           |
 | `pr-description/behavior-change-shows-a-real-run`                       | Shows one real run of a changed command from a user's point of view, on the realistic scenario, not only a minimal fixture or a summary table.                                                                                           | 1.00  | 3 of 3   | 0.33           |
 | `pr-description/ci-gap-section`                                         | Adds a short section on what CI caught that the local check missed, without work history.                                                                                                                                                | 1.00  | 3 of 3   | 0.00           |
@@ -281,14 +282,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   plugin" from a two-arm run of three attempts the same day on the same text. The other two
   `agent-rules` cases passed and loaded 3 of 3 in that plugin-only run, as in their rows.
 - **The five `postgres-schema-design` rows** are from one two-arm run of three attempts per arm on
-  2026-11-24, after the cursor section of its table-shapes reference gained the retention
-  sentence. The skill loaded 15 of 15. Other notes that name these rows describe earlier runs;
-  before this run they stood at: `customer-code-key` 3 of 3 with, 1.00 without;
-  `membership-table-is-commented` 6 of 6 with, 0.17 without;
-  `membership-table-names-its-constraints` 6 of 6 with, 0.00 without;
-  `uuidv7-no-created-at-default` 3 of 3 with, 0.00 without. `per-run-cursor-rows-are-removed` was
-  rerun the same day after the sentence was scoped to per-run cursors, with the same result; the
-  other four rows were not rerun on that wording.
+  2026-11-24, after its table-shapes reference said when events are per-column timestamps and when
+  a history table. No case tests that sentence. Without the plugin,
+  `per-run-cursor-rows-are-removed` passed 3 of 3 (1 of 3 earlier that day) and
+  `membership-table-is-commented` 1 of 3 (3 of 3 earlier that day), so their ceiling marks
+  swapped; three attempts do not settle either.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
@@ -338,15 +336,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
   eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
   passed 1 of 8. "Without plugin" is from the earlier two-arm run.
-- **The six `bounded-iteration` rows** are from one two-arm run of three attempts per arm on
-  2026-11-24, on the text that says a sweep uses `updated_at` only when it controls its inputs,
-  with `review-sweep-whose-trigger-is-elsewhere` in place of `review-sweep-rewrites-its-trigger`.
-  The skill loaded in 15 of 18 attempts. `review-asks-to-guard-a-shared-cursor` reads 1 of 3
-  because two attempts did not load the skill; all three answers passed the outcome grader. The
-  purge case's one failure also had not loaded it. The "Without plugin" column has no loading
-  grader, so the two columns of those rows are not graded on the same set. The run before it, the
-  same day on an earlier wording, had those two cases at 3 of 3 and `no-new-run-while-one-runs` at
-  1 of 3.
+- **The seven `bounded-iteration` rows** are from one two-arm run of three attempts per arm on
+  2026-11-24, on the text that tells a recovery sweep to use columns of its own. The skill loaded
+  in 21 of 21 attempts. The run before it, the same day and without the recovery case, had the
+  shared-cursor case at 1 of 3 and the purge case at 2 of 3 from loading alone.
 - **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
   from that run and is not updated as rows are replaced; a later loading miss is in the note for
   its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then

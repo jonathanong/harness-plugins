@@ -4,6 +4,62 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `bounded-iteration` gives a recovery sweep columns of its own
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. Four runs, $12.86. The
+first table is the third run: all seven `bounded-iteration` cases, both arms, three attempts
+per arm, on the committed text ($6.33).
+
+| Case                                      | With, outcome | Loaded | Without |
+| ----------------------------------------- | ------------- | ------ | ------- |
+| `recovery-sweep-marks-its-own-column`     | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-sweep-whose-trigger-is-elsewhere` | 3 of 3        | 3 of 3 | 0 of 3  |
+| `no-new-run-while-one-runs`               | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-asks-to-guard-a-shared-cursor`    | 3 of 3        | 3 of 3 | 0 of 3  |
+| `overlapping-purge-runs-stay-lock-free`   | 3 of 3        | 3 of 3 | 0 of 3  |
+| `review-dispatcher-predicate-and-job-id`  | 3 of 3        | 3 of 3 | 1 of 3  |
+| `review-staged-reconciler`                | 3 of 3        | 3 of 3 | 0 of 3  |
+
+- **Why.** Rule 16 said a recovery sweep "may touch the rows it enqueues". The review of the
+  previous `bounded-iteration` entry noted that this allowed a touch of `updated_at` on a table
+  other code writes, which rule 1 now forbids. The owner chose columns of the sweep's own,
+  and connected it to: "events should either be in a history table or per-column fields (e.g.
+  enqueued_at/completed_at)".
+- **The rule.** That sentence of rule 16 is replaced by: "A recovery sweep finds stalled rows
+  by a column the worker writes, such as a heartbeat, and marks the rows it enqueues in a
+  column of its own. Neither is `updated_at`, to read or to touch: an event is a per-column
+  field, such as `enqueued_at` or `completed_at`, or a row in a history table. The mark makes
+  the row ineligible until it stalls again, and no other writer can hide a stalled row." The
+  wording is mine, on the owner's direction; the owner saw an earlier draft and the direction
+  and answered "that direction sg".
+- **The case.** `recovery-sweep-marks-its-own-column` asks for a job that re-enqueues exports
+  that have not moved for 15 minutes. The table has a title, a sharing list, and `updated_at`.
+  It passes when the job finds and marks stuck exports by columns the export pipeline owns.
+- **The four runs.** (1) The case alone, with schema comments saying users rename exports and
+  the touch trigger shown: 3 of 3 in both arms, a ceiling ($1.90). (2) Hints removed, first
+  draft of the rule, which named only the mark: 1 of 3 with, 0 of 3 without. Both plugin
+  misses marked rows in their own column and still found stuck exports by `updated_at`
+  ($0.81). (3) The rule as above, which names finding as well: the first table. All three
+  unaided answers found stuck exports by `updated_at`. (4) `postgres-schema-design`, below.
+- **A sentence in `postgres-schema-design`, from the owner, with no case.** Its table-shapes
+  reference gains: "Per-column timestamps fit a flow that is unidirectional or limited, such
+  as start, success, and fail. When there are a lot of scenarios, such as post statuses, the
+  events belong in a history table." The owner's words were "per-column makes more sense when
+  the flow is unidirectional/limited (e.g. start/success/fail). if tehre are a lot of
+  scenarios, it belongs in a history table (e.g. post statuses)". Its five cases, both arms,
+  three attempts per arm ($3.82), all passed 3 of 3 with the plugin and loaded 3 of 3:
+
+  | Case                                     | With   | Without |
+  | ---------------------------------------- | ------ | ------- |
+  | `customer-code-key`                      | 3 of 3 | 3 of 3  |
+  | `membership-table-is-commented`          | 3 of 3 | 1 of 3  |
+  | `membership-table-names-its-constraints` | 3 of 3 | 0 of 3  |
+  | `per-run-cursor-rows-are-removed`        | 3 of 3 | 3 of 3  |
+  | `uuidv7-no-created-at-default`           | 3 of 3 | 2 of 3  |
+
+- **Read:** every attempt's grades in all four runs; the opening of every recovery-case
+  answer in runs 1 and 2, and of the three unaided ones in run 3. I read no other answer.
+
 ## 2026-11-24: two notes on the records, no run
 
 No run. No case, grader, fixture, or skill changed.

@@ -4,8 +4,10 @@ Choose a shape by lifecycle and meaning. Do not store hand-synchronized status b
 timestamps. A final lifecycle derives enum status with an immutable generated expression over
 timestamps such as `claimed_at`, `completed_at`, and `failed_at`. A time-based expiry needs an
 explicit sweeper-written timestamp; `now()` cannot appear in an immutable generated expression.
-When state keeps returning to earlier states, record append-only attempts or changes and derive
-current state from the latest row rather than erasing the previous lifecycle.
+Per-column timestamps fit a flow that is unidirectional or limited, such as start, success, and
+fail. When there are a lot of scenarios, such as post statuses, the events belong in a history
+table. When state keeps returning to earlier states, record append-only attempts or changes and
+derive current state from the latest row rather than erasing the previous lifecycle.
 
 | Concept                    | Shape                                                                                                                                                                                                     |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
