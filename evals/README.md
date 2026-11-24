@@ -29,7 +29,7 @@ averaged over attempts.
 | ---------------------------------- | ----- | ----------- | -------------- | --------------------- |
 | `agent-coordination`               | 1     | 0.50        | 1.00           | 1                     |
 | `agent-rules`                      | 3     | 1.00        | 0.33           | 1                     |
-| `agent-workflow`                   | 1     | 1.00        | 0.00           | 0                     |
+| `agent-workflow`                   | 1     | 0.17        | 0.00           | 0                     |
 | `bounded-iteration`                | 7     | 0.93        | 0.14           | 1                     |
 | `debugging`                        | 2     | 0.78        | 1.00           | 2                     |
 | `dependabot`                       | 4     | 1.00        | 0.50           | 1                     |

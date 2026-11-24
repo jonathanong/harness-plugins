@@ -91,6 +91,9 @@ Each still gets a loading case and an answer case.
 - [ ] **A sweep that must not overlap and has a deadline.** `bounded-iteration` says what to do
       when nothing needs a run to finish by a set time. The owner has not said what to do when
       something does.
+- [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
+      loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
+      with the description unchanged. Find which part of the request no longer matches it.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.

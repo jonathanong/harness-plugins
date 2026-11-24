@@ -6,8 +6,9 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `agent-workflow` verifies a finding before presenting or fixing it
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Six runs, $3.88. Each row
-is from a two-arm run of three attempts per arm on the committed skill text.
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Seven runs, $4.67. Each
+row is from a two-arm run of three attempts per arm on the skill text of this commit; formatting
+ran after the runs.
 
 | Case                                                  | With, outcome | Loaded | Without |
 | ----------------------------------------------------- | ------------- | ------ | ------- |
@@ -15,6 +16,7 @@ is from a two-arm run of three attempts per arm on the committed skill text.
 | `github-issue/unverified-finding-is-an-investigation` | 3 of 3        | 3 of 3 | 0 of 3  |
 | `postgres-locking/race-finding-on-unwritten-row`      | 3 of 3        | 3 of 3 | 0 of 3  |
 | `pull-requests/review-round-dispositions`             | 3 of 3        | 3 of 3 | 2 of 3  |
+| `agent-workflow/status-note-asks-only-what-it-must`   | 1 of 3        | 0 of 3 | 0 of 3  |
 
 - **Why.** The owner asked for a rule that a finding from a reviewer, a bot, a note, or the
   agent's own review is verified before it is presented or fixed: reproduced, traced in the code,
@@ -37,6 +39,14 @@ is from a two-arm run of three attempts per arm on the committed skill text.
   rule helps.
 - **The neighbours.** (4)-(6) The three cases whose rule text changed held, as in the table
   ($0.60, $0.64, $1.23).
+- **The pointer was not followed.** In none of the nine plugin attempts of runs 3, 5 and 6 did
+  the agent read `agent-workflow`; each loaded only `postgres-locking` or `pull-requests` and
+  passed on that skill's local instruction. That is why each neighbour keeps one.
+- **The owning skill's case.** (7) `status-note-asks-only-what-it-must` loaded `agent-workflow`
+  in 0 of 3 attempts, so no answer read the changed text; its outcome passed 1 of 3, and 0 of 3
+  unaided ($0.79). Its row recorded 3 of 3 and loaded 3 of 3 on 2026-11-22, and an entry on
+  2026-11-23 had loading at 1 of 3 with the description unchanged. The description did not
+  change here either.
 - **Not measured.** No case tests the half of the rule for a finding that cannot be verified,
   which is reported as unverified with no fix.
 

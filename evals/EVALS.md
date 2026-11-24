@@ -13,7 +13,7 @@ unaided by design.
 | `agent-rules/path-scoped-rules`                                         | Scopes rules with a nested `AGENTS.md`, not `.claude/rules/`, so every agent sees them.                                                                                                                                                  | 1.00  | 3 of 3   | 1.00           |
 | `agent-rules/root-agents-md-placement`                                  | Moves a release procedure out of the root `AGENTS.md` and drops a file listing the code shows.                                                                                                                                           | 1.00  | 3 of 3   | 0.00           |
 | `agent-rules/stated-rule-keeps-its-words`                               | Asked to write down a rule a person stated, records it in their words, without added sub-rules, examples, or scope.                                                                                                                      | 1.00  | 3 of 3   | 0.00           |
-| `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                                                                                                                    | 1.00  | 3 of 3   | 0.00           |
+| `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                                                                                                                    | 0.17  | 0 of 3   | 0.00           |
 | `bounded-iteration/no-new-run-while-one-runs`                           | Stops a no-deadline sweep's passes piling up by checking the queue before starting a pass, keeping the chain of capped jobs and its own position.                                                                                        | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                                                                              | 1.00  | 3 of 3   | 0.00           |
 | `bounded-iteration/recovery-sweep-marks-its-own-column`                 | Writes a job that re-enqueues stuck exports on a table users also edit; finds and marks them by columns the export pipeline owns, never `updated_at`.                                                                                    | 0.83  | 2 of 3   | 0.00           |
@@ -179,11 +179,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `http-api-design` description named edge workers. Four of its cases were dropped afterwards.
 - **Other rows** are from later two-arm runs, three attempts per arm: the edge-claims
   and topology rows after the `http-api-design` change, and five new cases after their graders
-  were narrowed in review. The `postgres-locking` rows and
+  were narrowed in review. The other `postgres-locking` rows and
   `postgres-schema-design/customer-code-key` (an earlier run; its row is now from 2026-11-24) are from the two-arm run on 2026-11-22 after the
   locking rules moved into their own skill, three attempts per arm. The `postgres-locking` "Score"
   and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
-- **The `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
+- **The other `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
   review answering moved to `pull-requests`, three attempts per arm.
 - **`react-app-structure/load-more-follows-the-flag`** is from two two-arm runs of three attempts
   per arm on 2026-11-22, six attempts per arm, after its `empty-state` grader was tightened. The
@@ -281,9 +281,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   other two rows keep "Without plugin" values from earlier two-arm runs.
 - **`postgres-locking/race-finding-that-cannot-happen`,
   `postgres-locking/race-finding-on-unwritten-row`, and
-  `pull-requests/review-round-dispositions`** are each from a two-arm run of three attempts on
-  2026-11-24, after `agent-workflow` gained "Verify a finding"; see that entry in
-  [HISTORY.md](HISTORY.md).
+  `pull-requests/review-round-dispositions`, and `agent-workflow/status-note-asks-only-what-it-must`**
+  are each from a two-arm run of three attempts on 2026-11-24, after `agent-workflow` gained
+  "Verify a finding"; see that entry in [HISTORY.md](HISTORY.md). The other `postgres-locking`
+  and `pull-requests` rows were not rerun; the rule text they test did not change.
 - **`agent-rules/stated-rule-keeps-its-words`** takes its plugin score from a plugin-only run of
   all three `agent-rules` cases on 2026-11-24, three attempts, loading 3 of 3, and "Without
   plugin" from a two-arm run of three attempts the same day on the same text. The other two
