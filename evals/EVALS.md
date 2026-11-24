@@ -37,13 +37,15 @@ unaided by design.
 | `git-commit-checklist/generated-file-conflict-on-rebase`                | Reruns the generator on a conflicted generated API client and gives no hand-merged block to paste.                                               | 1.00  | 3 of 3   | 1.00           |
 | `git-commit-checklist/lockfile-conflict-on-rebase`                      | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                                          | 0.83  | 2 of 3   | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                           | Stages the files of the fix by name and leaves unrelated and generated changes out.                                                              | 1.00  | 3 of 3   | 0.33           |
-| `github-actions-authoring/main-runs-are-not-cancelled`                  | Asked to make pushes to main cancel the older run, cancels superseded runs on pull requests only and lets a run in progress on main finish.      | 0.50  | 3 of 6   | 0.00           |
+| `github-actions-authoring/independent-jobs-are-not-chained`             | Asked to chain four independent jobs in series to save runner minutes, keeps the jobs that do not depend on each other in parallel.              | 1.00  | 3 of 3   | 0.00           |
+| `github-actions-authoring/main-runs-are-not-cancelled`                  | Asked to make pushes to main cancel the older run, cancels superseded runs on pull requests only and lets a run in progress on main finish.      | 1.00  | 3 of 3   | 0.00           |
 | `github-actions-authoring/no-actions-write-with-checked-out-code`       | Keeps `actions: write` out of any job that runs checked-out code.                                                                                | 1.00  | 3 of 3   | 1.00           |
 | `github-actions-authoring/publish-gated-on-ci`                          | Gates a publish on CI with `needs` or `workflow_run`, not a status lookup.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `github-actions-authoring/rejects-polling`                              | Replaces a sleep-and-poll loop with an event trigger.                                                                                            | 1.00  | 3 of 3   | 0.50           |
-| `github-actions-authoring/required-check-is-a-real-job`                 | Builds a combined required check as a fan-in job, not a posted commit status.                                                                    | 0.83  | 3 of 3   | 0.00           |
-| `github-actions-authoring/short-shards-are-merged`                      | Merges one-minute test shards when asked to double them, because most of each shard is setup and queue wait.                                     | 1.00  | 6 of 6   | 0.00           |
-| `github-actions-authoring/working-shards-stay-parallel`                 | Asked to fold 24 parallel shards into 4 jobs that each loop over six, keeps one shard to a job and at least 12 shards.                           | 1.00  | 6 of 6   | 0.00           |
+| `github-actions-authoring/required-check-is-a-real-job`                 | Builds a combined required check as a fan-in job, not a posted commit status.                                                                    | 1.00  | 3 of 3   | 0.00           |
+| `github-actions-authoring/short-shards-are-merged`                      | Merges one-minute test shards when asked to double them, because most of each shard is setup and queue wait.                                     | 0.67  | 1 of 3   | 0.00           |
+| `github-actions-authoring/uploads-are-not-one-job-each`                 | Asked for a matrix with one job per package to upload 40 small coverage files, uploads them from one job or a few.                               | 1.00  | 3 of 3   | 0.00           |
+| `github-actions-authoring/working-shards-stay-parallel`                 | Asked to fold 24 parallel shards into 4 jobs that each loop over six, keeps one shard to a job and at least 12 shards.                           | 0.67  | 2 of 3   | 0.00           |
 | `github-ci-operations/backlog-reads-the-log-before-a-rerun`             | With the account at its limit, advises against rerunning a failed job to see whether it is flaky, and reads its log instead.                     | 1.00  | 3 of 3   | 0.00           |
 | `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                         | 1.00  | 3 of 3   | 1.00           |
 | `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.     | 1.00  | 3 of 3   | 0.00           |
@@ -253,26 +255,21 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
-- **`github-actions-authoring/main-runs-are-not-cancelled`** takes its plugin score and loading
-  from the later of two plugin-only runs of six attempts on 2026-11-24, on the current rule, and
-  its "Without plugin" value from a two-arm run of three attempts on 2026-11-23. The earlier run
-  that day, before the rule's reason was reworded, gave 5 of 6, loaded 5 of 6. In both, every
-  answer that loaded the skill passed and every answer that did not failed. The baseline's
-  merge-queue bullets were edited after the later run and are not re-measured. No run covers the
-  skill as it now stands, with this change to its description and concurrency rule together with
-  the job-sizing rewrite and its `needs` sentence: the other six rows were last measured on one or
-  the other, as this note's neighbour and HISTORY say.
-- **`github-actions-authoring/working-shards-stay-parallel`** takes its plugin score and loading
-  from a plugin-only run of six attempts on 2026-11-24, on the current job-sizing reference and
-  grader. Its "Without plugin" value is from a two-arm run of three attempts the day before, under
-  an earlier grader; all three of those answers wrote the loop, which every version of the grader
-  fails. The skill's other rows are from before the reference changed. A plugin-only run of three
-  attempts on the current reference gave `short-shards-are-merged` 3 of 3, loaded 2 of 3;
-  `required-check-is-a-real-job` 2 of 3, loaded 3 of 3; and the other three 3 of 3, loaded 3 of 3.
-- **`github-actions-authoring/short-shards-are-merged`** is from one two-arm run of six
-  attempts on 2026-11-23, on the current description and grader. Across the
-  three runs on that description the skill loaded in 13 of 15 plugin attempts.
-  **`github-ci-operations/backlog-reads-the-log-before-a-rerun`** is from a two-arm run of
+- **The nine `github-actions-authoring` rows** take their plugin score and loading from one
+  plugin-only run of three attempts of all nine cases on 2026-11-24, on the current skill text. In
+  it every answer that loaded the skill passed its outcome grader; `short-shards-are-merged`
+  loaded the skill 1 of 3 and passed 3 of 3, and the one `working-shards-stay-parallel` answer
+  that did not load it failed. Each "Without plugin" value is from an earlier two-arm run of that
+  case: of three attempts on 2026-11-24 for `independent-jobs-are-not-chained` and
+  `uploads-are-not-one-job-each`, before the skill changed; of three attempts on 2026-11-23 for
+  `main-runs-are-not-cancelled` and, under an earlier grader, `working-shards-stay-parallel`; of
+  six attempts on 2026-11-23 for `short-shards-are-merged`. Earlier runs with more attempts are in
+  HISTORY and are on earlier text: `main-runs-are-not-cancelled` 3 of 6 and 5 of 6,
+  `working-shards-stay-parallel` 6 of 6. The two new cases each had a plugin-only run of six
+  attempts on an intermediate text, with one of the two edits or before the description changed,
+  not on the committed text; each gave 5 of 6, loaded 5 of 6. The grader of
+  `independent-jobs-are-not-chained` was tightened after the run, not re-measured.
+- **`github-ci-operations/backlog-reads-the-log-before-a-rerun`** is from a two-arm run of
   three attempts on 2026-11-23; its grader gained a line after the run, not re-measured.
   **`github-ci-operations/queue-under-the-limit-cancels-nothing`** is from a two-arm run of
   three attempts on 2026-11-23, on the merged skill; its grader was tightened after the run,
@@ -280,10 +277,6 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   **`github-ci-operations/macos-queue-is-not-a-plan-problem`** is from a two-arm run of three
   attempts the same day; the skill's backlog steps moved to a reference and its measuring and
   backlog rules were edited after it, not re-measured.
-- **The other four `github-actions-authoring` rows** are from a plugin-only run of three
-  attempts on 2026-11-23, on the description that names jobs, matrix, and shards. Each
-  "Without plugin" value is from an earlier two-arm run. `required-check-is-a-real-job` loaded
-  the skill in 6 of 9 across two earlier runs on the old description.
 - **The `debugging`, `verification`, and `agent-coordination` rows** are from plugin-only runs of
   twelve attempts on 2026-11-22. All three are ceiling cases: every answer passed, with and
   without the plugin, and the rows are below 1.00 only because "Passed" counts the attempts that

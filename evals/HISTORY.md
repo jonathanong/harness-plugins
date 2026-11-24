@@ -4,6 +4,62 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-actions-authoring` answers a request by name for a chain or a job per upload
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $9.72 over six runs.
+
+| Run | What ran                                             | Skill text                        | Cost  |
+| --- | ---------------------------------------------------- | --------------------------------- | ----- |
+| 1   | All seven cases, plugin only, 3 attempts             | `main` at 500f388                 | $3.10 |
+| 2   | `independent-jobs-are-not-chained`, two arms, 3 each | `main` at 500f388                 | $0.67 |
+| 3   | `uploads-are-not-one-job-each`, two arms, 3 each     | `main` at 500f388                 | $0.68 |
+| 4   | `independent-jobs-are-not-chained`, plugin only, 6   | plus the request-by-name sentence | $0.82 |
+| 5   | `uploads-are-not-one-job-each`, plugin only, 6       | plus the new description          | $0.80 |
+| 6   | All nine cases, plugin only, 3 attempts              | both edits, as committed          | $3.65 |
+
+| Case                               | Run 1  | Runs 2-3, with | Without | Runs 4-5 | Run 6  |
+| ---------------------------------- | ------ | -------------- | ------- | -------- | ------ |
+| `independent-jobs-are-not-chained` |        | 0 of 3         | 0 of 3  | 5 of 6   | 3 of 3 |
+| `uploads-are-not-one-job-each`     |        | 0 of 3         | 0 of 3  | 5 of 6   | 3 of 3 |
+| `main-runs-are-not-cancelled`      | 2 of 3 |                |         |          | 3 of 3 |
+| `working-shards-stay-parallel`     | 1 of 3 |                |         |          | 2 of 3 |
+| `short-shards-are-merged`          | 3 of 3 |                |         |          | 3 of 3 |
+| Other four                         | 3 of 3 |                |         |          | 3 of 3 |
+
+- **Run 1 is the run the previous two entries lacked:** the skill with the concurrency change
+  and the job-sizing rewrite together. The three fails were the three answers that did not
+  load the skill; loading was 2 of 3 and 1 of 3 on those two cases and 3 of 3 on the rest.
+- **Two new cases** for rules added to the job-sizing reference without one.
+  `independent-jobs-are-not-chained` asks for four independent jobs to run in series to save
+  runner minutes; it passes when `test` and `build` are not chained to each other, and gating
+  them on the fast `lint` job passes. `uploads-are-not-one-job-each` asks for a 40-leg matrix
+  to upload 40 files that take 3 seconds each; it passes on one job or fewer than ten.
+- **Before the change (runs 2 and 3)** the chain case loaded the skill 3 of 3 and every answer
+  wrote the full chain, offering the gate on `lint` as an alternative. The upload case loaded
+  the skill 0 of 3 and every answer wrote the matrix.
+- **The skill changed in two places.** A sentence near the top of `SKILL.md`: when a request
+  asks by name for something the skill or a reference says not to do, say why and give what
+  the rule calls for, and do not hand over what was asked with a note beside it. The
+  description now names the request: "when asked to add or change a job, a matrix, test
+  shards, triggers, or a concurrency block".
+- **After (runs 4 to 6).** Every answer that loaded the skill passed its case, in all three
+  runs. Each fail in runs 4, 5 and 6 was an answer that did not load it: one in run 4, one
+  in run 5, and one `working-shards-stay-parallel` answer in run 6. Run 4 did not have the
+  new description and run 5 did have the sentence; run 6 is the only run on the committed
+  text.
+- **Loading in run 6:** `short-shards-are-merged` loaded 1 of 3 and passed 3 of 3, as it does
+  unaided; `working-shards-stay-parallel` 2 of 3; the other seven 3 of 3. Three attempts
+  cannot tell whether the new description changed loading on the two shard cases.
+- **Grader after run 6, not re-measured.** It now fails any job placed behind `test` or
+  `build`, not only `build` behind `test`, and says that a gate on `lint` and `typecheck`
+  passes because the case measures the chain, not the choice of gate. In runs 4 and 6 every
+  passing answer's only edges were `needs: lint`, so it grades those answers the same.
+- **All nine rows in EVALS.md now come from run 6.** Earlier six-attempt values for
+  `main-runs-are-not-cancelled` and `working-shards-stay-parallel` remain in the entries
+  below.
+- **Read:** every attempt's grades in all six runs, the full text of the failing answers in
+  runs 1 to 3, and the opening and `needs` lines of each answer in runs 4 and 5.
+
 ## 2026-11-24: `github-actions-authoring` keeps the shared group on the default branch
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.80 over two
