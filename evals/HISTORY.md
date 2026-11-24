@@ -34,17 +34,18 @@ $1.16, $0.66, $1.25. The skill loaded in every plugin attempt of every run.
   output. The prompt asks for a short description. The case passes only when the
   application's run is shown with its input, command, and output as printed.
 - **Run 3** is the comparison on the committed text: 3 of 3 with the plugin, 1 of 3 without.
-  The two unaided fails gave the before and after in prose, or left out the command. Three
-  attempts per arm is a small sample.
+  One unaided fail showed a run of the minimal fixture and gave the application's result
+  only as a table. The other showed the application's output and described its input file
+  in a sentence without showing it. Three attempts per arm is a small sample.
 - **Run 2 and a side effect.** On the first draft `perf-change-with-flag` passed 2 of 3. The
   fail listed passing checks, which an older rule forbids; the same answer also wrote "I
   have no command output to paste" for a performance change. The draft's "when nothing was
   run, say so" became "when the behavior was not run", and a sentence says a performance
   change's evidence is its measured numbers. In run 4 no answer of nine wrote such a line,
   and `ci-gap-section` and `perf-change-with-flag` passed 3 of 3 each.
-- **Read:** every attempt's grades in all four runs, the full failing answer in run 2, and a
-  search of each run-3 and run-4 answer for the command, the input, a table, and a "not run"
-  line. I did not read the run-3 and run-4 answers in full.
+- **Read:** every attempt's grades in all four runs; in full, the failing answer in run 2
+  and the two unaided fails and one plugin answer in run 3; and a search of the other
+  run-3 and run-4 answers for the command, the input, a table, and a "not run" line.
 
 ## 2026-11-24: `github-actions-authoring` keeps the shared group on the default branch
 
