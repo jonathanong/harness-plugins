@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a native case for the client pagination rule
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.55 for one two-arm run
+of six attempts, after a one-attempt pilot that passed with the plugin and failed without.
+
+| Case                                             | With plugin | Loaded | Without plugin |
+| ------------------------------------------------ | ----------- | ------ | -------------- |
+| `native-app-architecture/inbox-ends-on-the-flag` | 5 of 6      | 6 of 6 | 0 of 6         |
+
+- **Case added.** A SwiftUI notifications screen over an API that returns `hasNextPage`. The
+  grader checks the paging rule in three parts: only the flag ends the list, the empty state
+  needs no items and no further page, and the paging state lives outside the view.
+- **What the run showed.** Without the plugin the judge failed all six; the four answers whose
+  empty state I could read show it whenever the item array is empty. With the plugin five
+  pass. The sixth split the judges two to one: its empty state checks the flag, but it offers
+  the next page only when the list already has items, so an empty first page with a next page
+  shows nothing to continue from.
+- **No skill change.** Four of the six plugin attempts also loaded `list-reads`.
+
 ## 2026-11-23: an `llm-calls` case for tool arguments
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.66 for one two-arm run

@@ -18,8 +18,8 @@ Each still gets a loading case and an answer case.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
-- [ ] **The client pagination rule needs a native case** in `native-app-architecture`.
-      `react-app-structure/load-more-follows-the-flag` loads its skill in 9 of 12 attempts.
+- [ ] **`react-app-structure/load-more-follows-the-flag` loads its skill in 9 of 12
+      attempts.** Read the misses.
 - [ ] **`test-authoring` needs a flake-fix case the model fails unaided.** Two review cases with
       the diff in the prompt passed without the skill. Try a task on a fixture repository with
       a failing test, where the tempting change is a retry or a sequential suite.

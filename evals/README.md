@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **117 cases** across 45 skills.
+- **118 cases** across 45 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.37, over the 116 cases measured both ways.
-- **89 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
+- **Without it:** mean score 0.37, over the 117 cases measured both ways.
+- **90 cases** are ones the model fails unaided. The other 27 it already gets right: 5 check that a skill stays out of the way, and 22 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -46,7 +46,7 @@ averaged over attempts.
 | `http-api-design`                  | 3     | 1.00        | 0.22           | 0                     |
 | `list-reads`                       | 4     | 0.99        | 0.67           | 2                     |
 | `llm-calls`                        | 3     | 0.97        | 0.44           | 1                     |
-| `native-app-architecture`          | 2     | 1.00        | 0.00           | 0                     |
+| `native-app-architecture`          | 3     | 0.97        | 0.00           | 0                     |
 | `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     |
 | `package-json-checklist`           | 2     | 0.95        | 0.67           | 0                     |
 | `planning`                         | 7     | 0.92        | 0.38           | 2                     |
