@@ -103,6 +103,7 @@ unaided by design.
 | `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database.                                                                               | 1.00  | 6 of 6   | 0.17           |
 | `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, with the `pk_`, `fk_`, `uq_`, and `ck_` prefixes.                               | 1.00  | 6 of 6   | 0.00           |
 | `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                          | 1.00  | 3 of 3   | 0.00           |
+| `pr-description/behavior-change-shows-a-real-run`                       | Shows one real run of a changed command from a user's point of view, on the realistic scenario, not only a minimal fixture or a summary table.   | 1.00  | 3 of 3   | 0.33           |
 | `pr-description/ci-gap-section`                                         | Adds a short section on what CI caught that the local check missed, without work history.                                                        | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/perf-change-with-flag`                                  | Shows a before/after table, states what a flag does not cover, and omits routine checks.                                                         | 1.00  | 3 of 3   | 0.00           |
 | `pull-requests/review-round-dispositions`                               | Gives each review comment one disposition and settles the round with a single push.                                                              | 1.00  | 3 of 3   | 0.00           |
@@ -250,6 +251,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   runner granted them; the plugin-only run listed Bash only. It is a ceiling case: the model passes it without
   the plugin. It is kept as the skill's loading check, because the skill loaded in 14 of 15
   attempts across its runs.
+- **The three `pr-description` rows** take their plugin score and loading from one plugin-only run
+  of three attempts on 2026-11-24, on the current skill text. The "Without plugin" value of
+  `behavior-change-shows-a-real-run` is from a two-arm run of three attempts the same day on the
+  same text and case; those of the other two rows are from earlier two-arm runs.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
