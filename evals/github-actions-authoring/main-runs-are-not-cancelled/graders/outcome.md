@@ -7,8 +7,7 @@ superseded runs are cancelled on pull requests only.
 
 PASS if the `concurrency` block the answer gives as the thing to use cancels in-progress runs
 for pull requests and does not cancel them for pushes to `main` (for example
-`cancel-in-progress: ${{ github.event_name == 'pull_request' }}`, or a group keyed so that
-each `main` commit has its own group), and the answer says that a run in progress on `main` is left
+`cancel-in-progress: ${{ github.event_name == 'pull_request' }}`), and the answer says that a run in progress on `main` is left
 to finish.
 
 FAIL if the block the answer gives as the thing to use cancels in-progress runs on `main`

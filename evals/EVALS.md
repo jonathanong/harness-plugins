@@ -258,9 +258,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   its "Without plugin" value from a two-arm run of three attempts on 2026-11-23. The earlier run
   that day, before the rule's reason was reworded, gave 5 of 6, loaded 5 of 6. In both, every
   answer that loaded the skill passed and every answer that did not failed. The baseline's
-  merge-queue bullets were edited after the later run and are not re-measured. The skill's other
-  five rows are from before the change to its description and concurrency rule; a plugin-only run
-  of three attempts on the changed description gave each of them 3 of 3, loaded 3 of 3.
+  merge-queue bullets were edited after the later run and are not re-measured. No run covers the
+  skill as it now stands, with this change to its description and concurrency rule together with
+  the job-sizing rewrite and its `needs` sentence: the other six rows were last measured on one or
+  the other, as this note's neighbour and HISTORY say.
 - **`github-actions-authoring/working-shards-stay-parallel`** takes its plugin score and loading
   from a plugin-only run of six attempts on 2026-11-24, on the current job-sizing reference and
   grader. Its "Without plugin" value is from a two-arm run of three attempts the day before, under
