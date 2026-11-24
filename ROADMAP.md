@@ -73,6 +73,13 @@ Each still gets a loading case and an answer case.
       one block or change one call, with the code pasted in, loaded `structured-logging` in
       0 of 3 and `github-actions-authoring` in 2 of 9 until their descriptions named the
       request. Try such prompts on other skills.
+- [ ] **Cases for the `needs` rule and the tiny-jobs rule** in `github-actions-authoring`'s
+      job-sizing reference, added on 2026-11-24 without one.
+- [ ] **Candidate rules from an incident review, each needing a case first:** a CI change is
+      validated by a run that exercises the changed path; a feature pull request's body leads
+      with the problem and one worked example and is rewritten whole after revisions; before
+      handoff, run the change on its most common input and call a self-defeating result a
+      bug; a spec's constraints cover every surface the change affects.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.

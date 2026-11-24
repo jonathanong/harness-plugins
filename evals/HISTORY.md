@@ -4,6 +4,57 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-actions-authoring` sizes shards by overhead and keeps them parallel
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $8.06 over six runs:
+$0.64, $0.81, $2.48, $0.77, $0.86, and $2.50.
+
+| Run | Cases   | Job-sizing reference              | Grader     | With plugin | Loaded | Without plugin |
+| --- | ------- | --------------------------------- | ---------- | ----------- | ------ | -------------- |
+| 1   | New     | As on main                        | Wall time  | 0 of 3      | 1 of 3 | 0 of 3         |
+| 2   | New     | Shards parallel; 5 to 10 minutes  | No loop    | 5 of 6      | 5 of 6 | not run        |
+| 3   | All six | As run 2                          | No loop    | see below   |        | not run        |
+| 4   | New     | 30% overhead; 15 minutes          | 12 or more | 2 of 6      | 3 of 6 | not run        |
+| 5   | New     | As run 4, plus "30% is a ceiling" | 12 or more | 6 of 6      | 6 of 6 | not run        |
+| 6   | All six | As run 5                          | 12 or more | see below   |        | not run        |
+
+- **Why.** The reference said a job should take about 5 to 10 minutes and to merge shards
+  that are mostly setup. Another repository's agent followed it and folded 24 parallel
+  shards, each mostly work, into 4 jobs that ran them one after another.
+- **New case** `github-actions-authoring/working-shards-stay-parallel`. The prompt gives a
+  matrix of 24 benchmark shards with about 20 seconds of setup and a median of 45 seconds of
+  work, says jobs should run 5 to 10 minutes, and asks for 4 jobs that each loop over six
+  shards. The prompt was the same in every run. The grader changed twice, as the rule did.
+- **Run 1, the reference as on main.** All six answers wrote the 4-job loop. The one answer
+  that loaded the skill opened by saying the job-sizing guidance supports the merge.
+- **The rule now,** as the repository's owner stated it over this session:
+  - Shards always run in parallel, one shard to a job; never a loop over shards in a job.
+  - A shard's setup is under 30% of its run time. Over that, lower the shard count to the
+    highest count that meets it. 30% is a ceiling, not a number to drive down.
+  - A workflow finishes in under 15 minutes. Over that, shard the slowest path, up to the
+    count the 30% figure allows.
+  - Do not fan out into many tiny jobs; the 30% figure applies to each leg of any matrix.
+  - Independent jobs run in parallel. A `needs` edge only when the later job uses the
+    earlier one's output, or the earlier one failing means the later would very likely fail.
+  - The 5 to 10 minute figure is gone.
+- **Run 2.** With "shards run in parallel" and the 5 to 10 minute figure still in place,
+  every answer that loaded the skill declined the loop and cut the matrix to 4 shards with
+  `--shard N/4`. That passed the grader of the time and is why the figure was replaced.
+- **Run 4.** On the 30% and 15 minute wording, two of the three answers that loaded the
+  skill kept 12 shards and one cut to 4, reasoning that fewer shards lower overhead further.
+  The skill loaded in 3 of 6; the description is unchanged on this branch, so I take that as
+  noise.
+- **Run 5.** After adding that 30% is a ceiling, all six answers kept 16 or 20 shards.
+- **Run 6** is every case on the final text. The new case 3 of 3, loaded 3 of 3, with 12,
+  12, and 24 shards. `short-shards-are-merged` 3 of 3, loaded 2 of 3, each cutting 16 shards
+  to 4. `required-check-is-a-real-job` 2 of 3, loaded 3 of 3; its fail is in a rule this
+  change does not touch, and it failed once in run 3 too. The other three 3 of 3, loaded 3
+  of 3.
+- **Not measured:** the `needs` rule and the tiny-jobs rule have no case.
+- **What I read:** about 1,000 characters of each answer in run 1, 700 in run 2, 450 in run
+  4 plus all of the answer that cut to 4, and 300 in run 5. In runs 3 and 6, the fails and
+  the shard matrix of each shard-case answer.
+
 ## 2026-11-23: `structured-logging` loads for a request to log a value
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $2.49 over three runs:
