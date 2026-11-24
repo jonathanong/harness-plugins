@@ -42,6 +42,7 @@ unaided by design.
 | `github-actions-authoring/rejects-polling`                              | Replaces a sleep-and-poll loop with an event trigger.                                                                                            | 1.00  | 3 of 3   | 0.50           |
 | `github-actions-authoring/required-check-is-a-real-job`                 | Builds a combined required check as a fan-in job, not a posted commit status.                                                                    | 0.83  | 3 of 3   | 0.00           |
 | `github-actions-authoring/short-shards-are-merged`                      | Merges one-minute test shards when asked to double them, because most of each shard is setup and queue wait.                                     | 1.00  | 6 of 6   | 0.00           |
+| `github-ci-operations/backlog-reads-the-log-before-a-rerun`             | With the account at its limit, advises against rerunning a failed job to see whether it is flaky, and reads its log instead.                     | 1.00  | 3 of 3   | 0.00           |
 | `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                         | 1.00  | 3 of 3   | 1.00           |
 | `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.     | 1.00  | 3 of 3   | 0.00           |
 | `github-issue/search-before-filing`                                     | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                                                      | 0.83  | 2 of 3   | 0.00           |
@@ -233,6 +234,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`github-actions-authoring/short-shards-are-merged`** is from one two-arm run of six
   attempts on 2026-11-23, on the current description and grader. Across the
   three runs on that description the skill loaded in 13 of 15 plugin attempts.
+  **`github-ci-operations/backlog-reads-the-log-before-a-rerun`** is from a two-arm run of
+  three attempts on 2026-11-23.
   **`github-ci-operations/queue-under-the-limit-cancels-nothing`** is from a two-arm run of
   three attempts on 2026-11-23, on the merged skill; its grader was tightened after the run,
   not re-measured.

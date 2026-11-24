@@ -62,8 +62,9 @@ Each still gets a loading case and an answer case.
       what a test may do in the six skills that gained a scope sentence on 2026-11-23.
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
-- [ ] **More cases for `github-ci-operations`:** the small-query rules and the backlog order
-      have none. Try a task where the agent has to choose what to fetch.
+- [ ] **More cases for `github-ci-operations`:** the small-query rules have none. Try a task
+      where the agent has to choose what to fetch. A pilot on which runs to spare when
+      cancelling passed unaided (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
