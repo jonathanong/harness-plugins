@@ -40,7 +40,7 @@ averaged over attempts.
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     |
 | `git-commit-checklist`             | 3     | 0.94        | 0.44           | 1                     |
 | `github-actions-authoring`         | 5     | 0.97        | 0.30           | 1                     |
-| `github-ci-operations`             | 5     | 0.93        | 0.20           | 1                     |
+| `github-ci-operations`             | 5     | 1.00        | 0.20           | 1                     |
 | `github-issue`                     | 2     | 0.92        | 0.17           | 0                     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |

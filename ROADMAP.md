@@ -65,8 +65,6 @@ Each still gets a loading case and an answer case.
 - [ ] **Skills that give way to a request by name.** Three rules did on 2026-11-23: asked
       for an override, a polling loop, or a whole run's log, an answer that loaded the skill
       gave the thing anyway. Try the same kind of request on other skills' "do not" rules.
-- [ ] **`github-ci-operations` loaded in 2 of 3** on a request for a whole run's log, twice
-      (`evals/HISTORY.md`, 2026-11-23). Measure more attempts before changing the description.
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
