@@ -22,7 +22,8 @@ below, on the same prompt and the same three grading points.
   `references/sweep-patterns.md` now name every constraint and state `ON DELETE`. These edits
   were in the tree during the run, except the rule's reason, which was reworded after it and
   not re-measured: the first wording said a generated name changes on a rename, which is
-  wrong.
+  wrong. The sentence that `NOT NULL` needs no name was also added after the run; the grader
+  already said so. The user chose both the prefix pattern and the `NOT NULL` allowance.
 - **Case added, a ceiling case.** It is the abandoned pilot's case; its grader now also says the
   pattern of the names is not graded.
 - **What the run showed.** I listed the constraint names in each answer. All six plugin answers
