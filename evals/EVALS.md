@@ -107,9 +107,10 @@ unaided by design.
 | `postgres-partitioning-uuid-v7/range-not-hash`                          | Partitions by `RANGE` on the id with a default partition, not `HASH`.                                                                                                          | 1.00  | 3 of 3   | 0.67           |
 | `postgres-partitioning-uuid-v7/retention-with-survivors`                | Keeps a bounded delete sweep when old rows must survive, and states the reason in a table comment.                                                                             | 1.00  | 3 of 3   | 0.00           |
 | `postgres-schema-design/customer-code-key`                              | References a generated id from other tables, not the customer's text code. Ceiling case.                                                                                       | 1.00  | 3 of 3   | 1.00           |
-| `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database.                                                                                                             | 1.00  | 6 of 6   | 0.17           |
-| `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, with the `pk_`, `fk_`, `uq_`, and `ck_` prefixes.                                                             | 1.00  | 6 of 6   | 0.00           |
-| `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                                                        | 1.00  | 3 of 3   | 0.00           |
+| `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database. Ceiling case.                                                                                               | 1.00  | 3 of 3   | 1.00           |
+| `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, with the `pk_`, `fk_`, `uq_`, and `ck_` prefixes.                                                             | 1.00  | 3 of 3   | 0.00           |
+| `postgres-schema-design/per-run-cursor-rows-are-removed`                | Gives a table of one saved position per run a way to remove finished runs' rows: delete on completion, or drop old rows.                                                       | 1.00  | 3 of 3   | 0.33           |
+| `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                                                        | 1.00  | 3 of 3   | 0.67           |
 | `pr-description/behavior-change-shows-a-real-run`                       | Shows one real run of a changed command from a user's point of view, on the realistic scenario, not only a minimal fixture or a summary table.                                 | 1.00  | 3 of 3   | 0.33           |
 | `pr-description/ci-gap-section`                                         | Adds a short section on what CI caught that the local check missed, without work history.                                                                                      | 1.00  | 3 of 3   | 0.00           |
 | `pr-description/perf-change-with-flag`                                  | Shows a before/after table, states what a flag does not cover, and omits routine checks.                                                                                       | 1.00  | 3 of 3   | 0.00           |
@@ -176,7 +177,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **Other rows** are from later two-arm runs, three attempts per arm: the edge-claims
   and topology rows after the `http-api-design` change, and five new cases after their graders
   were narrowed in review. The `postgres-locking` rows and
-  `postgres-schema-design/customer-code-key` are from the two-arm run on 2026-11-22 after the
+  `postgres-schema-design/customer-code-key` (an earlier run; its row is now from 2026-11-24) are from the two-arm run on 2026-11-22 after the
   locking rules moved into their own skill, three attempts per arm. The `postgres-locking` "Score"
   and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
 - **The `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
@@ -218,11 +219,13 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
-- **`postgres-schema-design/membership-table-names-its-constraints`** is from the second
-  two-arm run of six attempts on 2026-11-23, after its grader was narrowed to the naming rule
-  and its pattern. The skill loaded in 6 of 6.
-- **`postgres-schema-design/membership-table-is-commented`** is from a two-arm run of six
-  attempts on 2026-11-23. The skill loaded in 6 of 6.
+- **`postgres-schema-design/membership-table-names-its-constraints`** had an earlier run: the
+  second two-arm run of six attempts on 2026-11-23, after its grader was narrowed to the naming
+  rule and its pattern, where it passed 6 of 6 with the skill loaded in 6 of 6. Its row is now
+  from the 2026-11-24 run.
+- **`postgres-schema-design/membership-table-is-commented`** had an earlier run: a two-arm run of
+  six attempts on 2026-11-23, where it passed 6 of 6 with the skill loaded in 6 of 6 against 1 of
+  6 without. Its row is now from the 2026-11-24 run.
 - **`http-api-design/invite-handler-resolves-before-it-validates`** is from a two-arm run of six
   attempts on 2026-11-23. The skill loaded in 6 of 6. Its grader dropped a status check after
   the run and the row was not re-measured.
@@ -277,6 +280,15 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   all three `agent-rules` cases on 2026-11-24, three attempts, loading 3 of 3, and "Without
   plugin" from a two-arm run of three attempts the same day on the same text. The other two
   `agent-rules` cases passed and loaded 3 of 3 in that plugin-only run, as in their rows.
+- **The five `postgres-schema-design` rows** are from one two-arm run of three attempts per arm on
+  2026-11-24, after the cursor section of its table-shapes reference gained the retention
+  sentence. The skill loaded 15 of 15. Other notes that name these rows describe earlier runs;
+  before this run they stood at: `customer-code-key` 3 of 3 with, 1.00 without;
+  `membership-table-is-commented` 6 of 6 with, 0.17 without;
+  `membership-table-names-its-constraints` 6 of 6 with, 0.00 without;
+  `uuidv7-no-created-at-default` 3 of 3 with, 0.00 without. `per-run-cursor-rows-are-removed` was
+  rerun the same day after the sentence was scoped to per-run cursors, with the same result; the
+  other four rows were not rerun on that wording.
 - **The `static-code-analysis` rows** are from plugin-only runs of six attempts on 2026-11-22,
   after its per-language tables moved to references. Each "Without plugin" value is from an
   earlier two-arm run.
@@ -347,7 +359,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   and `technical-writing/proposal-for-two-audiences`.
 - **The 10 cases added on 2026-11-21** took their "Without plugin" score from a one-attempt pilot,
   except rows from a later two-arm run.
-- **`glide-mq/review-retry-from-failed-jobs`, `postgres-schema-design/uuidv7-no-created-at-default`,
+- **`glide-mq/review-retry-from-failed-jobs`, `postgres-schema-design/uuidv7-no-created-at-default`
+  (an earlier run; its row is now from 2026-11-24),
   and the "Without plugin" score of `postgres-node-performance-tuning/index-change-rechecks-neighbors`**
   are from the two-arm run on 2026-11-22 after the second round of generic rules, three attempts
   per arm. The other rows of the skills that round changed were not replaced; HISTORY.md has their
