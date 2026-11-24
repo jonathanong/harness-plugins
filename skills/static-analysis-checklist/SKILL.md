@@ -24,6 +24,10 @@ syntax, and rollout policy.
    boundaries, equivalent YAML forms, and every allowed exception. Before replacing or deleting a
    security guard, port its old fixture corpus to the replacement and pass it first, so the
    rewrite cannot quietly stop blocking a case the old guard caught.
+   When a rule finds its subject by an import or a name, add fixtures for the indirect ways code
+   reaches it: an alias, a re-export, a namespace import, and a local wrapper or factory that
+   returns it. Where the rule cannot tell what a name is bound to, it reports that it could not
+   analyze the file. A rule that stays silent there reads as a clean result.
 4. Keep discovery limited to tracked, intended files. A guard validates tracked git state:
    untracked and ignored files neither fail it nor satisfy it. A scan of tracked files sees a new file only
    after `git add`, so when a check says a new path does not exist, stage it before changing the

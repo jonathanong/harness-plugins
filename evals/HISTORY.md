@@ -4,6 +4,47 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `static-analysis-checklist` covers how a rule's subject is reached
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $3.86 over three runs of
+three attempts.
+
+| Run | What ran           | Skill text      | Case form        | New case, with | Without | Cost  |
+| --- | ------------------ | --------------- | ---------------- | -------------- | ------- | ----- |
+| 1   | New case, two arms | Before the rule | Review of a rule | 3 of 3         | 3 of 3  | $0.78 |
+| 2   | New case, two arms | Before the rule | Write the rule   | 3 of 3         | 3 of 3  | $1.52 |
+| 3   | All three, plugin  | As committed    | Write the rule   | 3 of 3         |         | $1.56 |
+
+- **The rule** is new text in step 3: when a rule finds its subject by an import or a name,
+  add fixtures for the indirect ways code reaches it (an alias, a re-export, a namespace
+  import, a local wrapper or factory), and where the rule cannot tell what a name is bound
+  to it reports that, since silence reads as a clean result. The wording is this
+  repository's. It was proposed by a reviewing agent after a review miss: a lint rule found
+  its subject by a direct import, its fixtures only imported it directly, and it reported
+  nothing in a repository that imports the subject from a local module that extends it.
+- **No measured improvement.** Both forms of the case are at the ceiling: unaided answers
+  passed 3 of 3 before the rule existed. In run 1 all six reviews named the local fixtures
+  module built with `.extend(...)`; the skill loaded in 1 of 3 plugin attempts. In run 2 all
+  six answers wrote a rule that follows `.extend(...)` and tested it; the skill loaded 3 of 3. The rule is kept for weaker models, as this repository's rules say, and the case shows
+  it loads and does no harm. The miss happened inside a larger pull request, which a
+  one-prompt case does not reproduce.
+- **The case kept** is the second form; the review form's prompt and grader were not
+  committed. Runs 1 and 2 are different prompts and graders and are not comparable.
+- **Run 3, the neighbouring cases.** `tracked-files-only` passed 3 of 3 and
+  `parses-yaml-with-fixtures` 2 of 3, each loading 3 of 3. The failing plan parses YAML,
+  lists tracked files, and has accepted and rejected fixtures; it does not look for an
+  existing analyzer first, which that grader requires. It also says an unparseable file
+  must fail the check because silence would look like a pass, which is the new rule
+  carried over. `tracked-files-only` had stood at 4 of 8 from 2026-11-22; three attempts do
+  not show that it moved.
+- **Read:** every attempt's grades in all three runs; the lines of each run-1 and run-2
+  answer that mention the indirect import; the failing run-3 plan in full; the tests of one run-3 answer to
+  the new case. That answer covers a local fixtures module through an option and tests
+  it, but without the option it accepts the file silently and does not report that it
+  could not tell, so it follows the first half of the rule and not the second. The grader
+  passes an option with a test. I did not read the other two run-3 answers to the new case
+  beyond their grades.
+
 ## 2026-11-24: `github-issue` lets an investigation issue carry a conditional fix
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 over two runs of

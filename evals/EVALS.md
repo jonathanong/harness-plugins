@@ -123,8 +123,9 @@ unaided by design.
 | `service-boundaries/topology-in-app-repo`                               | Moves instance counts and regions out of the application repo into configuration.                                                                                              | 1.00  | 3 of 3   | 0.33           |
 | `skill-authoring/repo-rule-not-in-shared-skill`                         | Keeps one team's package, field, and path out of a shared skill and puts them in that team's repository.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `skill-authoring/split-by-trigger`                                      | Gives browser-test guidance its own skill, or an existing one, instead of a reference under the unit-test skill.                                                               | 0.83  | 2 of 3   | 0.00           |
-| `static-analysis-checklist/parses-yaml-with-fixtures`                   | Parses YAML instead of matching text, and tests the check with fixtures.                                                                                                       | 1.00  | 3 of 3   | 0.50           |
-| `static-analysis-checklist/tracked-files-only`                          | Limits a CI guard's file discovery to tracked workflow and action files.                                                                                                       | 0.62  | 4 of 8   | 0.33           |
+| `static-analysis-checklist/parses-yaml-with-fixtures`                   | Parses YAML instead of matching text, and tests the check with fixtures.                                                                                                       | 0.89  | 2 of 3   | 0.50           |
+| `static-analysis-checklist/rule-follows-indirect-imports`               | Asked to write a lint rule that finds its subject by an import, tests an indirect form such as a re-export or a local wrapper. Ceiling case.                                   | 1.00  | 3 of 3   | 1.00           |
+| `static-analysis-checklist/tracked-files-only`                          | Limits a CI guard's file discovery to tracked workflow and action files.                                                                                                       | 1.00  | 3 of 3   | 0.33           |
 | `static-code-analysis/new-rust-service`                                 | Picks the static checks for a new Rust service.                                                                                                                                | 1.00  | 6 of 6   | 0.83           |
 | `static-code-analysis/new-typescript-library`                           | Picks the static checks for a new TypeScript library.                                                                                                                          | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                          | Logs the customer id with a static message instead of looking up an email for the log.                                                                                         | 1.00  | 3 of 3   | 0.00           |
@@ -182,11 +183,14 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   not load it failed. The other `react-app-structure` rows, and the `list-reads` and
   `native-app-architecture` rows, predate the pagination rules added that day and were not
   re-measured.
-- **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`,
-  `service-boundaries`, and `static-analysis-checklist` rows** are from the two-arm run after
-  their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with
-  the plugin in that run and 3 of 3 in a same-session rerun, against 1 of 3 on `main`; its row
-  is the rerun.
+- **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`, and
+  `service-boundaries` rows** are from the two-arm run after their generic rules were added, three
+  attempts per arm.
+- **The three `static-analysis-checklist` rows** take their plugin score and loading from one
+  plugin-only run of three attempts on 2026-11-24, on the current skill text. "Without plugin" for
+  `rule-follows-indirect-imports` is from a two-arm run of three attempts the same day, before the
+  rule was added to the skill; it is a ceiling case. "Without plugin" for the other two is from
+  earlier two-arm runs.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
@@ -306,10 +310,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   an earlier two-arm run and a three-attempt pilot.
 - **`planning/plan-saved-outside-repo`** is from a two-arm run of six attempts per arm on
   2026-11-22, after its grader was narrowed to where the plan is saved.
-- **`planning/plan-states-before-after` and `static-analysis-checklist/tracked-files-only`** take
-  "Score" and "Passed" from a plugin-only run of eight attempts on 2026-11-22, after their
-  descriptions changed. On `main` in the same session each passed 1 of 8. "Without plugin" is
-  from the earlier two-arm runs.
+- **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
+  eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
+  passed 1 of 8. "Without plugin" is from the earlier two-arm run.
 - **`bounded-iteration/overlapping-purge-runs-stay-lock-free`** is from the second two-arm run
   of six attempts on 2026-11-23, after its grader was tightened. The skill loaded in 5 of 6, and
   the attempt that did not load it failed. The skill as it was before the rule passed 0 of 6.
