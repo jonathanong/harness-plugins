@@ -56,8 +56,8 @@ Each still gets a loading case and an answer case.
       what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
       that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
       "Verify a finding", a finding that cannot be verified is reported as unverified with no
-      fix, and a race finding that the unaided model accepts (the case built on 2026-11-24 is a
-      ceiling).
+      fix, and a race finding that the unaided model accepts (the case built on 2026-11-24 passes
+      unaided).
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Skills that give way to a request by name.** Three rules did on 2026-11-23: asked

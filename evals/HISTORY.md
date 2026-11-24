@@ -6,14 +6,14 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `agent-workflow` verifies a finding before presenting or fixing it
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Seven runs, $4.67. Each
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Ten runs, $7.48. Each
 row is from a two-arm run of three attempts per arm on the skill text of this commit; formatting
-ran after the runs.
+ran after the runs. The first three rows are from runs 8 to 10, after review.
 
 | Case                                                  | With, outcome | Loaded | Without |
 | ----------------------------------------------------- | ------------- | ------ | ------- |
 | `postgres-locking/race-finding-that-cannot-happen`    | 3 of 3        | 3 of 3 | 3 of 3  |
-| `github-issue/unverified-finding-is-an-investigation` | 3 of 3        | 3 of 3 | 0 of 3  |
+| `github-issue/unverified-finding-is-an-investigation` | 3 of 3        | 3 of 3 | 1 of 3  |
 | `postgres-locking/race-finding-on-unwritten-row`      | 3 of 3        | 3 of 3 | 0 of 3  |
 | `pull-requests/review-round-dispositions`             | 3 of 3        | 3 of 3 | 2 of 3  |
 | `agent-workflow/status-note-asks-only-what-it-must`   | 1 of 3        | 0 of 3 | 0 of 3  |
@@ -34,11 +34,19 @@ ran after the runs.
   two files from the handler. The answer passes when it says the race cannot happen, with the
   reason, and changes nothing. (1) One attempt per arm, with the statement in the data-access
   file: both passed ($0.24). (2) The statement moved to the `.sql` file and the handler passing
-  the whole account: both passed ($0.28). (3) Three per arm on the edited skills: a ceiling
-  ($0.89). It stays as the skill's check that the rule does no harm; it does not show that the
-  rule helps.
+  the whole account: both passed ($0.28). (3) Three per arm on the edited skills: passed unaided
+  ($0.89). It is a guard beside `race-finding-on-unwritten-row`, which fails unaided: it checks
+  that the locking answers stay out of the way when the race cannot happen. It does not show
+  that the rule helps.
 - **The neighbours.** (4)-(6) The three cases whose rule text changed held, as in the table
   ($0.60, $0.64, $1.23).
+- **After review.** `code-reviewer` found that the `postgres-locking` bullet sent a race that was
+  neither shown nor ruled out to its list of fixes ("Otherwise answer it in this order"). It now
+  says to show the two writers can run at the same time, to reply "unverified" when that cannot
+  be told, to change nothing in either case, and to answer only a verified race with the list.
+  `github-issue` rule 3 gains "where that is available and relevant", which its copy had dropped.
+  (8)-(10) The table's first three rows ($1.34, $0.67, $0.80). Before review, the same three
+  passed 3 of 3 with the plugin and 3, 0 and 0 of 3 without.
 - **The pointer was not followed.** In none of the nine plugin attempts of runs 3, 5 and 6 did
   the agent read `agent-workflow`; each loaded only `postgres-locking` or `pull-requests` and
   passed on that skill's local instruction. That is why each neighbour keeps one.

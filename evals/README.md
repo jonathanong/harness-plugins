@@ -14,7 +14,7 @@ needed.
 - **145 cases** across 47 skills.
 - **With the plugin:** mean score 0.95.
 - **Without it:** mean score 0.34, over the 144 cases measured both ways.
-- **113 cases** are ones the model fails unaided. The other 31 it already gets right: 5 check that a skill stays out of the way, and 26 show at most that the skill loads.
+- **113 cases** are ones the model fails unaided. The other 31 it already gets right: 6 check that a skill stays out of the way, and 25 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -41,7 +41,7 @@ averaged over attempts.
 | `git-commit-checklist`             | 3     | 0.94        | 0.44           | 1                     |
 | `github-actions-authoring`         | 9     | 0.93        | 0.17           | 1                     |
 | `github-ci-operations`             | 5     | 1.00        | 0.20           | 1                     |
-| `github-issue`                     | 3     | 0.94        | 0.11           | 0                     |
+| `github-issue`                     | 3     | 0.94        | 0.22           | 0                     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
 | `http-api-design`                  | 4     | 1.00        | 0.17           | 0                     |

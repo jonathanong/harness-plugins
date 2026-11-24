@@ -110,9 +110,10 @@ Adding a lock, or a new use of the second allowed case, is the repository owner'
   propose or to offer as an option.
 - A reviewer's "race condition" finding, from a person or a bot, never by itself justifies a lock,
   a wider lock, or a coordination column. First [verify
-  it](../agent-workflow/SKILL.md#verify-a-finding): name the two writers and trace what each
-  writes. If the race cannot happen, reply with the reason and change nothing. Otherwise answer it
-  in this order: a constraint; a conditional write; a guard inside the writing statement;
+  it](../agent-workflow/SKILL.md#verify-a-finding): name the two writers, trace what each writes,
+  and show they can run at the same time. If the race cannot happen, reply with the reason. If you
+  cannot tell, reply that it is unverified. Change nothing in either case. Answer only a verified
+  race, in this order: a constraint; a conditional write; a guard inside the writing statement;
   `SERIALIZABLE` with 409 when the outcome is unacceptable; otherwise "accepted: best effort", with
   the worst case stated. Reply with that reasoning and resolve the thread.
 
