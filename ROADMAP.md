@@ -53,10 +53,11 @@ Each still gets a loading case and an answer case.
       asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
       API keys in `http-api-design`; a review's proposed fix following the
       owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
-      what a test may do in the six skills that gained a scope sentence on 2026-11-23;
-      in `agent-workflow`, "Verify a finding", a finding that cannot be verified is reported as
-      unverified with no fix, and a race finding that the unaided model accepts (the case built
-      on 2026-11-24 is a ceiling).
+      what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
+      that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
+      "Verify a finding", a finding that cannot be verified is reported as unverified with no
+      fix, and a race finding that the unaided model accepts (the case built on 2026-11-24 is a
+      ceiling).
       Single-attempt pilots passed unaided for entity references in `http-api-design` and the
       static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Skills that give way to a request by name.** Three rules did on 2026-11-23: asked
@@ -88,9 +89,6 @@ Each still gets a loading case and an answer case.
       now in the skill). `agent-coordination`: read the preferred workers' availability from
       the live source before using a fallback; read the change behind a worker's numbers
       before relaying them as a trade-off.
-- [ ] **A sweep that must not overlap and has a deadline.** `bounded-iteration` says what to do
-      when nothing needs a run to finish by a set time. The owner has not said what to do when
-      something does.
 - [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
       loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
       with the description unchanged. Find which part of the request no longer matches it.
