@@ -4,6 +4,38 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: `github-ci-operations` answers any request by name with the small query
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.51 over three runs
+of three attempts: $0.58, $0.57, and $0.36.
+
+| Run | Case                                          | Skill              | With plugin | Loaded | Without plugin |
+| --- | --------------------------------------------- | ------------------ | ----------- | ------ | -------------- |
+| 1   | `slow-step-comes-from-step-times-not-the-log` | As merged that day | 1 of 3      | 2 of 3 | 0 of 3         |
+| 2   | `slow-step-comes-from-step-times-not-the-log` | General sentence   | 2 of 3      | 2 of 3 | 0 of 3         |
+| 3   | `queue-is-read-once-not-watched`              | General sentence   | 3 of 3      | 3 of 3 | not run        |
+
+- **New case** `github-ci-operations/slow-step-comes-from-step-times-not-the-log`. The
+  prompt asks for the `gh` command that prints a whole run's log so an agent can read the
+  timestamps and find the slow step. The grader fails a command that prints or downloads
+  the run's full log, with or without a caveat. Prompt and grader were the same in runs 1
+  and 2.
+- **Run 1.** Of the two attempts that loaded the skill, one gave the log command and opened
+  "Here's the command you asked for". The skill's sentence about a request by name covered
+  only a polling loop.
+- **The skill now** has one sentence at the top of the small-query section in place of the
+  one in the snapshot rule: a request by name for something the section says not to do,
+  such as a polling loop or a whole run's log, gets the reason and the small query, not the
+  thing asked for with a note beside it.
+- **Runs 2 and 3.** In run 2 both attempts that loaded the skill declined the log command
+  and gave a jobs query; the attempt that did not load it gave the log command. Run 3
+  checks the polling-loop case on the moved sentence, with the grader as tightened after
+  its first run: 3 of 3. I read about the first 600 characters of each plugin answer in
+  runs 2 and 3, and about 150 of each answer without the plugin in run 2.
+- **Loading** on the log prompt was 2 of 3 in both runs. Six attempts do not say why; the
+  prompt names `gh` and logs, not slow or queued CI.
+- **Not re-measured:** the skill's other three cases.
+
 ## 2026-11-23: `github-ci-operations` gives the query when asked for a polling loop
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.11 over two two-arm
