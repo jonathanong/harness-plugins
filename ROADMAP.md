@@ -59,6 +59,8 @@ Each still gets a loading case and an answer case.
       API keys in `http-api-design`; a review's proposed fix following the
       owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
       what a test may do in the six skills that gained a scope sentence on 2026-11-23.
+      Single-attempt pilots passed unaided for entity references in `http-api-design` and the
+      static system prompt in `llm-calls` (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Cases built on a fixture** for the merge, close, stack, and readiness rules in
       `pull-requests`. A prompt that lays out the pull request's state gives the answer away.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
