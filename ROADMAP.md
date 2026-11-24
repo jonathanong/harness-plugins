@@ -14,7 +14,8 @@ Each still gets a loading case and an answer case.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **A case that shows each skill helps** for `review-ci-logs` and
-      `package-json-checklist`.
+      `package-json-checklist`. A pilot on an undeclared dependency under pnpm passed
+      unaided (`evals/HISTORY.md`, 2026-11-23).
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
       `planning/plan-states-before-after` (5 of 8) and
       `static-analysis-checklist/tracked-files-only` (6 of 8).
