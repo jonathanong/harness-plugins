@@ -121,8 +121,9 @@ unaided by design.
 | `react-app-structure/load-more-follows-the-flag`                        | Pages a list while the API reports a next page, and shows the empty state only when no further page can be requested.                                                                                                                    | 0.83  | 5 of 6   | 0.17           |
 | `react-app-structure/review-profile-card`                               | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                                                                                                                                         | 1.00  | 3 of 3   | 0.67           |
 | `resuming-work/note-says-about-to-push`                                 | Sees that the branch is already pushed and the pull request open, and goes to the failing check instead of repeating the step.                                                                                                           | 0.83  | 2 of 3   | 1.00           |
-| `review-ci-logs/first-error-in-a-long-log`                              | Asked why a job failed, with a long log pasted, names the first failure the repository owns and not the errors that follow from it. Ceiling case, kept for loading.                                                                      | 0.83  | 2 of 3   | 1.00           |
-| `review-ci-logs/quiet-log-keeps-errors`                                 | Quiets a noisy log at its source and keeps stderr and failing exits.                                                                                                                                                                     | 1.00  | 3 of 3   | 1.00           |
+| `review-ci-logs/cause-is-a-quiet-line-before-the-errors`                | Asked why a job failed, with the log in a file in a repository, names the step that quietly wrote nothing and the stale path in its configuration, not the type errors that follow.                                                      | 0.83  | 2 of 3   | 0.33           |
+| `review-ci-logs/first-error-in-a-long-log`                              | Asked why a job failed, with a long log pasted, names the first failure the repository owns and not the errors that follow from it. Ceiling case, kept for loading.                                                                      | 1.00  | 3 of 3   | 1.00           |
+| `review-ci-logs/quiet-log-keeps-errors`                                 | Quiets a noisy log at its source and keeps stderr and failing exits. Ceiling case.                                                                                                                                                       | 1.00  | 3 of 3   | 1.00           |
 | `review-ci-logs/retry-request-gets-the-cause-fixed`                     | Asked to wrap a migration that sometimes fails with connection refused in a retry, adds a database health check and no retry.                                                                                                            | 1.00  | 3 of 3   | 0.00           |
 | `revisit-followups/only-verified-deferred-work`                         | Keeps only explicit deferred work and has it verified before any issue is filed.                                                                                                                                                         | 0.83  | 2 of 3   | 0.00           |
 | `rust-authoring/tests-in-separate-file`                                 | Puts unit tests for a private function in a separate file.                                                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
@@ -320,13 +321,12 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`postgres-node-performance-tuning/index-change-rechecks-neighbors`** is from two plugin-only
   runs on 2026-11-22, 21 attempts. The skill loaded in 19; two attempts that loaded it failed the
   answer. Its "Without plugin" value is from an earlier two-arm run.
-- **The three `review-ci-logs` rows** take their plugin score and loading from one plugin-only run
-  of three attempts on 2026-11-24, on the description that names a request to say why a job
-  failed. The skill loaded in 2 of 3 attempts of `first-error-in-a-long-log` and 3 of 3 of the
-  other two. "Without plugin" for `first-error-in-a-long-log` is from a two-arm run of six
-  attempts the same day on the earlier description; it is a ceiling case kept for loading, which
-  went from 0 of 6 to 4 of 6 in that session. "Without plugin" for the other two is from earlier
-  two-arm runs.
+- **The four `review-ci-logs` rows** are from one two-arm run of three attempts per arm on
+  2026-11-24. The skill loaded in 11 of 12 attempts; the miss was on
+  `cause-is-a-quiet-line-before-the-errors`, whose three plugin answers all passed the outcome
+  grader. `first-error-in-a-long-log` loaded in 3 of 3 here and in 6 of 9 before it that day.
+  `quiet-log-keeps-errors` passed 3 of 3 without the plugin in this run, so its ceiling mark rests
+  on one run.
 - **`list-reads/review-feed-candidate-pool`** is from a plugin-only run of twelve attempts on
   2026-11-22, on the description that opens "Use whenever a task writes or reviews a query".
   The skill loaded in 11 of 12, and all twelve answers passed. "Without plugin" is 3 of 9, from

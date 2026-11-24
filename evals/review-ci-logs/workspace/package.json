@@ -1,0 +1,17 @@
+{
+  "name": "acme-storefront",
+  "private": true,
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.config.json",
+    "lint": "oxlint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "5.0.5",
+    "@graphql-codegen/typescript": "4.1.5",
+    "oxlint": "0.16.0",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@10.4.1"
+}
