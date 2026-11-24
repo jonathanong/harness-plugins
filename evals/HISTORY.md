@@ -34,6 +34,9 @@ run of three attempts over the skill's five cases, on the description from the e
 
 ## 2026-11-23: a skill for operating CI, and job sizing
 
+Corrected by the entry above: the shard case's loading and separation are weaker than stated
+here.
+
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.94 for three runs.
 
 | Case and run                                                       | With plugin | Loaded | Without plugin |
