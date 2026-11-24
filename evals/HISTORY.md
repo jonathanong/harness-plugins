@@ -18,8 +18,8 @@ run on that grader.
   The six with the skill cut the shards from 16 to 2 and said why. The six without it wrote
   the 32-shard job; one opened by saying the numbers suggest it will not be faster.
 - **The unaided arm is now 0 of 9** over two runs (three attempts on the old description and
-  grader, six here). The earlier worry was two plugin-arm attempts that passed with no skill
-  loaded; in those the skill descriptions were still in context. With no plugin, no attempt
+  grader, six here). The earlier worry was two attempts that passed with no skill loaded;
+  both were in the plugin arm. Why they passed is not checked. With no plugin, no attempt
   has merged the shards.
 - **Loading** is 13 of 15 across the three runs on the current description: 6 of 6, 1 of 3,
   and 6 of 6 here. It is noisy between runs on the same description.
