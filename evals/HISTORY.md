@@ -4,6 +4,24 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a `postgres-schema-design` case for comments
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for one two-arm run
+of six attempts. There was no separate pilot: the abandoned constraint-naming pilot below used
+the same prompt, and its two answers already differed on comments.
+
+| Case                                                   | With plugin | Loaded | Without plugin |
+| ------------------------------------------------------ | ----------- | ------ | -------------- |
+| `postgres-schema-design/membership-table-is-commented` | 6 of 6      | 6 of 6 | 1 of 6         |
+
+- **Case added.** Write a team-membership migration. The grader checks one rule: the table and
+  every column it creates have a database comment.
+- **What the run showed.** I counted `COMMENT ON` statements in each answer. Every plugin
+  answer has one for the table and six or seven for columns. Without the plugin one answer has
+  the table and six columns and passes; four have the table and two or three columns; one has
+  none.
+- **No skill change.**
+
 ## 2026-11-23: a `postgres-schema-design` constraint-naming pilot, abandoned
 
 Main at `e162033`, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.23 for one pilot of one
