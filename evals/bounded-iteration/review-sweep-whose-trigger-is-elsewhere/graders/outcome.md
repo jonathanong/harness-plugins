@@ -9,9 +9,14 @@ PASS if all hold:
 
 - It says the job's `UPDATE` fires that trigger (or otherwise bumps `updated_at`), which is the
   column the sweep selects by, so every reindexed row is selected again on a later run and the
-  sweep never runs out of work. A fix that stops this job's write from changing `updated_at`,
-  or selects by something the job does not write (such as a separate dirty marker or the search
-  text being stale), passes.
+  sweep never runs out of work.
+- Its fix takes the sweep off `profiles.updated_at`: the job selects by something made for it,
+  such as a dirty marker, a work-item or outbox table, or a column that says the search text is
+  stale; or the job goes away (a generated column, or the edit path writes the search text). A
+  review that offers several fixes passes if it recommends one of these or says not to select
+  profiles by `updated_at`. A review whose only fixes keep selecting `profiles` by `updated_at`,
+  such as making the trigger skip `search_text` or comparing a new timestamp with `updated_at`,
+  fails.
 - It says the `profile-indexed` notification is sent again each time a row is reindexed, so
   users get repeats, and asks to make it idempotent (keyed to the edit, sent once per change,
   or sent by the edit itself rather than the sweep) or to remove it.
