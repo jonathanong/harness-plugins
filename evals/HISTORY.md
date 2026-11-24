@@ -9,7 +9,7 @@ scores are in [EVALS.md](EVALS.md).
 Main at `a908232`, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.57 for two pilots of one
 attempt per arm. No case was added and the fixture was not kept.
 
-The fixture was a service of eleven small files: a route, a redeem function, a ledger client,
+The fixture was a service of ten small source files: a route, a redeem function, a ledger client,
 error middleware that sends every error to the tracker unless its code is in a quiet list, and
 separate middleware that writes the response.
 
@@ -18,14 +18,14 @@ separate middleware that writes the response.
 | An already-used gift card gets a 409 and stays out of the tracker  | 1 of 1      | 1 of 1         |
 | A 422 from the ledger for a credit we built becomes a reported 5xx | 1 of 1      | 1 of 1         |
 
-- **First pilot.** The request named only the route. The unaided attempt read every source
-  file, reached the tracker middleware through the server file, and added the new code to the
-  quiet list.
+- **First pilot.** The request named only the route. The unaided attempt read six of the
+  ten files: it followed the route to the server file, read both middleware files from there,
+  and added the new code to the quiet list.
 - **Second pilot.** The unaided attempt answered 502 and left the code out of the quiet list.
   Its message gives the reason: the amount comes from our own row, so the shopper cannot fix
   it.
-- **What this shows.** In a repository this small the model reads all of it, so putting the
-  tracker call in another file hides nothing. One attempt per arm is a grader check, not a
+- **What this shows.** In a repository this small the model follows the imports to the
+  tracker call, so putting that call in another file hides nothing. One attempt per arm is a grader check, not a
   measurement.
 
 ## 2026-11-23: a native case for the client pagination rule
