@@ -4,6 +4,32 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-23: a `review-ci-logs` local-scope pilot, abandoned, and a grader line
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $0.59 for one two-arm run
+of three attempts. No case is kept.
+
+| Pilot                                                    | With plugin | Loaded | Without plugin |
+| -------------------------------------------------------- | ----------- | ------ | -------------- |
+| CI fails in a package the local test run did not include | 3 of 3      | 0 of 3 | 3 of 3         |
+
+- **The prompt** said the tests were green in `apps/web` before the push, showed a one-line
+  change in a shared package and a `pnpm -r test` log failing in a third package, and asked
+  for the fix. The grader passed an answer that says the local run did not cover the failing
+  tests.
+- **What it showed.** I read the opening of each of the six answers, about 550 characters.
+  All six said the local run covered one package and CI ran every package. On this prompt
+  the model makes that comparison unaided.
+- **The skill loaded in 0 of 3.** A request to explain one red job and fix it did not load
+  `review-ci-logs`. One prompt is not enough to change the description on.
+- **The fixture was wrong.** The diff swapped `Math.round(x)` for `Math.floor(x + 0.5)`, which
+  give the same result for the failing input, and five of the six answers said so in the
+  part I read. A repeat needs a change that does cause the failure.
+- **Grader edit, no run:** `github-ci-operations/backlog-reads-the-log-before-a-rerun` now
+  fails an answer that gives the rerun command and suggests the log in either order without
+  advising against the rerun; before, it named only rerun-first. The one recorded answer of
+  that shape already failed. Not re-measured.
+
 ## 2026-11-23: two `github-ci-operations` backlog pilots, one kept
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $1.53 for two two-arm runs

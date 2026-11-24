@@ -235,7 +235,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   attempts on 2026-11-23, on the current description and grader. Across the
   three runs on that description the skill loaded in 13 of 15 plugin attempts.
   **`github-ci-operations/backlog-reads-the-log-before-a-rerun`** is from a two-arm run of
-  three attempts on 2026-11-23.
+  three attempts on 2026-11-23; its grader gained a line after the run, not re-measured.
   **`github-ci-operations/queue-under-the-limit-cancels-nothing`** is from a two-arm run of
   three attempts on 2026-11-23, on the merged skill; its grader was tightened after the run,
   not re-measured.
