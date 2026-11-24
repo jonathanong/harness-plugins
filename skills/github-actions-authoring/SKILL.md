@@ -1,6 +1,6 @@
 ---
 name: github-actions-authoring
-description: Use when writing, editing, or reviewing a GitHub Actions workflow such as ci.yml, or a composite action, including a change to its triggers, concurrency, jobs, matrix, or test shards. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, pins, and job size.
+description: Use when writing, editing, or reviewing a GitHub Actions workflow such as ci.yml, or a composite action, or when asked to add or change a job, a matrix, test shards, triggers, or a concurrency block. Design GitHub Actions workflows that react to events instead of polling, and check triggers, concurrency, timeouts, runners, pins, and job size.
 ---
 
 # GitHub Actions authoring
@@ -12,6 +12,10 @@ permissions, pins, and timeouts; this skill covers the design those rules do not
 
 A workflow reacts to a state transition and never polls; "Reject polling designs" states the
 rule and its two exceptions.
+
+When a request asks by name for something this skill or one of its references says not to
+do, such as chaining independent jobs or one job per small upload, say why and give what the
+rule calls for in its place. Do not hand over what was asked for with a note beside it.
 
 Before editing any workflow, read the [workflow baseline](references/workflow-baseline.md):
 trigger types that restart passed checks, concurrency and cancellation, the 30-minute job bound,
