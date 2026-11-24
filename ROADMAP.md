@@ -92,6 +92,15 @@ Each still gets a loading case and an answer case.
 - [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
       loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
       with the description unchanged. Find which part of the request no longer matches it.
+- [ ] **Does a link alone carry a rule?** `github-issue` rule 3, `postgres-locking`, and the
+      `pull-requests` review response each keep a short copy of `agent-workflow`, "Verify a
+      finding", beside the link to it. In 9 of 9 plugin attempts on 2026-11-24 no agent opened the
+      link, and each passed on the local text; no link-only version was measured. Cut
+      `github-issue` rule 3 to the link plus the evidence an issue shows, and rerun
+      `unverified-finding-is-an-investigation`, three attempts per arm. If it holds, cut the other
+      copies to their skill-specific instruction and rerun their cases. If it fails, add an
+      exception to the no-repeat rule in the root `AGENTS.md` that cites the run. The first try
+      ran into the eval account's weekly limit, which resets 2026-11-30.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score.
