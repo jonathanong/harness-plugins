@@ -62,6 +62,7 @@ unaided by design.
 | `llm-calls/ticket-classifier-takes-its-model`                           | Takes the model for a new classifier from configuration or an argument, with no model id or fallback in the code.                                | 1.00  | 6 of 6   | 0.00           |
 | `native-app-architecture/core-tests-and-web-view`                       | Runs portable core tests once and asks for a written blocker before a web view.                                                                  | 1.00  | 3 of 3   | 0.00           |
 | `native-app-architecture/generated-project-file`                        | Commits the project specification and ignores the generated Xcode project.                                                                       | 1.00  | 3 of 3   | 0.00           |
+| `native-app-architecture/inbox-ends-on-the-flag`                        | Ends a SwiftUI list and shows its empty state from the API's next-page flag, with the paging state outside the view.                             | 0.92  | 5 of 6   | 0.00           |
 | `npm-publishing/bootstrap-new-package`                                  | Prepares a first publish for a person to run, and never publishes itself.                                                                        | 0.94  | 2 of 3   | 0.40           |
 | `npm-publishing/existing-package-trust-only`                            | Sets up trusted publishing for an existing package without publishing or changing trust.                                                         | 1.00  | 3 of 3   | 0.73           |
 | `package-json-checklist/review-override-for-peer-warning`               | Accepts React 19 for one package with `peerDependencyRules`, not an override.                                                                    | 1.00  | 3 of 3   | 0.67           |
@@ -174,6 +175,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   case, after the skill said to state decisions as facts. `blast-radius-tests-and-flows` and
   `plan-pulls-in-postgres-skill` are ceiling cases: they show the skill loads and does no harm,
   not that it helps.
+- **`native-app-architecture/inbox-ends-on-the-flag`** is from a two-arm run of six attempts on
+  2026-11-23. The skill loaded in 6 of 6. Its grader gained one FAIL line after the run and the
+  row was not re-measured.
 - **`llm-calls/new-tool-clamps-through-one-helper`** is from a two-arm run of six attempts on
   2026-11-23. The skill loaded in 6 of 6.
 - **`llm-calls/ticket-classifier-takes-its-model`** is from a two-arm run of six attempts on
