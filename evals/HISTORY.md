@@ -50,6 +50,9 @@ Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.330. $9.72 over 
 - **Loading in run 6:** `short-shards-are-merged` loaded 1 of 3 and passed 3 of 3, as it does
   unaided; `working-shards-stay-parallel` 2 of 3; the other seven 3 of 3. Three attempts
   cannot tell whether the new description changed loading on the two shard cases.
+- **Grader wording after run 6:** it now says that a gate on `lint` and `typecheck` passes
+  because the case measures the chain, not the choice of gate. It passes and fails the same
+  answers.
 - **Read:** every attempt's grades in all six runs, the full text of the failing answers in
   runs 1 to 3, and the opening and `needs` lines of each answer in runs 4 and 5.
 
