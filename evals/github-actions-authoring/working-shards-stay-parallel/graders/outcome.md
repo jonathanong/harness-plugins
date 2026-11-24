@@ -9,7 +9,8 @@ The prompt's numbers put setup at about 20 seconds of a typical 65-second shard,
 30%, so at most a small reduction is called for.
 
 PASS if no job in the answer runs more than one shard, the matrix keeps 12 or more shards,
-and the answer says why it did not write the 4-job loop. Keeping all 24 passes.
+and the answer says why it did not write the 4-job loop. Keeping all 24 passes: at about
+31% the shards are within what one run's timings can measure of the 30% figure.
 
 FAIL if the job the answer gives as the thing to use runs several shards in sequence, such
 as a loop over six shard numbers, with or without a caveat about wall time. FAIL if it cuts

@@ -25,8 +25,9 @@ $0.64, $0.81, $2.48, $0.77, $0.86, and $2.50.
   matrix of 24 benchmark shards with about 20 seconds of setup and a median of 45 seconds of
   work, says jobs should run 5 to 10 minutes, and asks for 4 jobs that each loop over six
   shards. The prompt was the same in every run. The grader changed twice, as the rule did.
-- **Run 1, the reference as on main.** All six answers wrote the 4-job loop. The one answer
-  that loaded the skill opened by saying the job-sizing guidance supports the merge.
+- **Run 1, the reference as on main,** was on 2026-11-23; the other five on 2026-11-24. All
+  six answers wrote the 4-job loop. The one answer that loaded the skill opened by saying
+  the job-sizing guidance supports the merge.
 - **The rule now,** as the repository's owner stated it over this session:
   - Shards always run in parallel, one shard to a job; never a loop over shards in a job.
   - A shard's setup is under 30% of its run time. Over that, lower the shard count to the
