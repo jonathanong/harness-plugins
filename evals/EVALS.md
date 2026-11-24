@@ -66,6 +66,7 @@ unaided by design.
 | `http-api-design/edge-claims-do-not-authorize`                          | Uses an edge-verified claim for cache bypass only, and lets the origin authorize.                                                                                              | 1.00  | 3 of 3   | 0.00           |
 | `http-api-design/invite-handler-resolves-before-it-validates`           | Orders a new handler: authenticate, resolve the project in the URL, validate the body, then act.                                                                               | 1.00  | 6 of 6   | 0.00           |
 | `http-api-design/uuid-slug-routes`                                      | Makes the slug the canonical route and permanently redirects old UUID links to it.                                                                                             | 1.00  | 3 of 3   | 0.00           |
+| `lint-rule-authoring/untraceable-name-is-reported`                      | Asked to write a lint rule that finds its subject by an import, tests an indirect form and reports a name it cannot trace instead of passing silently.                         | 1.00  | 6 of 6   | 0.00           |
 | `list-reads/capped-walk-keeps-paging`                                   | Caps an inbox read at 500 rows looked at and still tells the client to keep paging when the cap stops it short.                                                                | 1.00  | 6 of 6   | 1.00           |
 | `list-reads/fixed-top-three-is-not-a-page`                              | Guard: returns a banner's three latest sign-ins with one fixed-limit query and no cursor or next-page flag; has no skill-fired grader.                                         | 1.00  | 6 of 6   | 1.00           |
 | `list-reads/review-feed-candidate-pool`                                 | Asks for one walk over posts with the mute filter in the query, not a capped pool filtered afterward.                                                                          | 0.96  | 11 of 12 | 0.33           |
@@ -126,7 +127,7 @@ unaided by design.
 | `skill-authoring/repo-rule-not-in-shared-skill`                         | Keeps one team's package, field, and path out of a shared skill and puts them in that team's repository.                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `skill-authoring/split-by-trigger`                                      | Gives browser-test guidance its own skill, or an existing one, instead of a reference under the unit-test skill.                                                               | 0.83  | 2 of 3   | 0.00           |
 | `static-analysis-checklist/parses-yaml-with-fixtures`                   | Parses YAML instead of matching text, and tests the check with fixtures.                                                                                                       | 1.00  | 3 of 3   | 0.50           |
-| `static-analysis-checklist/tracked-files-only`                          | Limits a CI guard's file discovery to tracked workflow and action files.                                                                                                       | 0.62  | 4 of 8   | 0.33           |
+| `static-analysis-checklist/tracked-files-only`                          | Limits a CI guard's file discovery to tracked workflow and action files.                                                                                                       | 1.00  | 3 of 3   | 0.33           |
 | `static-code-analysis/new-rust-service`                                 | Picks the static checks for a new Rust service.                                                                                                                                | 1.00  | 6 of 6   | 0.83           |
 | `static-code-analysis/new-typescript-library`                           | Picks the static checks for a new TypeScript library.                                                                                                                          | 1.00  | 6 of 6   | 0.00           |
 | `structured-logging/log-identifier-not-lookup`                          | Logs the customer id with a static message instead of looking up an email for the log.                                                                                         | 1.00  | 3 of 3   | 0.00           |
@@ -184,11 +185,16 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   not load it failed. The other `react-app-structure` rows, and the `list-reads` and
   `native-app-architecture` rows, predate the pagination rules added that day and were not
   re-measured.
-- **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`,
-  `service-boundaries`, and `static-analysis-checklist` rows** are from the two-arm run after
-  their generic rules were added, three attempts per arm. `tracked-files-only` scored 1 of 3 with
-  the plugin in that run and 3 of 3 in a same-session rerun, against 1 of 3 on `main`; its row
-  is the rerun.
+- **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`, and
+  `service-boundaries` rows** are from the two-arm run after their generic rules were added, three
+  attempts per arm.
+- **The `lint-rule-authoring` row** is from one two-arm run of six attempts per arm on 2026-11-24,
+  on the current skill text; the skill loaded 6 of 6. **The two `static-analysis-checklist` rows**
+  take their plugin score from a plugin-only run of three attempts the same day, after that
+  skill's description stopped naming the writing of a lint rule; the skill loaded 3 of 3 in each.
+  Their "Without plugin" is from earlier two-arm runs. These two rows were not measured against
+  the earlier description in the same session, so they show that the skill still loads and passes,
+  not a gain from the description change; `tracked-files-only` stood at 4 of 8 on 2026-11-22.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
@@ -315,10 +321,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   an earlier two-arm run and a three-attempt pilot.
 - **`planning/plan-saved-outside-repo`** is from a two-arm run of six attempts per arm on
   2026-11-22, after its grader was narrowed to where the plan is saved.
-- **`planning/plan-states-before-after` and `static-analysis-checklist/tracked-files-only`** take
-  "Score" and "Passed" from a plugin-only run of eight attempts on 2026-11-22, after their
-  descriptions changed. On `main` in the same session each passed 1 of 8. "Without plugin" is
-  from the earlier two-arm runs.
+- **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
+  eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
+  passed 1 of 8. "Without plugin" is from the earlier two-arm run.
 - **`bounded-iteration/overlapping-purge-runs-stay-lock-free`** is from the second two-arm run
   of six attempts on 2026-11-23, after its grader was tightened. The skill loaded in 5 of 6, and
   the attempt that did not load it failed. The skill as it was before the rule passed 0 of 6.

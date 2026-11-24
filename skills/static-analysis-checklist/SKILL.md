@@ -1,6 +1,6 @@
 ---
 name: static-analysis-checklist
-description: Use when adding, changing, or reviewing a lint rule, CI guard, policy check, or script that fails a build when it finds a pattern in code, configuration, or workflows. Place, author, and validate one static-analysis invariant.
+description: Use when adding, changing, or reviewing a CI guard, policy check, or script that fails a build when it finds a pattern in code, configuration, or workflows, or when wiring a lint rule into a repository. Place, wire up, and validate one static-analysis invariant. For the code inside a lint rule, use lint-rule-authoring.
 ---
 
 # Static analysis checklist
@@ -8,7 +8,9 @@ description: Use when adding, changing, or reviewing a lint rule, CI guard, poli
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
 Use when adding or changing a static-analysis invariant. To choose which analyzers a repository
-should run in the first place, use [static-code-analysis](../static-code-analysis/SKILL.md). Read
+should run in the first place, use [static-code-analysis](../static-code-analysis/SKILL.md). For the
+code inside a rule that walks a syntax tree, use
+[lint-rule-authoring](../lint-rule-authoring/SKILL.md). Read
 local `AGENTS.md`, analyzer documentation, rule inventory, and fixture conventions before selecting
 an implementation. Local instructions own analyzer roots, fixture locations, commands, suppression
 syntax, and rollout policy.

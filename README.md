@@ -53,6 +53,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [`static-code-analysis`](skills/static-code-analysis/SKILL.md)                         | Creating a repository: which static checks to add and how strict to start.            |
 | [`static-analysis-checklist`](skills/static-analysis-checklist/SKILL.md)               | Adding or changing one static-analysis invariant.                                     |
+| [`lint-rule-authoring`](skills/lint-rule-authoring/SKILL.md)                           | Writing the code of a lint rule or AST check: bindings, untraceable names, fixtures.  |
 | [`github-actions-authoring`](skills/github-actions-authoring/SKILL.md)                 | Writing workflows: events not polling, triggers, timeouts, runners, pins, job size.   |
 | [`github-ci-operations`](skills/github-ci-operations/SKILL.md)                         | CI that is slow, queued, or costly: measuring, runner limits, clearing a backlog.     |
 | [`dependabot`](skills/dependabot/SKILL.md)                                             | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.              |
@@ -105,10 +106,10 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **138 cases** across 46 skills.
+- **139 cases** across 47 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.33, over the 137 cases measured both ways.
-- **108 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
+- **Without it:** mean score 0.33, over the 138 cases measured both ways.
+- **109 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
 
 <!-- /evals:headline -->
 

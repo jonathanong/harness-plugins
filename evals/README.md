@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **138 cases** across 46 skills.
+- **139 cases** across 47 skills.
 - **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.33, over the 137 cases measured both ways.
-- **108 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
+- **Without it:** mean score 0.33, over the 138 cases measured both ways.
+- **109 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -45,6 +45,7 @@ averaged over attempts.
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |
 | `http-api-design`                  | 4     | 1.00        | 0.17           | 0                     |
+| `lint-rule-authoring`              | 1     | 1.00        | 0.00           | 0                     |
 | `list-reads`                       | 4     | 0.99        | 0.67           | 2                     |
 | `llm-calls`                        | 3     | 0.97        | 0.44           | 1                     |
 | `native-app-architecture`          | 3     | 0.97        | 0.00           | 0                     |
@@ -65,7 +66,7 @@ averaged over attempts.
 | `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     |
 | `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     |
 | `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     |
-| `static-analysis-checklist`        | 2     | 0.81        | 0.42           | 0                     |
+| `static-analysis-checklist`        | 2     | 1.00        | 0.42           | 0                     |
 | `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     |
 | `structured-logging`               | 3     | 1.00        | 0.00           | 0                     |
 | `technical-writing`                | 3     | 0.89        | 0.00           | 0                     |
