@@ -1,8 +1,8 @@
 # Backlog: jobs are queuing at the runner limit
 
 Read this only when jobs wait minutes for a runner because the account is at a concurrency
-limit. These steps free runners now. They are not how CI is run day to day: outside a backlog,
-no run is cancelled by hand.
+limit. These steps free runners now. They are not how CI is run day to day: outside a backlog, a
+run on the default branch is never cancelled, and `SKILL.md` says which other runs may be.
 
 Work in this order. Each step is cheaper than the next.
 
@@ -13,12 +13,11 @@ Work in this order. Each step is cheaper than the next.
    many jobs that finish in a minute or two.
 2. **Cancel superseded runs.**
    - On a pull request, a run for an older push should already have been cancelled. If it was
-     not, the workflow lacks `concurrency` with `cancel-in-progress`; fix the workflow.
+     not, cancel it, and fix the workflow: it lacks `concurrency` with `cancel-in-progress`.
    - On the default branch, workflows do not cancel in-progress runs, because each commit there
      needs its own result. During a backlog, an operator may cancel the runs for older commits
-     by hand:
-     `gh api -X POST repos/OWNER/REPO/actions/runs/RUN_ID/cancel`. Say in the report which
-     commits now have no result.
+     by hand; [cookbook](cookbook.md) has the commands. Say in the report which commits now have no
+     result.
    - Never cancel the newest run of a workflow on a ref, or a run a release is waiting on.
 3. **Do not rerun a job to see whether it is flaky.** A rerun takes a runner from the queue and
    tells you less than the log does. Read the failure with `review-ci-logs`.

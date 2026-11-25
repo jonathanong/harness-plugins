@@ -32,12 +32,20 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.15'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: python -m pip install -r requirements-dev.txt
       - run: pnpm run lint
       - run: pnpm run format:check
       - name: Every skill has a skill-fired eval case
         run: pnpm run evals:check
       - name: Marketplaces agree and every plugin source resolves
         run: pnpm run marketplace:check
+      - name: Scripts bundled in skills pass their tests with full coverage
+        run: pnpm run test
 
   links:
     runs-on: ubuntu-slim

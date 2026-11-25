@@ -19,45 +19,27 @@ When a request asks by name for something this section says not to do, such as a
 or a whole run's log, say why and give the small query in its place. Do not hand over what
 was asked for with a note beside it.
 
-- Job time and queue wait come from the jobs of a run, not from logs:
+[cookbook](references/cookbook.md) has the commands for each measurement below, and two
+bundled scripts: a CI report for a window of runs and a canceller for runs stuck for hours.
 
-  ```bash
-  gh api repos/OWNER/REPO/actions/runs/RUN_ID/jobs --paginate --jq '.jobs[]
-    | [.name, (.labels | join(",")), .status, .created_at, .started_at, .completed_at]
-    | @tsv'
-  ```
-
-  Queue wait is `started_at - created_at`. Run time is `completed_at - started_at`. Step times
-  are in `.steps[]` with the same two fields.
-
+- Job time and queue wait come from the jobs of a run, not from logs. Queue wait is
+  `started_at - created_at`. Run time is `completed_at - started_at`. Step times are in the
+  same response.
 - To find which runner pool is short, list the jobs that are still queued and group them by
   their full set of runner labels; a job waits for a runner that has every label it asks for.
   First count the jobs running across the whole account against the total limit below. When
   the total is full, every label queues, and the fix is the total, not the label that happens
   to be waiting. When it is not, the label with the queue is the pool to fix.
-- No single call counts an account's running jobs. Count one repository's, and add up the
-  repositories that run CI:
-
-  ```bash
-  for status in in_progress queued; do
-    gh api "repos/OWNER/REPO/actions/runs?status=$status&per_page=100" --jq '.workflow_runs[].id'
-  done | while read -r id; do
-    gh api "repos/OWNER/REPO/actions/runs/$id/jobs" --paginate \
-      --jq '.jobs[] | select(.status != "completed") | [.status, (.labels | join(","))] | @tsv'
-  done | sort | uniq -c
-  ```
-
-  When that sum cannot be had, say the count is unknown; do not treat a queue alone as proof
-  of a limit.
-
+- No single call counts an account's running jobs. Count each repository that runs CI and add
+  them up. When that sum cannot be had, say the count is unknown; do not treat a queue alone as
+  proof of a limit.
 - Read one snapshot. Do not watch a run with `gh run watch`, `gh pr checks --watch`, or a sleep
   loop. A poll tells an agent nothing the timestamps will not: how long a job queued is
-  `started_at - created_at` once it starts, so the jobs query at the top of this section,
-  run once after the jobs start, gives the wait exactly. To wait for a result, use the
-  event-driven tool the repository provides.
-- When a log is needed, fetch one job's log to a temporary file
-  (`gh api repos/OWNER/REPO/actions/jobs/JOB_ID/logs`) and search it. `review-ci-logs` owns how
-  to read it.
+  `started_at - created_at` once it starts, so the jobs of a run, read once after the jobs
+  start, give the wait exactly. To wait for a result, use the event-driven tool the repository
+  provides.
+- When a log is needed, fetch one job's log to a temporary file and search it, not the run's
+  whole archive. `review-ci-logs` owns how to read it.
 
 ## Know the limits before proposing more runners
 
@@ -89,8 +71,21 @@ at any other time, such as cancelling runs on the default branch. When jobs wait
 runner and the count of running jobs has reached a limit in the table above, read
 [backlog](references/backlog.md) and follow its order. On standard hosted runners, a queue
 while the account is under those limits is the provider's delay; wait it out. A self-hosted or
-larger-runner pool has its own capacity, which the table does not give. Outside a backlog,
-cancel nothing by hand.
+larger-runner pool has its own capacity, which the table does not give.
+
+## Which runs may be cancelled
+
+Outside a backlog, cancel only these, without asking:
+
+- A run stuck in a queued or running state for longer than the repository's threshold (six
+  hours by default), on any branch but the default branch.
+- A superseded run on a pull request's branch: a newer run of the same workflow on the same
+  branch exists, so the newest run is never the one cancelled. Never cancel a
+  merge-queue run (`gh-readonly-queue/...`), whose cancel removes its pull request from the
+  queue, or a run for a tag or a release.
+
+Never cancel a run on the default branch outside the backlog steps: each commit there needs its
+own result. A run that is not stuck or superseded is left to finish.
 
 ## Report
 

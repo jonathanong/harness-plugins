@@ -50,11 +50,13 @@ unaided by design.
 | `github-actions-authoring/short-shards-are-merged`                      | Merges one-minute test shards when asked to double them, because most of each shard is setup and queue wait.                                                                                                                             | 0.67  | 1 of 3   | 0.00           |
 | `github-actions-authoring/uploads-are-not-one-job-each`                 | Asked for a matrix with one job per package to upload 40 small coverage files, uploads them from one job or a few.                                                                                                                       | 1.00  | 3 of 3   | 0.00           |
 | `github-actions-authoring/working-shards-stay-parallel`                 | Asked to fold 24 parallel shards into 4 jobs that each loop over six, keeps one shard to a job and at least 12 shards.                                                                                                                   | 0.67  | 2 of 3   | 0.00           |
-| `github-ci-operations/backlog-reads-the-log-before-a-rerun`             | With the account at its limit, advises against rerunning a failed job to see whether it is flaky, and reads its log instead.                                                                                                             | 1.00  | 3 of 3   | 0.00           |
-| `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                                                                                                                 | 1.00  | 3 of 3   | 1.00           |
-| `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.                                                                                             | 1.00  | 3 of 3   | 0.00           |
-| `github-ci-operations/queue-is-read-once-not-watched`                   | Asked for a loop that polls a run until its jobs start, gives one query of the job timestamps and no loop.                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
+| `github-ci-operations/backlog-reads-the-log-before-a-rerun`             | With the account at its limit, advises against rerunning a failed job to see whether it is flaky, and reads its log instead.                                                                                                             | 0.92  | 5 of 6   | 0.33           |
+| `github-ci-operations/macos-queue-is-not-a-plan-problem`                | Says a move from Free to Team leaves the macOS limit at 5 and cuts the macOS jobs instead. Ceiling case.                                                                                                                                 | 1.00  | 6 of 6   | 1.00           |
+| `github-ci-operations/queue-under-the-limit-cancels-nothing`            | Asked to cancel older runs on `main` with 11 jobs running on a plan that allows 60, says the account is under its limit and cancels nothing.                                                                                             | 1.00  | 6 of 6   | 0.00           |
+| `github-ci-operations/queue-is-read-once-not-watched`                   | Asked for a loop that polls a run until its jobs start, gives one query of the job timestamps and no loop.                                                                                                                               | 0.83  | 5 of 6   | 0.00           |
 | `github-ci-operations/slow-step-comes-from-step-times-not-the-log`      | Asked for a command that prints a whole run's log to find a slow step, gives a query of step times and no log dump.                                                                                                                      | 1.00  | 6 of 6   | 0.00           |
+| `github-ci-operations/stuck-runs-on-main-are-left-alone`                | Asked for something that cancels every run stuck queued for over six hours, leaves the four stuck runs on the default branch alone and says so.                                                                                          | 1.00  | 6 of 6   | 0.00           |
+| `github-ci-operations/superseded-runs-spare-the-queue-and-main`         | Asked to cancel whatever is superseded, cancels only the two older runs on a feature branch and keeps the newest one, the merge-queue run, and the runs on the default branch.                                                           | 0.92  | 5 of 6   | 0.50           |
 | `github-issue/search-before-filing`                                     | Searches for a duplicate before filing, writes a self-contained body, and invents no label.                                                                                                                                              | 0.83  | 2 of 3   | 0.00           |
 | `github-issue/stale-notes-before-filing`                                | Checks that a months-old note still holds on the default branch before filing it.                                                                                                                                                        | 1.00  | 3 of 3   | 0.33           |
 | `github-issue/unverified-finding-is-an-investigation`                   | Asked to file a follow-up from a review note about a possible race nobody has checked, files an investigation with the unknowns listed and any fix conditional on the finding.                                                           | 1.00  | 3 of 3   | 0.33           |
@@ -122,10 +124,10 @@ unaided by design.
 | `react-app-structure/load-more-follows-the-flag`                        | Pages a list while the API reports a next page, and shows the empty state only when no further page can be requested.                                                                                                                    | 0.83  | 5 of 6   | 0.17           |
 | `react-app-structure/review-profile-card`                               | Objects to a user-supplied image rendered directly, a computed fetch URL, and a hand-built link.                                                                                                                                         | 1.00  | 3 of 3   | 0.67           |
 | `resuming-work/note-says-about-to-push`                                 | Sees that the branch is already pushed and the pull request open, and goes to the failing check instead of repeating the step.                                                                                                           | 0.83  | 2 of 3   | 1.00           |
-| `review-ci-logs/cause-is-a-quiet-line-before-the-errors`                | Asked why a job failed, with the log in a file in a repository, names the step that quietly wrote nothing and the stale path in its configuration, not the type errors that follow.                                                      | 0.83  | 2 of 3   | 0.33           |
-| `review-ci-logs/first-error-in-a-long-log`                              | Asked why a job failed, with a long log pasted, names the first failure the repository owns and not the errors that follow from it. Ceiling case, kept for loading.                                                                      | 1.00  | 3 of 3   | 1.00           |
-| `review-ci-logs/quiet-log-keeps-errors`                                 | Quiets a noisy log at its source and keeps stderr and failing exits. Ceiling case.                                                                                                                                                       | 1.00  | 3 of 3   | 1.00           |
-| `review-ci-logs/retry-request-gets-the-cause-fixed`                     | Asked to wrap a migration that sometimes fails with connection refused in a retry, adds a database health check and no retry.                                                                                                            | 1.00  | 3 of 3   | 0.00           |
+| `review-ci-logs/cause-is-a-quiet-line-before-the-errors`                | Asked why a job failed, with the log in a file in a repository, names the step that quietly wrote nothing and the stale path in its configuration, not the type errors that follow.                                                      | 1.00  | 6 of 6   | 0.33           |
+| `review-ci-logs/first-error-in-a-long-log`                              | Asked why a job failed, with a long log pasted, names the first failure the repository owns and not the errors that follow from it. Ceiling case, kept for loading.                                                                      | 0.75  | 3 of 6   | 1.00           |
+| `review-ci-logs/quiet-log-keeps-errors`                                 | Quiets a noisy log at its source and keeps stderr and failing exits. Ceiling case.                                                                                                                                                       | 0.92  | 5 of 6   | 1.00           |
+| `review-ci-logs/retry-request-gets-the-cause-fixed`                     | Asked to wrap a migration that sometimes fails with connection refused in a retry, adds a database health check and no retry.                                                                                                            | 1.00  | 6 of 6   | 0.00           |
 | `revisit-followups/only-verified-deferred-work`                         | Keeps only explicit deferred work and has it verified before any issue is filed.                                                                                                                                                         | 0.83  | 2 of 3   | 0.00           |
 | `rust-authoring/tests-in-separate-file`                                 | Puts unit tests for a private function in a separate file.                                                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
 | `service-boundaries/partner-webhook`                                    | Maps a partner payload once, keeps the raw body, and tests with captured payloads.                                                                                                                                                       | 1.00  | 3 of 3   | 1.00           |
@@ -159,11 +161,6 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
-- **`github-ci-operations/slow-step-comes-from-step-times-not-the-log`** takes its plugin score
-  and loading from a plugin-only run of six attempts on 2026-11-23, on the current skill, and its
-  "Without plugin" value from a two-arm run of three attempts earlier that day. The skill's other
-  four rows take their plugin score and loading from a plugin-only run of three attempts on the
-  current skill the same day, and keep their "Without plugin" values from earlier runs that day.
 - **`structured-logging/request-body-is-not-logged`** takes its plugin score and loading from a
   plugin-only run of six attempts on 2026-11-23, on the current description, and its "Without
   plugin" value from a two-arm run of three attempts earlier that day. The skill's other two rows
@@ -313,14 +310,6 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   attempts on an intermediate text, with one of the two edits or before the description changed,
   not on the committed text; each gave 5 of 6, loaded 5 of 6. The grader of
   `independent-jobs-are-not-chained` was tightened after the run, not re-measured.
-- **`github-ci-operations/backlog-reads-the-log-before-a-rerun`** is from a two-arm run of
-  three attempts on 2026-11-23; its grader gained a line after the run, not re-measured.
-  **`github-ci-operations/queue-under-the-limit-cancels-nothing`** is from a two-arm run of
-  three attempts on 2026-11-23, on the merged skill; its grader was tightened after the run,
-  not re-measured.
-  **`github-ci-operations/macos-queue-is-not-a-plan-problem`** is from a two-arm run of three
-  attempts the same day; the skill's backlog steps moved to a reference and its measuring and
-  backlog rules were edited after it, not re-measured.
 - **The `debugging`, `verification`, and `agent-coordination` rows** are from plugin-only runs of
   twelve attempts on 2026-11-22. All three are ceiling cases: every answer passed, with and
   without the plugin, and the rows are below 1.00 only because "Passed" counts the attempts that
@@ -329,12 +318,13 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`postgres-node-performance-tuning/index-change-rechecks-neighbors`** is from two plugin-only
   runs on 2026-11-22, 21 attempts. The skill loaded in 19; two attempts that loaded it failed the
   answer. Its "Without plugin" value is from an earlier two-arm run.
-- **The four `review-ci-logs` rows** are from one two-arm run of three attempts per arm on
-  2026-11-24. The skill loaded in 11 of 12 attempts; the miss was on
-  `cause-is-a-quiet-line-before-the-errors`, whose three plugin answers all passed the outcome
-  grader. `first-error-in-a-long-log` loaded in 3 of 3 here and in 6 of 9 before it that day.
-  `quiet-log-keeps-errors` passed 3 of 3 without the plugin in this run, so its ceiling mark rests
-  on one run.
+- **The `github-ci-operations` and `review-ci-logs` rows** take their plugin score and loading
+  from plugin-only runs of six attempts per case on 2026-11-24, on the committed text, and their
+  "Without plugin" values from a two-arm run of three attempts earlier that day. The
+  `review-ci-logs` rows are from a run after review edits to that skill.
+  `superseded-runs-spare-the-queue-and-main` is from a two-arm run of six attempts per arm
+  after its prompt said the branch belongs to a pull request; it scored 0.50 without the plugin,
+  so it is a weak case. Every miss in loading loaded no skill.
 - **`list-reads/review-feed-candidate-pool`** is from a plugin-only run of twelve attempts on
   2026-11-22, on the description that opens "Use whenever a task writes or reviews a query".
   The skill loaded in 11 of 12, and all twelve answers passed. "Without plugin" is 3 of 9, from

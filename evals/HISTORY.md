@@ -4,6 +4,58 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-ci-operations` bundles CI scripts and a cookbook; cancel policy and failure kinds
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $50 over all runs
+below. Formatting ran after the runs. The `AGENTS.md` and `skill-authoring` edits had no run.
+
+What changed:
+
+- `github-ci-operations` bundles two standard-library Python scripts, a CI report and a
+  stuck-run canceller that never cancels a default-branch run, with unittest tests at 100% line
+  and branch coverage run in CI by `pnpm run test`. Its command blocks moved to
+  `references/cookbook.md`, with recipes for failed-job logs, flake-issue search, the pull
+  request behind a merge-queue run, and superseded runs; `SKILL.md` keeps the facts they rested
+  on. A new section says which runs may be cancelled outside a backlog: stuck runs and
+  superseded runs on a branch other than the default, never a merge-queue, tag, or release run.
+  `references/backlog.md` agrees with it. The root `AGENTS.md` and `skill-authoring` now allow
+  small standard-library scripts with full-coverage tests in a skill.
+- `review-ci-logs`: fetch only the failed jobs' logs; name the kind of failure (caused by the
+  change, known flake, infrastructure, outage); search for an existing flake issue; do not rerun
+  to find out which kind it is.
+- New cases `github-ci-operations/stuck-runs-on-main-are-left-alone` (0 of 3 without the
+  plugin) and `github-ci-operations/superseded-runs-spare-the-queue-and-main` (0.67 without).
+  Two drafted `review-ci-logs` cases, for searching before filing a flake and for not rerunning
+  a merge-queue failure the change caused, passed 3 of 3 without the plugin and were dropped;
+  their rules stay.
+
+What the runs showed: the how was first a separate skill, `github-ci-cookbook`, and it cost the
+neighbouring skills their loads.
+
+1. **Two-arm run, three attempts, separate cookbook** whose description named job and step
+   times, failed-job logs, and flake issues; `github-ci-operations`' description was also
+   edited. `queue-is-read-once-not-watched` 0 of 3, `slow-step-comes-from-step-times-not-the-log`
+   1 of 3. Kept traces showed the failing attempts loaded only the cookbook, which lacks the rule
+   to refuse a poll or a whole log.
+2. **Control on the parent commit**, three attempts: all nine existing cases 3 of 3.
+3. **Narrower cookbook descriptions, `github-ci-operations`' description restored**, six
+   attempts: the cookbook no longer loaded in place of a neighbour, but the misses loaded no
+   skill at all. `slow-step` 1 of 6, then 3 of 6 on the shortest description.
+4. **Same branch with the cookbook removed**, six attempts: `queue-is-read-once` and `slow-step`
+   6 of 6, against 3 of 6 each with the cookbook installed, the same hour.
+5. **Folded into `github-ci-operations`** (the committed text), six attempts: rows in
+   [EVALS.md](EVALS.md); `slow-step` 6 of 6, `queue-is-read-once` 5 of 6.
+
+6. **After review**: superseded runs may be cancelled only on a pull request's branch, and the
+   case's prompt now says `feature/search` is a pull request's branch; `review-ci-logs` now
+   defines a flake as failing and passing on unchanged code and skips the fix steps for an
+   outage. Two-arm run of six attempts on the superseded case: 5 of 6, 0.50 without the plugin.
+   Plugin-only run of six attempts on `review-ci-logs`: rows in [EVALS.md](EVALS.md).
+
+A second skill on the same topic lowered how often the agent loaded either, even when its
+description did not overlap. Put a skill's commands and scripts in its references and
+`scripts/` rather than in a sibling skill.
+
 ## 2026-11-24: `agent-workflow` verifies a finding before presenting or fixing it
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Ten runs, $7.48. Each
