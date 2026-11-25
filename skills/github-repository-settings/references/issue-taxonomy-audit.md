@@ -46,6 +46,4 @@ labels are in the `github-issue` skill.
 - Give each finding with the exact change recommended and what it moves: the issues relabeled,
   the automation or labeler rule to update, the label source to edit.
 - Separate safe cleanup from decisions that need someone's product or scheduling judgment.
-- A shared label is fixed with a pull request to the declared label source, not an API call.
-- Before any approved label change, fetch the current state again and check that the account can
-  write labels there. Approval covers the exact labels it names, and no others.
+- Make an approved label change as the `github-issue` skill's "Labels" section says.
