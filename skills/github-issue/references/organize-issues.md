@@ -30,8 +30,9 @@ milestones, projects, default scope, and permissions, and overrides these defaul
 ## Projects and milestones
 
 - A project tracks a high-level initiative across repositories. A milestone is an epic in one
-  repository: a release or a sequence of work, closed when the work is done. Choose by the work, not by how many repositories it touches. An initiative can have
-  both.
+  repository: a release or a sequence of work, closed when the work is done. Work in one
+  repository goes in a milestone; an initiative across repositories goes in a project, and can
+  also have a milestone in each repository it touches.
 - An issue belongs to at most one project, unless the repository's `AGENTS.md` says otherwise,
   and not every issue needs one.
 - Before adding an item to a project, check that item and anything the project's automation
