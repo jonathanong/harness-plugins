@@ -34,10 +34,21 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 3. **Bound every statement.** A SELECT, UPDATE, or DELETE that can touch many rows has a `LIMIT`.
    For writes the `LIMIT` goes in a CTE. For list reads, the bound is the page `LIMIT` plus a
    window or keyset, not a separate candidate cap.
-   **A sweep takes no locks.** Do not lock the candidate rows it selected or its cursor row. Each
-   write re-checks eligibility on its own target in the same statement
-   (`DELETE ... WHERE id = $1 AND <still eligible>`), so a row that stopped being eligible after
-   the read is left alone, and overlapping runs repeat work at worst. When eligibility depends on
+   **A sweep takes no locks.** Do not lock the candidate rows it selected or its cursor row. Write
+   a page in one statement that re-checks eligibility on its own target:
+   `DELETE FROM t WHERE id IN (SELECT id FROM t WHERE <eligible> ORDER BY id LIMIT $1) AND <still
+   eligible> RETURNING id`. The inner select carries the same eligibility test; a looser one fills
+   pages with rows the write skips, each run ends on them, and the sweep never gets past them.
+   A row that stopped being eligible after the read is left alone, and overlapping runs repeat
+   work at worst. Count the rows it returned: a full page means run again, and a short or empty
+   page ends the run. A row another writer changed first can end a run early; the next run picks
+   up the rest. Never read or lock an extra row to learn whether more remains; that is a list's
+   next-page check ([list-reads](../list-reads/SKILL.md)). Use two statements only when code must
+   inspect the rows between them, and then the write repeats the test:
+   `DELETE ... WHERE id = ANY($1) AND <still eligible>`. Before writing or approving a sweep that
+   deletes, read what each deleted row sets off: an `ON DELETE CASCADE`, an `AFTER DELETE`
+   trigger, a counter it keeps. Each runs per row inside the statement, so it can lock other rows
+   or multiply the page; size the page for it, or say why it is safe. When eligibility depends on
    another row, such as a hold on the parent, put that guard in the write as well;
    `postgres-locking` says when such a guard needs a lock. `FOR UPDATE SKIP LOCKED` is only for a
    work-item claim, where two workers must not do the same non-idempotent work.
