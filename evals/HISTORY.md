@@ -53,6 +53,15 @@ TTL (a sent payload outlives its retries and the redelivery window), emit metric
 with alerts on signature failures, enqueue failures, and the oldest pending age, and keep metric
 labels bounded. No run after this addition; the case's graders do not cover it.
 
+Then the skill was split: `SKILL.md` became a one-line checklist for each side, and the full
+rules moved to `references/receiving.md` and `references/sending.md`, since receiving and sending
+are different work. Added in the same change: a body size limit on receiving; on sending, public
+hostnames only at save time, a test event when an endpoint is saved, event-type subscriptions, a
+connection pool per host, a rate limit per customer and per host, and documented guarantees.
+Rerun on that text, plugin arm only, three attempts: `webhooks/outbound-delivery-plan` 1.00, 3 of
+3, loaded 3 of 3; that is its EVALS row. Whether a checklist with linked detail carries the rules
+as well as the full text cannot be read from a ceiling case.
+
 ## 2026-11-25: `github-issue` lets an agent create a milestone, and asks before a project (not run)
 
 No run. The decision left open in the previous `github-issue` entry was made: an agent creates a
