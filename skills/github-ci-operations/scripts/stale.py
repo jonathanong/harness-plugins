@@ -5,7 +5,7 @@ By default it POSTs `cancel` for each run older than the threshold, and `force-c
 cancel answers 409 and the run is still stuck and has jobs. A run that answers 409 and has no jobs
 never started: it is not retried and is summarised in one `never-started` line (count, oldest age,
 first ids). Runs on the default branch are never cancelled: they are summarised in one
-`default-branch` line. With --dry-run it only lists. One output line per other run. Runs younger
+`default-branch` line. A fork's run from a branch of the same name is not on the default branch. With --dry-run it only lists. One output line per other run. Runs younger
 than the threshold are never listed or touched.
 """
 import argparse, datetime, os, re, sys, urllib.parse
@@ -38,12 +38,26 @@ def age_of(run, now):
     return (now - max(starts)).total_seconds() if starts else None
 
 
-def where(run):
+def on_default(run, repo, default):
+    """A run on this repository's default branch. A fork's pull request from a branch of the same
+    name runs on the fork's branch, so the head repository must be this one too. A run that does
+    not say where its head lives counts as the default branch, so it is left alone."""
+    if run.get("head_branch") != default:
+        return False
+    head = (run.get("head_repository") or {}).get("full_name")
+    return head is None or head.lower() == repo.lower()
+
+
+def where(run, repo):
     pr = queue_pr(run.get("head_branch"))
     if pr:
         return f"PR#{pr}(queue)"
     prs = run.get("pull_requests") or []
-    return f"PR#{prs[0]['number']}" if prs else run.get("head_branch") or "-"
+    if prs:
+        return f"PR#{prs[0]['number']}"
+    branch = run.get("head_branch") or "-"
+    head = (run.get("head_repository") or {}).get("full_name")
+    return f"{head}:{branch}" if head and head.lower() != repo.lower() else branch
 
 
 def human(value):
@@ -116,15 +130,18 @@ def main(argv=None, now=None):
     now = now or datetime.datetime.now(datetime.timezone.utc)
     gh = Gh(args.max_calls)
     try:
-        default = gh.api(f"repos/{args.repo}")["default_branch"]
+        info = gh.api(f"repos/{args.repo}")
+        # Compare head repositories with the canonical name: after a rename or transfer, GitHub
+        # redirects the old name, but each run reports the new one.
+        repo, default = info.get("full_name") or args.repo, info["default_branch"]
         found, notes = stuck(gh, args.repo, statuses, threshold, now, args.limit)
-        kept = [(run, age) for run, age in found if run.get("head_branch") == default]
-        runs = [(run, age) for run, age in found if run.get("head_branch") != default]
+        kept = [(run, age) for run, age in found if on_default(run, repo, default)]
+        runs = [(run, age) for run, age in found if not on_default(run, repo, default)]
         print(f"stale {args.repo} older-than={args.older_than} status={','.join(statuses)} "
               f"n={len(runs)} mode={'dry-run' if args.dry_run else 'cancel'}")
         zombies = []
         for run, age in runs:
-            line = f"{run['id']} {run.get('name')} {run.get('event')} {where(run)} {run.get('status')} {human(age)}"
+            line = f"{run['id']} {run.get('name')} {run.get('event')} {where(run, repo)} {run.get('status')} {human(age)}"
             if not args.dry_run:
                 try:
                     result = cancel(gh, args.repo, run, statuses, threshold, now)
