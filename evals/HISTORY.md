@@ -24,7 +24,7 @@ What changed, from the repository owner's request:
   decision.
 - `pr-description` lists Decisions as item 6; `github-issue` marks decisions in an issue or
   comment; `planning` marks them in an implementation plan, not in an organization roadmap, and
-  the plan template's Decisions table gains a "By" column; `documentation` states a decision as
+  the plan template's Decisions section uses **User:**/**Agent:** lines; `documentation` states a decision as
   a fact without who made it. Each links to `agent-workflow`.
 - New case `pr-description/description-says-who-decided` and guard
   `documentation/docs-state-decisions-without-attribution`.
