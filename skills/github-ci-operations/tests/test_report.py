@@ -21,13 +21,13 @@ RUNS = [
     wf_run(4, status="in_progress", conclusion=None, updated_at=None),
 ]
 JOBS = {"jobs": [
-    {"name": "build", "labels": ["ubuntu-latest"], "conclusion": "success",
+    {"name": "build", "labels": ["ubuntu-latest"], "conclusion": "success", "created_at": "2026-11-24T10:00:30Z",
      "started_at": "2026-11-24T10:01:00Z", "completed_at": "2026-11-24T10:05:00Z"},
     {"name": "test", "labels": ["macos-15"], "conclusion": "failure", "steps": [{"name": "unit", "conclusion": "failure"}],
      "started_at": "2026-11-24T10:01:00Z", "completed_at": "2026-11-24T10:03:00Z"},
     {"name": "test", "labels": ["macos-15"], "conclusion": "failure", "steps": [{"name": "unit", "conclusion": "failure"}],
      "started_at": "2026-11-24T10:01:00Z", "completed_at": "2026-11-24T10:02:00Z"},
-    {"name": "lint", "labels": ["windows-latest"], "conclusion": "failure",
+    {"name": "lint", "labels": ["windows-latest", "x64"], "conclusion": "failure",
      "started_at": "2026-11-24T10:01:00Z", "completed_at": "2026-11-24T10:02:00Z"},
     {"name": "docs", "labels": [], "conclusion": "skipped", "started_at": None, "completed_at": None},
 ]}
@@ -55,17 +55,20 @@ class Main(unittest.TestCase):
         self.assertIsNone(code)
         lines = out.splitlines()
         self.assertTrue(lines[0].startswith("report o/r since=2026-11-17T12:00:00Z runs=4 jobsSample=3"))
-        self.assertIn("wf CI push n=3 wall p50=10.0m p90=10.0m max=10.0m queue p50=60s p90=60s "
+        self.assertIn("wf CI push n=3 wall p50=10.0m p90=10.0m max=10.0m start p50=60s p90=60s "
                       "failure=1 in_progress=1 success=1 cancel%=0%", lines)
-        self.assertIn("job CI/test runner=macos-15 n=6 skipped=0 median=60s max=2.0m total=9.0m fail=6", lines)
+        self.assertIn("job CI/test runner=macos-15 n=6 skipped=0 median=60s max=2.0m total=9.0m fail=6 "
+                      "queue median=- max=-", lines)
+        self.assertIn("job CI/build runner=ubuntu-latest n=3 skipped=0 median=4.0m max=4.0m total=12.0m fail=0 "
+                      "queue median=30s max=30s", lines)
         self.assertIn("jobs-skipped-only 3 (hidden; see --json)", lines)
         self.assertIn("runner macos-15 min=9 x10 billed=90", lines)
-        self.assertIn("runner windows-latest min=3 x2 billed=6", lines)
+        self.assertIn("runner windows-latest,x64 min=3 x2 billed=6", lines)
         self.assertIn("fail test > unit n=6 runs=2,3,1", lines)
         self.assertIn("fail lint > - n=3 runs=2,3,1", lines)
         self.assertIn("eject PR#7 n=1 runs=3", lines)
         self.assertIn("rerun-success CI=1", lines)
-        self.assertIn("required ci", lines)
+        self.assertIn("required-by-rulesets ci", lines)
         self.assertIn("draft-vs-ready none", lines)
         self.assertIn("rate before core=5/10 graphql=7/9", lines)
         self.assertIn("rate after core=5/10 graphql=7/9", lines)
@@ -85,7 +88,7 @@ class Main(unittest.TestCase):
         self.assertIsNone(code)
         self.assertIn("truncated jobs run 1: api-call cap 3 reached", out)
         self.assertIn("truncated enrichment: api-call cap 3 reached", out)
-        self.assertIn("required unavailable", out)
+        self.assertIn("required-by-rulesets unavailable", out)
         self.assertNotIn("rate after", out)
 
     def test_empty_events(self):
@@ -117,6 +120,14 @@ class Parts(unittest.TestCase):
                 wf_run(3, event="pull_request", pull_requests=[{"number": 3}]),
                 wf_run(4, event="pull_request"), wf_run(5)]
         self.assertEqual(extras.draft_split(runs, {1: True, 2: False}), {"draft": 1, "ready": 1, "unknown": 2})
+
+    def test_enrich_keeps_going_when_pulls_are_forbidden(self):
+        out = {"truncated": []}
+        with FakeGh(routes(pulls=("GET", "pulls?state=all", Fail(403)))).patch():
+            extras.enrich(ghlib.Gh(10), "o/r", [wf_run(1, event="pull_request")], out)
+        self.assertEqual(out["truncated"], ["pulls (draft state): gh: failed (HTTP 403)"])
+        self.assertEqual(out["draftRuns"], {"unknown": 1})
+        self.assertIsNotNone(out["rateAfter"])
 
     def test_enrich_stops_at_the_cap(self):
         out = {"truncated": []}

@@ -22,6 +22,7 @@ QUEUED = [
     stuck_run(18),
     stuck_run(19),
     stuck_run(20),
+    stuck_run(21, run_started_at="2026-11-24T11:00:00Z"),
 ]
 IN_PROGRESS = [stuck_run(12, status="in_progress", created="2026-11-20T00:00:00Z",
                          run_started_at="2026-11-23T00:00:00Z", branch="gh-readonly-queue/main/pr-9-x")]
@@ -69,18 +70,18 @@ class Main(unittest.TestCase):
         self.assertIn("18 CI push feature queued 12.0h -> left alone: now completed", lines)
         self.assertIn("19 CI push feature queued 12.0h -> force-cancel failed HTTP 500", lines)
         self.assertIn("20 CI push feature queued 12.0h -> left alone: now completed", lines)
-        self.assertIn("never-started n=1 oldest=4.5d ids=13 (cannot be cancelled or deleted via the API; "
-                      "ask GitHub Support)", lines)
+        self.assertIn("never-started n=1 oldest=4.5d ids=13 (cancel answered 409 and the run has no jobs; "
+                      "delete it, or ask GitHub Support if that fails)", lines)
         self.assertIn("default-branch n=1 oldest=12.0h ids=14 (on main; never cancelled)", lines)
         self.assertNotIn(("POST", "repos/o/r/actions/runs/14/cancel"), fake.calls)
-        self.assertFalse(any("/15" in path or "/16" in path for _, path in fake.calls))
+        self.assertFalse(any(f"/{i}" in path for _, path in fake.calls for i in (15, 16, 21)))
 
     def test_dry_run_and_list_limit(self):
         out, code, fake = run(stale.main, ["--repo", "o/r", "--dry-run", "--limit", "1", "--status", "queued"],
                               routes(), NOW)
         self.assertIsNone(code)
         self.assertIn("11 CI push PR#5 queued 12.0h", out.splitlines())
-        self.assertIn("truncated queued: limit 1 reached (listed 1 of 9)", out)
+        self.assertIn("truncated queued: limit 1 reached (listed 1 of 10)", out)
         self.assertFalse(any(method == "POST" for method, _ in fake.calls))
 
     def test_call_cap_skips_the_rest(self):

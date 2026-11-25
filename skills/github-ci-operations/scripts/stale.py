@@ -32,10 +32,10 @@ def duration(text):
 
 
 def age_of(run, now):
-    start = parse_time(run.get("created_at"))
-    if run.get("status") == "in_progress":
-        start = parse_time(run.get("run_started_at")) or start
-    return None if start is None else (now - start).total_seconds()
+    """Age of the current attempt: a re-run keeps the run's created_at, and run_started_at is
+    set again for each attempt, so the later of the two is when this attempt began."""
+    starts = [t for t in (parse_time(run.get("created_at")), parse_time(run.get("run_started_at"))) if t]
+    return (now - max(starts)).total_seconds() if starts else None
 
 
 def where(run):
@@ -137,7 +137,7 @@ def main(argv=None, now=None):
             print(line)
         if zombies:
             print(summary(NEVER_STARTED, zombies,
-                          "cannot be cancelled or deleted via the API; ask GitHub Support"))
+                          "cancel answered 409 and the run has no jobs; delete it, or ask GitHub Support if that fails"))
         if kept:
             print(summary("default-branch", [(run["id"], age) for run, age in kept],
                           f"on {default}; never cancelled"))

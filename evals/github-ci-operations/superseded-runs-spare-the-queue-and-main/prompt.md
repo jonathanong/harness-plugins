@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-These runs of our `CI` workflow are in progress in `acme/widgets` right now. We're well under our runner limit. `main` is the default branch.
+These runs of our `CI` workflow are in progress in `acme/widgets` right now. We're well under our runner limit. `main` is the default branch, and `feature/search` is the branch of open PR #212.
 
 | run id | branch                                 | commit  | started |
 | ------ | -------------------------------------- | ------- | ------- |

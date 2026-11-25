@@ -20,9 +20,10 @@ commands, read its [cookbook](../github-ci-operations/references/cookbook.md).
    back a list of possible reasons you could have checked.
    Then say what kind of failure it is, because each needs a different response:
    - **Caused by the change**: the failure follows the pull request's diff. Fix it there.
-   - **Known flake**: the same test or job has failed this way on other commits, or an issue
-     already tracks it. Search for that issue and cite it; a second issue for one flake splits
-     its history.
+   - **Known flake**: the same test or job has both failed this way and passed on unchanged code,
+     on other commits or in other attempts. A test that fails every time is broken, not flaky.
+     Search for an issue that tracks it and cite it, or say that none was found; a second issue
+     for one flake splits its history.
    - **Infrastructure**: a runner, network, cache, or registry failed, not the code. Say which.
    - **Outage**: the provider's status page or the same error across unrelated repositories
      shows a service down. Wait for it to recover; there is nothing to fix.
@@ -34,8 +35,9 @@ commands, read its [cookbook](../github-ci-operations/references/cookbook.md).
    passed in a different scope or environment, the failure can only happen in CI, or it is
    unknown. The same command name does not prove the same scope. Do not call an outside
    infrastructure failure a gap in local checks.
-5. Make one bounded fix at the cause. Keep non-zero exits, the primary error, artifacts,
-   summaries, and diagnostic output. Do not hide stderr, quiet output globally, or add a retry
+5. When the cause is one the repository owns, make one bounded fix at the cause. For an outage,
+   or an infrastructure failure outside the repository, report it and skip steps 5 and 6. Keep
+   non-zero exits, the primary error, artifacts, summaries, and diagnostic output. Do not hide stderr, quiet output globally, or add a retry
    that masks the cause. A retry is right only for the same idempotent operation failing for a
    transient outside reason.
 6. Add a focused regression check, run the workflow checker, and compare the output before and

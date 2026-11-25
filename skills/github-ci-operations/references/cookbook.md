@@ -47,7 +47,8 @@ repositories that run CI:
 
 ```bash
 for status in in_progress queued; do
-  gh api "repos/OWNER/REPO/actions/runs?status=$status&per_page=100" --jq '.workflow_runs[].id'
+  gh api "repos/OWNER/REPO/actions/runs?status=$status&per_page=100" --paginate \
+    --jq '.workflow_runs[].id'
 done | while read -r id; do
   gh api "repos/OWNER/REPO/actions/runs/$id/jobs" --paginate \
     --jq '.jobs[] | select(.status != "completed") | [.status, (.labels | join(","))] | @tsv'

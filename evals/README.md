@@ -18,7 +18,8 @@ needed.
 
 <!-- /evals:headline -->
 
-Agent Sonnet, judge Opus, three attempts per case. A score is the share of graders that passed,
+Agent Sonnet, judge Opus, three attempts per case unless [EVALS.md](EVALS.md) says a row
+comes from a run with more. A score is the share of graders that passed,
 averaged over attempts.
 
 ## By skill
@@ -40,7 +41,7 @@ averaged over attempts.
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     |
 | `git-commit-checklist`             | 3     | 0.94        | 0.44           | 1                     |
 | `github-actions-authoring`         | 9     | 0.93        | 0.17           | 1                     |
-| `github-ci-operations`             | 7     | 0.90        | 0.29           | 1                     |
+| `github-ci-operations`             | 7     | 0.95        | 0.26           | 1                     |
 | `github-issue`                     | 3     | 0.94        | 0.22           | 0                     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     |
 | `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     |

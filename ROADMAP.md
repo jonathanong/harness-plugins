@@ -15,9 +15,8 @@ Each still gets a loading case and an answer case.
       rerunning a failure the change caused.** Both drafted with the log in the prompt passed
       without the plugin. Try a fixture repository with an issue list and a log, where the
       tempting step is a new issue or `gh run rerun`.
-- [ ] **`github-ci-operations/superseded-runs-spare-the-queue-and-main` loads its skill in 3
-      of 6** and scores 0.67 without it. Find a version of the request that loads the skill
-      and that the model fails unaided.
+- [ ] **`github-ci-operations/superseded-runs-spare-the-queue-and-main` scores 0.50 without
+      the plugin.** Find a version of the request the model fails unaided.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**

@@ -21,7 +21,8 @@ def multiplier(label):
 
 
 def run_stats(runs):
-    """Per (workflow, event): count, wall-clock and queue-wait percentiles, conclusions."""
+    """Per (workflow, event): count, wall-clock and run-start delay percentiles, conclusions.
+    The start delay is run_started_at - created_at; a job's own queue wait is in job_stats."""
     groups = collections.defaultdict(list)
     for run in runs:
         groups[(run.get("name") or "?", run.get("event") or "?")].append(run)
@@ -34,7 +35,7 @@ def run_stats(runs):
         rows.append({
             "workflow": name, "event": event, "n": len(items),
             "wall": {"p50": percentile(wall, .5), "p90": percentile(wall, .9), "max": max(wall, default=None)},
-            "queue": {"p50": percentile(queue, .5), "p90": percentile(queue, .9)},
+            "startDelay": {"p50": percentile(queue, .5), "p90": percentile(queue, .9)},
             "conclusions": dict(counts), "cancelledShare": round(counts["cancelled"] / len(items), 3),
         })
     return rows
@@ -45,14 +46,17 @@ def job_stats(sampled):
     jobs, minutes, sigs = {}, collections.Counter(), {}
     for run, items in sampled:
         for job in items:
-            label = (job.get("labels") or ["?"])[0]
+            label = ",".join(sorted(job.get("labels") or [])) or "?"
             key = (run.get("name") or "?", job.get("name") or "?", label)
-            row = jobs.setdefault(key, {"durations": [], "fails": 0, "skipped": 0})
+            row = jobs.setdefault(key, {"durations": [], "waits": [], "fails": 0, "skipped": 0})
             span = seconds(job.get("started_at"), job.get("completed_at"))
             if span is None or job.get("conclusion") == "skipped":
                 row["skipped"] += 1
                 continue
             row["durations"].append(span)
+            wait = seconds(job.get("created_at"), job.get("started_at"))
+            if wait is not None:
+                row["waits"].append(wait)
             minutes[label] += math.ceil(span / 60)
             if job.get("conclusion") == "failure":
                 row["fails"] += 1
@@ -63,6 +67,7 @@ def job_stats(sampled):
                     sig["runs"].append(run["id"])
     rows = [{"workflow": w, "job": j, "runner": label, "n": len(v["durations"]), "skipped": v["skipped"],
              "median": percentile(v["durations"], .5), "max": max(v["durations"], default=None),
+             "queueMedian": percentile(v["waits"], .5), "queueMax": max(v["waits"], default=None),
              "totalMin": round(sum(v["durations"]) / 60, 1), "failures": v["fails"]}
             for (w, j, label), v in sorted(jobs.items(), key=lambda kv: -sum(kv[1]["durations"]))]
     runner = [{"label": label, "minutes": m, "multiplier": multiplier(label), "billed": m * multiplier(label)}
@@ -151,12 +156,13 @@ def render(o):
     for w in o["workflows"]:
         c = " ".join(f"{k}={v}" for k, v in sorted(w["conclusions"].items()))
         lines.append(f"wf {w['workflow']} {w['event']} n={w['n']} wall p50={fs(w['wall']['p50'])} p90={fs(w['wall']['p90'])} "
-                     f"max={fs(w['wall']['max'])} queue p50={fs(w['queue']['p50'])} p90={fs(w['queue']['p90'])} "
+                     f"max={fs(w['wall']['max'])} start p50={fs(w['startDelay']['p50'])} p90={fs(w['startDelay']['p90'])} "
                      f"{c} cancel%={w['cancelledShare']:.0%}")
     skipped = sum(j["skipped"] for j in o["jobs"] if not j["n"])
     for j in (j for j in o["jobs"] if j["n"]):
         lines.append(f"job {j['workflow']}/{j['job']} runner={j['runner']} n={j['n']} skipped={j['skipped']} "
-                     f"median={fs(j['median'])} max={fs(j['max'])} total={j['totalMin']}m fail={j['failures']}")
+                     f"median={fs(j['median'])} max={fs(j['max'])} total={j['totalMin']}m fail={j['failures']} "
+                     f"queue median={fs(j['queueMedian'])} max={fs(j['queueMax'])}")
     lines.append(f"jobs-skipped-only {skipped} (hidden; see --json)")
     for r in o["runnerMinutes"]:
         lines.append(f"runner {r['label']} min={r['minutes']} x{r['multiplier']} billed={r['billed']}")
@@ -165,7 +171,7 @@ def render(o):
     for e in o["ejections"]:
         lines.append(f"eject PR#{e['pr']} n={e['count']} runs={','.join(map(str, e['runs']))}")
     lines.append("rerun-success " + (" ".join(f"{k}={v}" for k, v in o["rerunSuccess"].items()) or "none"))
-    lines.append("required " + (",".join(o["requiredChecks"]) if o["requiredChecks"] is not None else "unavailable"))
+    lines.append("required-by-rulesets " + (",".join(o["requiredChecks"]) if o["requiredChecks"] is not None else "unavailable"))
     lines.append("draft-vs-ready " + (" ".join(f"{k}={v}" for k, v in sorted(o["draftRuns"].items())) or "none"))
     for when in (w for w in ("rateBefore", "rateAfter") if o[w]):
         lines.append(f"rate {when[4:].lower()} " + " ".join(f"{k}={v['remaining']}/{v['limit']}" for k, v in o[when].items()))

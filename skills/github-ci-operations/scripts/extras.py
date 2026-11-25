@@ -21,7 +21,8 @@ def draft_split(runs, drafts):
 
 
 def enrich(gh, repo, runs, out):
-    """Required checks, draft split, and final rate limits; stops quietly when the call cap hits."""
+    """Required checks from rulesets (not classic branch protection), draft split, and final rate
+    limits; stops quietly when the call cap hits."""
     try:
         branch = gh.api(f"repos/{repo}")["default_branch"]
         try:
@@ -30,7 +31,10 @@ def enrich(gh, repo, runs, out):
                                             for c in r["parameters"].get("required_status_checks", [])})
         except GhError as error:
             out["truncated"].append(f"rules: {error}")
-        pulls, _, note = gh.pages(f"repos/{repo}/pulls?state=all&sort=updated&direction=desc", "", 300)
+        try:
+            pulls, _, note = gh.pages(f"repos/{repo}/pulls?state=all&sort=updated&direction=desc", "", 300)
+        except GhError as error:
+            pulls, note = [], str(error)
         if note:
             out["truncated"].append(f"pulls (draft state): {note}")
         out["draftRuns"] = draft_split(runs, {p["number"]: bool(p.get("draft")) for p in pulls})

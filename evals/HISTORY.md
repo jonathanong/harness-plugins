@@ -6,7 +6,7 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-24: `github-ci-operations` bundles CI scripts and a cookbook; cancel policy and failure kinds
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $45 over all runs
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $50 over all runs
 below. Formatting ran after the runs. The `AGENTS.md` and `skill-authoring` edits had no run.
 
 What changed:
@@ -45,6 +45,12 @@ neighbouring skills their loads.
    6 of 6, against 3 of 6 each with the cookbook installed, the same hour.
 5. **Folded into `github-ci-operations`** (the committed text), six attempts: rows in
    [EVALS.md](EVALS.md); `slow-step` 6 of 6, `queue-is-read-once` 5 of 6.
+
+6. **After review**: superseded runs may be cancelled only on a pull request's branch, and the
+   case's prompt now says `feature/search` is a pull request's branch; `review-ci-logs` now
+   defines a flake as failing and passing on unchanged code and skips the fix steps for an
+   outage. Two-arm run of six attempts on the superseded case: 5 of 6, 0.50 without the plugin.
+   Plugin-only run of six attempts on `review-ci-logs`: rows in [EVALS.md](EVALS.md).
 
 A second skill on the same topic lowered how often the agent loaded either, even when its
 description did not overlap. Put a skill's commands and scripts in its references and
