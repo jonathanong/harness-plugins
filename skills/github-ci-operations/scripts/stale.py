@@ -5,7 +5,7 @@ By default it POSTs `cancel` for each run older than the threshold, and `force-c
 cancel answers 409 and the run is still stuck and has jobs. A run that answers 409 and has no jobs
 never started: it is not retried and is summarised in one `never-started` line (count, oldest age,
 first ids). Runs on the default branch are never cancelled: they are summarised in one
-`default-branch` line. With --dry-run it only lists. One output line per other run. Runs younger
+`default-branch` line. A fork's run from a branch of the same name is not on the default branch. With --dry-run it only lists. One output line per other run. Runs younger
 than the threshold are never listed or touched.
 """
 import argparse, datetime, os, re, sys, urllib.parse
@@ -36,6 +36,16 @@ def age_of(run, now):
     set again for each attempt, so the later of the two is when this attempt began."""
     starts = [t for t in (parse_time(run.get("created_at")), parse_time(run.get("run_started_at"))) if t]
     return (now - max(starts)).total_seconds() if starts else None
+
+
+def on_default(run, repo, default):
+    """A run on this repository's default branch. A fork's pull request from a branch of the same
+    name runs on the fork's branch, so the head repository must be this one too. A run that does
+    not say where its head lives counts as the default branch, so it is left alone."""
+    if run.get("head_branch") != default:
+        return False
+    head = (run.get("head_repository") or {}).get("full_name")
+    return head is None or head.lower() == repo.lower()
 
 
 def where(run):
@@ -118,8 +128,8 @@ def main(argv=None, now=None):
     try:
         default = gh.api(f"repos/{args.repo}")["default_branch"]
         found, notes = stuck(gh, args.repo, statuses, threshold, now, args.limit)
-        kept = [(run, age) for run, age in found if run.get("head_branch") == default]
-        runs = [(run, age) for run, age in found if run.get("head_branch") != default]
+        kept = [(run, age) for run, age in found if on_default(run, args.repo, default)]
+        runs = [(run, age) for run, age in found if not on_default(run, args.repo, default)]
         print(f"stale {args.repo} older-than={args.older_than} status={','.join(statuses)} "
               f"n={len(runs)} mode={'dry-run' if args.dry_run else 'cancel'}")
         zombies = []
