@@ -55,6 +55,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`static-analysis-checklist`](skills/static-analysis-checklist/SKILL.md)               | Adding or changing one static-analysis invariant.                                     |
 | [`lint-rule-authoring`](skills/lint-rule-authoring/SKILL.md)                           | Writing the code of a lint rule or AST check: bindings, untraceable names, fixtures.  |
 | [`github-actions-authoring`](skills/github-actions-authoring/SKILL.md)                 | Writing workflows: events not polling, triggers, timeouts, runners, pins, job size.   |
+| [`github-ci-cookbook`](skills/github-ci-cookbook/SKILL.md)                             | Commands and tested scripts for CI reports, stuck-run cleanup, and merge-queue runs.  |
 | [`github-ci-operations`](skills/github-ci-operations/SKILL.md)                         | CI that is slow, queued, or costly: measuring, runner limits, clearing a backlog.     |
 | [`dependabot`](skills/dependabot/SKILL.md)                                             | Configuring Dependabot coverage, grouping, cooldowns, secrets, and runs.              |
 | [`github-repository-settings`](skills/github-repository-settings/SKILL.md)             | Limiting pull requests to collaborators and gating outside contributors' CI.          |
@@ -106,10 +107,10 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **145 cases** across 47 skills.
-- **With the plugin:** mean score 0.95.
-- **Without it:** mean score 0.34, over the 144 cases measured both ways.
-- **113 cases** are ones the model fails unaided. The other 31 it already gets right: 6 check that a skill stays out of the way, and 25 show at most that the skill loads.
+- **147 cases** across 48 skills.
+- **With the plugin:** mean score 0.94.
+- **Without it:** mean score 0.34, over the 146 cases measured both ways.
+- **115 cases** are ones the model fails unaided. The other 31 it already gets right: 6 check that a skill stays out of the way, and 25 show at most that the skill loads.
 
 <!-- /evals:headline -->
 

@@ -8,10 +8,13 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
   to pick and why.
 - Do not add a rule that depends on one repository's tooling, file layout, service names, or
   product policy. Leave that to the consuming repository's `AGENTS.md`.
-- This repository holds prose only. Anything that needs code to work, such as a hook, a CLI
-  tool, an MCP server, or a script a skill runs, belongs in its own repository. A skill may tell
-  the reader to use such a tool. The scripts under `scripts/` only check this repository's
-  marketplaces and check and run its evals.
+- A skill is prose, and may bundle small scripts that carry out a procedure it describes, in
+  `skills/<skill>/scripts/`. A script is Python or TypeScript and uses only the standard library
+  (Node's built-in modules for TypeScript). Its tests live in `skills/<skill>/tests/` and cover
+  every line and branch; `pnpm run test` runs them in CI. Anything that needs a dependency or a running
+  service, such as a hook, an MCP server, or a larger CLI tool, belongs in its own repository, and
+  a skill may tell the reader to use it. The scripts under `scripts/` check this repository, run
+  its evals, and run the skills' script tests.
 - Keep a rule even when the evals show no improvement from it. The evals run on one strong
   model, and these skills also have to work on weaker models that do not already follow the rule.
   Remove a rule because it is wrong, repeated, or one repository's policy, not because the
@@ -65,6 +68,8 @@ pnpm run lint
 pnpm run format:check
 pnpm run evals:check
 pnpm run marketplace:check
+python3 -m pip install -r requirements-dev.txt  # once, for coverage.py
+pnpm run test
 ```
 
 `marketplace:check` checks that the Claude Code and Codex marketplaces list the same plugins, that

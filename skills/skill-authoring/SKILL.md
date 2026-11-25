@@ -48,8 +48,9 @@ skill loads.
 - Keep generic skills in a shared plugin and a repository's own skills in that repository. A
   rule that depends on one repository's tooling, layout, or policy does not belong in a shared
   skill.
-- By default a skill is prose. Where a rule needs code to work, such as a hook or a script,
-  point to a tool that lives in its own repository rather than embedding the code.
+- By default a skill is prose. A small script that carries out a procedure the skill describes
+  may ship in the skill's `scripts/`, with tests, when the repository allows it. A hook, a
+  service, or code with dependencies lives in its own repository, and the skill points to it.
 
 ## Evals
 

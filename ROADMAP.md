@@ -11,6 +11,13 @@ Each still gets a loading case and an answer case.
 
 ## Evals
 
+- [ ] **`review-ci-logs` needs cases for searching before filing a flake and for not
+      rerunning a failure the change caused.** Both drafted with the log in the prompt passed
+      without the plugin. Try a fixture repository with an issue list and a log, where the
+      tempting step is a new issue or `gh run rerun`.
+- [ ] **CI skill loading on 2026-11-24 was 2 of 3 on four cases** with `github-ci-cookbook`
+      installed, against 3 of 3 on the parent commit. Every miss loaded no skill. Measure the
+      three skills at six attempts.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**

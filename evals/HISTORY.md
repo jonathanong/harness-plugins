@@ -4,6 +4,50 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-24: `github-ci-cookbook` holds the CI commands and scripts; cancel policy and failure kinds
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. Three attempts per arm,
+about $25 over all runs below.
+
+What changed:
+
+- New skill `github-ci-cookbook`: the `gh api` recipes and two bundled Python scripts, a CI
+  report and a stuck-run canceller that never cancels a default-branch run. The scripts have
+  unittest tests at 100% line and branch coverage, run in CI by `pnpm run test`. The root
+  `AGENTS.md` now allows small standard-library scripts with full-coverage tests in a skill, and
+  `skill-authoring` says the same.
+- `github-ci-operations`: its command blocks moved to the cookbook; the facts they rested on
+  stay. A new section says which runs may be cancelled outside a backlog: stuck runs and
+  superseded runs on a branch other than the default, never a merge-queue, tag, or release run,
+  never the newest run on a branch. `references/backlog.md` agrees with it.
+- `review-ci-logs`: fetch only the failed jobs' logs; name the kind of failure (caused by the
+  change, known flake, infrastructure, outage); search for an existing flake issue; do not rerun
+  to find out which kind it is.
+- New cases `github-ci-cookbook/stuck-runs-on-main-are-left-alone` and
+  `github-ci-operations/superseded-runs-spare-the-queue-and-main`. Two drafted `review-ci-logs`
+  cases, for searching before filing a flake and for not rerunning a merge-queue failure the
+  change caused, passed 3 of 3 without the plugin and were dropped; their rules stay.
+
+What the runs showed:
+
+1. **Two-arm run, first cookbook description** (it named job and step times, failed-job logs,
+   and flake issues). `queue-is-read-once-not-watched` fell to 0 of 3 and
+   `slow-step-comes-from-step-times-not-the-log` to 1 of 3. Traces kept on a rerun showed the
+   failing attempts loaded only `github-ci-cookbook`, which lacks the rule to refuse a poll or a
+   whole log and give the small query instead. The cookbook passed 3 of 3, 0 of 3 without.
+2. **Plugin-only run, cookbook description narrowed** but still naming queue waits and failing
+   logs, with `github-ci-operations`' description also edited: `queue-is-read-once-not-watched`
+   0 of 3, `cause-is-a-quiet-line-before-the-errors` and `quiet-log-keeps-errors` 1 of 3.
+3. **Control on the parent commit**, plugin-only: all nine `github-ci-operations` and
+   `review-ci-logs` cases 3 of 3.
+4. **Plugin-only run on the committed text**: the cookbook describes only its scripts' jobs, and
+   `github-ci-operations` keeps the parent commit's description. Rows in
+   [EVALS.md](EVALS.md). Every miss loaded no skill; none loaded the cookbook.
+
+A neighbouring skill whose description names the same tasks takes the loads, and a cookbook
+loaded alone answers the command that was asked for. Keep a how-to skill's description to the
+jobs only it does.
+
 ## 2026-11-24: `agent-workflow` verifies a finding before presenting or fixing it
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.331. Ten runs, $7.48. Each
