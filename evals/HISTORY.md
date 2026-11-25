@@ -6,7 +6,7 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-25: `git-commit-checklist` resolves conflicts by hand and updates a stacked branch after its base merges
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $9 over the runs
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $13 over the runs
 below.
 
 What changed:
@@ -15,7 +15,7 @@ What changed:
   hunk by reading both sides; never settle it by taking one side (`checkout` or `restore`
   `--ours` or `--theirs`, `-X ours`, `-X theirs`, `-s ours`, or copying a version over the
   file), even when one side looks right in full. Read the whole `git status`, check for markers
-  with `git diff --check`, and write the merge message rather than `--no-edit`.
+  with `git diff --cached --check`, and write the merge message rather than `--no-edit`.
 - New reference `references/stacked-branch-after-base-merges.md`: compare `main` with the lower
   layer's merged head, merge `main`, resolve by hand, remove a deleted file the merge brought
   back, and check the result against the old head and `main`. A branch with no other writers
@@ -38,6 +38,14 @@ the stacked-branch attempt on the second description and one lockfile attempt on
 a two-arm run on the second description (2 of 3 with it). In the one-attempt pilot the agent
 recommended `git rebase --onto` but also called `git checkout --ours` safe for files the later
 fix had not touched, and failed.
+
+After reading the one stacked-branch attempt that loaded the skill and failed (it said taking
+this branch's side was fine when `main` held only the lower layer), the reference now says to
+resolve by hand even then. `SKILL.md` now says `git diff --check` misses a staged file and to
+use `git diff --cached --check`, and the description ends "others' work". A final run of that
+text with the neighbouring `pull-requests` and `dependabot` cases gave the same
+`git-commit-checklist` loads as the shipped row above (2, 3, 1 and 3 of 3), and 3 of 3 in each
+of the five neighbouring cases. The `EVALS.md` rows come from it.
 
 What it showed: dropping "lockfile or another generated file" from the description cost the
 older conflict cases most of their loads, and moving the conflict clause first did not help.

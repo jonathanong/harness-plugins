@@ -21,7 +21,9 @@ layers touched can conflict, even though `main` holds nothing this branch has no
    ```
 
    Empty output means `main` holds exactly the lower layer. Each file listed is work that
-   reached `main` from somewhere else, and the resolution must keep it.
+   reached `main` from somewhere else, and the resolution must keep it. Resolve by hand either
+   way: an empty diff tells you what each hunk should come to, not that you may take this
+   branch's side.
 
 3. Merge `main` into the branch with `git merge origin/main`. A branch under review, or one that
    others may push to, is merged, not rebased.
@@ -29,8 +31,8 @@ layers touched can conflict, even though `main` holds nothing this branch has no
    side is the change under review. The `main` side is the lower layer's version, plus whatever
    step 2 listed in that file. Keep this branch's change and every line that step 2 accounts
    for.
-5. Read the whole `git status`. A file this branch deleted comes back staged when `main` still
-   has the lower layer's copy, and the merge reports no conflict for it. Remove it again with
+5. Read the whole `git status`. A file the lower layer added and this branch deleted comes back
+   staged, because the squash adds it again on `main`, and the merge reports no conflict for it. Remove it again with
    `git rm`. Read every other staged file the same way.
 6. Check the result two ways before committing:
 

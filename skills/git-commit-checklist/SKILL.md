@@ -1,6 +1,6 @@
 ---
 name: git-commit-checklist
-description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, when a rebase or merge conflicts in a lockfile, a generated file, or source, and when a stacked branch's base has merged. Check a commit's scope, staged content, and message, resolve conflicts without taking a side, and rebase or force-push without overwriting others.
+description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, when a rebase or merge conflicts in a lockfile, a generated file, or source, and when a stacked branch's base has merged. Check scope, staged content, and message, resolve conflicts without taking a side, and rebase or force-push without overwriting others' work.
 ---
 
 # Git commit checklist
@@ -53,8 +53,8 @@ other side's changes to that file, and only reading each hunk shows that nothing
 
 - Read the whole `git status`, not only the `UU` files. A merge can bring back a file the branch
   deleted, or stage a change no conflict flagged. Each needs the same reading.
-- Before committing, check that no markers remain (`git diff --check`) and rerun the checks the
-  conflicted files feed.
+- Before committing, check that no markers remain and rerun the checks the conflicted files feed.
+  Once a file is staged, `git diff --check` no longer sees it; use `git diff --cached --check`.
 - Commit the merge with a message you wrote. `git commit --no-edit` keeps git's `# Conflicts:`
   list in the message.
 

@@ -201,8 +201,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   not a gain from the description change; `tracked-files-only` stood at 4 of 8 on 2026-11-22.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
-- **The `git-commit-checklist` rows** are from a plugin-only run on 2026-11-25 on the description
-  that names conflicts in source and a stacked branch whose base merged, three attempts. Their
+- **The `git-commit-checklist` rows** are from a plugin-only run on 2026-11-25 on the final text,
+  whose description names conflicts in source and a stacked branch whose base merged, three
+  attempts. Their
   "Without plugin" is from the two-arm runs on 2026-11-22, except
   `stacked-branch-conflicts-resolved-by-hand`, whose 0.00 is from a two-arm run on 2026-11-25.
   The same-session control on the earlier description loaded the two older conflict cases 3 of
