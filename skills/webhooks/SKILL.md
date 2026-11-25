@@ -1,6 +1,6 @@
 ---
 name: webhooks
-description: Use when writing or reviewing a webhook receiver or sender - an endpoint a partner posts events to, or code that delivers events to customer URLs. Covers queues, raw payloads, and metrics on both sides, signatures over raw bytes, key rotation, replay windows, duplicate and out-of-order deliveries, retries, pausing and disabling endpoints, and SSRF, and rate limits.
+description: Use when writing or reviewing a webhook receiver or sender - an endpoint a partner posts events to, or code that delivers events to customer URLs. Covers queues, raw payloads, and metrics on both sides, signatures over raw bytes, key rotation, replay windows, duplicate and out-of-order deliveries, retries, pausing and disabling endpoints, SSRF, and rate limits.
 ---
 
 # Webhooks
