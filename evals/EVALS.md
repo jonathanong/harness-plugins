@@ -200,7 +200,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   re-measured.
 - **The `github-actions-authoring`, `glide-mq`, `http-api-design`, `react-app-structure`, and
   `service-boundaries` rows** are from the two-arm run after their generic rules were added, three
-  attempts per arm.
+  attempts per arm. The `service-boundaries` rows were checked again on 2026-11-25 after it gained a link to
+  `webhooks`, plugin arm only; both scored the same.
 - **The `lint-rule-authoring` row** is from one two-arm run of six attempts per arm on 2026-11-24,
   on the current skill text; the skill loaded 6 of 6. **The two `static-analysis-checklist` rows**
   take their plugin score from a plugin-only run of three attempts the same day, after that

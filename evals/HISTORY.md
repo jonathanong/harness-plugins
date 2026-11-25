@@ -34,6 +34,20 @@ fresh id per retry, and an address checked only at save time. Both are ceiling c
 outbound case stays as the loading check; the inbound case was dropped, and a harder case is on
 the roadmap. The rules stay for weaker models.
 
+Then, before merge, the skill gained rules from the repository owner's review: a queue on both
+sides (inbound enqueues a job; outbound enqueues a delivery and a job makes the call), inbound
+job ids from the sender's event id, a 5xx when the enqueue fails, outbound order per endpoint and
+resource with a sequence in the payload, key rotation with no downtime, response classification,
+pausing a host that returns 503 or 429, and disabling an endpoint that stays broken. Timeouts,
+secret storage, and field changes now link to `service-boundaries`, `http-api-design`, and
+`expand-contract-migrations`. Rerun on that text, plugin arm only, three attempts, $0.52:
+`webhooks/outbound-delivery-plan` 1.00, 3 of 3, loaded 3 of 3; that is its EVALS row.
+
+`service-boundaries` gained a one-sentence link to `webhooks`. Its suite, plugin arm only, three
+attempts, $0.93: `partner-webhook` and `topology-in-app-repo` both 1.00, 3 of 3, loaded 3 of 3,
+so the two overlapping descriptions did not split the loads. Their EVALS rows keep their earlier
+scores.
+
 ## 2026-11-25: `github-issue` lets an agent create a milestone, and asks before a project (not run)
 
 No run. The decision left open in the previous `github-issue` entry was made: an agent creates a
