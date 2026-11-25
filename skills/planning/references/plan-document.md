@@ -28,8 +28,8 @@ Reader: <who executes this, and what they can be assumed to know>
 
 ## Decisions
 
-| Decision | Chosen | Rejected alternatives and why |
-| -------- | ------ | ----------------------------- |
+- User: <decision>. Rejected: <alternatives and why>.
+- Agent: <decision>, because <reason>. Rejected: <alternatives and why>.
 
 ## Constraints
 

@@ -4,6 +4,59 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: record who decided, the person or the agent
+
+Commit: this change. Sonnet agent, Opus judge, three attempts per arm. The two new cases, both
+arms, $1.28, after one-attempt pilots; the `pr-description`, `documentation`, and
+`agent-workflow` suites, plugin arm only, $3.60.
+
+What changed, from the repository owner's request:
+
+- `agent-workflow`: new section "Record who decided". A pull request description, an issue
+  description, a comment on either, and an implementation plan for the team mark each decision
+  **User:** or **Agent:**: a scope change, a design choice, a trade-off, a default the request
+  left open, anything costly to reverse, and the answer to any non-trivial question the agent
+  asked. An agent decision carries its reason. **User** is only the person in the session; a
+  suggestion from another agent, a bot, or a peer that the agent adopted is the agent's, and
+  agent-to-agent exchanges are left out. Long-lived documentation (a README, a docs page, a code
+  comment, a commit message, a roadmap for a wider organization) leaves attribution out unless
+  the person asks. "Decide, then report" now records a reversible default as an **Agent:**
+  decision.
+- `pr-description` lists Decisions as item 6; `github-issue` marks decisions in an issue or
+  comment; `planning` marks them in an implementation plan, not in an organization roadmap, and
+  the plan template's Decisions section uses **User:**/**Agent:** lines; `documentation` states a decision as
+  a fact without who made it. Each links to `agent-workflow`.
+- New case `pr-description/description-says-who-decided` and guard
+  `documentation/docs-state-decisions-without-attribution`.
+
+| Case                                                             | With                        | Without      |
+| ---------------------------------------------------------------- | --------------------------- | ------------ |
+| `pr-description/description-says-who-decided`                    | 1.00, 3 of 3, loaded 3 of 3 | 0.00, 0 of 3 |
+| `documentation/docs-state-decisions-without-attribution` (guard) | 1.00, 3 of 3                | 1.00, 3 of 3 |
+
+The plugin-arm suite run matched the current rows, except `documentation/review-readme-drift`,
+now 3 of 3 (was 2 of 3); its row is updated. The `agent-workflow` cases loaded their skill in 1
+of 9 attempts, as the roadmap already notes; the new section is reached through the links from
+the skills that do load.
+
+What it showed: without the plugin, Sonnet lists design decisions but never says which the
+person made and which it made. The guard passes either way, as a guard may.
+
+After review, before merge: the case's grader now requires both parts of the person's decision,
+keeping `/v1/quotes` until mobile 4.2 ships and deleting it in a follow-up; all three passing
+attempts already had both, so the scores stand, not rerun. The plan template's Decisions table
+became a list with **User:**/**Agent:** lines, the same format as everywhere else, and
+`planning` step 1 records an open product choice as an **Agent:** decision, keeping
+"assumption" for a fact still to verify.
+
+## 2026-11-25: `bounded-iteration` rule 17 counts only permanent rejections (not run)
+
+No run. After review of the previous entry's change, rule 17 counts toward retiring a row only a
+rejection a retry cannot fix; a timeout, 5xx, or 429 backs off without counting, so an outage
+longer than the backoff schedule does not retire every row in flight. The worked SQL keeps a
+separate `rejections` count, and reopening a row resets it. No case or grader changed; the
+`sync-sweep-moves-failed-rows-aside` attempts were graded on retiring a row, not on what counts.
+
 ## 2026-11-25: `bounded-iteration` rule 17, a failed row leaves the front
 
 Commit: this change. Sonnet agent, Opus judge, three attempts per arm. New case, both arms,
