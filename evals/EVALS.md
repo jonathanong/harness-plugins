@@ -15,11 +15,12 @@ unaided by design.
 | `agent-rules/stated-rule-is-not-guessed-at`                             | Asked to write down a rule a person stated in five words, does not add an exception, a reason, or a wider scope of its own, and names what to ask the person.                                                                            | 0.83  | 2 of 3   | 0.00           |
 | `agent-workflow/status-note-asks-only-what-it-must`                     | Acts on what policy or ownership settles and asks the person only about the irreversible item, with a recommendation.                                                                                                                    | 0.17  | 0 of 3   | 0.00           |
 | `bounded-iteration/no-new-run-while-one-runs`                           | Stops a no-deadline sweep's passes piling up by checking the queue before starting a pass, keeping the chain of capped jobs and its own position.                                                                                        | 1.00  | 3 of 3   | 0.00           |
-| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                                                                              | 1.00  | 3 of 3   | 0.00           |
-| `bounded-iteration/recovery-sweep-marks-its-own-column`                 | Writes a job that re-enqueues stuck exports on a table users also edit; finds and marks them by columns the export pipeline owns, never `updated_at`.                                                                                    | 0.83  | 2 of 3   | 0.00           |
-| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                                                                                      | 0.67  | 2 of 3   | 0.00           |
-| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity. Ceiling case.                                                                                                                                     | 1.00  | 3 of 3   | 1.00           |
+| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | Makes an overlapping purge sweep safe with a re-check in the delete and a compare-and-set on its cursor, and takes no lock.                                                                                                              | 0.67  | 2 of 3   | 0.00           |
+| `bounded-iteration/recovery-sweep-marks-its-own-column`                 | Writes a job that re-enqueues stuck exports on a table users also edit; finds and marks them by columns the export pipeline owns, never `updated_at`.                                                                                    | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-asks-to-guard-a-shared-cursor`                | Asked by a review to guard a cursor row every run shares, gives each run its own position in job data and removes the shared write.                                                                                                      | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-dispatcher-predicate-and-job-id`              | Flags a dispatcher predicate no index can serve and a job id keyed only by the entity.                                                                                                                                                   | 1.00  | 3 of 3   | 0.33           |
 | `bounded-iteration/review-staged-reconciler`                            | Asks for one job per reconciler stage, with no shared budget, error list, or cursor map.                                                                                                                                                 | 1.00  | 3 of 3   | 0.00           |
+| `bounded-iteration/review-sweep-that-locks-its-page`                    | Reviews a session purge that locks a page plus one extra row; asks for one delete with the expiry re-checked and no lock, stops on a short page, and raises the per-row trigger and cascade.                                             | 0.33  | 1 of 3   | 0.00           |
 | `bounded-iteration/review-sweep-whose-trigger-is-elsewhere`             | Reviews a reindex sweep of profiles by `updated_at` in a repository where a trigger in the first migration bumps it; finds the trigger, takes the sweep off `updated_at`, and asks for an idempotent notification and a second-run test. | 1.00  | 3 of 3   | 0.00           |
 | `debugging/crash-fixed-at-cause-with-a-test`                            | Fixes a crashing report at the lookup that misses, not with a default value, and adds a test that fails without the fix.                                                                                                                 | 0.89  | 2 of 3   | 1.00           |
 | `debugging/flaky-test-not-fixed-with-retry`                             | Fixes an un-awaited write behind an intermittent test instead of adding a retry or a longer timeout.                                                                                                                                     | 0.67  | 4 of 12  | 1.00           |
@@ -99,13 +100,14 @@ unaided by design.
 | `playwright-authoring/review-computed-test-ids`                         | Asks for literal test ids and `getByTestId` with a row filter, not computed ids.                                                                                                                                                         | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/checkout-exact-stock`                                 | Guard: checkout keeps stock exact without an unbounded lock, and enqueues after commit.                                                                                                                                                  | 1.00  | 3 of 3   | 1.00           |
 | `postgres-locking/exact-cap-no-lock`                                    | Enforces a cap as best effort, with no lock, counter, or claim table.                                                                                                                                                                    | 1.00  | 3 of 3   | 0.00           |
+| `postgres-locking/owner-lock-records-its-reason`                        | Adds the lock an owner chose for a busy shared list at `READ COMMITTED` with `lock_timeout`, a `lock-reason:` comment, and a test that fails without it.                                                                                 | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/prelock-before-conditional-update`                    | Asks for the `SELECT ... FOR UPDATE` before an already conditional `UPDATE` to be deleted.                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/race-finding-on-unwritten-row`                        | Answers a review bot's race finding with a guard inside the insert, not a lock on a row it does not write.                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
-| `postgres-locking/race-finding-that-cannot-happen`                      | Guard: answers a review bot's lost-update finding on a balance credit by tracing the single atomic `UPDATE` two files away and saying it cannot happen, with no lock or code change.                                                     | 1.00  | 3 of 3   | 1.00           |
-| `postgres-locking/review-advisory-lock-key`                             | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                                                                                                                                     | 0.67  | 1 of 3   | 1.00           |
+| `postgres-locking/race-finding-that-cannot-happen`                      | Guard: answers a review bot's lost-update finding on a balance credit by tracing the single atomic `UPDATE` two files away and saying it cannot happen, with no lock or code change.                                                     | 1.00  | 3 of 3   | 0.33           |
+| `postgres-locking/review-advisory-lock-key`                             | Guard: checks the key of an advisory lock the author justified, and does not reject it on principle.                                                                                                                                     | 1.00  | 3 of 3   | 1.00           |
 | `postgres-locking/review-last-admin-advisory-lock`                      | Asks for an advisory lock around a last-admin guard to be deleted, leaving it best effort.                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
-| `postgres-locking/review-race-test-that-waits-on-a-lock`                | Guard: accepts a race test that holds a row lock and waits for blocked writers, because it asserts the final balance; has no skill-fired grader.                                                                                         | 1.00  | 6 of 6   | 1.00           |
-| `postgres-locking/rollup-trigger-deadlocks`                             | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.                                                                                                                       | 1.00  | 3 of 3   | 0.00           |
+| `postgres-locking/review-race-test-that-waits-on-a-lock`                | Guard: accepts a race test that holds a row lock and waits for blocked writers, because it asserts the final balance; has no skill-fired grader.                                                                                         | 1.00  | 3 of 3   | 1.00           |
+| `postgres-locking/rollup-trigger-deadlocks`                             | Replaces a trigger-kept daily rollup that deadlocks with closed days computed once, not ordered or advisory locks.                                                                                                                       | 0.83  | 2 of 3   | 0.00           |
 | `postgres-node-performance-tuning/dedupe-keeps-statement-names-literal` | Removes duplication between three lookups by sharing the column list, and keeps each statement's name literal in its SQL.                                                                                                                | 0.67  | 2 of 6   | 0.00           |
 | `postgres-node-performance-tuning/index-change-rechecks-neighbors`      | Rechecks every query that depends on a changed index, found through the query builders.                                                                                                                                                  | 0.86  | 17 of 21 | 0.00           |
 | `postgres-node-performance-tuning/new-query-named-and-indexed`          | Ships a new query with explicit columns, a bound, an operation-name comment, and its index.                                                                                                                                              | 1.00  | 3 of 3   | 0.00           |
@@ -177,10 +179,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `http-api-design` description named edge workers. Four of its cases were dropped afterwards.
 - **Other rows** are from later two-arm runs, three attempts per arm: the edge-claims
   and topology rows after the `http-api-design` change, and five new cases after their graders
-  were narrowed in review. The other `postgres-locking` rows and
-  `postgres-schema-design/customer-code-key` (an earlier run; its row is now from 2026-11-24) are from the two-arm run on 2026-11-22 after the
-  locking rules moved into their own skill, three attempts per arm. The `postgres-locking` "Score"
-  and "Passed" columns are from a plugin-only rerun the same day, after review wording changes.
+  were narrowed in review. `postgres-schema-design/customer-code-key` (an earlier run; its row is
+  now from 2026-11-24) was from the two-arm run on 2026-11-22 after the locking rules moved into
+  their own skill, three attempts per arm.
 - **The other `agent-workflow` and `pull-requests` rows** are from the two-arm run on 2026-11-22 after
   review answering moved to `pull-requests`, three attempts per arm.
 - **`react-app-structure/load-more-follows-the-flag`** is from two two-arm runs of three attempts
@@ -257,8 +258,6 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`postgres-node-performance-tuning/dedupe-keeps-statement-names-literal`** is from a two-arm
   run of six attempts on 2026-11-23. All six answers with the plugin pass; the score is lower
   because the skill loaded in 2 of them.
-- **`postgres-locking/review-race-test-that-waits-on-a-lock`** is from a two-arm run of six
-  attempts on 2026-11-23. It is a guard beside `review-last-admin-advisory-lock`.
 - **`list-reads/fixed-top-three-is-not-a-page`** is from a two-arm run of six attempts on
   2026-11-23. It is a guard beside `slow-inbox-bounds-the-scan`.
 - **`list-reads/slow-inbox-bounds-the-scan`** is from a two-arm run of six attempts on
@@ -281,12 +280,10 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   a conditional fix". `unverified-finding-is-an-investigation` is instead from a two-arm run of
   three attempts on 2026-11-24 after rule 3 linked to `agent-workflow`, "Verify a finding". The
   other two rows keep "Without plugin" values from earlier two-arm runs.
-- **`postgres-locking/race-finding-that-cannot-happen`,
-  `postgres-locking/race-finding-on-unwritten-row`,
-  `pull-requests/review-round-dispositions`, and `agent-workflow/status-note-asks-only-what-it-must`**
+- **`pull-requests/review-round-dispositions` and `agent-workflow/status-note-asks-only-what-it-must`**
   are each from a two-arm run of three attempts on 2026-11-24, after `agent-workflow` gained
-  "Verify a finding"; see that entry in [HISTORY.md](HISTORY.md). The other `postgres-locking`
-  and `pull-requests` rows were not rerun; the rule text they test did not change.
+  "Verify a finding"; see that entry in [HISTORY.md](HISTORY.md). The other `pull-requests` rows
+  were not rerun; the rule text they test did not change.
 - **The three `agent-rules` rows** are from 2026-11-24. `path-scoped-rules` and
   `root-agents-md-placement` are from a two-arm run of all three cases, three attempts per arm,
   loading 6 of 6. `stated-rule-is-not-guessed-at` is from the last of two later two-arm runs of
@@ -339,18 +336,20 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
   eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
   passed 1 of 8. "Without plugin" is from the earlier two-arm run.
-- **The seven `bounded-iteration` rows** are from one two-arm run of three attempts per arm on
-  2026-11-24, on the text before rule 16's last clause was narrowed. The skill loaded in 20 of 21 attempts; the shared-cursor
-  case's one failure had not loaded it. The recovery case passed 2 of 3 with the plugin, and 2 of
-  3 in a run of it alone on almost the same wording; on a stricter wording earlier that day it
-  passed 3 of 3. `review-dispatcher-predicate-and-job-id` passed 3 of 3 without the plugin in this
-  run, and 1 or 2 of 3 in the four runs before it that day, so its ceiling mark rests on one run. The last clause of rule 16's recovery sentence was narrowed after this run, and a sentence added after it, and neither was measured again. Rule 6 later gained a sentence on runs with a deadline, also not measured.
+- **The eight `bounded-iteration` rows and the eleven `postgres-locking` rows** are from one
+  two-arm run of three attempts per arm on 2026-11-25, after `postgres-locking` gained lock
+  reasons and `bounded-iteration` the one-statement sweep page; see that entry in
+  [HISTORY.md](HISTORY.md). In the `bounded-iteration` cases every attempt that loaded the skill
+  passed and every one that did not failed: `review-sweep-that-locks-its-page` loaded it in 1 of
+  3 and `overlapping-purge-runs-stay-lock-free` in 2 of 3 (1 of 3 on `main` the same session).
+  `rollup-trigger-deadlocks` loaded it 3 of 3 and passed 2 of 3 (3 of 3 on `main`); its rule did
+  not change. `review-dispatcher-predicate-and-job-id` and `race-finding-that-cannot-happen`
+  passed 1 of 3 without the plugin in this run, `review-race-test-that-waits-on-a-lock` 3 of 3.
 - **In the full run on 2026-11-21, the skill loaded in 224 of the 234 attempts.** That tally is
   from that run and is not updated as rows are replaced; a later loading miss is in the note for
   its rows. The misses then were in four cases: `documentation/write-scale-numbers` (0 of 3, then
   2 of 3 on a rerun), the edge-claims case (0 of 3, before its description named edge workers),
-  `bounded-iteration/review-dispatcher-predicate-and-job-id` (1 of 3 then; 3 of 3 in its current
-  row), and `postgres-schema-design/review-advisory-lock-key` (1 of 3; 2 of 3 after it moved to
+  `bounded-iteration/review-dispatcher-predicate-and-job-id` (1 of 3 then), and `postgres-schema-design/review-advisory-lock-key` (1 of 3; 2 of 3 after it moved to
   `postgres-locking`). In the rerun, `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no skill at all; it did not pick a wrong one.
 - **Rows below 1.00 for other reasons** failed on the answer:
   `github-issue/search-before-filing`, `npm-publishing/bootstrap-new-package`,

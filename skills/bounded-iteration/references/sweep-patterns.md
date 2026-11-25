@@ -289,7 +289,9 @@ capped claim above, where two workers must not take the same work item.
 
 Report `hasMore` when `candidates` equals the batch size, and let the next run continue. The
 deleted count can be lower, because a row another run deleted or one that stopped being eligible
-is skipped, so it does not show whether work remains.
+is skipped. A sweep that has only the deleted count, from one `DELETE ... RETURNING`, runs again
+when it equals the batch size; a short page then ends a run early at worst, and the next
+scheduled run continues.
 
 ## Deduplicate against a large table
 

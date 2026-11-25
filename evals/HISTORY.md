@@ -4,6 +4,47 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: `postgres-locking` records a reason for every lock; `bounded-iteration` writes a sweep page in one statement
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $27 over the runs
+below.
+
+What changed:
+
+- `postgres-locking`: by default take no lock. A lock is allowed for three reasons: a busy user
+  action that would otherwise fail often with 409 (lock the shared root row at `READ COMMITTED`,
+  wait with `lock_timeout`); a privacy, legal, or irreversible invariant (unchanged); a race a
+  guarded write, a unique constraint with `ON CONFLICT`, or `SERIALIZABLE` cannot express, where
+  an exact quantity across rows now sits. New section "Record the reason": a `lock-reason:`
+  comment beside every lock, advisory locks included, names the outcome it prevents and the
+  writers it keeps apart, and a test that forces the interleaving fails without the lock. A lock
+  with no recorded reason is deleted, or its reason recorded. The advisory-lock allowance is
+  unchanged.
+- `bounded-iteration` rule 3: a sweep writes a page in one statement that re-checks eligibility,
+  counts the rows it returned (a full page runs again, a short page ends the run), never reads or
+  locks an extra row, uses two statements only when code inspects the rows between them, and
+  reads what each deleted row sets off (cascades, `AFTER DELETE` triggers, counters).
+  `references/sweep-patterns.md` says a deleted count alone ends a run early at worst.
+- New cases `postgres-locking/owner-lock-records-its-reason` and
+  `bounded-iteration/review-sweep-that-locks-its-page`. The first grader's isolation point was
+  corrected after the pilot: it had allowed keeping `SERIALIZABLE`, under which a writer that
+  waited for the lock still fails with `40001`.
+
+Runs, three attempts each:
+
+| Case                                                      | Branch, with plugin | Branch, without | `main` with the new cases |
+| --------------------------------------------------------- | ------------------- | --------------- | ------------------------- |
+| `postgres-locking/owner-lock-records-its-reason`          | 3 of 3, loaded 3    | 0 of 3          | 0 of 3, loaded 3          |
+| `bounded-iteration/review-sweep-that-locks-its-page`      | 1 of 3, loaded 1    | 0 of 3          | 0 of 3, loaded 0          |
+| `bounded-iteration/overlapping-purge-runs-stay-lock-free` | 2 of 3, loaded 2    | 0 of 3          | 1 of 3, loaded 1          |
+| `postgres-locking/rollup-trigger-deadlocks`               | 2 of 3, loaded 3    | 0 of 3          | 3 of 3, loaded 3          |
+
+Every other case in both skills passed 3 of 3 on both sides. What it showed: the lock-reason
+rule is what makes the owner-lock case pass, since `main` loads the skill and still fails it. In
+`bounded-iteration`, every attempt that loaded the skill passed and every one that did not
+failed, on both sides, so the sweep case's low score is loading. The rollup failure loaded the
+skill and recommended sorting the batch; that rule did not change.
+
 ## 2026-11-25: `git-commit-checklist` resolves conflicts by hand and updates a stacked branch after its base merges
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $13 over the runs
