@@ -17,7 +17,7 @@ The full rules behind the sending checklist in [`SKILL.md`](../SKILL.md).
   the endpoint, and send the id, timestamp, and signature in headers. Re-sign each attempt with a
   fresh timestamp. Store the secret encrypted, not hashed, since you must read it back, as
   [http-api-design](../../http-api-design/SKILL.md) says for any secret. The
-  [Standard Webhooks](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md)
+  [Standard Webhooks](https://www.standardwebhooks.com/)
   specification defines a header format to follow.
 - **Rotate keys with no downtime.** Rotating creates a new secret and keeps the old one active
   for an overlap window, such as 24 hours. During the overlap, sign every attempt with both and
