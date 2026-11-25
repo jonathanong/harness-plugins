@@ -106,8 +106,7 @@ await tx.query('SELECT 1 FROM playlists WHERE id = $1 FOR NO KEY UPDATE', [playl
 - `SKIP LOCKED` is only for competing workers that select rows they then write in the same
   transaction. When the queue already runs the job single-flight (an ordering lane, a job id), it
   is not needed. A sweep that deletes or updates the rows it found is not a claim: it locks
-  neither its candidates nor its cursor row; see
-  [bounded-iteration](../bounded-iteration/SKILL.md).
+  neither its candidates nor its cursor row ([bounded-iteration](../bounded-iteration/SKILL.md)).
 - Remove a lock by deleting it, not by swapping in another serializer.
 
 ## Lock order and deadlocks
@@ -121,9 +120,10 @@ may be.
 
 Adding a lock is the repository owner's decision.
 
-- A change that adds a lock says in its pull request description which interleaving it
-  prevents, and why a constraint, a conditional write, a guard inside the statement, and
-  `SERIALIZABLE` with 409 do not fit.
+- A lock's pull request description says what users see without it ("one drag in five on a shared
+  playlist fails", not an error code) and the wait it adds ("up to 200 ms"), the interleaving, and
+  why a constraint, a conditional write, a guard in the statement, and `SERIALIZABLE` with 409 do
+  not fit. A review of a lock asks for whatever is missing.
 - An agent working unattended does not add one. Where an allowed reason applies, it
   ships the lock-free design, states the worst case, and puts the lock it would propose in the
   description for the owner to decide. Where none applies, such as a cap, there is no lock to

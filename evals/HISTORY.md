@@ -4,6 +4,60 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: `agent-workflow` and `postgres-locking` say who a change affects
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $35 over the runs
+below.
+
+What changed:
+
+- `agent-workflow`: new section "Explain the outcome". A plan, an explanation of a problem or a
+  fix, a pull request description, a review finding, and a status note each say who a change
+  affects and what changes for them, in their terms, with both sides of a trade-off. When
+  nobody outside the team is affected, the note says users see no change and names who is
+  affected instead of inventing a user effect. Each document is written for its reader; a pull
+  request's reader is an engineer who must be able to explain what it does for users. A finding
+  that changes nothing for anyone is labeled a nit.
+- `postgres-locking` "Adding a lock": a lock's pull request description says what users see
+  without it, as an outcome and not an error code, and the wait it adds; a review of a lock asks
+  for whichever is missing. The first wording ("the wrong result or error they would see without
+  it") left the review case at 0 of 3: every attempt asked for the wait, none for what users saw,
+  and one said the description's "hit 40001" already covered it. The final wording has one
+  example for each side, from a playlist rather than the case's board.
+- New cases `agent-workflow/review-says-who-waits-and-who-pays`,
+  `agent-workflow/status-note-with-no-user-change` (guard),
+  `postgres-locking/lock-pr-says-what-users-feel` (guard) and
+  `postgres-locking/review-asks-what-a-lock-means-for-users`. The payment grader's wait was
+  corrected before the pilot from "about a minute" to "over a minute": four 15-second attempts
+  and 17 seconds of backoff are about 77 seconds.
+
+Runs, three attempts each. `agent-workflow` and `postgres-locking` ran as full suites on the
+branch with both arms and on `main` with the new cases copied in; `postgres-locking` used the
+first wording. The two new `postgres-locking` cases then ran again, with both arms, on the final
+wording.
+
+| Case                                                       | Branch, with plugin | Branch, without | `main` with the new cases |
+| ---------------------------------------------------------- | ------------------- | --------------- | ------------------------- |
+| `agent-workflow/review-says-who-waits-and-who-pays`        | 0 of 3, loaded 0    | 3 of 3          | 0 of 3, loaded 0          |
+| `agent-workflow/status-note-with-no-user-change`           | 0 of 3, loaded 0    | 3 of 3          | 0 of 3, loaded 0          |
+| `agent-workflow/status-note-asks-only-what-it-must`        | 1 of 3, loaded 1    | 0 of 3          | 1 of 3, loaded 1          |
+| `postgres-locking/review-asks-what-a-lock-means-for-users` | 0 of 3 (first)      | 0 of 3          | 0 of 3                    |
+| the same, final wording                                    | 3 of 3, loaded 3    | 0 of 3          | (as above)                |
+| `postgres-locking/lock-pr-says-what-users-feel`            | 2 of 3 (first)      | 3 of 3          | 3 of 3                    |
+| the same, final wording                                    | 3 of 3, loaded 3    | 3 of 3          | (as above)                |
+
+Then the whole `postgres-locking` suite ran with the plugin only, three attempts, on the final
+wording (about $7): every case passed 3 of 3 except `lock-pr-says-what-users-feel`, 2 of 3. Both
+of its misses, here and on the first wording, were descriptions that said what users saw and the
+added wait but not what a user sees past the 2-second limit; the grader was kept.
+
+The two new `agent-workflow` cases failed with the plugin only on the skill-fired grader: the
+outcome graders passed in all eighteen attempts across both arms and `main`, so the model already
+writes these in user terms and the skill does not load for a plain review or status note. The
+other ten `postgres-locking` cases passed 3 of 3 on the branch and on `main`;
+`rollup-trigger-deadlocks` was 3 of 3 this time. What showed the rule working is the lock review:
+0 of 3 on `main` and without the plugin, 3 of 3 with the final wording.
+
 ## 2026-11-25: `postgres-locking` records a reason for every lock; `bounded-iteration` writes a sweep page in one statement
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $27 over the runs
