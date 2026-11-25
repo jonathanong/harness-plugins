@@ -42,6 +42,57 @@ the skills that do load.
 What it showed: without the plugin, Sonnet lists design decisions but never says which the
 person made and which it made. The guard passes either way, as a guard may.
 
+## 2026-11-25: `bounded-iteration` rule 17 counts only permanent rejections (not run)
+
+No run. After review of the previous entry's change, rule 17 counts toward retiring a row only a
+rejection a retry cannot fix; a timeout, 5xx, or 429 backs off without counting, so an outage
+longer than the backoff schedule does not retire every row in flight. The worked SQL keeps a
+separate `rejections` count, and reopening a row resets it. No case or grader changed; the
+`sync-sweep-moves-failed-rows-aside` attempts were graded on retiring a row, not on what counts.
+
+## 2026-11-25: `bounded-iteration` rule 17, a failed row leaves the front
+
+Commit: this change. Sonnet agent, Opus judge, three attempts per arm. New case, both arms,
+$1.07, after one-attempt pilots; the whole `bounded-iteration` suite, plugin arm only, $4.92; a
+`main` control for one case, plugin arm only.
+
+What changed:
+
+- New rule 17: a sweep that selects oldest first and leaves a failed row as it was selects that
+  row again first on every run, so rows that fail for good starve the rest. On failure, count the
+  attempt and push the due time back with backoff, select only due rows, and after a set number
+  of attempts mark the row failed. "Verify with a plan" is now rule 18. Worked SQL is in
+  `references/sweep-patterns.md`, "A failed row leaves the front", with an anti-patterns row.
+- New case `bounded-iteration/sync-sweep-moves-failed-rows-aside`: write an invoice sync sweep.
+- A review case for the same rule, `review-sweep-stuck-behind-failing-rows`, was piloted and
+  dropped: it passed without the plugin (1 of 1), because a planted oldest-first sweep is easy to
+  spot.
+
+| Case                                      | With                                      | Without      |
+| ----------------------------------------- | ----------------------------------------- | ------------ |
+| `sync-sweep-moves-failed-rows-aside`      | 1.00, 3 of 3, loaded 3 of 3               | 0.67, 2 of 3 |
+| `no-new-run-while-one-runs`               | 1.00, 3 of 3                              | not run      |
+| `overlapping-purge-runs-stay-lock-free`   | 0.83, 2 of 3                              | not run      |
+| `recovery-sweep-marks-its-own-column`     | 1.00, 3 of 3                              | not run      |
+| `review-asks-to-guard-a-shared-cursor`    | 1.00, 3 of 3                              | not run      |
+| `review-dispatcher-predicate-and-job-id`  | 1.00, 3 of 3                              | not run      |
+| `review-staged-reconciler`                | 1.00, 3 of 3                              | not run      |
+| `review-sweep-that-locks-its-page`        | 0.67, 2 of 3, loaded 2 of 3               | not run      |
+| `review-sweep-whose-trigger-is-elsewhere` | 0.83, 2 of 3; `main` control 0.83, 2 of 3 | not run      |
+
+What it showed: without the plugin, Sonnet backs off a failed row but retries it forever on a
+capped interval and alerts instead of retiring it (the pilot attempt and one of three measured
+attempts), so permanent failures grow until they fill each run. With the rule, all three
+attempts retire a row after a set number of attempts. The gap is small at three attempts. No
+other case fell: `review-sweep-whose-trigger-is-elsewhere` scored the same on `main` in the same
+session, and the two rows that rose are within noise. Their Without columns are from earlier runs.
+
+After review, before merge: the case's grader no longer accepts a cursor that moves past failed
+rows, since it never revisits them and their attempts never reach the limit. None of the six
+measured attempts used one, so the scores above stand; not rerun. The worked SQL caps the backoff
+exponent so a high attempt count cannot overflow `interval`, and reopening a retired row also
+resets `attempts` and `due_at`.
+
 ## 2026-11-25: new `webhooks` skill, receiving and sending
 
 Commit: this change. Sonnet agent, Opus judge, three attempts per arm, both arms, $1.78; a
