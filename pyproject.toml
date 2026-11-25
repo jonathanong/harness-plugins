@@ -10,3 +10,4 @@ dev = ["coverage==7.17.5"]
 
 [tool.uv]
 package = false
+required-version = "==0.13.9"
