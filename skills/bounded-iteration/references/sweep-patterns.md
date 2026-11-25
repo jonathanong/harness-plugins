@@ -71,17 +71,20 @@ SELECT id FROM shipments_outbox
 UPDATE shipments_outbox
    SET attempts = attempts + 1,
        last_error = $2,
-       due_at = now() + least(interval '6 hours', interval '1 minute' * power(2, attempts)),
+       due_at = now() + least(interval '6 hours', interval '1 minute' * power(2, least(attempts, 9))),
        failed_at = CASE WHEN attempts + 1 >= $3 THEN now() END
  WHERE id = $1 AND sent_at IS NULL;
 ```
 
+- The exponent is capped before the multiplication, so a high attempt count cannot overflow
+  `interval` and leave the row unretired.
 - The backoff moves a failed row behind the rows that are due now, so one failure cannot hold the
   head of the line.
 - The terminal `failed_at` keeps the set of rows that will never succeed from growing. Retried
   forever, even hourly, they accumulate until they fill every run, and the line is blocked again.
-- Count the retired rows and alert on that count. A person fixes the cause and clears `failed_at`
-  to send the row again.
+- Count the retired rows and alert on that count. A person fixes the cause, then clears
+  `failed_at`, sets `attempts = 0`, and sets `due_at = now()` to send the row again with a fresh
+  set of attempts.
 - A cursor that moves past failed rows also clears the head, but it needs another pass to retry
   them; prefer the due time.
 

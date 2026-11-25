@@ -1,5 +1,5 @@
 ---
-description: Writing a sweep that pushes unsynced invoices to an accounting provider, moves a failed invoice out of the front of the selection (a next-attempt time with backoff, or a cursor past it) and marks it failed after a set number of attempts.
+description: Writing a sweep that pushes unsynced invoices to an accounting provider, moves a failed invoice out of the front of the selection (a next-attempt time with backoff) and marks it failed after a set number of attempts.
 tags: [bounded-iteration, skill-fired, sweep]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]

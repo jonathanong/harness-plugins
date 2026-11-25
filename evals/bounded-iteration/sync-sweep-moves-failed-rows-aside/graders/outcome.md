@@ -7,8 +7,9 @@ Grade the final message, the invoice sync sweep the agent wrote.
 PASS only if the code it wrote does both of these:
 
 1. **A failed invoice leaves the front of the selection.** On failure it records an attempt count
-   and a next-attempt time with backoff, and the selection takes only rows that are due; or the
-   run's position moves past failed rows. Code where a failed invoice stays selectable with the
+   and a next-attempt time with backoff, and the selection takes only rows that are due. A cursor
+   that moves past failed rows does not count, because it never revisits them, so their attempts
+   never reach the limit in point 2. Code where a failed invoice stays selectable with the
    oldest `created_at` on the next run fails this point, because a few hundred permanently
    rejected invoices would then fill every batch and no newer invoice would sync.
 2. **A terminal state.** After a set number of attempts the invoice is marked failed (a status or

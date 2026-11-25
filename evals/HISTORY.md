@@ -41,6 +41,12 @@ attempts retire a row after a set number of attempts. The gap is small at three 
 other case fell: `review-sweep-whose-trigger-is-elsewhere` scored the same on `main` in the same
 session, and the two rows that rose are within noise. Their Without columns are from earlier runs.
 
+After review, before merge: the case's grader no longer accepts a cursor that moves past failed
+rows, since it never revisits them and their attempts never reach the limit. None of the six
+measured attempts used one, so the scores above stand; not rerun. The worked SQL caps the backoff
+exponent so a high attempt count cannot overflow `interval`, and reopening a retired row also
+resets `attempts` and `due_at`.
+
 ## 2026-11-25: new `webhooks` skill, receiving and sending
 
 Commit: this change. Sonnet agent, Opus judge, three attempts per arm, both arms, $1.78; a
