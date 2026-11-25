@@ -4,6 +4,16 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: `github-issue` lets an agent create a milestone, and asks before a project (not run)
+
+No run. The decision left open in the previous `github-issue` entry was made: an agent creates a
+milestone without asking when the work needs one, since a milestone is an epic in one repository
+that closes with its work, and never reopens a closed one. Creating a project needs the person's
+explicit approval, since a project is a high-level initiative across repositories; adding issues
+to an existing project needs none. "Organize issues" and `references/organize-issues.md` say so,
+replacing "create a milestone or a project only when the request authorizes it". No case or
+grader changed; `one-off-work-gets-a-milestone-not-a-label` already passes a new milestone.
+
 ## 2026-11-25: `github-issue` and `github-repository-settings` take on issue taxonomy (not run)
 
 No run. Three cases were added unpiloted, and their graders have not been checked against an
