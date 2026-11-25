@@ -108,6 +108,8 @@ Each still gets a loading case and an answer case.
 - [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
       loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
       with the description unchanged. Find which part of the request no longer matches it.
+      On 2026-11-25 it also loaded in 0 of 6 attempts of the new review and status-note cases
+      for "Explain the outcome"; that rule is measured only through `postgres-locking`.
 - [ ] **Does a link alone carry a rule?** `github-issue` rule 3, `postgres-locking`, and the
       `pull-requests` review response each keep a short copy of `agent-workflow`, "Verify a
       finding", beside the link to it. In 9 of 9 plugin attempts on 2026-11-24 no agent opened the
