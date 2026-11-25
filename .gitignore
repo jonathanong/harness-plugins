@@ -6,3 +6,4 @@ evals/results/
 .coverage
 coverage/
 __pycache__/
+.venv/

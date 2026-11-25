@@ -1,0 +1,12 @@
+# Test-time tooling for the scripts bundled in skills. The scripts themselves use only the Python
+# standard library; nothing here is installed by a skill's reader.
+[project]
+name = "harness-plugins-dev"
+version = "0"
+requires-python = ">=3.15"
+
+[dependency-groups]
+dev = ["coverage==7.17.5"]
+
+[tool.uv]
+package = false
