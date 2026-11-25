@@ -26,8 +26,8 @@ When the target repository cannot be written to, read
 
 ## Labels
 
-A label lasts. A milestone or a project is made for one piece of work and then completed. So a
-label has a high bar:
+A label lasts. A milestone is an epic in one repository, made for a piece of work and closed with
+it. A project tracks a high-level initiative across repositories. So a label has a high bar:
 
 - Use the existing labels first. Add a label only for a category that will outlast the current
   work. Something tied to one release, initiative, or cleanup belongs in a milestone or a project.
@@ -50,7 +50,9 @@ To audit a repository's labels, milestones, and projects, use `github-repository
 
 Read [organize issues](references/organize-issues.md) before triaging, relabeling, prioritizing,
 or assigning milestones or projects to existing issues or pull requests. In short: apply only
-labels, milestones, and projects that exist; keep automation, ownership, and provenance labels;
+labels and projects that exist; create a milestone when the work needs one, without asking, and
+never reopen a closed one; create a project only with the person's explicit approval, though
+adding issues to an existing project needs none; keep automation, ownership, and provenance labels;
 in review mode report the exact changes and make none; in apply mode change only what is needed,
 then fetch every touched item again and verify it.
 
