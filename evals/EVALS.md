@@ -211,6 +211,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `github-issue/shared-label-goes-through-the-label-source`, and
   `github-repository-settings/label-audit-finds-sprawl-and-drift`) were added on 2026-11-25
   without a run: not piloted, and with no baseline. See that entry in [HISTORY.md](HISTORY.md).
+- **The `github-issue` rows** were not re-measured after the 2026-11-25 change that lets an agent
+  create a milestone without asking and requires approval for a project; see that entry in
+  [HISTORY.md](HISTORY.md).
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
 - **The `git-commit-checklist` rows** are from a plugin-only run on 2026-11-25 on the final text,
