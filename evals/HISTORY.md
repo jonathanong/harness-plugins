@@ -4,6 +4,44 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: record who decided, the person or the agent
+
+Commit: this change. Sonnet agent, Opus judge, three attempts per arm. The two new cases, both
+arms, $1.28, after one-attempt pilots; the `pr-description`, `documentation`, and
+`agent-workflow` suites, plugin arm only, $3.60.
+
+What changed, from the repository owner's request:
+
+- `agent-workflow`: new section "Record who decided". A pull request description, an issue
+  description, a comment on either, and an implementation plan for the team mark each decision
+  **User:** or **Agent:**: a scope change, a design choice, a trade-off, a default the request
+  left open, anything costly to reverse, and the answer to any non-trivial question the agent
+  asked. An agent decision carries its reason. **User** is only the person in the session; a
+  suggestion from another agent, a bot, or a peer that the agent adopted is the agent's, and
+  agent-to-agent exchanges are left out. Long-lived documentation (a README, a docs page, a code
+  comment, a commit message, a roadmap for a wider organization) leaves attribution out unless
+  the person asks. "Decide, then report" now records a reversible default as an **Agent:**
+  decision.
+- `pr-description` lists Decisions as item 6; `github-issue` marks decisions in an issue or
+  comment; `planning` marks them in an implementation plan, not in an organization roadmap, and
+  the plan template's Decisions table gains a "By" column; `documentation` states a decision as
+  a fact without who made it. Each links to `agent-workflow`.
+- New case `pr-description/description-says-who-decided` and guard
+  `documentation/docs-state-decisions-without-attribution`.
+
+| Case                                                             | With                        | Without      |
+| ---------------------------------------------------------------- | --------------------------- | ------------ |
+| `pr-description/description-says-who-decided`                    | 1.00, 3 of 3, loaded 3 of 3 | 0.00, 0 of 3 |
+| `documentation/docs-state-decisions-without-attribution` (guard) | 1.00, 3 of 3                | 1.00, 3 of 3 |
+
+The plugin-arm suite run matched the current rows, except `documentation/review-readme-drift`,
+now 3 of 3 (was 2 of 3); its row is updated. The `agent-workflow` cases loaded their skill in 1
+of 9 attempts, as the roadmap already notes; the new section is reached through the links from
+the skills that do load.
+
+What it showed: without the plugin, Sonnet lists design decisions but never says which the
+person made and which it made. The guard passes either way, as a guard may.
+
 ## 2026-11-25: new `webhooks` skill, receiving and sending
 
 Commit: this change. Sonnet agent, Opus judge, three attempts per arm, both arms, $1.78; a

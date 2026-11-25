@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **155 cases** across 48 skills.
+- **157 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.34, over the 154 cases measured both ways.
-- **121 cases** are ones the model fails unaided. The other 33 it already gets right: 6 check that a skill stays out of the way, and 27 show at most that the skill loads.
+- **Without it:** mean score 0.34, over the 156 cases measured both ways.
+- **122 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -34,7 +34,7 @@ averaged over attempts.
 | `bounded-iteration`                | 8     | 0.88        | 0.04           | 0                     |
 | `debugging`                        | 2     | 0.78        | 1.00           | 2                     |
 | `dependabot`                       | 4     | 1.00        | 0.50           | 1                     |
-| `documentation`                    | 2     | 0.75        | 0.34           | 0                     |
+| `documentation`                    | 3     | 0.89        | 0.56           | 1                     |
 | `error-handling`                   | 3     | 1.00        | 0.33           | 1                     |
 | `evals`                            | 2     | 1.00        | 0.00           | 0                     |
 | `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     |
@@ -58,7 +58,7 @@ averaged over attempts.
 | `postgres-node-performance-tuning` | 3     | 0.84        | 0.00           | 0                     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
 | `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     |
-| `pr-description`                   | 3     | 1.00        | 0.11           | 0                     |
+| `pr-description`                   | 4     | 1.00        | 0.08           | 0                     |
 | `pull-requests`                    | 1     | 1.00        | 0.67           | 0                     |
 | `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     |
 | `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     |

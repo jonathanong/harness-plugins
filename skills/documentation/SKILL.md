@@ -24,6 +24,8 @@ code cannot say, and link to the code for the rest.
   roadmaps; they belong in the tracker and in commit messages.
 - In a public repository, leave out private detail: internal hostnames, customer names,
   incident narratives, unreleased plans.
+- State a decision as a fact, not who made it, unless the person asks; the record of who decided
+  belongs in the pull request or issue (`agent-workflow`, "Record who decided").
 - When a change alters behavior a document describes, update the document in the same change.
 
 ## Comments

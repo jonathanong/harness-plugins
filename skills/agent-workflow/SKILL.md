@@ -97,8 +97,8 @@ worked out and a wrong guess cannot be undone.
 - When repository policy, the request, or the evidence settles a choice, take it and say which
   one you took. A minor upgrade the policy allows, a missing index, a rebase, a stale branch to
   delete: these are not questions.
-- When a choice is open but reversible, take the smallest option, record it as an assumption in
-  the handoff, and continue.
+- When a choice is open but reversible, take the smallest option, record it as an **Agent:**
+  decision (see "Record who decided"), and continue.
 - Ask before an action that is destructive or irreversible, that ships a release or spends
   money, or that is outside what was authorized. Recommend one option with the reason; do not
   list options. Ask every open question at once, and keep working on what does not depend on the
@@ -112,6 +112,30 @@ worked out and a wrong guess cannot be undone.
   before writing a polling loop or a watcher script.
 - A handoff lists as "needs you" only what a person alone can do. Anything else on that list is
   unfinished work.
+
+## Record who decided
+
+Mark which decisions the person in the session made and which you made, so a reader can tell a
+confirmed choice from your own call, and push back on yours.
+
+- Record a decision the person could have been expected to make: a scope cut or addition, a
+  design choice, a trade-off, a default the request left open, anything costly to reverse, and
+  the answer to any non-trivial question you asked; not what the code or a rule settled.
+- Record it where the work is tracked: a pull request description, an issue description, a
+  comment on either, and an implementation plan for the team doing the work. Use a short
+  "Decisions" list; start each line with **User:** or **Agent:**, and give an agent decision its
+  reason. Paraphrase the person; do not quote or name them.
+
+  ```markdown
+  - User: keep `/v1/orders` until the mobile app's 4.2 release ships.
+  - Agent: a 5-second timeout on the tax call; the request set none and its p99 is 800 ms.
+  ```
+
+- **User** is only the person in this session. Another agent, a bot, or a peer session is not;
+  a suggestion from one that you adopted is your decision. Leave agent-to-agent exchanges out.
+- Leave attribution out of long-lived documentation: a README, a docs page, a code comment, a
+  commit message, and a roadmap for a wider organization. What those hold is taken as decided;
+  attribution there is noise. Add it only when the person asks.
 
 ## Parallel by default
 

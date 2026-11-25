@@ -75,7 +75,9 @@ then fetch every touched item again and verify it.
    problem that cannot happen is wasted work and unreachable code. A symptom the reporter saw
    happen is a verified problem: file it as a bug, and put a guessed cause in the body as a guess.
 4. Write it so a reader with no other context can act: the problem, the desired outcome, what is
-   out of scope, the files or areas involved, how to verify it, and links to outside context.
+   out of scope, the files or areas involved, how to verify it, and links to outside context
+   Mark the decisions in it **User:** or **Agent:**, per `agent-workflow`'s "Record who
+   decided"; do the same in a comment that records a decision.
 5. Fetch the live labels and milestones. Apply the ones that match. Omit an optional label rather
    than inventing one.
 6. Read the created issue back and check its labels, milestone, and project. Report the URL and
