@@ -55,7 +55,8 @@ done | while read -r id; do
 done | sort | uniq -c
 ```
 
-Group the queued jobs by their full set of labels; a job waits for a runner that has every label
+A status-filtered run list stops at 1,000 runs; when either list reaches that, say the count is
+unknown. Group the queued jobs by their full set of labels; a job waits for a runner that has every label
 it asks for.
 
 ## Only the failed job's log

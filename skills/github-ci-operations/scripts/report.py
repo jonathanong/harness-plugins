@@ -143,7 +143,7 @@ def main(argv=None, now=None):
         out["jobs"], out["runnerMinutes"], out["signatures"] = job_stats(sampled)
         out["jobsSample"] = len(sampled)
         out["ejections"], out["rerunSuccess"] = ejections(runs), reruns(runs)
-        out.update(requiredChecks=None, draftRuns={}, rateAfter=None)
+        out.update(rulesetRequiredChecks=None, draftRuns={}, rateAfter=None)
         enrich(gh, args.repo, runs, out)
     except (Exhausted, GhError) as error:
         fail(f"{args.repo}: {error}")
@@ -171,7 +171,7 @@ def render(o):
     for e in o["ejections"]:
         lines.append(f"eject PR#{e['pr']} n={e['count']} runs={','.join(map(str, e['runs']))}")
     lines.append("rerun-success " + (" ".join(f"{k}={v}" for k, v in o["rerunSuccess"].items()) or "none"))
-    lines.append("required-by-rulesets " + (",".join(o["requiredChecks"]) if o["requiredChecks"] is not None else "unavailable"))
+    lines.append("required-by-rulesets " + (",".join(o["rulesetRequiredChecks"]) if o["rulesetRequiredChecks"] is not None else "unavailable"))
     lines.append("draft-vs-ready " + (" ".join(f"{k}={v}" for k, v in sorted(o["draftRuns"].items())) or "none"))
     for when in (w for w in ("rateBefore", "rateAfter") if o[w]):
         lines.append(f"rate {when[4:].lower()} " + " ".join(f"{k}={v['remaining']}/{v['limit']}" for k, v in o[when].items()))

@@ -79,8 +79,16 @@ class Main(unittest.TestCase):
         self.assertIsNone(code)
         data = json.loads(out)
         self.assertEqual(data["runs"], 2)
-        self.assertIsNone(data["requiredChecks"])
+        self.assertIsNone(data["rulesetRequiredChecks"])
         self.assertEqual(data["truncated"], ["runs push: limit 2 reached (fetched 2 of 3)", "rules: gh: failed (HTTP 403)"])
+
+    def test_json_scopes_required_checks_to_rulesets(self):
+        argv = ["--repo", "o/r", "--events", "push", "--json"]
+        out, code, _ = run(report.main, argv, routes(rules=("GET", "rules/branches/main", [])), NOW)
+        self.assertIsNone(code)
+        data = json.loads(out)
+        self.assertEqual(data["rulesetRequiredChecks"], [])
+        self.assertNotIn("requiredChecks", data)
 
     def test_call_cap_while_sampling_jobs(self):
         argv = ["--repo", "o/r", "--events", "push", "--max-calls", "3"]
@@ -133,7 +141,7 @@ class Parts(unittest.TestCase):
         out = {"truncated": []}
         with FakeGh(routes()).patch():
             extras.enrich(ghlib.Gh(2), "o/r", [], out)
-        self.assertEqual(out["requiredChecks"], ["ci"])
+        self.assertEqual(out["rulesetRequiredChecks"], ["ci"])
         self.assertEqual(out["truncated"], ["pulls (draft state): api-call cap 2 reached",
                                             "enrichment: api-call cap 2 reached"])
 

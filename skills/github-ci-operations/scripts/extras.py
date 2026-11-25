@@ -27,7 +27,7 @@ def enrich(gh, repo, runs, out):
         branch = gh.api(f"repos/{repo}")["default_branch"]
         try:
             rules = gh.api(f"repos/{repo}/rules/branches/{branch}")
-            out["requiredChecks"] = sorted({c["context"] for r in rules if r.get("type") == "required_status_checks"
+            out["rulesetRequiredChecks"] = sorted({c["context"] for r in rules if r.get("type") == "required_status_checks"
                                             for c in r["parameters"].get("required_status_checks", [])})
         except GhError as error:
             out["truncated"].append(f"rules: {error}")
