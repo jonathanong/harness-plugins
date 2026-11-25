@@ -84,6 +84,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`rust-authoring`](skills/rust-authoring/SKILL.md)                                     | Laying out Rust tests and caches, and running heavy cargo builds.                                                        |
 | [`http-api-design`](skills/http-api-design/SKILL.md)                                   | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.                                                     |
 | [`service-boundaries`](skills/service-boundaries/SKILL.md)                             | Calling another service or a partner API, or handling a webhook.                                                         |
+| [`webhooks`](skills/webhooks/SKILL.md)                                                 | Receiving or sending webhooks: signatures, replay, duplicates, order, retries, and customer URLs.                        |
 | [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.                                                  |
 | [`expand-contract-migrations`](skills/expand-contract-migrations/SKILL.md)             | Renaming or dropping a column, table, or field without a deploy-time break.                                              |
 | [`structured-logging`](skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                                                           |
@@ -106,10 +107,10 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **154 cases** across 47 skills.
+- **155 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.34, over the 153 cases measured both ways.
-- **121 cases** are ones the model fails unaided. The other 32 it already gets right: 6 check that a skill stays out of the way, and 26 show at most that the skill loads.
+- **Without it:** mean score 0.34, over the 154 cases measured both ways.
+- **121 cases** are ones the model fails unaided. The other 33 it already gets right: 6 check that a skill stays out of the way, and 27 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
