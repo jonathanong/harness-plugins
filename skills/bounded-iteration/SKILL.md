@@ -36,7 +36,9 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    window or keyset, not a separate candidate cap.
    **A sweep takes no locks.** Do not lock the candidate rows it selected or its cursor row. Write
    a page in one statement that re-checks eligibility on its own target:
-   `DELETE FROM t WHERE id IN (SELECT id ... ORDER BY id LIMIT $1) AND <still eligible> RETURNING id`.
+   `DELETE FROM t WHERE id IN (SELECT id FROM t WHERE <eligible> ORDER BY id LIMIT $1) AND <still
+   eligible> RETURNING id`. The inner select carries the same eligibility test; a looser one fills
+   pages with rows the write skips, each run ends on them, and the sweep never gets past them.
    A row that stopped being eligible after the read is left alone, and overlapping runs repeat
    work at worst. Count the rows it returned: a full page means run again, and a short or empty
    page ends the run. A row another writer changed first can end a run early; the next run picks

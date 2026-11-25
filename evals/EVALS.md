@@ -336,7 +336,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`planning/plan-states-before-after`** takes "Score" and "Passed" from a plugin-only run of
   eight attempts on 2026-11-22, after its description changed. On `main` in the same session it
   passed 1 of 8. "Without plugin" is from the earlier two-arm run.
-- **The eight `bounded-iteration` rows and the eleven `postgres-locking` rows** are from one
+- **The eight `bounded-iteration` rows and the ten `postgres-locking` rows** are from one
   two-arm run of three attempts per arm on 2026-11-25, after `postgres-locking` gained lock
   reasons and `bounded-iteration` the one-statement sweep page; see that entry in
   [HISTORY.md](HISTORY.md). In the `bounded-iteration` cases every attempt that loaded the skill

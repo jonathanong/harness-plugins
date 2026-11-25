@@ -25,6 +25,8 @@ What changed:
   locks an extra row, uses two statements only when code inspects the rows between them, and
   reads what each deleted row sets off (cascades, `AFTER DELETE` triggers, counters).
   `references/sweep-patterns.md` says a deleted count alone ends a run early at worst.
+  After review, rule 3 also says the inner select carries the same eligibility test as the write;
+  this was not measured.
 - New cases `postgres-locking/owner-lock-records-its-reason` and
   `bounded-iteration/review-sweep-that-locks-its-page`. The first grader's isolation point was
   corrected after the pilot: it had allowed keeping `SERIALIZABLE`, under which a writer that
