@@ -54,6 +54,7 @@ nothing newer is processed. Push a failed row back, and retire it after a set nu
 ```sql
 ALTER TABLE shipments_outbox
   ADD COLUMN attempts int NOT NULL DEFAULT 0,
+  ADD COLUMN rejections int NOT NULL DEFAULT 0,
   ADD COLUMN due_at timestamptz NOT NULL DEFAULT now(),
   ADD COLUMN failed_at timestamptz,
   ADD COLUMN last_error text;
@@ -67,12 +68,14 @@ SELECT id FROM shipments_outbox
  ORDER BY due_at
  LIMIT $1;
 
--- On failure: back off, or retire after the last attempt ($3).
+-- On failure: back off. $4 is true only for a rejection a retry cannot fix (a 400 or 422 for bad
+-- data), not a timeout, 5xx, or 429. Retire after $3 such rejections.
 UPDATE shipments_outbox
    SET attempts = attempts + 1,
+       rejections = rejections + CASE WHEN $4 THEN 1 ELSE 0 END,
        last_error = $2,
        due_at = now() + least(interval '6 hours', interval '1 minute' * power(2, least(attempts, 9))),
-       failed_at = CASE WHEN attempts + 1 >= $3 THEN now() END
+       failed_at = CASE WHEN $4 AND rejections + 1 >= $3 THEN now() END
  WHERE id = $1 AND sent_at IS NULL;
 ```
 
@@ -80,10 +83,12 @@ UPDATE shipments_outbox
   `interval` and leave the row unretired.
 - The backoff moves a failed row behind the rows that are due now, so one failure cannot hold the
   head of the line.
+- Only a permanent rejection counts toward retirement. An outage longer than the backoff
+  schedule then delays rows instead of retiring every row in flight.
 - The terminal `failed_at` keeps the set of rows that will never succeed from growing. Retried
   forever, even hourly, they accumulate until they fill every run, and the line is blocked again.
 - Count the retired rows and alert on that count. A person fixes the cause, then clears
-  `failed_at`, sets `attempts = 0`, and sets `due_at = now()` to send the row again with a fresh
+  `failed_at`, sets `attempts` and `rejections` to 0, and sets `due_at = now()` to send the row again with a fresh
   set of attempts.
 - A cursor that moves past failed rows also clears the head, but it needs another pass to retry
   them; prefer the due time.
