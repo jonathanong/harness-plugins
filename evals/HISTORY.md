@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: `git-commit-checklist` resolves conflicts by hand and updates a stacked branch after its base merges
+
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $9 over the runs
+below.
+
+What changed:
+
+- `git-commit-checklist` gains a section on a conflict in a hand-written file. Resolve each
+  hunk by reading both sides; never settle it by taking one side (`checkout` or `restore`
+  `--ours` or `--theirs`, `-X ours`, `-X theirs`, `-s ours`, or copying a version over the
+  file), even when one side looks right in full. Read the whole `git status`, check for markers
+  with `git diff --check`, and write the merge message rather than `--no-edit`.
+- New reference `references/stacked-branch-after-base-merges.md`: compare `main` with the lower
+  layer's merged head, merge `main`, resolve by hand, remove a deleted file the merge brought
+  back, and check the result against the old head and `main`. A branch with no other writers
+  and no review may instead `git rebase --onto` the lower layer's head. `pull-requests` links
+  to it from its stacking section.
+- The description names conflicts in source and a stacked branch whose base merged.
+- New case `git-commit-checklist/stacked-branch-conflicts-resolved-by-hand`.
+
+Runs, three attempts each, loads of the skill per case:
+
+| Description                                              | Generated file | Lockfile | Stacked branch | Stages task files |
+| -------------------------------------------------------- | -------------- | -------- | -------------- | ----------------- |
+| `main`'s, with the new case copied in                    | 3 of 3         | 3 of 3   | 0 of 3         | 3 of 3            |
+| "conflicts" with no file kinds, stacked branch           | 0 of 3         | 1 of 3   | 1 of 3         | 3 of 3            |
+| Lockfile, generated file, or source; stacked branch      | 2 of 3         | 3 of 3   | 1 of 3         | 3 of 3            |
+| Conflicts named before the rebase and force-push clauses | 0 of 3         | 3 of 3   | 0 of 3         | 3 of 3            |
+
+The third description shipped. Every attempt that loaded the skill passed its outcome, except
+the stacked-branch attempt on the second description and one lockfile attempt on the fourth. The new case scored 0.00 without the plugin in
+a two-arm run on the second description (2 of 3 with it). In the one-attempt pilot the agent
+recommended `git rebase --onto` but also called `git checkout --ours` safe for files the later
+fix had not touched, and failed.
+
+What it showed: dropping "lockfile or another generated file" from the description cost the
+older conflict cases most of their loads, and moving the conflict clause first did not help.
+The new rule's case fails without the skill, but the skill loads for it in only 1 of 3.
+
 ## 2026-11-24: `github-ci-operations` bundles CI scripts and a cookbook; cancel policy and failure kinds
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $50 over all runs

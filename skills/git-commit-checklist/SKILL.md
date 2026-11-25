@@ -1,6 +1,6 @@
 ---
 name: git-commit-checklist
-description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, and when a rebase or merge conflicts in a lockfile or another generated file. Check scope, staged content, and message before a commit, and rebase or force-push a shared branch without overwriting someone else's work.
+description: Use before every git commit, before any rebase, reset, or force push of a branch that another person or agent may also push to, when a rebase or merge conflicts in a lockfile, a generated file, or source, and when a stacked branch's base has merged. Check a commit's scope, staged content, and message, resolve conflicts without taking a side, and rebase or force-push without overwriting others.
 ---
 
 # Git commit checklist
@@ -41,6 +41,25 @@ editor. The push then overwrites commits you never read.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
 - Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
   say which hook is broken and ask.
+
+## A conflict in a hand-written file
+
+Resolve every conflicted hunk by hand. Read both sides and the base (`git diff <file>`, or
+`git show :1:<file>`, `:2:` and `:3:`), then edit the file to what both changes intend. Do not
+settle it by taking one side: not with `git checkout --ours` or `--theirs`, `git restore --ours`
+or `--theirs`, a merge with `-X ours`, `-X theirs`, or `-s ours`, nor by copying either version
+over the file. This holds even when one side looks right in full. A whole side also drops the
+other side's changes to that file, and only reading each hunk shows that nothing was lost.
+
+- Read the whole `git status`, not only the `UU` files. A merge can bring back a file the branch
+  deleted, or stage a change no conflict flagged. Each needs the same reading.
+- Before committing, check that no markers remain (`git diff --check`) and rerun the checks the
+  conflicted files feed.
+- Commit the merge with a message you wrote. `git commit --no-edit` keeps git's `# Conflicts:`
+  list in the message.
+
+Read [a stacked branch after its base merges](references/stacked-branch-after-base-merges.md)
+when the pull request a branch was stacked on has merged, above all by squash.
 
 ## A conflict in a generated file
 

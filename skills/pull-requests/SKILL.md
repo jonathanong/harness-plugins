@@ -32,7 +32,7 @@ second to merge pays for it.
 - Do not wait for the first to merge before starting the second. Stack instead.
 - After a lower layer merges, the next layer targets the base it merged into and its diff shows
   only its own changes. A squash merge leaves the lower layer's commits in the upper branch;
-  they must be gone.
+  they must be gone. The `git-commit-checklist` skill has the steps.
 - Keep each layer reviewable alone. A layer that only makes sense with the next one belongs in it.
 
 ## Keep a branch current
