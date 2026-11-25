@@ -46,18 +46,22 @@ No single call counts an account's running jobs. Count one repository's, and add
 repositories that run CI:
 
 ```bash
+ids="$(mktemp)"
 for status in in_progress queued; do
   gh api "repos/OWNER/REPO/actions/runs?status=$status&per_page=100" --paginate \
-    --jq '.workflow_runs[].id'
-done | while read -r id; do
+    --jq '.workflow_runs[].id' >"$ids.$status"
+  echo "$status runs: $(wc -l <"$ids.$status")"
+done
+cat "$ids".* | while read -r id; do
   gh api "repos/OWNER/REPO/actions/runs/$id/jobs" --paginate \
     --jq '.jobs[] | select(.status != "completed") | [.status, (.labels | join(","))] | @tsv'
 done | sort | uniq -c
+rm -f "$ids" "$ids".*
 ```
 
-A status-filtered run list stops at 1,000 runs; when either list reaches that, say the count is
-unknown. Group the queued jobs by their full set of labels; a job waits for a runner that has every label
-it asks for.
+A status-filtered run list stops at 1,000 runs. When either count printed first reaches 1,000,
+say the count is unknown. Group the queued jobs by their full set of labels; a job waits for a
+runner that has every label it asks for.
 
 ## Only the failed job's log
 
