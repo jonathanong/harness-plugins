@@ -102,7 +102,7 @@ unaided by design.
 | `playwright-authoring/review-computed-test-ids`                         | Asks for literal test ids and `getByTestId` with a row filter, not computed ids.                                                                                                                                                         | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/checkout-exact-stock`                                 | Guard: checkout keeps stock exact without an unbounded lock, and enqueues after commit.                                                                                                                                                  | 1.00  | 3 of 3   | 1.00           |
 | `postgres-locking/exact-cap-no-lock`                                    | Enforces a cap as best effort, with no lock, counter, or claim table.                                                                                                                                                                    | 1.00  | 3 of 3   | 0.00           |
-| `postgres-locking/lock-pr-says-what-users-feel`                         | Guard: a lock's pull request description says what people on a busy board saw without it and the wait it adds, not only the 40001 rate.                                                                                                  | 1.00  | 3 of 3   | 1.00           |
+| `postgres-locking/lock-pr-says-what-users-feel`                         | A lock's pull request description says what people on a busy board saw without it and the wait it adds, not only the 40001 rate.                                                                                                         | 0.83  | 2 of 3   | 1.00           |
 | `postgres-locking/owner-lock-records-its-reason`                        | Adds the lock an owner chose for a busy shared list at `READ COMMITTED` with `lock_timeout`, a `lock-reason:` comment, and a test that fails without it.                                                                                 | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/prelock-before-conditional-update`                    | Asks for the `SELECT ... FOR UPDATE` before an already conditional `UPDATE` to be deleted.                                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
 | `postgres-locking/race-finding-on-unwritten-row`                        | Answers a review bot's race finding with a guard inside the insert, not a lock on a row it does not write.                                                                                                                               | 1.00  | 3 of 3   | 0.00           |
@@ -346,11 +346,11 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   passed and every one that did not failed: `review-sweep-that-locks-its-page` loaded it in 1 of
   3 and `overlapping-purge-runs-stay-lock-free` in 2 of 3 (1 of 3 on `main` the same session).
   `review-dispatcher-predicate-and-job-id` passed 1 of 3 without the plugin in this run.
-- **The twelve `postgres-locking` rows** are from the two-arm run of three attempts per arm in the
-  HISTORY entry "`agent-workflow` and `postgres-locking` say who a change affects", except the
-  two cases added there, `lock-pr-says-what-users-feel` and
-  `review-asks-what-a-lock-means-for-users`, which come from a rerun of those two after the lock
-  bullet's final wording.
+- **The twelve `postgres-locking` rows** take "Score" and "Passed" from a plugin-only run of three
+  attempts on the final text, in the HISTORY entry "`agent-workflow` and `postgres-locking` say
+  who a change affects"; "Without plugin" is from the two-arm run in that entry.
+  `lock-pr-says-what-users-feel` missed once in each run that had the plugin: both descriptions
+  said what users saw and the added wait, but not what a user sees past the 2-second limit.
 - **The three `agent-workflow` status-note and review rows** are from one two-arm run of three
   attempts per arm in that same entry. The skill loaded in none of the six attempts of the two
   new cases, on the branch or on `main`; both pass unaided.

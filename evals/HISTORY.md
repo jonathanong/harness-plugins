@@ -6,7 +6,7 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-25: `agent-workflow` and `postgres-locking` say who a change affects
 
-Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $28 over the runs
+Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $35 over the runs
 below.
 
 What changed:
@@ -46,8 +46,13 @@ wording.
 | `postgres-locking/lock-pr-says-what-users-feel`            | 2 of 3 (first)      | 3 of 3          | 3 of 3                    |
 | the same, final wording                                    | 3 of 3, loaded 3    | 3 of 3          | (as above)                |
 
+Then the whole `postgres-locking` suite ran with the plugin only, three attempts, on the final
+wording (about $7): every case passed 3 of 3 except `lock-pr-says-what-users-feel`, 2 of 3. Both
+of its misses, here and on the first wording, were descriptions that said what users saw and the
+added wait but not what a user sees past the 2-second limit; the grader was kept.
+
 The two new `agent-workflow` cases failed with the plugin only on the skill-fired grader: the
-outcome graders passed in all twelve attempts across both arms and `main`, so the model already
+outcome graders passed in all eighteen attempts across both arms and `main`, so the model already
 writes these in user terms and the skill does not load for a plain review or status note. The
 other ten `postgres-locking` cases passed 3 of 3 on the branch and on `main`;
 `rollup-trigger-deadlocks` was 3 of 3 this time. What showed the rule working is the lock review:
