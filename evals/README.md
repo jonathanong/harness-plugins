@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **150 cases** across 47 skills.
+- **154 cases** across 47 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.32, over the 149 cases measured both ways.
-- **120 cases** are ones the model fails unaided. The other 29 it already gets right: 5 check that a skill stays out of the way, and 24 show at most that the skill loads.
+- **Without it:** mean score 0.34, over the 153 cases measured both ways.
+- **121 cases** are ones the model fails unaided. The other 32 it already gets right: 6 check that a skill stays out of the way, and 26 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -30,7 +30,7 @@ averaged over attempts.
 | ---------------------------------- | ----- | ----------- | -------------- | --------------------- |
 | `agent-coordination`               | 1     | 0.50        | 1.00           | 1                     |
 | `agent-rules`                      | 3     | 0.94        | 0.11           | 0                     |
-| `agent-workflow`                   | 1     | 0.17        | 0.00           | 0                     |
+| `agent-workflow`                   | 3     | 0.44        | 0.67           | 2                     |
 | `bounded-iteration`                | 8     | 0.88        | 0.04           | 0                     |
 | `debugging`                        | 2     | 0.78        | 1.00           | 2                     |
 | `dependabot`                       | 4     | 1.00        | 0.50           | 1                     |
@@ -54,7 +54,7 @@ averaged over attempts.
 | `package-json-checklist`           | 3     | 0.96        | 0.45           | 0                     |
 | `planning`                         | 7     | 0.92        | 0.38           | 2                     |
 | `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     |
-| `postgres-locking`                 | 10    | 0.98        | 0.33           | 3                     |
+| `postgres-locking`                 | 12    | 0.99        | 0.39           | 4                     |
 | `postgres-node-performance-tuning` | 3     | 0.84        | 0.00           | 0                     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     |
 | `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     |

@@ -68,6 +68,27 @@ test, a fixture, or a seed to a runtime rule: a race test may take a lock, and a
 loop over single inserts. Rules about secrets and personal data, and rules that name tests,
 still apply there.
 
+## Explain the outcome
+
+Everything you write about a change says who it affects and what changes for them: a plan, an
+explanation of a problem or a fix, a pull request description, a review finding, a status note.
+"Adds a lock" or "fixes a race" is the mechanism. The outcome is what users, customers,
+operators, or the business see, wait for, pay, lose, or can now do.
+
+- Name the people affected and the effect in their terms: "two shoppers can no longer both buy
+  the last unit", "each checkout can wait up to two seconds behind a stock update", "the report
+  loads in 1 s instead of 8".
+- When a change trades one effect for another, state both. A lock prevents a wrong result and
+  adds a wait to every request that queues on it.
+- When nobody outside the team is affected, as with a refactor or a CI change, say that users
+  see no change and name who is affected: the engineers waiting on CI, the on-call reading an
+  alert. Do not invent an effect on users.
+- Write for the reader. A pull request is read by an engineer, and that engineer must be able to
+  explain from it what the change does for users and for the business. For a document with
+  several kinds of reader, use `technical-writing`.
+- A review finding says what goes wrong, for whom, and when. A finding that changes nothing for
+  anyone is a nit; label it one.
+
 ## Decide, then report
 
 Every question stops the work until a person answers. Ask only when the answer cannot be
