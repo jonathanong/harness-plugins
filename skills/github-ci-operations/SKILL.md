@@ -79,12 +79,12 @@ Outside a backlog, cancel only these, without asking:
 - A run stuck in a queued or running state for longer than the repository's threshold (six
   hours by default), on any branch but the default branch.
 - A superseded run on a branch other than the default branch: a newer run of the same workflow
-  on the same branch exists. Never cancel a merge-queue run (`gh-readonly-queue/...`), whose
-  cancel removes its pull request from the queue, or a run for a tag or a release.
+  on the same branch exists, so the newest run is never the one cancelled. Never cancel a
+  merge-queue run (`gh-readonly-queue/...`), whose cancel removes its pull request from the
+  queue, or a run for a tag or a release.
 
 Never cancel a run on the default branch outside the backlog steps: each commit there needs its
-own result. Never cancel the newest run of a workflow on a branch. A run that is not stuck or
-superseded is left to finish.
+own result. A run that is not stuck or superseded is left to finish.
 
 ## Report
 

@@ -103,15 +103,16 @@ gh api repos/OWNER/REPO/actions/runs/RUN_ID --jq '.head_branch' |
 
 A failed merge-queue run removes that pull request from the queue.
 
-## Cancel superseded runs
+## Cancel superseded runs on a pull request's branch
 
-A run is superseded when a newer run of the same workflow on the same branch exists. List the
-runs still going on one branch, newest first:
+This is for a pull request's branch only, never the default branch, a merge-queue branch
+(`gh-readonly-queue/...`), or a tag. A run there is superseded when a newer run of the same
+workflow on the same branch exists. List the runs still going on that branch, newest first:
 
 ```bash
-gh api "repos/OWNER/REPO/actions/runs?branch=BRANCH&status=in_progress&per_page=100" \
+gh api "repos/OWNER/REPO/actions/runs?branch=PR_BRANCH&status=in_progress&per_page=100" \
   --jq '.workflow_runs[] | [.id, .workflow_id, .head_sha[0:7], .created_at] | @tsv'
-gh api "repos/OWNER/REPO/actions/runs?branch=BRANCH&status=queued&per_page=100" \
+gh api "repos/OWNER/REPO/actions/runs?branch=PR_BRANCH&status=queued&per_page=100" \
   --jq '.workflow_runs[] | [.id, .workflow_id, .head_sha[0:7], .created_at] | @tsv'
 ```
 
@@ -121,6 +122,5 @@ Keep the newest run of each workflow, and cancel the older ones:
 gh api -X POST repos/OWNER/REPO/actions/runs/RUN_ID/cancel
 ```
 
-`github-ci-operations` says which runs may be cancelled. When a pull request's older runs keep
-running, also add `concurrency` with `cancel-in-progress` to the workflow;
-`github-actions-authoring` owns that.
+When a pull request's older runs keep running, also add `concurrency` with `cancel-in-progress`
+to the workflow; `github-actions-authoring` owns that.
