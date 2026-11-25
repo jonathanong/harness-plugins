@@ -68,9 +68,10 @@ pnpm run lint
 pnpm run format:check
 pnpm run evals:check
 pnpm run marketplace:check
-python3 -m pip install -r requirements-dev.txt  # once, for coverage.py
 pnpm run test
 ```
+
+`pnpm run test` needs [uv](https://docs.astral.sh/uv/); it installs coverage.py from `uv.lock`.
 
 `marketplace:check` checks that the Claude Code and Codex marketplaces list the same plugins, that
 the README lists every plugin, and that every source resolves to a manifest
