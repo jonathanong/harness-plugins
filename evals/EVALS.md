@@ -38,8 +38,9 @@ unaided by design.
 | `feature-rollout/dark-route-without-caller`                             | Guard: accepts a mounted route behind an off flag that no page calls yet.                                                                                                                                                                | 1.00  | 3 of 3   | 1.00           |
 | `feature-rollout/flag-defaults-on`                                      | Defaults a new flag to off and reports deployed separately from enabled.                                                                                                                                                                 | 1.00  | 3 of 3   | 0.00           |
 | `feature-rollout/table-and-service-without-entry-point`                 | Asks for a registered entry point before a table and a service merge.                                                                                                                                                                    | 1.00  | 3 of 3   | 0.00           |
-| `git-commit-checklist/generated-file-conflict-on-rebase`                | Reruns the generator on a conflicted generated API client and gives no hand-merged block to paste.                                                                                                                                       | 1.00  | 3 of 3   | 1.00           |
-| `git-commit-checklist/lockfile-conflict-on-rebase`                      | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                                                                                                                                  | 0.83  | 2 of 3   | 0.00           |
+| `git-commit-checklist/generated-file-conflict-on-rebase`                | Reruns the generator on a conflicted generated API client and gives no hand-merged block to paste.                                                                                                                                       | 0.83  | 2 of 3   | 1.00           |
+| `git-commit-checklist/lockfile-conflict-on-rebase`                      | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                                                                                                                                  | 1.00  | 3 of 3   | 0.00           |
+| `git-commit-checklist/stacked-branch-conflicts-resolved-by-hand`        | After a stacked branch's base is squash-merged, resolves the merge's conflicts hunk by hand instead of taking its own side, and removes a deleted file the merge brought back.                                                           | 0.50  | 1 of 3   | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                           | Stages the files of the fix by name and leaves unrelated and generated changes out.                                                                                                                                                      | 1.00  | 3 of 3   | 0.33           |
 | `github-actions-authoring/independent-jobs-are-not-chained`             | Asked to chain four independent jobs in series to save runner minutes, keeps the jobs that do not depend on each other in parallel.                                                                                                      | 1.00  | 3 of 3   | 0.00           |
 | `github-actions-authoring/main-runs-are-not-cancelled`                  | Asked to make pushes to main cancel the older run, cancels superseded runs on pull requests only and lets a run in progress on main finish.                                                                                              | 1.00  | 3 of 3   | 0.00           |
@@ -200,10 +201,14 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   not a gain from the description change; `tracked-files-only` stood at 4 of 8 on 2026-11-22.
 - **The two `evals` rows** predate the equal-score rule added to its Review section on
   2026-11-22 and were not re-measured; neither case asks about an equal score.
-- **The two `git-commit-checklist` conflict rows** are from two-arm runs on 2026-11-22 after the
-  lockfile rule was widened to every generated file, three attempts per arm.
-  `generated-file-conflict-on-rebase` is a ceiling case: it shows the skill loads for a
-  generated file that is not a lockfile, 3 of 3, and not that the rule helps.
+- **The `git-commit-checklist` rows** are from a plugin-only run on 2026-11-25 on the final text,
+  whose description names conflicts in source and a stacked branch whose base merged, three
+  attempts. Their
+  "Without plugin" is from the two-arm runs on 2026-11-22, except
+  `stacked-branch-conflicts-resolved-by-hand`, whose 0.00 is from a two-arm run on 2026-11-25.
+  The same-session control on the earlier description loaded the two older conflict cases 3 of
+  3 each and the stacked case 0 of 3. Every attempt that loaded the skill passed.
+  `generated-file-conflict-on-rebase` is a ceiling case.
 - **The `test-authoring` rows** are from plugin-only runs on 2026-11-22 on the description that
   names changes to test retries, timeouts, or skips: twelve attempts for
   `review-flake-fix-is-tradeoff`, `review-direct-row-inserts`, and
@@ -347,7 +352,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `bounded-iteration/review-dispatcher-predicate-and-job-id` (1 of 3 then; 3 of 3 in its current
   row), and `postgres-schema-design/review-advisory-lock-key` (1 of 3; 2 of 3 after it moved to
   `postgres-locking`). In the rerun, `service-boundaries/topology-in-app-repo` loaded it in 1 of 3. In every miss the agent called no skill at all; it did not pick a wrong one.
-- **Rows below 1.00 for other reasons** failed on the answer: `git-commit-checklist/lockfile-conflict-on-rebase`,
+- **Rows below 1.00 for other reasons** failed on the answer:
   `github-issue/search-before-filing`, `npm-publishing/bootstrap-new-package`,
   `package-json-checklist/workspace-dependency-and-export`, `revisit-followups/only-verified-deferred-work`,
   and `technical-writing/proposal-for-two-audiences`.

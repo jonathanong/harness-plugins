@@ -33,6 +33,12 @@ Each still gets a loading case and an answer case.
 - [ ] **`dependabot` needs a repair case the model fails unaided.** `repair-pr-with-pushed-fix`
       is a ceiling case. Try a fixture where the commits are not in the prompt and the agent has
       to read them before it comments.
+- [ ] **`git-commit-checklist/stacked-branch-conflicts-resolved-by-hand` loads its skill in 1
+      of 3.** The model fails it unaided (0.00). Four descriptions on 2026-11-25 did not raise
+      loading without costing the other conflict cases; try a prompt or a trigger that reads
+      like the request ("take mine for all of these"). The shipped description also loads
+      `generated-file-conflict-on-rebase` in 2 of 3, against 3 of 3 on the earlier one in the
+      same session.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
