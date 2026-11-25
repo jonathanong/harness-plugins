@@ -68,7 +68,7 @@ class Main(unittest.TestCase):
         lines = out.splitlines()
         self.assertEqual(lines[0], "stale o/r older-than=6h status=queued,in_progress,waiting,pending n=8 mode=cancel")
         self.assertIn("11 CI push PR#5 queued 12.0h -> cancelled", lines)
-        self.assertIn("22 CI push main queued 12.0h -> cancelled", lines)
+        self.assertIn("22 CI push fork/r:main queued 12.0h -> cancelled", lines)
         self.assertIn("12 CI push PR#9(queue) in_progress 36.0h -> force-cancelled", lines)
         self.assertIn("17 CI push - queued 12.0h -> failed HTTP 500", lines)
         self.assertIn("18 CI push feature queued 12.0h -> left alone: now completed", lines)
@@ -80,6 +80,17 @@ class Main(unittest.TestCase):
         for i in (14, 23):
             self.assertNotIn(("POST", f"repos/o/r/actions/runs/{i}/cancel"), fake.calls)
         self.assertFalse(any(f"/{i}" in path for _, path in fake.calls for i in (15, 16, 21)))
+
+    def test_compares_head_repositories_with_the_canonical_name(self):
+        moved = [stuck_run(31, branch="main", head_repository={"full_name": "new/r"}),
+                 stuck_run(32, branch="main", head_repository={"full_name": "fork/r"})]
+        out, code, _ = run(stale.main, ["--repo", "old/r", "--status", "queued", "--dry-run"], [
+            ("GET", "=repos/old/r", {"default_branch": "main", "full_name": "new/r"}),
+            runs_route("queued", moved),
+        ], NOW)
+        self.assertIsNone(code)
+        self.assertIn("32 CI push fork/r:main queued 12.0h", out)
+        self.assertIn("default-branch n=1 oldest=12.0h ids=31 (on main; never cancelled)", out)
 
     def test_dry_run_and_list_limit(self):
         out, code, fake = run(stale.main, ["--repo", "o/r", "--dry-run", "--limit", "1", "--status", "queued"],

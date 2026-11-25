@@ -48,12 +48,16 @@ def on_default(run, repo, default):
     return head is None or head.lower() == repo.lower()
 
 
-def where(run):
+def where(run, repo):
     pr = queue_pr(run.get("head_branch"))
     if pr:
         return f"PR#{pr}(queue)"
     prs = run.get("pull_requests") or []
-    return f"PR#{prs[0]['number']}" if prs else run.get("head_branch") or "-"
+    if prs:
+        return f"PR#{prs[0]['number']}"
+    branch = run.get("head_branch") or "-"
+    head = (run.get("head_repository") or {}).get("full_name")
+    return f"{head}:{branch}" if head and head.lower() != repo.lower() else branch
 
 
 def human(value):
@@ -126,15 +130,18 @@ def main(argv=None, now=None):
     now = now or datetime.datetime.now(datetime.timezone.utc)
     gh = Gh(args.max_calls)
     try:
-        default = gh.api(f"repos/{args.repo}")["default_branch"]
+        info = gh.api(f"repos/{args.repo}")
+        # Compare head repositories with the canonical name: after a rename or transfer, GitHub
+        # redirects the old name, but each run reports the new one.
+        repo, default = info.get("full_name") or args.repo, info["default_branch"]
         found, notes = stuck(gh, args.repo, statuses, threshold, now, args.limit)
-        kept = [(run, age) for run, age in found if on_default(run, args.repo, default)]
-        runs = [(run, age) for run, age in found if not on_default(run, args.repo, default)]
+        kept = [(run, age) for run, age in found if on_default(run, repo, default)]
+        runs = [(run, age) for run, age in found if not on_default(run, repo, default)]
         print(f"stale {args.repo} older-than={args.older_than} status={','.join(statuses)} "
               f"n={len(runs)} mode={'dry-run' if args.dry_run else 'cancel'}")
         zombies = []
         for run, age in runs:
-            line = f"{run['id']} {run.get('name')} {run.get('event')} {where(run)} {run.get('status')} {human(age)}"
+            line = f"{run['id']} {run.get('name')} {run.get('event')} {where(run, repo)} {run.get('status')} {human(age)}"
             if not args.dry_run:
                 try:
                     result = cancel(gh, args.repo, run, statuses, threshold, now)
