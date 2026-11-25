@@ -4,6 +4,36 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: new `webhooks` skill, receiving and sending
+
+Commit: this change. Sonnet agent, Opus judge, three attempts per arm, both arms, $1.78; a
+one-attempt pilot before it cost $0.83.
+
+What changed:
+
+- New skill `webhooks`. Receiving: verify the signature over the raw bytes and in constant time,
+  accept more than one secret for rotation, reject a stale signed timestamp, act on nothing
+  before it is verified, acknowledge fast, deduplicate by the sender's event id with a unique
+  constraint, do not trust arrival order, and pick the status code by what a retry would do.
+  Sending: record the event and its deliveries in the change's transaction and deliver after
+  commit, one event id and the same bytes across retries, sign `<id>.<timestamp>.<body>` per
+  endpoint, retry with backoff for days, bound each attempt, check the address at each delivery
+  and follow no redirects, show the customer each attempt, and keep payloads small and
+  versioned. Signing and retry defaults follow the public Standard Webhooks specification.
+- `service-boundaries` "Inbound events" links to it. Its routing and raw-body rules stay there.
+- Case `webhooks/outbound-delivery-plan`, added.
+
+| Case                                         | With                        | Without |
+| -------------------------------------------- | --------------------------- | ------- |
+| `webhooks/outbound-delivery-plan`            | 1.00, 3 of 3, loaded 3 of 3 | 1.00    |
+| `webhooks/inbound-carrier-handler` (dropped) | 1.00, 3 of 3, loaded 3 of 3 | 1.00    |
+
+What it showed: Sonnet already catches the gaps both cases planted without the skill: a
+signature over re-serialized JSON, no timestamp check, duplicate and out-of-order deliveries, a
+fresh id per retry, and an address checked only at save time. Both are ceiling cases. The
+outbound case stays as the loading check; the inbound case was dropped, and a harder case is on
+the roadmap. The rules stay for weaker models.
+
 ## 2026-11-25: `github-issue` lets an agent create a milestone, and asks before a project (not run)
 
 No run. The decision left open in the previous `github-issue` entry was made: an agent creates a

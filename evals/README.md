@@ -11,10 +11,10 @@ needed.
 
 <!-- evals:headline -->
 
-- **154 cases** across 47 skills.
+- **155 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.34, over the 153 cases measured both ways.
-- **121 cases** are ones the model fails unaided. The other 32 it already gets right: 6 check that a skill stays out of the way, and 26 show at most that the skill loads.
+- **Without it:** mean score 0.34, over the 154 cases measured both ways.
+- **121 cases** are ones the model fails unaided. The other 33 it already gets right: 6 check that a skill stays out of the way, and 27 show at most that the skill loads.
 
 <!-- /evals:headline -->
 
@@ -75,6 +75,7 @@ averaged over attempts.
 | `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     |
 | `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     |
 | `verification`                     | 1     | 0.50        | 1.00           | 1                     |
+| `webhooks`                         | 1     | 1.00        | 1.00           | 1                     |
 
 <!-- /evals:groups -->
 

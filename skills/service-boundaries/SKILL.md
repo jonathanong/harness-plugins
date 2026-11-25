@@ -30,7 +30,9 @@ and authorization, and means its owner cannot migrate without breaking you.
 ## Inbound events
 
 Route an event by where the sender is and what its auth needs. For a new source, read
-[`references/event-ingress.md`](references/event-ingress.md) for the decision order.
+[`references/event-ingress.md`](references/event-ingress.md) for the decision order. Verifying,
+deduplicating, and ordering a webhook's deliveries, and sending webhooks, are in
+[webhooks](../webhooks/SKILL.md).
 
 - A check is self-contained only if it reads nothing but the request bytes and local state (your
   own database or cache). Any outbound network request, such as fetching a key or calling the

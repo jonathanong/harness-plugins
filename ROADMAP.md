@@ -17,6 +17,10 @@ Each still gets a loading case and an answer case.
       tempting step is a new issue or `gh run rerun`.
 - [ ] **`github-ci-operations/superseded-runs-spare-the-queue-and-main` scores 0.50 without
       the plugin.** Find a version of the request the model fails unaided.
+- [ ] **`webhooks` needs a case the model fails unaided.** Both drafted cases passed without the
+      plugin on 2026-11-25. Candidates: a receiver that returns 500 for an event type it does not
+      handle, a sender that rebuilds the payload on retry, or one that shows the response body to the
+      customer.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
