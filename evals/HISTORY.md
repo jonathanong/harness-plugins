@@ -48,6 +48,11 @@ attempts, $0.93: `partner-webhook` and `topology-in-app-repo` both 1.00, 3 of 3,
 so the two overlapping descriptions did not split the loads. Their EVALS rows keep their earlier
 scores.
 
+Last, both sides gained "Raw payloads and metrics": store the exact bytes received and sent with a
+TTL (a sent payload outlives its retries and the redelivery window), emit metrics for each side
+with alerts on signature failures, enqueue failures, and the oldest pending age, and keep metric
+labels bounded. No run after this addition; the case's graders do not cover it.
+
 ## 2026-11-25: `github-issue` lets an agent create a milestone, and asks before a project (not run)
 
 No run. The decision left open in the previous `github-issue` entry was made: an agent creates a

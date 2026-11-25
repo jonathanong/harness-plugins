@@ -1,6 +1,6 @@
 ---
 name: webhooks
-description: Use when writing or reviewing a webhook receiver or sender - an endpoint a partner posts events to, or code that delivers events to customer URLs. Covers queues on both sides, signatures over raw bytes, key rotation, replay windows, duplicate and out-of-order deliveries, retries, pausing and disabling endpoints, and checking a customer's URL.
+description: Use when writing or reviewing a webhook receiver or sender - an endpoint a partner posts events to, or code that delivers events to customer URLs. Covers queues, raw payloads, and metrics on both sides, signatures over raw bytes, key rotation, replay windows, duplicate and out-of-order deliveries, retries, pausing and disabling endpoints, and checking a customer's URL.
 ---
 
 # Webhooks
@@ -27,6 +27,23 @@ A webhook never does its work in the request that carries it, in either directio
 
 A queue gives each side retries, backoff, and isolation from the other side's uptime. A request
 handler has none of them.
+
+## Raw payloads and metrics, both sides
+
+- **Store every raw payload with a TTL.** Keep the exact bytes received, and the exact bytes sent,
+  in a store whose rows expire on their own, such as a table that a retention job empties or
+  object storage with a lifecycle rule. Without the bytes, a mapping bug cannot be replayed and a
+  partner's dispute cannot be answered; without the TTL, the store grows forever and holds
+  personal data longer than anyone needs it. A sent payload outlives its retries and the window
+  in which a customer may redeliver it. How long to keep them, and the access limits, are in
+  the "Raw bodies" section of `service-boundaries`.
+- **Emit metrics on both sides.** Inbound: deliveries received, signature failures, duplicates
+  dropped, enqueue failures, and the age of the oldest unprocessed event. Outbound: attempts by
+  result (2xx, 4xx, 5xx, timeout, connection error), latency, time from event to successful
+  delivery, pending deliveries, paused hosts, and disabled endpoints. Alert on a rise in signature
+  failures, enqueue failures, or the oldest pending age.
+- **Keep metric labels bounded:** source, event type, and status class. An endpoint, customer, or
+  event id as a label creates a series per value; that detail belongs on the delivery row.
 
 ## Receiving
 
