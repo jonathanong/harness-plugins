@@ -1,6 +1,6 @@
 ---
 name: github-issue
-description: Use when filing or editing an issue, recording a follow-up, closing an issue, or linking a pull request to an issue. Search for, write, label, link, and close GitHub issues without filing duplicates or writing where you may not.
+description: Use when filing or editing an issue, recording a follow-up, closing an issue, linking a pull request to an issue, triaging or relabeling issues, assigning milestones or projects, or adding a label. Search for, write, label, organize, link, and close GitHub issues without filing duplicates, adding labels nobody approved, or writing where you may not.
 ---
 
 # GitHub issues
@@ -18,13 +18,41 @@ template.
   still resolves under its old name, so compare the name returned with the name you were given.
 - A missing permission is a stop, not something approval can override. Report it and return the
   draft. Do not route around it through another account, repository, or API.
-- Applying a label, milestone, or project that already exists is part of filing the issue.
-  Creating a label is not: omit it, file the issue without it, and report the label that would
-  fit. Renaming or deleting one is outside what filing authorizes; ask first (see
-  `agent-workflow`, "Decide, then report").
+- Applying a label, milestone, or project that already exists is part of filing or organizing
+  an issue. Creating, renaming, or deleting a label is not; see "Labels".
 
 When the target repository cannot be written to, read
 [denied target](references/denied-target.md) before filing anywhere else.
+
+## Labels
+
+A label lasts. A milestone or a project is made for one piece of work and then completed. So a
+label has a high bar:
+
+- Use the existing labels first. Add a label only for a category that will outlast the current
+  work. Something tied to one release, initiative, or cleanup belongs in a milestone or a project.
+- Create, rename, or delete a label only with the person's explicit approval of its exact name,
+  description, color, and repositories. Approval for one label does not carry to another, and a
+  request to file or organize issues is not approval for a label. Without it, leave the label
+  off and report the one that would fit.
+- Follow the label standard the organization or repository declares in its `AGENTS.md`. A label
+  every repository in an organization shares lives in the declared label source, such as
+  infrastructure as code: add it with a pull request to that source, never with an API call the
+  source would then undo or drift from. A label for one repository is created in that repository,
+  in the naming and colors of its existing labels. A path label also gets its rule in the
+  repository's labeler configuration.
+- Immediately before an approved change, fetch the labels again and check that the account can
+  write labels in that repository.
+
+To audit a repository's labels, milestones, and projects, use `github-repository-settings`.
+
+## Organize issues
+
+Read [organize issues](references/organize-issues.md) before triaging, relabeling, prioritizing,
+or assigning milestones or projects to existing issues or pull requests. In short: apply only
+labels, milestones, and projects that exist; keep automation, ownership, and provenance labels;
+in review mode report the exact changes and make none; in apply mode change only what is needed,
+then fetch every touched item again and verify it.
 
 ## File an issue
 
