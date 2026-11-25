@@ -1,6 +1,6 @@
 ---
 name: github-ci-cookbook
-description: Use when asked for a ready-made script for GitHub Actions housekeeping - a report of a repository's CI runs over a window, a cleanup that cancels runs stuck for hours, or the pull request behind a merge-queue run. Bundles two tested Python scripts and the gh api recipes behind them.
+description: Use when asked to run a CI report script or a stuck-run cleanup script for a GitHub repository. Bundles report.py and stale.py, plus the gh api recipes the CI skills point to.
 ---
 
 # GitHub CI cookbook
