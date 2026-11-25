@@ -19,6 +19,8 @@ def cases():
         match = ROW.match(line)
         if match:
             checks, score, _passed, without = (cell.strip() for cell in match[3].split("|"))
+            if score == "not run":
+                continue
             baseline = None if without == "n/a" else float(without)
             yield match[1], float(score), baseline, checks.startswith("Guard:")
 

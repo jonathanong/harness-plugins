@@ -1,6 +1,6 @@
 ---
 name: github-repository-settings
-description: Use when hardening a public repository, limiting pull requests to collaborators, or deciding when fork pull requests may run Actions. Restrict who can open pull requests on a GitHub repository and gate outside contributors' workflow runs, with the REST calls to read, set, and roll back each setting.
+description: Use when hardening a public repository, limiting pull requests to collaborators, deciding when fork pull requests may run Actions, or auditing or cleaning up labels, milestones, and projects. Restricts who can open pull requests and run CI, with the REST calls to read, set, and roll back each setting, and audits issue taxonomy for sprawl and drift.
 ---
 
 # GitHub repository settings
@@ -42,6 +42,13 @@ gh api -X PUT repos/<owner>/<repo>/actions/permissions/fork-pr-contributor-appro
 
 The default is `first_time_contributors`. Approve a run only after reading the workflow files and
 scripts the pull request changes.
+
+## Audit issue taxonomy
+
+Read [issue taxonomy audit](references/issue-taxonomy-audit.md) when asked to review or clean up
+labels, milestones, or projects. It is read-only unless the request authorizes a change. It
+checks near-duplicate and one-off labels, drift from the declared label source, and milestone and
+project overlap.
 
 ## What these settings do not do
 

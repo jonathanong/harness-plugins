@@ -4,6 +4,40 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: `github-issue` and `github-repository-settings` take on issue taxonomy (not run)
+
+No run. Three cases were added unpiloted, and their graders have not been checked against an
+attempt.
+
+What changed:
+
+- `github-issue`: new section "Labels". A label lasts, unlike a milestone or a project, so a new
+  label is only for a category that outlasts the current work; something tied to one piece of
+  work goes in a milestone or a project. Creating, renaming, or deleting a label needs the
+  person's approval of its exact name, description, color, and repositories, and approval does
+  not carry to another label. A label every repository in an organization shares goes into the
+  label source the organization declares in `AGENTS.md`, through a pull request, not an API
+  call; a repository's own label follows that repository's naming and colors, and a path label
+  also gets its labeler rule. The "Authority to write" bullet on labels now points there.
+- `github-issue`: new section "Organize issues", with `references/organize-issues.md`: apply only
+  existing labels, milestones, and projects; keep automation, ownership, and provenance labels;
+  review mode reports and changes nothing, apply mode changes only what is needed and verifies
+  each item after; one project per issue unless `AGENTS.md` says otherwise, checked against what
+  a project's auto-add pulls in; no project status that closes an issue unless closing was asked
+  for; a plan issue takes its source's milestone; never reopen a closed milestone. A milestone or
+  project is created only when the request authorizes it.
+- `github-repository-settings`: new section "Audit issue taxonomy", with
+  `references/issue-taxonomy-audit.md`: a read-only audit of aliases, unused labels, missing
+  descriptions, color consistency, milestone overlap, and project rules, plus label sprawl
+  (near-duplicates, labels made for one-off work) and drift from the declared label source.
+- Both descriptions name the new triggers.
+- New cases `github-issue/one-off-work-gets-a-milestone-not-a-label`,
+  `github-issue/shared-label-goes-through-the-label-source`, and
+  `github-repository-settings/label-audit-finds-sprawl-and-drift`.
+
+The existing `github-issue` and `github-repository-settings` rows were not re-measured on the new
+descriptions.
+
 ## 2026-11-25: `postgres-locking` records a reason for every lock; `bounded-iteration` writes a sweep page in one statement
 
 Commit of this entry, Sonnet agent, Opus judge, Claude Code 2.1.332. About $27 over the runs
