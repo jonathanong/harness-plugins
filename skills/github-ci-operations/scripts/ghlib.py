@@ -1,4 +1,4 @@
-"""Shared helpers for the github-ci-cookbook scripts: a call-capped `gh api` wrapper, pagination, time math."""
+"""Shared helpers for the github-ci-operations scripts: a call-capped `gh api` wrapper, pagination, time math."""
 import datetime, json, math, re, subprocess, sys
 
 
@@ -84,4 +84,4 @@ def queue_pr(head_branch):
 
 
 def fail(message):
-    sys.exit(f"github-ci-cookbook: {message}")
+    sys.exit(f"github-ci-operations: {message}")

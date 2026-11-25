@@ -16,7 +16,7 @@ Work in this order. Each step is cheaper than the next.
      not, cancel it, and fix the workflow: it lacks `concurrency` with `cancel-in-progress`.
    - On the default branch, workflows do not cancel in-progress runs, because each commit there
      needs its own result. During a backlog, an operator may cancel the runs for older commits
-     by hand; `github-ci-cookbook` has the commands. Say in the report which commits now have no
+     by hand; [cookbook](cookbook.md) has the commands. Say in the report which commits now have no
      result.
    - Never cancel the newest run of a workflow on a ref, or a run a release is waiting on.
 3. **Do not rerun a job to see whether it is flaky.** A rerun takes a runner from the queue and

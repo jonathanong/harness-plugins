@@ -90,14 +90,14 @@ class Main(unittest.TestCase):
 
     def test_api_error(self):
         _, code, _ = run(stale.main, ["--repo", "o/r"], routes(("GET", "=repos/o/r", Fail(404))), NOW)
-        self.assertEqual(code, "github-ci-cookbook: o/r: gh: failed (HTTP 404)")
+        self.assertEqual(code, "github-ci-operations: o/r: gh: failed (HTTP 404)")
 
     def test_bad_arguments(self):
         for argv, message in ((["--older-than", "6x"], "--older-than '6x': use a number and m, h, or d (for example 6h)"),
                               (["--older-than", "30m"], "--older-than must be at least 1h"),
                               (["--status", "done"], "--status takes queued,in_progress,waiting,pending,requested")):
             _, code, _ = run(stale.main, ["--repo", "o/r", *argv], [], NOW)
-            self.assertEqual(code, f"github-ci-cookbook: {message}")
+            self.assertEqual(code, f"github-ci-operations: {message}")
 
     def test_default_clock(self):
         out, code, _ = run(stale.main, ["--repo", "o/r", "--dry-run"], routes(), None)

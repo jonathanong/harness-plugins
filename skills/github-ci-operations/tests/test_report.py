@@ -90,11 +90,11 @@ class Main(unittest.TestCase):
 
     def test_empty_events(self):
         _, code, _ = run(report.main, ["--repo", "o/r", "--events", ","], [], NOW)
-        self.assertEqual(code, "github-ci-cookbook: --events is empty")
+        self.assertEqual(code, "github-ci-operations: --events is empty")
 
     def test_api_error(self):
         _, code, _ = run(report.main, ["--repo", "o/r"], routes(rate=("GET", "rate_limit", Fail(500))), NOW)
-        self.assertEqual(code, "github-ci-cookbook: o/r: gh: failed (HTTP 500)")
+        self.assertEqual(code, "github-ci-operations: o/r: gh: failed (HTTP 500)")
 
     def test_default_clock(self):
         out, code, _ = run(report.main, ["--repo", "o/r", "--events", "push"], routes(), None)

@@ -15,9 +15,9 @@ Each still gets a loading case and an answer case.
       rerunning a failure the change caused.** Both drafted with the log in the prompt passed
       without the plugin. Try a fixture repository with an issue list and a log, where the
       tempting step is a new issue or `gh run rerun`.
-- [ ] **CI skill loading on 2026-11-24 was 2 of 3 on four cases** with `github-ci-cookbook`
-      installed, against 3 of 3 on the parent commit. Every miss loaded no skill. Measure the
-      three skills at six attempts.
+- [ ] **`github-ci-operations/superseded-runs-spare-the-queue-and-main` loads its skill in 3
+      of 6** and scores 0.67 without it. Find a version of the request that loads the skill
+      and that the model fails unaided.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**

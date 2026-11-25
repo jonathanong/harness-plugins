@@ -19,7 +19,8 @@ When a request asks by name for something this section says not to do, such as a
 or a whole run's log, say why and give the small query in its place. Do not hand over what
 was asked for with a note beside it.
 
-`github-ci-cookbook` has the commands for each measurement below.
+[cookbook](references/cookbook.md) has the commands for each measurement below, and two
+bundled scripts: a CI report for a window of runs and a canceller for runs stuck for hours.
 
 - Job time and queue wait come from the jobs of a run, not from logs. Queue wait is
   `started_at - created_at`. Run time is `completed_at - started_at`. Step times are in the

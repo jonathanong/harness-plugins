@@ -1,6 +1,6 @@
 ---
 description: Asked for a script that cancels every run stuck queued for more than six hours, the answer leaves the stuck runs on the default branch alone.
-tags: [github-ci-cookbook, skill-fired, outcome]
+tags: [github-ci-operations, skill-fired, outcome]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

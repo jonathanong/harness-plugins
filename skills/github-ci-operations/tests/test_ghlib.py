@@ -88,7 +88,7 @@ class Helpers(unittest.TestCase):
     def test_fail_exits_with_message(self):
         with self.assertRaises(SystemExit) as raised:
             ghlib.fail("boom")
-        self.assertEqual(raised.exception.code, "github-ci-cookbook: boom")
+        self.assertEqual(raised.exception.code, "github-ci-operations: boom")
 
 
 if __name__ == "__main__":

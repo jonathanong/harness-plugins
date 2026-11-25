@@ -1,15 +1,8 @@
----
-name: github-ci-cookbook
-description: Use when asked to run a CI report script or a stuck-run cleanup script for a GitHub repository. Bundles report.py and stale.py, plus the gh api recipes the CI skills point to.
----
-
 # GitHub CI cookbook
 
-Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
-
-This skill says how. When to act is owned elsewhere: `github-ci-operations` for slow, queued, or
-costly CI and when a run may be cancelled, `review-ci-logs` for a failing run. Every recipe
-needs an authenticated `gh`. Replace `OWNER/REPO`, `RUN_ID`, and `JOB_ID`.
+Read this for the command or script behind a measurement or a cancel. `SKILL.md` says when to
+measure and which runs may be cancelled; `review-ci-logs` says how to read a failing log. Every
+recipe needs an authenticated `gh`. Replace `OWNER/REPO`, `RUN_ID`, and `JOB_ID`.
 
 Ask the API for the fields you need. A whole log or a full JSON response costs thousands of
 tokens and answers the same question a five-column table does. Read one snapshot; do not watch a
@@ -17,14 +10,15 @@ run with `gh run watch`, `gh pr checks --watch`, or a sleep loop.
 
 ## Bundled scripts
 
-The scripts are in `scripts/` beside this file. They use only the Python standard library and
+The scripts are in the skill's `scripts/` directory; `<skill>` below is the skill's base
+directory. They use only the Python standard library and
 call `gh api`. Each stops at `--max-calls` and lists what a cap cut under `truncated`.
 
-- `python3 scripts/report.py --repo OWNER/REPO [--days 7] [--json]` prints one line per
+- `python3 <skill>/scripts/report.py --repo OWNER/REPO [--days 7] [--json]` prints one line per
   workflow, job, and runner label for the window: wall time, queue wait, failures by step,
   merge-queue ejections, reruns that passed, billed runner minutes, required checks, and the
   rate limit before and after. Read it before proposing a change to CI.
-- `python3 scripts/stale.py --repo OWNER/REPO [--older-than 6h] --dry-run` lists runs stuck in a
+- `python3 <skill>/scripts/stale.py --repo OWNER/REPO [--older-than 6h] --dry-run` lists runs stuck in a
   queued or running state for longer than the threshold. Without `--dry-run` it cancels them,
   and force-cancels a run that refuses a plain cancel and has jobs. It never cancels a run on
   the default branch; those are listed on one `default-branch` line. A run that never started

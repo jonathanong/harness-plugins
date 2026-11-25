@@ -7,7 +7,7 @@ description: Use when a CI run fails or flakes, when asked why a job or check fa
 
 Read every applicable `AGENTS.md` first, then the CI docs. Repository-local policy overrides
 these defaults. For CI that passes but is slow or queued, use `github-ci-operations`. For the
-commands, use `github-ci-cookbook`.
+commands, read its [cookbook](../github-ci-operations/references/cookbook.md).
 
 1. Pick the runs. For a run you were given, inspect only that run. Otherwise choose a few failed
    and a few successful runs inside a bounded window.
