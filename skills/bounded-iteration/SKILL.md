@@ -130,7 +130,13 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     run. Test it: once no eligible rows remain, another run writes nothing and creates no new job
     (a repeated idempotent enqueue is not new work). Recurring work that is unconditional by
     design, such as a scheduled materialized-view refresh, is exempt.
-17. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
+17. **A failed row leaves the front.** A sweep that selects oldest first selects a failing row
+    again first on every run, and once a batch's worth of rows fail for good nothing behind them
+    runs. On failure, count the attempt and push the row's due time back with backoff, and select
+    only due rows. After a set number of attempts, mark it failed so it leaves the selection for
+    good; retrying forever on a capped interval lets permanent failures grow until they fill
+    every run. See [failed rows](references/sweep-patterns.md#a-failed-row-leaves-the-front).
+18. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
 
