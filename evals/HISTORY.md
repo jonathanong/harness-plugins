@@ -42,6 +42,13 @@ the skills that do load.
 What it showed: without the plugin, Sonnet lists design decisions but never says which the
 person made and which it made. The guard passes either way, as a guard may.
 
+After review, before merge: the case's grader now requires both parts of the person's decision,
+keeping `/v1/quotes` until mobile 4.2 ships and deleting it in a follow-up; all three passing
+attempts already had both, so the scores stand, not rerun. The plan template's Decisions table
+became a list with **User:**/**Agent:** lines, the same format as everywhere else, and
+`planning` step 1 records an open product choice as an **Agent:** decision, keeping
+"assumption" for a fact still to verify.
+
 ## 2026-11-25: `bounded-iteration` rule 17 counts only permanent rejections (not run)
 
 No run. After review of the previous entry's change, rule 17 counts toward retiring a row only a

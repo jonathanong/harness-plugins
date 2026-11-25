@@ -28,10 +28,8 @@ Reader: <who executes this, and what they can be assumed to know>
 
 ## Decisions
 
-| Decision | Chosen | By  | Rejected alternatives and why |
-| -------- | ------ | --- | ----------------------------- |
-
-"By" is User or Agent. A roadmap for a wider organization drops the column.
+- User: <decision>. Rejected: <alternatives and why>.
+- Agent: <decision>, because <reason>. Rejected: <alternatives and why>.
 
 ## Constraints
 

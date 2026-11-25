@@ -25,8 +25,8 @@ value users feel, such as a timeout, a limit, or copy, changes behavior and is n
    they will see or do after, as a before/after table with a row for each behavior that changes. A
    config value or a code change is not an outcome. Compare making no change, reusing something
    that exists, and the alternatives. Choose the smallest option that lasts. When a product choice is
-   open, take the smallest reversible option and record it as an assumption; see
-   `agent-workflow`, "Decide, then report".
+   open, take the smallest reversible option and record it as an **Agent:**
+   decision; see `agent-workflow`, "Decide, then report". An assumption is a fact still to verify.
 2. Read the instructions, docs, current code, tests, and recent changes from a fresh copy of the
    default branch. Note which evidence supports each step. An issue's file paths are a snapshot;
    check them against the current source.
