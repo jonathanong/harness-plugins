@@ -62,6 +62,12 @@ arm under test:
   attempts they need 8 and 7. Compute it with whole numbers, `ceil(70 x 10 / 100)`; in floating
   point `ceil(0.7 x 10)` is 8.
 - Report, per priority, how many cases meet their target.
+- Mark a case **required** when one failure is unacceptable or its result does not vary between
+  runs, such as a deterministic evaluator over a labelled set of inputs. A required case must pass
+  every attempt, and one failure fails the run, whatever the other cases score. Report required
+  cases as their own count, apart from the priorities. A deterministic case runs one attempt and
+  gets no interval: an interval describes variation between attempts, and it has none. Say so
+  where its result is shown.
 
 ## Suite and group goal
 

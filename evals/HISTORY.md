@@ -49,7 +49,8 @@ The `evals` skill gains `references/measuring-runs.md`: each run's cost, split i
 judges when the runner reports them apart, with cost per attempt; a Wilson 95% interval per case;
 for the suite and for the gap between arms, a bootstrap over cases that draws each case's rate
 from a Beta distribution, so a suite of all-pass cases does not get a zero-width interval; a
-priority per case with targets of 80, 70, 60, and 50%, three attempts by default; a rule to stop
+priority per case with targets of 80, 70, 60, and 50%, three attempts by default, and a required
+level for a case that must pass every attempt, which this suite does not use; a rule to stop
 a case once its remaining attempts cannot change its verdict, only for the arm under test and
 only when the question is a verdict and not a rate, recording the attempts that ran with no
 interval; a suite or group goal of every case meeting its own target, with cases spread across a
