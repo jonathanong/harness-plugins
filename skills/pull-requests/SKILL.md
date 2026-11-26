@@ -14,6 +14,11 @@ mechanics (waiting on checks, hiding stale bot comments, resolving threads, the 
 and follow its instructions. For the title and body, use the `pr-description` skill. For a rebase
 or force push, use `git-commit-checklist`.
 
+## Commit and open without asking
+
+Commit, push your branch, and open or update a pull request as the work warrants, without asking
+first. Each is reversible and is how the work gets reviewed. Merging is not; see "Merge" below.
+
 ## Scope
 
 - Keep related work in one pull request. Split only for a risk reason: a migration that must land
