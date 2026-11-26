@@ -64,6 +64,10 @@ shard, or a `needs` edge, or choosing which suites run on a pull request, read
   empty array as `"${arr[@]+"${arr[@]}"}"`. Never assign zsh's read-only `status` or `pipestatus`.
 - For diff ranges, reusable-workflow secrets, cache keys, artifact uploads, and `gh api` calls
   in a step, read [revisions, secrets, caches, and artifacts](references/revisions-secrets-caches.md).
+- In a public repository, report test coverage to Codecov, and set `continue-on-error: true` on
+  the upload step. The upload fails for reasons the change did not cause, such as an outage or a
+  rate limit, and a job that is red for that hides whether the tests passed. The tests, and any
+  coverage threshold the repository checks itself, still fail the job.
 - Check out the whole tree for a job whose checks read the whole tree. A sparse checkout makes a
   repository-wide lint or graph check pass on the files it happened to fetch.
 - Do not cancel in-progress runs on the default branch. A run that has started there

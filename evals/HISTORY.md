@@ -4,6 +4,33 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: Codecov uploads that cannot fail CI
+
+Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both
+arms, three attempts per arm: $1.08, of which $0.47 agent and $0.61 judges, $0.18 per attempt. A
+first measurement on the earlier grader cost $1.17, and a one-attempt pilot $0.25.
+
+What changed, from the repository owner's request:
+
+- `github-actions-authoring`: in a public repository, report test coverage to Codecov, with
+  `continue-on-error: true` on the upload step, because the upload fails for reasons the change
+  did not cause.
+- `github-repository-settings`: the coverage item of the new-repository checklist points to that
+  rule.
+
+| Case                                                             | With                        | Without      |
+| ---------------------------------------------------------------- | --------------------------- | ------------ |
+| `github-actions-authoring/coverage-upload-does-not-fail-the-job` | 1.00, 3 of 3, loaded 3 of 3 | 0.50, 0 of 3 |
+
+Without the plugin every answer uploaded to Codecov with no `continue-on-error`, in the pilot and
+in both measurements.
+
+The first measurement gave 2 of 3 with the plugin. The failing answer had `continue-on-error:
+true` and also `fail_ci_if_error: true`, which shows a failed upload on the step and leaves the
+job green. The grader failed any `fail_ci_if_error: true`; it now fails only an upload step with
+no `continue-on-error`. The table is from the run after that correction, so it is not comparable
+with the first.
+
 ## 2026-11-25: `evals` measures cost, intervals, targets, and stopping early
 
 Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The kept case alone, both
