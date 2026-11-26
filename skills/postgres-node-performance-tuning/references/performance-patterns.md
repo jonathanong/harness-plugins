@@ -119,10 +119,19 @@ SELECT n.id, to_jsonb(t) AS thing FROM notes n JOIN things_embedded t ON t.id = 
 SELECT n.id, (SELECT to_jsonb(t) FROM things_embedded t WHERE t.id = n.thing_id) AS thing ...
 ```
 
-Reading individual columns from a view (`t.name`), or joining one only to filter or sort, is a
-defect. The view computes every column for each row it touches, and the query depends on a shape
+Embed a view only when the caller uses the whole object; when it needs a few fields, join the
+base table. Reading individual columns from a view (`t.name`), or joining one only to filter or
+sort, is a defect. The view computes every column for each row it touches, and the query depends on a shape
 built for another reader. Read the base table instead. A materialized view is stored like a
 table, so reading, filtering, and sorting its columns is fine.
+
+```sql
+-- Wrong: the view is joined only to drop notes whose author is deleted
+SELECT n.id, n.body FROM notes n JOIN users_public up ON up.id = n.author_id ...
+-- Right: test the base table with the predicate the view applied
+SELECT n.id, n.body FROM notes n
+WHERE EXISTS (SELECT 1 FROM users u WHERE u.id = n.author_id AND u.deleted_at IS NULL) ...
+```
 
 Look up each entity once per statement. A second join or scalar subquery for another field of the same row repeats the lookup for every
 row of the result. Through a view it repeats the view's own joins and subqueries too: two

@@ -10,7 +10,9 @@ No run. New rules: join or subquery a plain (not materialized) view only to embe
 column, or joining one only to filter or sort, is a defect, so join the base table with its
 predicates and compute a derived field with a shared SQL-fragment helper rather than a copied
 expression, a view column, or a database function; and look up each entity once per statement.
-"Reading views by key" now embeds the view's row and sorts on the base table. The case's grader passes only a display name computed through a shared helper. It comes
+"Reading views by key" now embeds the view's row and sorts on the base table. The case's grader passes only a display name computed through a shared helper. A view is
+embedded only when the caller uses the whole object. Second new case
+`postgres-node-performance-tuning/view-joined-only-to-filter`, not yet run. It comes
 from a real fix in which two correlated subqueries through two user views replaced one join and
 turned about one author read per page into several hundred index probes. New case
 `postgres-node-performance-tuning/author-read-once`, not yet run. No existing case or grader
