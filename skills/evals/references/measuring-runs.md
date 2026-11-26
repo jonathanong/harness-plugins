@@ -93,8 +93,9 @@ loaded and the answer was still wrong. Record both for each case, each with its 
   cannot tell a 70% loading rate from a 90% one. Also name any single case that loads in under
   half of its attempts.
 - The two targets multiply. A critical case at 80% overall, on a skill that loads 80% of the
-  time, has to pass every time it loads. So raise the loading target toward 100% for a skill with
-  critical cases, or expect those cases to miss.
+  time, has to pass every time it loads only if its unloaded attempts never pass. Unloaded passes
+  lower that requirement. So raise the loading target toward 100% for a skill with critical
+  cases, or expect those cases to miss.
 - Passed when loaded has no target of its own by default; it is there to say what to fix. When
   the skill never loaded, write "not measured" for it, not 0.
 - Give each layer its interval from its own count: loading over all attempts, passed when loaded
