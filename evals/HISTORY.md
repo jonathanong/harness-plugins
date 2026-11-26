@@ -4,6 +4,19 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `upstream-contributions`: the fork's pull request is not merged, and is closed after the fork takes upstream's branch
+
+Commit `10356d4` plus the rule and case below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
+case, both arms, three attempts each: $0.79.
+
+- The rule: do not merge the fork's pull request; when upstream merges, pull upstream's default
+  branch into the fork's, then close the fork's pull requests whose change that brought in; when
+  upstream declines, ask. It replaces "close it when upstream merges or declines".
+- New case `upstream-contributions/upstream-merged-fork-syncs`: loaded 3 of 3, passed 3 of 3,
+  and 3 of 3 without the plugin. It is a ceiling case: it shows the skill loads for the cleanup
+  after an upstream merge and does no harm, not that the rule helps.
+- The other two cases were not rerun; the text they test did not change.
+
 ## 2026-11-26: `pr-description` gains a provenance block, with one case
 
 Both runs measured commit `2e54f79` or the same skill and case text before it. Sonnet agent, Opus

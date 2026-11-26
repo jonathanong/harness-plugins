@@ -65,8 +65,12 @@ upstream, and one in the fork against the fork's default branch.
 - Watch the two together, in one run of the repository's pull request tool when it takes
   several pull requests. Do not call the work ready on the fork's checks alone, or wait on
   upstream alone while the fork's review has findings.
-- Do not merge the fork's pull request unless the person wants the fork to carry the change
-  ahead of upstream. It is there for checks and review. Close it when upstream merges or
-  declines.
+- Do not merge the fork's pull request. It is there for checks and review; only the upstream
+  pull request lands.
+- Do not close it when upstream merges, either. First pull upstream's default branch into the
+  fork's default branch, so the fork has the change the way upstream landed it. Then close the
+  fork's pull requests whose change that brought in, each with a link to the upstream merge.
+- When upstream declines, ask the person whether the fork should carry the change before
+  closing or merging anything.
 - Link each pull request from the other, and say in the fork's that upstream is the one that
   lands.
