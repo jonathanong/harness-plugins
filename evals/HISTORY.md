@@ -4,16 +4,36 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-25: `evals` measures cost, intervals, targets, and stopping early (not run)
+## 2026-11-25: `evals` measures cost, intervals, targets, and stopping early
 
-No run. The `evals` skill gains `references/measuring-runs.md`: each run's cost split into agent
-and judges, with cost per attempt; a Wilson 95% interval per case and a bootstrap interval over
-cases for the suite and for the gap between arms; a priority per case with targets of 80, 70, 60,
-and 50%, three attempts by default; a rule to stop a case once its remaining attempts cannot change
-its verdict, only when the question is a verdict and not a rate; a suite or group goal of every case meeting its own target, with cases spread across a group's rules and a miss rerun before it is called a regression; and a CSV holding each case's
-latest result, from which the README table is generated. New case
-`evals/stop-early-against-target`, not yet run. No existing case or grader changed, and this
-repository's own run scripts do not do any of this yet.
+Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both
+arms, three attempts per arm: $1.50, of which $0.40 agent and $1.10 judges, $0.25 per attempt. A
+one-attempt pilot before it cost $0.11.
+
+The `evals` skill gains `references/measuring-runs.md`: each run's cost, split into agent and
+judges when the runner reports them apart, with cost per attempt; a Wilson 95% interval per case;
+for the suite and for the gap between arms, a bootstrap over cases that draws each case's rate
+from a Beta distribution, so a suite of all-pass cases does not get a zero-width interval; a
+priority per case with targets of 80, 70, 60, and 50%, three attempts by default; a rule to stop
+a case once its remaining attempts cannot change its verdict, only for the arm under test and
+only when the question is a verdict and not a rate, recording the attempts that ran with no
+interval; a suite or group goal of every case meeting its own target, with cases spread across a
+group's rules and a miss rerun before it is called a regression; and a CSV holding each case's
+latest result, from which the README table is generated.
+
+| Case                              | With                        | Without      |
+| --------------------------------- | --------------------------- | ------------ |
+| `evals/stop-early-against-target` | 0.67, 0 of 3, loaded 0 of 3 | 1.00, 3 of 3 |
+
+The new case is a ceiling case and does not load the skill. Both outcome graders passed in all
+six attempts and in the pilot: unaided, the agent picked the two cases that need a third attempt
+and declined to write "3 of 3" for a case that ran two. The skill loaded in 0 of 4 plugin
+attempts; each answered in one turn with no tool call. The case shows neither a gain nor
+loading, and `ROADMAP.md` lists replacing it. The rules stay in the skill.
+
+The runner's results file reports `costUsd` and `judgeCostUsd` per attempt. Judges were 73% of
+this run's cost: two model graders, three votes each. No existing case or grader changed, and
+this repository's own run scripts do not compute intervals, targets, or early stops yet.
 
 ## 2026-11-25: record who decided, the person or the agent
 

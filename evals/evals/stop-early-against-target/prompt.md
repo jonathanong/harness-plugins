@@ -1,5 +1,5 @@
 ---
-description: After two attempts per case, decides which cases need a third against their priority targets, and reports counts with intervals instead of padding an early stop to three.
+description: After two attempts per case, decides which cases need a third against their priority targets, and records the attempts that ran instead of padding an early stop to three.
 tags: [evals, skill-fired]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
