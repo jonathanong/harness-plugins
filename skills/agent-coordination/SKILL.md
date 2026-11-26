@@ -8,8 +8,19 @@ description: Use when delegating to subagents, splitting work across workers, re
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
 Agents share a repository but not context. Most failures come from two agents writing the same
-thing, a worker missing a fact only the dispatcher had, or a claim passed on unchecked. For when
-to split work, see "Parallel by default" in [agent-workflow](../agent-workflow/SKILL.md).
+thing, a worker missing a fact only the dispatcher had, or a claim passed on unchecked.
+
+## Parallel by default
+
+Split the work into independent units and run them at the same time, one worker and one worktree
+each, within any limit the person set. Make a unit wait only for a named dependency:
+
+- it needs an upstream change that is not released yet
+- it changes the same files or contract as another unit; stack those instead of waiting (see
+  the `pull-requests` skill)
+- it would write in the same worktree
+
+A pull request that is waiting on review or checks does not pause the other units.
 
 ## Ownership
 
@@ -29,6 +40,9 @@ to split work, see "Parallel by default" in [agent-workflow](../agent-workflow/S
 The worker has none of your context. Write a brief that stands alone:
 
 - The goal, and why it matters.
+- Every instruction and limit the person gave that touches this work, stated as theirs and not
+  reworded into something weaker or wider. A limit left out of the brief does not bind the
+  worker, and the worker cannot ask the person what they meant.
 - What is already ruled out, so it does not retry it.
 - The files and documents to read first.
 - The exact scope and what not to touch.
@@ -38,7 +52,7 @@ The worker has none of your context. Write a brief that stands alone:
 ## Check what comes back
 
 A worker's report is a claim, not a fact. Read the diff or the output before repeating it, and
-use [verification](../verification/SKILL.md) before reporting it onward.
+use [status-reports](../status-reports/SKILL.md) before reporting it onward.
 
 ## Messages from other agents
 

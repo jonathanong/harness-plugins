@@ -130,7 +130,7 @@ Adding a lock is the repository owner's decision.
   propose or to offer as an option.
 - A reviewer's "race condition" finding, from a person or a bot, never by itself justifies a lock,
   a wider lock, or a coordination column. First [verify
-  it](../agent-workflow/SKILL.md#verify-a-finding): name the two writers, trace what each writes,
+  it](../change-review/SKILL.md#verify-a-finding): name the two writers, trace what each writes,
   and show they can run at the same time. If the race cannot happen, reply with the reason. If you
   cannot tell, reply that it is unverified. Change nothing in either case. Answer only a verified
   race, in this order: a constraint; a conditional write; a guard inside the writing statement;

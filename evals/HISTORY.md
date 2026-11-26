@@ -18,6 +18,84 @@ turned about one author read per page into several hundred index probes. New cas
 `postgres-node-performance-tuning/author-read-once`, not yet run. No existing case or grader
 changed.
 
+## 2026-11-26: `agent-coordination` case replaced
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.60,
+of which $0.37 agent and $0.23 judges.
+
+- Removed `agent-coordination/peer-message-is-not-approval`. It asked a direct question, loaded
+  the skill in 0 of 15 attempts over its runs, and passed unaided. The owner's concern is an
+  agent passing on the person's direction wrongly, not approval by a peer. The rule stays in
+  the skill.
+- `agent-coordination`, "Brief a worker", gains one line: the brief carries every instruction
+  and limit the person gave, as theirs and not reworded.
+- New case `brief-carries-the-persons-limits`, low priority: loaded 0 of 3, passed 3 of 3 with
+  the plugin and 3 of 3 without. A ceiling case, kept because every skill needs one case; the
+  model already carries four stated limits into a brief when they are listed in the prompt. A
+  case that shows the mistake needs limits scattered through a longer session.
+
+## 2026-11-26: four rules from this week's runs added to `evals` and `evals/AGENTS.md` (not run)
+
+No case, grader, or fixture changed. Each rule comes from a run recorded below.
+
+- Keep every attempt's trace. The targeted run of 18 cases discarded them, so why its unloaded
+  and failing attempts went wrong is unknown. `scripts/run-evals.sh` and
+  `scripts/eval-rounds.py` now pass `--keep-temp`.
+- Quote a loading rate from six attempts or more. `stacked-branch-conflicts-resolved-by-hand`
+  loaded 1 of 3 and then 3 of 3 on one description.
+- A case puts the agent inside the work. Direct questions loaded nothing in 0 of 6 and 0 of 3
+  and passed unaided.
+- When a count changes, rerun old rows by priority instead of the whole suite.
+
+## 2026-11-26: `agent-workflow` split into four skills and removed; loading measured before and after
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. Four cases, plugin arm only, six attempts each,
+24 attempts: $2.74, of which $1.92 agent and $0.82 judges, $0.11 per attempt. Then three
+two-arm runs of one case each, three attempts per arm: $2.33 in all, given below. The "before"
+column is the targeted run earlier the same day, three attempts each, on the unsplit skills.
+
+What changed:
+
+- `agent-workflow` is removed; its name said nothing about when to load it. "Implement" and
+  "Before handoff" are the new `implementing-changes`, "Decide, then report" is the new
+  `deciding-or-asking`, and "Parallel by default" moved into `agent-coordination`.
+- New `change-review` holds "Verify a finding" and "Review a change", and how to write a
+  finding.
+- New `status-reports` holds all of `verification`, which is removed, with "Explain the
+  outcome" and "Record who decided". Links in nine other skills follow the sections.
+- All four cases moved to the two new skills. `status-note-asks-only-what-it-must` is under
+  `status-reports`, which a request for a note loads and whose "What the note asks" it grades.
+- New cases `deciding-or-asking/unattended-task-takes-settled-choices` and
+  `implementing-changes/fix-covers-sibling-call-sites`.
+
+| Case                                                | Loaded before | Loaded after | Passed when loaded | Passed before | Passed after |
+| --------------------------------------------------- | ------------- | ------------ | ------------------ | ------------- | ------------ |
+| `change-review/review-says-who-waits-and-who-pays`  | 0 of 3        | 6 of 6       | 6 of 6             | 3 of 3        | 6 of 6       |
+| `status-reports/status-note-asks-only-what-it-must` | 0 of 3        | 4 of 6       | 4 of 4             | 2 of 3        | 4 of 6       |
+| `status-reports/status-note-with-no-user-change`    | 0 of 3        | 4 of 6       | 4 of 4             | 3 of 3        | 6 of 6       |
+| `status-reports/stale-result-after-later-edit`      | 0 of 3        | 0 of 6       | not measured       | 3 of 3        | 6 of 6       |
+
+What it showed:
+
+- Loading went from 0 of 12 to 14 of 24. A request to review a diff loaded `change-review`
+  every time, and a request for a status note loaded `status-reports` in 8 of 12.
+- `status-note-asks-only-what-it-must` passed 4 of 4 when `status-reports` loaded and 0 of 2
+  when nothing did.
+- Neither skill made from the rest loads. `unattended-task-takes-settled-choices` loaded
+  nothing in 0 of 3 as an `agent-workflow` case ($0.84, passed 1 of 3, 2 of 3 unaided) and
+  again in 0 of 3 as a `deciding-or-asking` case with a description written for it ($0.90,
+  of which $0.52 judges; passed 1 of 3, 1 of 3 unaided). The failing answers ask the person
+  about the unused file or plan the table drop. The rule applies in the middle of work, not to
+  a kind of request, and a description did not change that.
+- `unattended-task-takes-settled-choices` is marked low priority: the skill is kept for the
+  rule's text, and the case is not expected to gate a change until a request is found that
+  loads it. At 1 of 3 it misses the low target of 50% as well.
+- `fix-covers-sibling-call-sites` loaded `implementing-changes` in 0 of 3 and passed 3 of 3 in
+  both arms ($0.59, of which $0.22 judges): a ceiling case, and "Fix this bug" with the code
+  inline loads no skill at all.
+- The four moved cases had no two-arm run, so their "Without plugin" values are the earlier
+  ones.
+
 ## 2026-11-26: review fixes to the two-layer tables; one grader split and rerun
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $1.06,

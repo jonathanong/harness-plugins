@@ -27,6 +27,7 @@ claude plugin eval . \
   --concurrency "${EVAL_CONCURRENCY:-6}" \
   --ablation "${EVAL_ABLATION:-none}" \
   --no-publish \
+  --keep-temp \
   --json evals/results/latest.json \
   ${EVAL_FLAGS:-} \
   --allow-tools Bash \

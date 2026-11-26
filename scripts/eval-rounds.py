@@ -118,6 +118,7 @@ def base_command(env, runs):
         "--judge-model", env.get("EVAL_JUDGE_MODEL") or "opus",
         "--ablation", "none",
         "--no-publish",
+        "--keep-temp",
         "--runs", str(runs),
         *shlex.split(env.get("EVAL_FLAGS") or ""),
     ]  # fmt: skip

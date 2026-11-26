@@ -88,13 +88,15 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.                                                  |
 | [`expand-contract-migrations`](skills/expand-contract-migrations/SKILL.md)             | Renaming or dropping a column, table, or field without a deploy-time break.                                              |
 | [`structured-logging`](skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                                                           |
-| [`agent-workflow`](skills/agent-workflow/SKILL.md)                                     | Implementing, gathering evidence, handing off, and reviewing a change.                                                   |
+| [`implementing-changes`](skills/implementing-changes/SKILL.md)                         | Fixing or building a change, and the checks before handing it off.                                                       |
+| [`deciding-or-asking`](skills/deciding-or-asking/SKILL.md)                             | Taking a settled choice without asking, and asking only about what cannot be undone.                                     |
+| [`change-review`](skills/change-review/SKILL.md)                                       | Reviewing a change and verifying a finding before acting on it.                                                          |
 | [`planning`](skills/planning/SKILL.md)                                                 | Planning a non-trivial change: impact, verification, a handoff plan.                                                     |
 | [`git-commit-checklist`](skills/git-commit-checklist/SKILL.md)                         | Committing, and rebasing or force-pushing a branch others also push to.                                                  |
 | [`github-issue`](skills/github-issue/SKILL.md)                                         | Filing, organizing, labeling, closing, and linking GitHub issues, with a high bar for new labels.                        |
 | [`review-ci-logs`](skills/review-ci-logs/SKILL.md)                                     | Diagnosing a CI failure or noisy CI output from the logs.                                                                |
 | [`debugging`](skills/debugging/SKILL.md)                                               | Finding the cause of a failure before changing code.                                                                     |
-| [`verification`](skills/verification/SKILL.md)                                         | Checking a claim against observed results before reporting it.                                                           |
+| [`status-reports`](skills/status-reports/SKILL.md)                                     | Writing a status or handoff note: checked claims, who is affected, who decided.                                          |
 | [`resuming-work`](skills/resuming-work/SKILL.md)                                       | Picking up work after an interruption, and leaving it resumable.                                                         |
 | [`agent-coordination`](skills/agent-coordination/SKILL.md)                             | Delegating to workers and handling messages from other agents.                                                           |
 | [`llm-calls`](skills/llm-calls/SKILL.md)                                               | Calling a language model: one call per decision, untrusted content in prompts, tools.                                    |
@@ -107,12 +109,12 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **164 cases** across 48 skills.
+- **166 cases** across 50 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.35, over the 163 cases measured both ways.
-- **129 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
-- **161 of 164 cases** meet their target: critical 2 of 3, high 25 of 26, medium 112 of 113, low 22 of 22. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 3 of 48 skills, and 0 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `agent-workflow`, `debugging`, `github-issue`, `postgres-node-performance-tuning`, `review-ci-logs`, `test-authoring`, `verification`.
+- **Without it:** mean score 0.35, over the 165 cases measured both ways.
+- **130 cases** are ones the model fails unaided. The other 35 it already gets right: 7 check that a skill stays out of the way, and 28 show at most that the skill loads.
+- **162 of 166 cases** meet their target: critical 2 of 3, high 24 of 25, medium 113 of 114, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 5 of 50 skills, and 1 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `github-issue`, `implementing-changes`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
 
 <!-- /evals:headline -->
 

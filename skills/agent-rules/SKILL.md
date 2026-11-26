@@ -66,7 +66,7 @@ loaded only when it is needed, and nowhere else.
 
 - When a decision reached with a person will come up again, encode it where it is shared:
   `AGENTS.md`, a skill, docs, or a check. Report where you put it; do not ask first (see
-  `agent-workflow`, "Decide, then report").
+  `deciding-or-asking`).
 - Do not keep a principle, or a repository or global rule, only in an agent's memory. Memory
   belongs to one agent on one machine; other agents, other people, and CI never see it. Write the
   rule where it is shared, and keep memory for personal preferences and pointers.

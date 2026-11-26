@@ -26,7 +26,7 @@ value users feel, such as a timeout, a limit, or copy, changes behavior and is n
    config value or a code change is not an outcome. Compare making no change, reusing something
    that exists, and the alternatives. Choose the smallest option that lasts. When a product choice is
    open, take the smallest reversible option and record it as an **Agent:**
-   decision; see `agent-workflow`, "Decide, then report". An assumption is a fact still to verify.
+   decision; see `deciding-or-asking`. An assumption is a fact still to verify.
 2. Read the instructions, docs, current code, tests, and recent changes from a fresh copy of the
    default branch. Note which evidence supports each step. An issue's file paths are a snapshot;
    check them against the current source.
@@ -71,7 +71,7 @@ when a shared contract, a package boundary, or a generated artifact changes.
 Write it for an agent with no access to this conversation, possibly another model or vendor. It
 must stand alone: no "as discussed", "as agreed", or other reference to chat history, and every
 term defined or linked. State each decision as a fact with its reason, marked **User:** or **Agent:** per
-`agent-workflow`'s "Record who decided"; a roadmap for a wider organization leaves the marks out. Structure it per the `technical-writing` skill; the section template is in
+`status-reports`' "Record who decided"; a roadmap for a wider organization leaves the marks out. Structure it per the `technical-writing` skill; the section template is in
 [plan document](references/plan-document.md). It holds:
 
 - a summary with the before/after table, and the context to start from (repo, base commit,

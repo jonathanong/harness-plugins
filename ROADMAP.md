@@ -69,7 +69,7 @@ Each still gets a loading case and an answer case.
       is a ceiling case, and so were two pilots on a ten-file fixture, where the model
       followed the imports to the tracker call (`evals/HISTORY.md`, 2026-11-23). Try a fixture
       where that path is longer, or a review of a diff that reports a caller's mistake.
-- [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
+- [ ] **`agent-coordination` loaded in 0 of 3** for a request to brief a second agent on 2026-11-26, as its earlier direct-question case did in 0 of 15, and a plainer description did
       not change that: their cases ask a direct question and the agent answers it. Each needs a
       case inside real work on a fixture repository, as do `expand-contract-migrations` and
       `resuming-work`, whose cases pass unaided.
@@ -83,9 +83,9 @@ Each still gets a loading case and an answer case.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
       asking less in `planning` and `github-issue`; API keys in `http-api-design`; a review's proposed fix following the
-      owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
+      owning skill in `change-review`;
       what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
-      that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
+      that must not overlap and has a deadline in `bounded-iteration`; in `change-review`,
       "Verify a finding", a finding that cannot be verified is reported as unverified with no
       fix, and a race finding that the unaided model accepts (the case built on 2026-11-24 passes
       unaided).
@@ -115,18 +115,23 @@ Each still gets a loading case and an answer case.
       `resuming-work`: a scheduled or repeating prompt is as old as the day it was written,
       and every standing copy changes when the instruction does; after a context summary,
       re-read the standing notes before acting on a limit, hold, or approval it states.
-      `agent-workflow`: a yes covers the action that was asked about, not a wider or permanent
+      `deciding-or-asking`: a yes covers the action that was asked about, not a wider or permanent
       mechanism; raise a pending question once (verifying a finding before flagging it is
       now in the skill). `agent-coordination`: read the preferred workers' availability from
       the live source before using a fallback; read the change behind a worker's numbers
       before relaying them as a trade-off.
-- [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
-      loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
-      with the description unchanged. Find which part of the request no longer matches it.
-      On 2026-11-25 it also loaded in 0 of 6 attempts of the new review and status-note cases
-      for "Explain the outcome"; that rule is measured only through `postgres-locking`.
+- [ ] **`status-reports` does not load for a direct question.** `stale-result-after-later-edit`
+      ("so we're good to merge, right?") loaded it in 0 of 6 on 2026-11-26 and passed unaided.
+      It needs a case inside real work on a fixture, where the agent itself is about to say
+      "done".
+- [ ] **`deciding-or-asking` and `implementing-changes` do not load on their own.** Each loaded
+      in 0 of 3 on 2026-11-26, for an unattended task and for "Fix this bug" with the code
+      inline. `deciding-or-asking` applies in the middle of work, not to a kind of request, so
+      a consuming repository states it in its `AGENTS.md`; say so in the README if no request
+      is found that loads it. `implementing-changes` needs a case on a fixture repository,
+      where the model fails unaided: its inline case passes 3 of 3 without the plugin.
 - [ ] **Does a link alone carry a rule?** `github-issue` rule 3, `postgres-locking`, and the
-      `pull-requests` review response each keep a short copy of `agent-workflow`, "Verify a
+      `pull-requests` review response each keep a short copy of `change-review`, "Verify a
       finding", beside the link to it. In 9 of 9 plugin attempts on 2026-11-24 no agent opened the
       link, and each passed on the local text; no link-only version was measured. Cut
       `github-issue` rule 3 to the link plus the evidence an issue shows, and rerun
