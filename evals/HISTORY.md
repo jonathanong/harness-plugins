@@ -6,9 +6,9 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-25: `evals` measures cost, intervals, targets, and stopping early
 
-Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both
-arms, three attempts per arm: $1.50, of which $0.40 agent and $1.10 judges, $0.25 per attempt. A
-one-attempt pilot before it cost $0.11.
+Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The kept case alone, both
+arms, three attempts per arm: $0.87, of which $0.44 agent and $0.43 judges, $0.15 per attempt.
+Pilots and two dropped drafts before it cost $2.38.
 
 The `evals` skill gains `references/measuring-runs.md`: each run's cost, split into agent and
 judges when the runner reports them apart, with cost per attempt; a Wilson 95% interval per case;
@@ -22,19 +22,31 @@ interval; a suite or group goal of every case meeting its own target, with cases
 group's rules and a miss rerun before it is called a regression; and a CSV holding each case's
 latest result, from which the README table is generated.
 
-| Case                              | With                        | Without      |
-| --------------------------------- | --------------------------- | ------------ |
-| `evals/stop-early-against-target` | 0.67, 0 of 3, loaded 0 of 3 | 1.00, 3 of 3 |
+| Case                                            | With                        | Without      |
+| ----------------------------------------------- | --------------------------- | ------------ |
+| `evals/met-target-column-uses-the-default-bars` | 1.00, 3 of 3, loaded 3 of 3 | 0.50, 0 of 3 |
 
-The new case is a ceiling case and does not load the skill. Both outcome graders passed in all
-six attempts and in the pilot: unaided, the agent picked the two cases that need a third attempt
-and declined to write "3 of 3" for a case that ran two. The skill loaded in 0 of 4 plugin
-attempts; each answered in one turn with no tool call. The case shows neither a gain nor
-loading, and `ROADMAP.md` lists replacing it. The rules stay in the skill.
+Without the plugin the agent marked the six cases the same way but from bars of its own, such as
+100, 90, 66, and 50%, so its "uses the default bars" grader failed in 3 of 3.
 
-The runner's results file reports `costUsd` and `judgeCostUsd` per attempt. Judges were 73% of
-this run's cost: two model graders, three votes each. No existing case or grader changed, and
-this repository's own run scripts do not compute intervals, targets, or early stops yet.
+Two drafts were dropped as ceiling cases, and their rules stay in the skill:
+
+- `stop-early-against-target` (which cases need a third attempt, and no padding of "2 of 2" to
+  "3 of 3"): 3 of 3 without the plugin, and the skill loaded in 0 of 4 plugin attempts, each
+  answered in one turn. Three attempts per arm, $1.50, after a pilot at $0.11.
+- A suite interval when every case passed every attempt: one attempt per arm, $0.32. Unaided, the
+  agent took the case as the unit and avoided a zero-width interval.
+
+The runner denies an agent's read of a skill's `references/` file: "File is in a directory that
+is denied by your permission settings", with `Read` in the case's `allowed_tools` and with an
+operator grant for the directory. So a case can only measure a rule that `SKILL.md` itself
+states. The first pilot of the kept case failed for that reason, with the four targets only in
+`references/measuring-runs.md`; they are now in `SKILL.md`, and the table above is from that
+text. Three one-attempt pilots, $0.45.
+
+The runner's results file reports `costUsd` and `judgeCostUsd` per attempt. Judges were between
+49% and 73% of a run's cost here. No existing case or grader changed, and this repository's own
+run scripts do not compute intervals, targets, or early stops yet.
 
 ## 2026-11-25: record who decided, the person or the agent
 
