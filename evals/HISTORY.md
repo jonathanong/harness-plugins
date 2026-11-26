@@ -48,6 +48,24 @@ What the run showed:
   workspace was read-only, so the agent could not apply the fix it found. It cost $4.54. Its row
   keeps the earlier result.
 
+## 2026-11-26: new skill `upstream-contributions`, with two cases
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. Two cases, both arms, three attempts each:
+$2.19, of which $1.15 agent and $1.04 judges. Two earlier runs are discarded, $3.14 together:
+one on a fixture whose branch held no fix, and one before the prompt and grader changes below.
+
+- `upstream-contributions` covers contributing to a repository you do not own: read the
+  project's contribution rules first and stop when they tell an agent to, fill in its templates,
+  and open and watch a pull request in the fork alongside the upstream one.
+- After review, the template case's prompt says the agent wrote the fix, and its grader requires
+  the tests and `make check` items ticked. The stop case gained `no-upstream-post`, which fails
+  an attempt that runs `gh pr create`, `gh issue create`, or a `gh` comment.
+- `template-filled-and-fork-pr-opened`: loaded 3 of 3, passed 3 of 3, and 0 of 3 without the
+  plugin. Without it every attempt followed the template and none opened a pull request in the
+  fork.
+- `contributing-says-agents-stop`: loaded 3 of 3, passed 3 of 3, and 2 of 3 without the plugin.
+  The attempt that failed without it ran the command to open the pull request.
+
 ## 2026-11-26: critical, high, and low-scoring cases rerun; one rule and one grader changed
 
 Sonnet agent, Opus judge, Claude Code 2.1.332, three attempts, plugin arm, traces kept. 42 cases:
