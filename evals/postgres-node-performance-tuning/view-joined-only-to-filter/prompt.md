@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Please review this query from a pull request before it merges (PostgreSQL 17, Node with `pg`). It lists a team's pinned notes and must leave out notes whose author's account was deleted.
+Please review this query from a pull request before it merges (PostgreSQL 17, Node with `pg`). It lists a team's pinned notes and must leave out notes whose author's account was deleted or who was removed from the team.
 
 ```sql
 /* notes.listPinned */

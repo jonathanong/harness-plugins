@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: the two view cases of `postgres-node-performance-tuning` run, after a prompt and a grader change
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. $4.95 in all, of which $2.66 agent and $2.28
+judges: a first run of both cases in both arms ($1.49), a second after the changes below ($1.57),
+and nine more plugin-arm attempts of `author-read-once` ($1.88).
+
+- The first run failed every attempt in both arms, for reasons in the cases. In
+  `view-joined-only-to-filter` the prompt named only the deleted-author filter, so every answer
+  questioned or dropped the membership join; the prompt now names both filters. In
+  `author-read-once` one grader held two rules, and the loaded attempts shared the `CASE` as a
+  fragment with the alias fixed inside. The grader is split into `reads-the-author-once` and
+  `derived-field-from-a-helper`, and the rule in `SKILL.md` now says the helper takes the row's
+  alias.
+- `view-joined-only-to-filter`: loaded 3 of 3, passed 3 of 3, and 2 of 3 without the plugin.
+- `author-read-once`: over the last six attempts, loaded 2 of 6, passed 2 of 2 when loaded, 2 of
+  6 overall; 0 of 3 without the plugin. It misses its target, and the miss is loading: across
+  twelve attempts since the change the skill loaded in 2. In the ten that did not load, six still
+  read the author once from `users`, and none used a helper.
+
 ## 2026-11-26: `postgres-node-performance-tuning` reads each entity once (not run)
 
 No run. New rules: join or subquery a plain (not materialized) view only to embed its whole row as JSON; reading a view's

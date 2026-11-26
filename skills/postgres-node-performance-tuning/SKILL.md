@@ -25,7 +25,7 @@ it beats that simple query, not merely the previous version; see
   and only when the caller uses the whole object. Reading one of its columns, or joining it only
   to filter or sort, is a defect; a materialized view is stored like a table and is read like
   one. Join the base table with the predicates it needs (such as `deleted_at IS NULL`), and
-  compute a derived field with a shared SQL-fragment helper, not a copied expression, a view
+  compute a derived field with a shared SQL-fragment helper that takes the row's alias, not a copied expression, a view
   column, or a database function. Look up each entity once per statement and take every field
   from that one join. See
   [views and entity reads](references/performance-patterns.md#views-and-entity-reads).
