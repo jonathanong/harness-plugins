@@ -11,11 +11,11 @@ needed.
 
 <!-- evals:headline -->
 
-- **160 cases** across 48 skills.
+- **161 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.35, over the 159 cases measured both ways.
-- **125 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
-- **145 of 160 cases** meet their target: critical 2 of 3, high 20 of 26, medium 106 of 111, low 17 of 20. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.35, over the 160 cases measured both ways.
+- **126 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
+- **146 of 161 cases** meet their target: critical 2 of 3, high 20 of 26, medium 107 of 112, low 17 of 20. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 
 <!-- /evals:headline -->
 
@@ -37,7 +37,7 @@ averaged over attempts.
 | `dependabot`                       | 4     | 1.00        | 0.50           | 1                     | 4 of 4     |
 | `documentation`                    | 3     | 0.89        | 0.56           | 1                     | 3 of 3     |
 | `error-handling`                   | 3     | 1.00        | 0.33           | 1                     | 3 of 3     |
-| `evals`                            | 3     | 1.00        | 0.17           | 0                     | 3 of 3     |
+| `evals`                            | 4     | 1.00        | 0.25           | 0                     | 4 of 4     |
 | `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     | 1 of 1     |
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     | 3 of 3     |
 | `git-commit-checklist`             | 4     | 0.83        | 0.33           | 1                     | 2 of 4     |

@@ -26,6 +26,30 @@ The second prompt is a ceiling case, and `review-ci-logs` loads for it in one at
 so it measures neither the rule nor the loading. Every answer in every run gave each attempt a
 short timeout, so that grader showed nothing. `ROADMAP.md` lists what a working case needs.
 
+## 2026-11-26: `evals` reports loading and passing as two layers
+
+Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both
+arms, three attempts per arm: $1.20, of which $0.46 agent and $0.75 judges, $0.20 per attempt. A
+one-attempt pilot of both arms cost $0.29.
+
+What changed: for a skill that loads on demand, `evals` now
+says to report how often the skill loaded and how often the case passed when it did, beside the
+overall rate. The priority target stays on the overall rate, and loading gets its own target of
+80% by default. The rule is in `SKILL.md`; `references/measuring-runs.md` has a new section, "Two
+layers: loading, then passing", with what each layer's low number means, how the two targets
+multiply, and what to write when the skill never loaded.
+
+| Case                                       | With                        | Without      |
+| ------------------------------------------ | --------------------------- | ------------ |
+| `evals/loading-and-passing-are-two-layers` | 1.00, 3 of 3, loaded 3 of 3 | 0.50, 1 of 3 |
+
+Without the plugin, two of three answers held loading to 90% or gave no single number, and one
+of those also left the two counts out of the row. `reports-both-layers` passed in two of three
+unaided attempts, so most of the difference is the 80% target.
+
+This repository's own tables do not apply the rule yet: `cases.csv` has the `loaded` count, and
+no script checks a loading target. `ROADMAP.md` lists it.
+
 ## 2026-11-25: priorities, a results CSV, and a stop-early run
 
 Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The three `evals` cases of the time,
