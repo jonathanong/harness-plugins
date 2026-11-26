@@ -6,10 +6,11 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-26: `postgres-node-performance-tuning` reads each entity once (not run)
 
-No run. New rule: read each entity once per query, from one join, and for a few columns join the
-base table with its predicates rather than reading through a view built for full embeds or
-lookups, and compute a derived field with a shared SQL-fragment helper rather than a copied
-expression, a view column, or a database function. It comes
+No run. New rules: join or subquery a plain (not materialized) view only to embed its whole row as JSON; reading a view's
+column, or joining one only to filter or sort, is a defect, so join the base table with its
+predicates and compute a derived field with a shared SQL-fragment helper rather than a copied
+expression, a view column, or a database function; and look up each entity once per statement.
+"Reading views by key" now embeds the view's row and sorts on the base table. The case's grader passes only a display name computed through a shared helper. It comes
 from a real fix in which two correlated subqueries through two user views replaced one join and
 turned about one author read per page into several hundred index probes. New case
 `postgres-node-performance-tuning/author-read-once`, not yet run. No existing case or grader

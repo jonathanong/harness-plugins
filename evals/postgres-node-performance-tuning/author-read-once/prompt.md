@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Our notes feed (PostgreSQL 17, Node with `pg`) returns pages of up to 101 notes with each author's display name:
+Our notes feed (PostgreSQL 17, Node with `pg`; queries are written in TypeScript with a `sql` tagged template) returns pages of up to 101 notes with each author's display name:
 
 ```sql
 /* notes.listFeed */
