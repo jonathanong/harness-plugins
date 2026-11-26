@@ -4,6 +4,50 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: every case now has a loading count; three descriptions, two rules, three graders, and one case changed
+
+Sonnet agent, Opus judge, Claude Code 2.1.332, plugin arm, traces kept. 123 cases: the 115 that
+had no loading count at three attempts, and eight changed here. $64.39, of which $38.33 agent and
+$26.06 judges.
+
+What changed, with the case it was aimed at, before and after in this session's runs:
+
+- Descriptions of `github-ci-operations`, `github-issue`, and `documentation` name the plain
+  request: cancelling stuck runs, a script that adds a label to several repositories, a section
+  of a README that holds numbers. Six attempts each:
+  `github-ci-operations/stuck-runs-on-main-are-left-alone` loaded 6 of 6 and passed 6 of 6 (was
+  loaded 1 of 3, passed 2 of 3); `github-issue/shared-label-goes-through-the-label-source` 6 of
+  6 and 6 of 6 (was 0 of 3 and 0 of 3); `documentation/write-scale-numbers` 6 of 6 and 6 of 6
+  (was 1 of 3 and 1 of 3); `github-ci-operations/superseded-runs-spare-the-queue-and-main` loaded
+  4 of 6, passed 5 of 6.
+- `feature-rollout`: a request to ship a flag on does not change the default.
+  `flag-defaults-on` 3 of 3 (was 2 of 3).
+- `status-reports`: where a required check runs on the pushed commit, point to it; re-run only
+  what no check covers. `stale-result-after-later-edit` is rewritten as a status note whose
+  manual check and local migration run predate a later edit, and moves from high to medium. It
+  loaded 3 of 3 (was 0 of 9) and passed 3 of 3, and 3 of 3 without the plugin: still a ceiling
+  case. Earlier rows of this case are not comparable.
+- The two `npm-publishing` `handoff` graders judge the final message, not the whole trace; the
+  tool graders already check what was run. Both cases 3 of 3, for $0.98 together (was $4.05).
+- `http-api-design/uuid-slug-routes`, grader: returning an immutable public id beside the slug
+  no longer fails, since the skill has asked for one since the id rule changed. 0 of 3 with the
+  old grader, 3 of 3 with the new one on a rerun.
+- `scripts/eval-docs.py` judges a target over every attempt that ran when more ran than planned.
+
+What the run showed:
+
+- 157 of 167 cases meet their target. Loading over every counted attempt is 433 of 499.
+- Missing, with the skill loaded: `planning/plan-handoff-self-contained` (1 of 3),
+  `postgres-locking/review-asks-what-a-lock-means-for-users` (1 of 3), and
+  `skill-authoring/split-by-trigger` (0 of 3, loaded 2 of 3).
+- Missing on loading: the two `github-actions-authoring` job-layout cases (each 1 of 3, loaded 1
+  of 3), `resuming-work/note-says-about-to-push`, `typescript-authoring/batch-first-wrapper`,
+  `typescript-authoring/rename-without-alias`, `planning/plan-pulls-in-postgres-skill` (0 of 3),
+  and `deciding-or-asking/unattended-task-takes-settled-choices`.
+- `debugging/crash-fixed-at-cause-with-a-test` is not recorded: in all three attempts the run's
+  workspace was read-only, so the agent could not apply the fix it found. It cost $4.54. Its row
+  keeps the earlier result.
+
 ## 2026-11-26: critical, high, and low-scoring cases rerun; one rule and one grader changed
 
 Sonnet agent, Opus judge, Claude Code 2.1.332, three attempts, plugin arm, traces kept. 42 cases:

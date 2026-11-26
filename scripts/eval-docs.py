@@ -65,8 +65,9 @@ def derive(row):
     row["attempts_planned"] = row["attempts_planned"] or "3"
     result = ""
     if row["with_attempts"]:
-        result = verdict(int(row["with_passed"]), int(row["with_attempts"]),
-                         int(row["attempts_planned"]), int(row["target"]))  # fmt: skip
+        # More attempts than planned still count: judge the target over every attempt that ran.
+        planned = max(int(row["attempts_planned"]), int(row["with_attempts"]))
+        result = verdict(int(row["with_passed"]), int(row["with_attempts"]), planned, int(row["target"]))  # fmt: skip
     row["verdict"] = "" if result == "undecided" else result
     row["ceiling"] = "" if not row["without_score"] else "yes" if float(row["without_score"]) == 1 else "no"
     return row
