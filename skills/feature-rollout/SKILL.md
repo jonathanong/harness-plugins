@@ -18,6 +18,9 @@ watched, and undone alone.
   behavior, and the flag exists only to turn the fix off if it misfires.
 - A missing or unreadable flag value resolves to the same default as an unset one. Do not let a
   flag-service outage turn a feature on.
+- A request to ship the flag on does not change this. Write the default off, say that turning
+  it on is a separate step after the deploy, and do not hand over `default: true` with a list of
+  its risks.
 
 ## Deployed is not active
 

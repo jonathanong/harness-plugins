@@ -1,6 +1,6 @@
 ---
 name: github-issue
-description: Use when filing or editing an issue, recording a follow-up, closing an issue, linking a pull request to an issue, triaging or relabeling issues, assigning milestones or projects, or adding a label. Search for, write, label, organize, link, and close GitHub issues without filing duplicates, adding labels nobody approved, or writing where you may not.
+description: Use when filing or editing an issue, recording a follow-up, closing an issue, linking a pull request to an issue, triaging or relabeling issues, assigning milestones or projects, or creating a label, including a script that adds a label to several repositories. Write, label, organize, link, and close GitHub issues without filing duplicates, adding unapproved labels, or writing where you may not.
 ---
 
 # GitHub issues

@@ -1,6 +1,6 @@
 ---
 name: github-ci-operations
-description: Use when CI is slow, queued, backlogged, or expensive, when jobs wait for runners, when asked whether to add runners or upgrade a plan, or when finding which job or step takes the time on GitHub Actions. Measures job time and queue wait with small API queries, gives the hosted-runner concurrency limits, and says what to do, in order, when runs are backed up at a limit.
+description: Use when CI is slow, queued, backlogged, or expensive, when asked to cancel, re-run, or clean up stuck or queued workflow runs, when jobs wait for runners, or when deciding whether to add runners or upgrade a plan on GitHub Actions. Measures job time and queue wait with small API queries, gives the hosted-runner limits, and says what to do, in order, when runs are backed up.
 ---
 
 # GitHub CI operations

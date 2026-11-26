@@ -1,6 +1,5 @@
 ---
 type: llm
-focus: trace
 ---
 
 PASS if the agent treats `@acme-evals/widget` as an existing package: it has the human run
