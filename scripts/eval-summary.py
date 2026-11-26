@@ -3,7 +3,8 @@
 
 Usage: scripts/eval-summary.py [evals/results/latest.json]
 
-It replaces only the rows of the cases the run covered, keeping each row's `checks`; a new case
+An attempt passes when every grader but `skill-fired` passed; `loaded` counts the attempts where
+`skill-fired` passed, and `loaded_passed` the passes among those. It replaces only the rows of the cases the run covered, keeping each row's `checks`; a new case
 takes its `checks` from the prompt's description. A run with no without-plugin arm keeps the row's
 earlier without-plugin result. Run scripts/eval-docs.py afterwards to rebuild the tables.
 """
@@ -19,10 +20,16 @@ docs = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(docs)
 
 
+def loaded(run):
+    """Whether the skill loaded: the case's `skill-fired` grader passed."""
+    return any(g["name"] == "skill-fired" and g["passed"] for g in run["graders"])
+
+
 def passed(run):
-    # A two-arm run leaves skill-fired out of its own score, so count every grader here.
-    # A run that errored before grading has no graders and counts as failed.
-    return bool(run["graders"]) and all(grader["passed"] for grader in run["graders"])
+    """Whether the answer passed: every grader but `skill-fired`, which is the loading layer and
+    is counted apart. A run that errored before grading has no graders and counts as failed."""
+    graders = [g for g in run["graders"] if g["name"] != "skill-fired"]
+    return run.get("error") is None and bool(graders) and all(g["passed"] for g in graders)
 
 
 def share(run):
@@ -50,7 +57,8 @@ for case in cases:
     runs = case["arms"]["with"]
     without = case["arms"].get("without") or []
     every = runs + without
-    fired = [g["passed"] for run in runs for g in run["graders"] if g["name"] == "skill-fired"]
+    graded = any(g["name"] == "skill-fired" for run in runs for g in run["graders"])
+    fired = [run for run in runs if loaded(run)]
     total = sum(run["costUsd"] or 0 for run in every)
     judge = sum(run.get("judgeCostUsd") or 0 for run in every)
     row |= {
@@ -63,7 +71,8 @@ for case in cases:
         "with_passed": str(sum(map(passed, runs))),
         "with_attempts": str(len(runs)),
         "with_score": f"{sum(map(share, runs)) / len(runs):.2f}" if runs else "",
-        "loaded": str(sum(fired)) if fired else "",
+        "loaded": str(len(fired)) if graded else "",
+        "loaded_passed": str(sum(map(passed, fired))) if graded else "",
         "cost_total": money(total),
         "cost_agent": money(total - judge),
         "cost_judge": money(judge),
@@ -86,5 +95,6 @@ for case in cases:
     for index, run in enumerate(case["arms"]["with"]):
         failed = [grader["name"] for grader in run["graders"] if not grader["passed"]]
         if failed or run["error"]:
-            print(f"\nFAILED {case['dir']} attempt {index + 1}: {failed} {run['error'] or ''}")
+            kind = "NOT LOADED" if failed == ["skill-fired"] else "FAILED"
+            print(f"\n{kind} {case['dir']} attempt {index + 1}: {failed} {run['error'] or ''}")
             print(f"  {run['tracePath']}")

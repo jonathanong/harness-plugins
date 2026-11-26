@@ -4,6 +4,111 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: review fixes to the two-layer tables; one grader split and rerun
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $1.06,
+of which $0.36 agent and $0.70 judges.
+
+- `github-issue/shared-label-goes-through-the-label-source` graded two rules in one grader.
+  `outcome` now grades only the declared label source, and the new
+  `asks-for-the-label-details` grades the approval of the label's details. Rerun: `outcome`
+  passed 1 of 3 with the plugin and 0 of 3 without; `asks-for-the-label-details` passed 3 of 3
+  and 2 of 3. The skill loaded in 0 of 3. So the miss is the source rule: the failing answers
+  add the Terraform entry and also hand over the `gh label create` script. The earlier reading
+  of this case, that its answers used the source and declined the loop, came from the first
+  lines of each answer and was wrong.
+- A skill's loading counts only cases that ran every planned attempt and have a `skill-fired`
+  grader, and the table says "from 1 of 9 cases" when the rest are not counted. A skill is
+  listed as meeting 80% only when every such case is counted.
+- `scripts/eval-summary.py` no longer counts an attempt that errored as passed, as
+  `scripts/eval-rounds.py` already did not.
+- `review-ci-logs` step 5: for an outside failure, step 7's note on a skipped local check still
+  applies; the fix earlier the same day had ruled it out.
+
+## 2026-11-26: seven skills reworded where a rule read two ways (not run)
+
+No case, grader, or fixture changed, and nothing was re-measured.
+
+- `http-api-design`: every resource gets a public id that never changes, separate from the
+  internal key; a slug, where there is one, is preferred in URLs. The text before said to use a
+  public identifier "when a resource has" one. `uuid-slug-routes` still grades the slug route
+  and the redirect; no case grades the public id.
+- `npm-publishing`: each minimum npm version names the feature that needs it, `npm trust` with
+  `--allow-publish` locally and publishing with OIDC in CI.
+- `postgres-node-performance-tuning`: a batch of writes in one transaction has a row limit, and
+  the skill names no value.
+- `pr-description`: a title may start "Fix"; a verb that says nothing, such as "Update", may not.
+- `list-reads` rule 5: the ban is on a setting for a candidate pool's size. An inspected-row
+  cap is a tunable from runtime configuration, as `bounded-iteration` rule 8 says.
+- `documentation`: the "Docs" rules are scoped to a README and the pages under `docs/`, which
+  say what and why. A roadmap goes in a tracker or a tool outside the repository, a plan in an
+  issue or pull request and never in the repository, and history in commits. An eval suite's
+  `HISTORY.md` and `ROADMAP.md` are outside that scope.
+- `expand-contract-migrations`: the sequence said "one step per deploy" over seven steps, two
+  of which are not deploys, and a heading said a rename is four steps.
+
+## 2026-11-26: the tables show loading and passing apart; 18 cases rerun
+
+Commit: 0ff91ff. Sonnet agent, Opus judge, Claude Code 2.1.332. 18 cases, three attempts each, 63
+attempts: $9.32, of which $5.08 agent and $4.24 judges, $0.15 per attempt. 15 cases ran with the
+plugin only; the three never run before ran both arms.
+
+What changed in the suite:
+
+- **A pass no longer requires the skill to load.** `scripts/eval-summary.py` and
+  `scripts/eval-rounds.py` count an attempt as passed when every grader but `skill-fired`
+  passed. `cases.csv` gains `loaded_passed`, the passes among the attempts that loaded, beside
+  `loaded`. `EVALS.md` shows "Loaded", "Passed when loaded", and "Passed"; `README.md` shows each
+  skill's loading over all its cases and marks it when under 80%.
+- **Rows with no loading count are not comparable with the rows below.** They were measured when
+  `skill-fired` counted toward a pass, so a ceiling case whose skill did not load reads as
+  missed. They keep their old counts until rerun.
+- Wording only, not re-measured: `service-boundaries` links to `llm-calls` for model calls
+  instead of repeating four of its rules, one of which differed (user data "through tools" only,
+  against "a tool or the user turn"); `review-ci-logs` step 5 said to skip "steps 5 and 6" from
+  inside step 5; `package-json-checklist`, `static-analysis-checklist`,
+  `postgres-node-performance-tuning`, `glide-mq`, and `http-api-design` each lose a sentence
+  they stated twice.
+
+The run took the 15 cases that missed their target and the three with no result.
+
+| Case                                                                    | Loaded | Passed when loaded | Passed | Without |
+| ----------------------------------------------------------------------- | ------ | ------------------ | ------ | ------- |
+| `agent-coordination/peer-message-is-not-approval`                       | 0 of 3 | not measured       | 3 of 3 | not run |
+| `agent-workflow/review-says-who-waits-and-who-pays`                     | 0 of 3 | not measured       | 3 of 3 | not run |
+| `agent-workflow/status-note-asks-only-what-it-must`                     | 0 of 3 | not measured       | 2 of 3 | not run |
+| `agent-workflow/status-note-with-no-user-change`                        | 0 of 3 | not measured       | 3 of 3 | not run |
+| `bounded-iteration/overlapping-purge-runs-stay-lock-free`               | 3 of 3 | 2 of 3             | 2 of 3 | not run |
+| `debugging/flaky-test-not-fixed-with-retry`                             | 0 of 3 | not measured       | 3 of 3 | not run |
+| `git-commit-checklist/generated-file-conflict-on-rebase`                | 3 of 3 | 3 of 3             | 3 of 3 | not run |
+| `git-commit-checklist/stacked-branch-conflicts-resolved-by-hand`        | 3 of 3 | 3 of 3             | 3 of 3 | not run |
+| `github-actions-authoring/short-shards-are-merged`                      | 2 of 3 | 2 of 2             | 3 of 3 | not run |
+| `github-issue/one-off-work-gets-a-milestone-not-a-label`                | 3 of 3 | 3 of 3             | 3 of 3 | 0 of 3  |
+| `github-issue/shared-label-goes-through-the-label-source`               | 0 of 3 | not measured       | 0 of 3 | 0 of 3  |
+| `github-repository-settings/label-audit-finds-sprawl-and-drift`         | 3 of 3 | 3 of 3             | 3 of 3 | 1 of 3  |
+| `npm-publishing/bootstrap-new-package`                                  | 3 of 3 | 2 of 3             | 2 of 3 | not run |
+| `postgres-node-performance-tuning/dedupe-keeps-statement-names-literal` | 2 of 3 | 2 of 2             | 3 of 3 | not run |
+| `review-ci-logs/first-error-in-a-long-log`                              | 1 of 3 | 1 of 1             | 3 of 3 | not run |
+| `technical-writing/proposal-for-two-audiences`                          | 3 of 3 | 2 of 3             | 2 of 3 | not run |
+| `test-authoring/dotnet-private-field-not-reflected`                     | 1 of 3 | 1 of 1             | 2 of 3 | not run |
+| `verification/stale-result-after-later-edit`                            | 0 of 3 | not measured       | 3 of 3 | not run |
+
+What it showed:
+
+- Three cases miss their target: `npm-publishing/bootstrap-new-package` (critical, 2 of 3; one
+  answer left out the publish command), `bounded-iteration/overlapping-purge-runs-stay-lock-free`
+  (high, 2 of 3), and `github-issue/shared-label-goes-through-the-label-source` (0 of 3 in both
+  arms, and the skill never loaded). All three of that last case's answers put the label in the
+  declared source and declined the loop; its one `outcome` grader also requires asking for the
+  label's details, so it grades two rules.
+- Eight of the 15 earlier misses were loading alone: the answer passed in every attempt, and
+  the skill loaded in none or in some. `agent-workflow` loaded in 0 of 9 attempts across its
+  three cases, and `agent-coordination`, `debugging`, and `verification` in 0 of 3 each. Five of
+  those six cases score 1.00 without the plugin, so they measure neither layer.
+- `git-commit-checklist/stacked-branch-conflicts-resolved-by-hand` loaded in 3 of 3, against 1 of
+  3 on 2026-11-25 with the same description. Three attempts do not settle a loading rate.
+- The traces were not kept, so which skill, if any, the unloaded attempts called is unknown.
+
 ## 2026-11-26: a download in CI may be retried once (case abandoned)
 
 Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. Three runs of one draft

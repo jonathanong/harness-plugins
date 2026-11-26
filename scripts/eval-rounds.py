@@ -52,8 +52,9 @@ def skill_of(case):
 
 
 def attempt_passed(run):
-    """An attempt passes when it has no error and every one of its graders passed."""
-    graders = run.get("graders") or []
+    """An attempt passes when it has no error and every grader but `skill-fired` passed. Loading
+    is its own layer with its own target, so it does not decide a case's verdict."""
+    graders = [g for g in run.get("graders") or [] if g["name"] != "skill-fired"]
     return run.get("error") is None and bool(graders) and all(g["passed"] for g in graders)
 
 

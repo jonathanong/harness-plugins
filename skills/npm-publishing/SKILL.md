@@ -16,11 +16,11 @@ release workflow, build commands, and whether a laptop may publish, and override
   package name, `owner/repository`, and the release workflow filename. The workflow value is the
   case-sensitive filename under `.github/workflows`, not a path. Leave no placeholders in the final
   commands.
-- Confirm npm 11.15 or newer, account-level two-factor authentication, and write access to the
-  package or scope.
+- Confirm the local npm has `npm trust` with `--allow-publish` (npm 11.15 or newer),
+  account-level two-factor authentication, and write access to the package or scope.
 - On the default branch, the workflow must grant `id-token: write`, use a supported runner, set
-  `registry-url` on `actions/setup-node`, run npm 11.5.1 or newer (check `npm --version`; Node
-  22 bundles npm 10, which cannot), and publish this package with no npm token.
+  `registry-url` on `actions/setup-node`, run an npm that publishes with OIDC and no token (npm 11.5.1 or newer; check `npm --version`,
+  since Node 22 bundles npm 10, which cannot), and publish this package with no npm token.
   [references/release-workflow.md](references/release-workflow.md) has the job and explains the
   `E404` and `ENEEDAUTH` failures; read it when writing or fixing that workflow.
 - When the package does not exist in the registry, create the smallest useful stub in its intended

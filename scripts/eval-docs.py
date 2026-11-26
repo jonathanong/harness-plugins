@@ -26,10 +26,12 @@ COLUMNS = [
     "run_date", "commit", "agent_model", "judge_model", "harness_version",
     "with_passed", "with_attempts", "with_score",
     "without_passed", "without_attempts", "without_score",
-    "loaded", "verdict", "ceiling", "cost_total", "cost_agent", "cost_judge",
+    "loaded", "loaded_passed", "verdict", "ceiling", "cost_total", "cost_agent", "cost_judge",
 ]  # fmt: skip
 PRIORITY_TAGS = {"priority-critical": "critical", "priority-high": "high", "priority-low": "low"}
 PRIORITIES = ["critical", "high", "medium", "low"]
+# The share of attempts in which an on-demand skill must load, judged per skill.
+LOADING_TARGET = 80
 
 
 def frontmatter(case):
@@ -72,7 +74,7 @@ def derive(row):
 
 def read_rows():
     with open(CSV, newline="") as handle:
-        return {row["case"]: row for row in csv.DictReader(handle)}
+        return {row["case"]: dict.fromkeys(COLUMNS, "") | row for row in csv.DictReader(handle)}
 
 
 def render_csv(rows):
@@ -97,20 +99,64 @@ def met(group):
     return f"{sum(1 for row in group if row['verdict'] == 'met')} of {len(group)}"
 
 
+def layers(row):
+    """The loading cells of a case: (loaded, passed when loaded). A row with no loading count is
+    a case with no `skill-fired` grader, or one measured before the count was recorded."""
+    if not row["loaded"]:
+        return "n/a", "n/a"
+    loaded = f"{row['loaded']} of {row['with_attempts']}"
+    if row["loaded"] == "0":
+        return loaded, "not measured"
+    return loaded, f"{row['loaded_passed']} of {row['loaded']}"
+
+
+def graded_for_loading(row):
+    return (Path("evals") / row["case"] / "graders" / "skill-fired.md").exists()
+
+
+def loading(group):
+    """A skill's loading: (loaded, attempts, reaches LOADING_TARGET, cases counted, cases that
+    have a `skill-fired` grader). Only a row that ran every planned attempt is counted, since a
+    run that stopped early is not a rate. None when no case of the skill is counted."""
+    gradable = [row for row in group if graded_for_loading(row)]
+    counted = [
+        row
+        for row in gradable
+        if row["loaded"] and int(row["with_attempts"]) >= int(row["attempts_planned"])
+    ]
+    if not counted:
+        return None
+    loaded = sum(int(row["loaded"]) for row in counted)
+    attempts = sum(int(row["with_attempts"]) for row in counted)
+    return loaded, attempts, loaded * 100 >= LOADING_TARGET * attempts, len(counted), len(gradable)
+
+
+def loading_cell(rate):
+    if rate is None:
+        return "n/a"
+    loaded, attempts, reached, counted, gradable = rate
+    cell = f"{loaded} of {attempts}"
+    if counted < gradable:
+        cell += f", from {counted} of {gradable} cases"
+    return cell if reached else f"{cell}, under {LOADING_TARGET}%"
+
+
 def cases_table(rows):
     table = [
-        "| Case | Checks that the agent | Priority | Score | Passed | Without plugin | Verdict |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "| Case | Checks that the agent | Priority | Score | Loaded | Passed when loaded "
+        "| Passed | Without plugin | Verdict |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         if row["with_attempts"]:
             score, passed = row["with_score"], f"{row['with_passed']} of {row['with_attempts']}"
+            loaded, when_loaded = layers(row)
             without = row["without_score"] or "n/a"
             result = row["verdict"] or "undecided"
         else:
-            score = passed = without = result = "not run"
+            score = loaded = when_loaded = passed = without = result = "not run"
         table.append(f"| `{row['case']}` | {row['checks']} | {row['priority']} | {score} "
-                     f"| {passed} | {without} | {result} |")  # fmt: skip
+                     f"| {loaded} | {when_loaded} | {passed} | {without} | {result} |")  # fmt: skip
     return "\n".join(table)
 
 
@@ -129,6 +175,9 @@ def blocks(all_rows):
         for name in PRIORITIES
         if (group := [row for row in rows if row["priority"] == name])
     ]
+    rates = {skill: rate for skill, group in skills.items() if (rate := loading(group))}
+    low = sorted(skill for skill, rate in rates.items() if not rate[2])
+    full = {skill for skill, rate in rates.items() if rate[3] == rate[4]}
     headline = "\n".join(
         [
             f"- **{len(rows)} cases** across {len(skills)} skills.",
@@ -142,19 +191,27 @@ def blocks(all_rows):
             f"- **{met(rows)} cases** meet their target: {', '.join(by_priority)}. "
             "The rows come from different runs, and a row with fewer attempts than planned stopped "
             "early: read it as a verdict, not a rate.",
+            f"- **Loading** is counted for every case of {len(full)} of {len(skills)} skills, and "
+            f"{len(full) - len([skill for skill in low if skill in full])} of those load in at "
+            f"least {LOADING_TARGET}% of attempts. For {len(rates) - len(full)} more it is counted "
+            "for some cases only, which does not show the skill meets the target."
+            + (f" Under it on what was counted: {', '.join(f'`{skill}`' for skill in low)}." if low else ""),
         ]
     )
     table = [
-        "| Skill | Cases | With plugin | Without plugin | Already right unaided | Met target |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Skill | Cases | With plugin | Without plugin | Already right unaided | Loaded "
+        "| Met target |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for skill in sorted(skills):
         group = skills[skill]
         measured = [row for row in group if row["without_score"]]
+        rate = rates.get(skill)
+        loaded = loading_cell(rate)
         table.append(
             f"| `{skill}` | {len(group)} | {mean([score(row) for row in group])} "
             f"| {mean([baseline(row) for row in measured])} "
-            f"| {sum(1 for row in measured if baseline(row) == 1.0)} | {met(group)} |"
+            f"| {sum(1 for row in measured if baseline(row) == 1.0)} | {loaded} | {met(group)} |"
         )
     return {"cases": cases_table(all_rows), "headline": headline, "groups": "\n".join(table)}
 

@@ -12,6 +12,10 @@ code cannot say, and link to the code for the rest.
 
 ## Docs
 
+These rules are for documentation committed to live as long as the code: a README and the pages
+under `docs/`. Such a page says what the system is and why it is that way. How it works is in
+the code.
+
 - Document why a design was chosen, and the invariants nothing enforces. Those are the facts a
   reader cannot recover from the source.
 - Do not restate code, configuration values, limits, or counts. They change, and the copy does
@@ -20,8 +24,17 @@ code cannot say, and link to the code for the rest.
   Write how to get them: the query, command, or dashboard, so the reader fetches the current
   value. A point-in-time document may give a number with its date and source. For how a
   document is structured for its readers, use the `technical-writing` skill.
-- Describe the system as it is. Leave out history ("previously", "we used to"), plans, and
-  roadmaps; they belong in the tracker and in commit messages.
+- Describe the system as it is. Three things stay out of these pages unless the repository
+  says otherwise:
+  - A roadmap goes in the issue tracker, a roadmapping tool, or a document platform outside the
+    repository.
+  - A plan is short-lived. It goes in an issue or a pull request description, and is not
+    committed anywhere in the repository.
+  - History ("previously", "we used to") goes in commit messages and the tracker.
+
+  A record kept beside something that is not the product's code, such as an eval suite's
+  `HISTORY.md` or `ROADMAP.md`, is not one of these pages, and its own skill says what it holds.
+
 - In a public repository, leave out private detail: internal hostnames, customer names,
   incident narratives, unreleased plans.
 - State a decision as a fact, not who made it, unless the person asks; the record of who decided

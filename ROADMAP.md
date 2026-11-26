@@ -82,8 +82,7 @@ Each still gets a loading case and an answer case.
       `index-change-rechecks-neighbors` in 19 of 21. Read the misses.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
-      asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
-      API keys in `http-api-design`; a review's proposed fix following the
+      asking less in `planning` and `github-issue`; API keys in `http-api-design`; a review's proposed fix following the
       owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
       what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
       that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
@@ -137,10 +136,12 @@ Each still gets a loading case and an answer case.
       ran into the eval account's weekly limit, which resets 2026-11-30.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
-- [ ] **Report how often each skill loads** beside its score. `evals/cases.csv` has a `loaded`
-      column that a run fills; rows not rerun since it was added are blank, and no table shows it
-      yet. Also show how many of the loaded attempts passed, and check each skill's loading
-      against the 80% target, as `evals` now says to.
+- [ ] **Rerun the rows that have no loading count.** `evals/EVALS.md` and `evals/README.md` now
+      show "Loaded", "Passed when loaded", and "Passed", and check each skill's loading against
+      80%. A row with "n/a" under "Loaded" was measured when a pass also required the skill to
+      load; rerun it, with the plugin only, to split the two. A case with no `skill-fired`
+      grader, such as the guard `planning/mechanical-change-skips-plan`, has no loading layer
+      and keeps its "n/a".
 - [ ] **Review the case priorities.** An agent proposed them on 2026-11-25 (3 critical, 26 high,
       22 low, the rest medium) by the cost of the mistake each case catches. The reason for each is
       only in the description of the pull request that added the tags, not in this repository.

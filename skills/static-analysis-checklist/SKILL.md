@@ -11,7 +11,7 @@ Use when adding or changing a static-analysis invariant. To choose which analyze
 should run in the first place, use [static-code-analysis](../static-code-analysis/SKILL.md). For the
 code inside a rule that walks a syntax tree, use
 [lint-rule-authoring](../lint-rule-authoring/SKILL.md). Read
-local `AGENTS.md`, analyzer documentation, rule inventory, and fixture conventions before selecting
+the analyzer documentation, rule inventory, and fixture conventions before selecting
 an implementation. Local instructions own analyzer roots, fixture locations, commands, suppression
 syntax, and rollout policy.
 

@@ -91,14 +91,9 @@ only evidence, and it lets the failure be replayed after the fix.
 
 ## Calls to a language model
 
-- Make one structured-decision call per decision. A call that decides several things at once
-  cannot be tested, retried, or measured per decision.
-- An entry point takes the provider and model as arguments, with no default model. A silent
-  default changes behavior and cost when it changes.
-- A system prompt is static. User data reaches the model through tools, not injected into the
-  context, so it cannot rewrite the instructions.
-- Sanitize and wrap outside content (a web page, an email, a document) before the model sees it,
-  and mark it as data, not instructions.
+A model call is an outside API call, so the timeout and failure rules above apply to it. What is
+specific to a model is in [llm-calls](../llm-calls/SKILL.md): one call per decision, where the
+model id comes from, a static system prompt, and untrusted content in a prompt.
 
 ## Topology
 

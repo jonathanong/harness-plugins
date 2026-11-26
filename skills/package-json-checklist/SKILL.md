@@ -7,11 +7,10 @@ description: Use when writing or reviewing a package.json, adding, upgrading, ov
 
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
-Use before changing `package.json`, a lockfile, workspace metadata, or a package entrypoint. Read
-every `AGENTS.md` from the repository root through the owning package,
-applying the closest file only when rules conflict. Those instructions own package-manager version,
-dependency age and version policy, version ranges, workspace topology, registry, release process,
-and package layout, and override these defaults.
+Use before changing `package.json`, a lockfile, workspace metadata, or a package entrypoint.
+Where two `AGENTS.md` files conflict, the one closest to the owning package wins. Those
+instructions own package-manager version, dependency age and version policy, version ranges,
+workspace topology, registry, release process, and package layout.
 
 1. Identify the owning package and every consumer of the changed script, dependency, export, or
    binary. Prefer existing workspace utilities before adding a dependency.
