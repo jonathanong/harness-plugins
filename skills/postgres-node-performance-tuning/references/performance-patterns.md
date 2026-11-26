@@ -152,7 +152,11 @@ FROM notes n
 LEFT JOIN users author ON author.id = n.author_id AND author.deleted_at IS NULL ...
 ```
 
-Copy the predicates the view applies, such as `deleted_at IS NULL`, into the join. When the field is derived, such as a display name shown only once the user is verified, put its
+Apply the predicates the view applies, such as `deleted_at IS NULL`, in the join. When more than
+one query needs the same predicate, share it through a helper as well, so a new state such as a
+suspended account is added in one place. A view that enforces access, such as a
+`security_barrier` view or one that hides columns or rows the caller may not read, is the
+exception: read through it. When the field is derived, such as a display name shown only once the user is verified, put its
 expression in one code helper that takes the row's alias and returns the SQL fragment:
 
 ```ts

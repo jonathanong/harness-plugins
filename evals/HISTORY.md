@@ -6,7 +6,9 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-26: the two view cases of `postgres-node-performance-tuning` run, after a prompt and a grader change
 
-Sonnet agent, Opus judge, Claude Code 2.1.332. $4.95 in all, of which $2.66 agent and $2.28
+Commit `6566c2c` plus the case and rule changes below. Sonnet agent, Opus judge, Claude Code
+2.1.332. Attempts per arm: `view-joined-only-to-filter` three with the plugin and three without;
+`author-read-once` six with the plugin and three without. $4.95 in all, of which $2.66 agent and $2.28
 judges: a first run of both cases in both arms ($1.49), a second after the changes below ($1.57),
 and nine more plugin-arm attempts of `author-read-once` ($1.88).
 

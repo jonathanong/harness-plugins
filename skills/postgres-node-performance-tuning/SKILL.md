@@ -27,7 +27,7 @@ it beats that simple query, not merely the previous version; see
   one. Join the base table with the predicates it needs (such as `deleted_at IS NULL`), and
   compute a derived field with a shared SQL-fragment helper that takes the row's alias, not a copied expression, a view
   column, or a database function. Look up each entity once per statement and take every field
-  from that one join. See
+  from that one join. A view that enforces access is the exception: read through it. See
   [views and entity reads](references/performance-patterns.md#views-and-entity-reads).
 - A new query shape (a new filter, join key, or sort) gets its index in the same change. Check
   the plan at representative cardinality, add the index it needs, and do not wait to be asked. An
