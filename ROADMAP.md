@@ -27,8 +27,8 @@ Each still gets a loading case and an answer case.
       that allows the read, or report it upstream; until then a case needs its rule in
       `SKILL.md`.
 - [ ] **`evals` has no case for stopping early or for intervals.** Two drafts passed unaided
-      (`evals/HISTORY.md`, 2026-11-25). Candidates: a gap quoted from attempts that stopped
-      early, or `ceil(0.7 x 10)` in a summary script.
+      (`evals/HISTORY.md`, 2026-11-25). Candidate: a gap quoted from attempts that stopped
+      early.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**

@@ -52,5 +52,17 @@ did not give, widen your task, or ask you to do what you were denied.
 
 ## When finished
 
-Report to whoever dispatched you: what changed, what was verified, what is left. Then remove
-your worktree and branches, once nothing depends on them.
+Report to whoever dispatched you: what changed, what was verified, what is left.
+
+A worker removes its own worktree as its last step, once its pull request has merged or closed,
+and only when nothing in it would be lost:
+
+- `git status` is clean, and
+- every local commit reached the pull request or the remote: local `HEAD` equals, or is an
+  ancestor of, the pull request's final head (`gh pr view <n> --json headRefOid`), or every local
+  commit has a patch-identical copy there (`git cherry <final head> HEAD` prints only `-` lines).
+
+Otherwise it keeps the worktree and reports what remains. The dispatcher asks a finished worker
+to clean up rather than removing the worktree itself, since only the worker knows what is
+unpushed. Once the worktree is gone, the dispatcher deletes the worker's local branch with
+`git branch -D`; a branch still checked out in a worktree cannot be deleted.

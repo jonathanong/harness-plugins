@@ -36,7 +36,9 @@ Report every rate with its 95% interval and its count: `67 [21-94], 2 of 3`.
   cases, not attempts pooled across cases: attempts within a case are not independent, and
   pooling them gives an interval too narrow to trust. Draw the rate from the Beta, not from the
   case's own attempts: resampling three passes always gives three passes, so a suite where every
-  case is 3 of 3 would get `[100-100]`, which the per-case intervals contradict.
+  case is 3 of 3 would get `[100-100]`, which the per-case intervals contradict. Call the result
+  a 95% credible interval, not a confidence interval: it comes from a Beta posterior per case,
+  so for a suite where every case passed its upper end sits just below 100 and never reaches it.
 - **The gap between arms** gets its own interval, by the same bootstrap with the two arms of each
   case drawn together. A gap whose interval includes 0 does not show an improvement; it does not
   show there is none either.
@@ -59,8 +61,9 @@ arm under test:
   the critical cases.
 - A case meets its target when its passes reach `ceil(target x attempts)`. Every priority gets
   three attempts by default. A case may set more, for example to tell critical from high: at ten
-  attempts they need 8 and 7. Compute it with whole numbers, `ceil(70 x 10 / 100)`; in floating
-  point `ceil(0.7 x 10)` is 8.
+  attempts they need 8 and 7. Compute it with whole numbers, `ceil(70 x 10 / 100)`. A floating-point
+  product can land just above a whole number and round up one too many: `ceil(0.28 x 25)` is 8,
+  not 7. The four default targets do not hit this at small counts; a custom target can.
 - Report, per priority, how many cases meet their target.
 - Mark a case **required** when one failure is unacceptable or its result does not vary between
   runs, such as a deterministic evaluator over a labelled set of inputs. A required case must pass
@@ -123,6 +126,10 @@ rows of the cases that run covered. Suggested columns:
 - whether the skill loaded, the verdict (met or missed), whether the baseline arm is at the
   ceiling, and the gap between arms;
 - total cost, and agent cost and judge cost when the runner reports them.
+
+For an arm that stopped early, leave its rate, its interval, and the gap empty, and keep the
+count and the verdict, so a table generated from the CSV cannot show a stopping-point rate as a
+measurement.
 
 The CSV holds the current state, and its git history shows each row's changes; `HISTORY.md` is
 still where a run is explained. Generate the `README.md` table from the CSV rather than copying

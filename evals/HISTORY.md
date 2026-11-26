@@ -84,6 +84,17 @@ The runner's results file reports `costUsd` and `judgeCostUsd` per attempt. Judg
 49% and 73% of a run's cost here. No existing case or grader changed, and this repository's own
 run scripts do not compute intervals, targets, or early stops yet.
 
+## 2026-11-25: rules moved from a personal `AGENTS.md` into skills (not run)
+
+No run, and no case added. New rules: `agent-coordination` says when a worker may remove its
+worktree (clean status, every commit in the merged pull request or pushed) and that the
+dispatcher deletes the branch afterwards; `package-json-checklist` uses pnpm in a new repository
+and requires Node 24 or later; `rust-authoring` gains N-API rules (buffers, async on the thread
+pool, batching) and mentions N-API addons in its description; `github-repository-settings` gains
+a new open-source repository checklist (MIT, 100% coverage with Codecov, labeler) and mentions
+creating one in its description; `pull-requests` says to commit and open a pull request without
+asking. No existing case or grader changed; the description changes may move loading rates.
+
 ## 2026-11-25: record who decided, the person or the agent
 
 Commit: this change. Sonnet agent, Opus judge, three attempts per arm. The two new cases, both
