@@ -106,7 +106,7 @@ what was created. Do not retry an entry that succeeded.
   for related work.
 - A blocker found while working does not widen the task. Reproduce it on the current default
   branch, search for an existing fix or issue, and record it as its own issue. Do not take it on; report
-  what was recorded (see `agent-workflow`, "Decide, then report").
+  what was recorded (see `deciding-or-asking`).
 
 ## Report
 

@@ -83,9 +83,9 @@ Each still gets a loading case and an answer case.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
       asking less in `planning` and `github-issue`; API keys in `http-api-design`; a review's proposed fix following the
-      owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
+      owning skill in `change-review`;
       what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
-      that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
+      that must not overlap and has a deadline in `bounded-iteration`; in `change-review`,
       "Verify a finding", a finding that cannot be verified is reported as unverified with no
       fix, and a race finding that the unaided model accepts (the case built on 2026-11-24 passes
       unaided).
@@ -124,10 +124,12 @@ Each still gets a loading case and an answer case.
       ("so we're good to merge, right?") loaded it in 0 of 6 on 2026-11-26 and passed unaided.
       It needs a case inside real work on a fixture, where the agent itself is about to say
       "done".
-- [ ] **`agent-workflow` does not load when an unattended task starts.**
-      `unattended-task-takes-settled-choices` loaded it in 0 of 3 on 2026-11-26 and passed 1 of
-      3, against 2 of 3 unaided. Find a request that loads it, or move "Decide, then report" to
-      where the agent already is when it decides.
+- [ ] **`deciding-or-asking` and `implementing-changes` do not load on their own.** Each loaded
+      in 0 of 3 on 2026-11-26, for an unattended task and for "Fix this bug" with the code
+      inline. `deciding-or-asking` applies in the middle of work, not to a kind of request, so
+      a consuming repository states it in its `AGENTS.md`; say so in the README if no request
+      is found that loads it. `implementing-changes` needs a case on a fixture repository,
+      where the model fails unaided: its inline case passes 3 of 3 without the plugin.
 - [ ] **Does a link alone carry a rule?** `github-issue` rule 3, `postgres-locking`, and the
       `pull-requests` review response each keep a short copy of `change-review`, "Verify a
       finding", beside the link to it. In 9 of 9 plugin attempts on 2026-11-24 no agent opened the

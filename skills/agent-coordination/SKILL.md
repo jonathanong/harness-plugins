@@ -8,8 +8,19 @@ description: Use when delegating to subagents, splitting work across workers, re
 Read every applicable `AGENTS.md` first. Repository-local policy overrides these defaults.
 
 Agents share a repository but not context. Most failures come from two agents writing the same
-thing, a worker missing a fact only the dispatcher had, or a claim passed on unchecked. For when
-to split work, see "Parallel by default" in [agent-workflow](../agent-workflow/SKILL.md).
+thing, a worker missing a fact only the dispatcher had, or a claim passed on unchecked.
+
+## Parallel by default
+
+Split the work into independent units and run them at the same time, one worker and one worktree
+each, within any limit the person set. Make a unit wait only for a named dependency:
+
+- it needs an upstream change that is not released yet
+- it changes the same files or contract as another unit; stack those instead of waiting (see
+  the `pull-requests` skill)
+- it would write in the same worktree
+
+A pull request that is waiting on review or checks does not pause the other units.
 
 ## Ownership
 

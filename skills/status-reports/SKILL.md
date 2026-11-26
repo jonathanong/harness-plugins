@@ -42,8 +42,7 @@ Example:
 
 - A handoff lists as "needs you" only what a person alone can do. Anything else on that list is
   unfinished work: do it, or send it to its owner.
-- Which choices to take yourself and which to ask about is in the `agent-workflow` skill, under
-  "Decide, then report". Ask about an action that is destructive, irreversible, or outside what
+- Which choices to take yourself and which to ask about is in the `deciding-or-asking` skill. Ask about an action that is destructive, irreversible, or outside what
   was authorized, with one recommendation and its reason.
 
 ## Explain the outcome

@@ -43,7 +43,7 @@ A fix is done when all of these hold:
 - The original reproduction now passes.
 - A test that failed before the fix passes after it. Write it so it fails without the fix; the
   `test-authoring` skill covers the test.
-- Neighbors that share the cause were checked, as the `agent-workflow` skill says under "Before
+- Neighbors that share the cause were checked, as the `implementing-changes` skill says under "Before
   handoff".
 
 To confirm the result before reporting it, use the `status-reports` skill.

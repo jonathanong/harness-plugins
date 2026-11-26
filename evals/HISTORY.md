@@ -4,25 +4,26 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-26: `agent-workflow` split into three skills; loading measured before and after
+## 2026-11-26: `agent-workflow` split into four skills and removed; loading measured before and after
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. Four cases, plugin arm only, six attempts each,
-24 attempts: $2.74, of which $1.92 agent and $0.82 judges, $0.11 per attempt. Then one new
-case, both arms, three attempts each: $0.84, of which $0.38 agent and $0.46 judges. The "before"
+24 attempts: $2.74, of which $1.92 agent and $0.82 judges, $0.11 per attempt. Then three
+two-arm runs of one case each, three attempts per arm: $2.33 in all, given below. The "before"
 column is the targeted run earlier the same day, three attempts each, on the unsplit skills.
 
 What changed:
 
-- `agent-workflow` keeps implementing, the checks before handoff, "Decide, then report", and
-  "Parallel by default". Its description no longer claims status notes or reviews.
+- `agent-workflow` is removed; its name said nothing about when to load it. "Implement" and
+  "Before handoff" are the new `implementing-changes`, "Decide, then report" is the new
+  `deciding-or-asking`, and "Parallel by default" moved into `agent-coordination`.
 - New `change-review` holds "Verify a finding" and "Review a change", and how to write a
   finding.
 - New `status-reports` holds all of `verification`, which is removed, with "Explain the
   outcome" and "Record who decided". Links in nine other skills follow the sections.
 - All four cases moved to the two new skills. `status-note-asks-only-what-it-must` is under
   `status-reports`, which a request for a note loads and whose "What the note asks" it grades.
-- New case `agent-workflow/unattended-task-takes-settled-choices` for "Decide, then report" at
-  the start of a task, since the kept skill had no case left.
+- New cases `deciding-or-asking/unattended-task-takes-settled-choices` and
+  `implementing-changes/fix-covers-sibling-call-sites`.
 
 | Case                                                | Loaded before | Loaded after | Passed when loaded | Passed before | Passed after |
 | --------------------------------------------------- | ------------- | ------------ | ------------------ | ------------- | ------------ |
@@ -37,13 +38,15 @@ What it showed:
   every time, and a request for a status note loaded `status-reports` in 8 of 12.
 - `status-note-asks-only-what-it-must` passed 4 of 4 when `status-reports` loaded and 0 of 2
   when nothing did.
-- The new `agent-workflow` case loaded the skill in 0 of 3 and passed 1 of 3, against 2 of 3
-  without the plugin. The failing answers ask the person about the unused file or plan the
-  table drop. So the kept skill does not load when an unattended task starts, and there is no
-  earlier measurement of this request to say whether the split changed that.
-- A direct question, "so we're good to merge, right?", still loads nothing, as it did for
-  `verification`. The traces show no skill call in any unloaded attempt, so no neighbor took
-  them.
+- Neither skill made from the rest loads. `unattended-task-takes-settled-choices` loaded
+  nothing in 0 of 3 as an `agent-workflow` case ($0.84, passed 1 of 3, 2 of 3 unaided) and
+  again in 0 of 3 as a `deciding-or-asking` case with a description written for it ($0.90,
+  of which $0.52 judges; passed 1 of 3, 1 of 3 unaided). The failing answers ask the person
+  about the unused file or plan the table drop. The rule applies in the middle of work, not to
+  a kind of request, and a description did not change that.
+- `fix-covers-sibling-call-sites` loaded `implementing-changes` in 0 of 3 and passed 3 of 3 in
+  both arms ($0.59, of which $0.22 judges): a ceiling case, and "Fix this bug" with the code
+  inline loads no skill at all.
 - The four moved cases had no two-arm run, so their "Without plugin" values are the earlier
   ones.
 

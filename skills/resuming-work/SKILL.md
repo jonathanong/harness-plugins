@@ -41,8 +41,7 @@ move on.
 
 Take the next step from the original request, not from the last thing in progress; that thing
 may have been a detour. Say in one line what state you found and what you are doing next, then
-continue without asking. Ask only as [agent-workflow](../agent-workflow/SKILL.md) says to under
-"Decide, then report".
+continue without asking. Ask only as [deciding-or-asking](../deciding-or-asking/SKILL.md) says to.
 
 ## Leave work resumable
 
