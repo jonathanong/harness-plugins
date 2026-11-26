@@ -139,7 +139,9 @@ Each still gets a loading case and an answer case.
 - [ ] **Rerun the rows that have no loading count.** `evals/EVALS.md` and `evals/README.md` now
       show "Loaded", "Passed when loaded", and "Passed", and check each skill's loading against
       80%. A row with "n/a" under "Loaded" was measured when a pass also required the skill to
-      load; rerun it, with the plugin only, to split the two.
+      load; rerun it, with the plugin only, to split the two. A case with no `skill-fired`
+      grader, such as the guard `planning/mechanical-change-skips-plan`, has no loading layer
+      and keeps its "n/a".
 - [ ] **Review the case priorities.** An agent proposed them on 2026-11-25 (3 critical, 26 high,
       22 low, the rest medium) by the cost of the mistake each case catches. The reason for each is
       only in the description of the pull request that added the tags, not in this repository.

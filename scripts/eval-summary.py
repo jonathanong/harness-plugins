@@ -29,7 +29,7 @@ def passed(run):
     """Whether the answer passed: every grader but `skill-fired`, which is the loading layer and
     is counted apart. A run that errored before grading has no graders and counts as failed."""
     graders = [g for g in run["graders"] if g["name"] != "skill-fired"]
-    return run["error"] is None and bool(graders) and all(g["passed"] for g in graders)
+    return run.get("error") is None and bool(graders) and all(g["passed"] for g in graders)
 
 
 def share(run):

@@ -4,6 +4,27 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: review fixes to the two-layer tables; one grader split and rerun
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $1.06,
+of which $0.36 agent and $0.70 judges.
+
+- `github-issue/shared-label-goes-through-the-label-source` graded two rules in one grader.
+  `outcome` now grades only the declared label source, and the new
+  `asks-for-the-label-details` grades the approval of the label's details. Rerun: `outcome`
+  passed 1 of 3 with the plugin and 0 of 3 without; `asks-for-the-label-details` passed 3 of 3
+  and 2 of 3. The skill loaded in 0 of 3. So the miss is the source rule: the failing answers
+  add the Terraform entry and also hand over the `gh label create` script. The earlier reading
+  of this case, that its answers used the source and declined the loop, came from the first
+  lines of each answer and was wrong.
+- A skill's loading counts only cases that ran every planned attempt and have a `skill-fired`
+  grader, and the table says "from 1 of 9 cases" when the rest are not counted. A skill is
+  listed as meeting 80% only when every such case is counted.
+- `scripts/eval-summary.py` no longer counts an attempt that errored as passed, as
+  `scripts/eval-rounds.py` already did not.
+- `review-ci-logs` step 5: for an outside failure, step 7's note on a skipped local check still
+  applies; the fix earlier the same day had ruled it out.
+
 ## 2026-11-26: seven skills reworded where a rule read two ways (not run)
 
 No case, grader, or fixture changed, and nothing was re-measured.

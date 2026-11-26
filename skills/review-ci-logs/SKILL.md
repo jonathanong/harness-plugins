@@ -36,8 +36,8 @@ commands, read its [cookbook](../github-ci-operations/references/cookbook.md).
    unknown. The same command name does not prove the same scope. Do not call an outside
    infrastructure failure a gap in local checks.
 5. When the cause is one the repository owns, make one bounded fix at the cause. For an outage,
-   or an infrastructure failure outside the repository, report it and stop here: the rest of
-   this step and steps 6 and 7 are for a failure the repository owns. Keep
+   or an infrastructure failure outside the repository, report it and make no fix: the rest of
+   this step and step 6 are for a failure the repository owns. Step 7 still applies. Keep
    non-zero exits, the primary error, artifacts, summaries, and diagnostic output. Do not hide
    stderr, quiet output globally, or add a retry that masks the cause. A retry is right only for
    the same idempotent operation failing for a transient outside reason.

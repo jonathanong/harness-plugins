@@ -13,10 +13,10 @@ needed.
 
 - **164 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.34, over the 163 cases measured both ways.
+- **Without it:** mean score 0.35, over the 163 cases measured both ways.
 - **129 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
 - **161 of 164 cases** meet their target: critical 2 of 3, high 25 of 26, medium 112 of 113, low 22 of 22. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for 15 of 48 skills, and 7 of those load in at least 80% of attempts. Below it: `agent-coordination`, `agent-workflow`, `debugging`, `github-issue`, `postgres-node-performance-tuning`, `review-ci-logs`, `test-authoring`, `verification`.
+- **Loading** is counted for every case of 3 of 48 skills, and 0 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `agent-workflow`, `debugging`, `github-issue`, `postgres-node-performance-tuning`, `review-ci-logs`, `test-authoring`, `verification`.
 
 <!-- /evals:headline -->
 
@@ -28,56 +28,56 @@ averaged over attempts.
 
 <!-- evals:groups -->
 
-| Skill                              | Cases | With plugin | Without plugin | Already right unaided | Loaded            | Met target |
-| ---------------------------------- | ----- | ----------- | -------------- | --------------------- | ----------------- | ---------- |
-| `agent-coordination`               | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80% | 1 of 1     |
-| `agent-rules`                      | 3     | 0.94        | 0.11           | 0                     | n/a               | 3 of 3     |
-| `agent-workflow`                   | 3     | 0.44        | 0.67           | 2                     | 0 of 9, under 80% | 3 of 3     |
-| `bounded-iteration`                | 9     | 0.93        | 0.11           | 0                     | 3 of 3            | 8 of 9     |
-| `debugging`                        | 2     | 0.70        | 1.00           | 2                     | 0 of 3, under 80% | 2 of 2     |
-| `dependabot`                       | 4     | 1.00        | 0.50           | 1                     | n/a               | 4 of 4     |
-| `documentation`                    | 3     | 0.89        | 0.56           | 1                     | n/a               | 3 of 3     |
-| `error-handling`                   | 3     | 1.00        | 0.33           | 1                     | n/a               | 3 of 3     |
-| `evals`                            | 4     | 1.00        | 0.25           | 0                     | 10 of 10          | 4 of 4     |
-| `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     | n/a               | 1 of 1     |
-| `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     | n/a               | 3 of 3     |
-| `git-commit-checklist`             | 4     | 1.00        | 0.33           | 1                     | 6 of 6            | 4 of 4     |
-| `github-actions-authoring`         | 10    | 0.95        | 0.20           | 1                     | 5 of 6            | 10 of 10   |
-| `github-ci-operations`             | 7     | 0.95        | 0.26           | 1                     | n/a               | 7 of 7     |
-| `github-issue`                     | 5     | 0.77        | 0.13           | 0                     | 3 of 6, under 80% | 4 of 5     |
-| `github-repository-settings`       | 3     | 1.00        | 0.33           | 0                     | 3 of 3            | 3 of 3     |
-| `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     | n/a               | 5 of 5     |
-| `http-api-design`                  | 4     | 1.00        | 0.17           | 0                     | n/a               | 4 of 4     |
-| `lint-rule-authoring`              | 1     | 1.00        | 0.00           | 0                     | n/a               | 1 of 1     |
-| `list-reads`                       | 4     | 0.99        | 0.67           | 2                     | n/a               | 4 of 4     |
-| `llm-calls`                        | 3     | 0.97        | 0.44           | 1                     | n/a               | 3 of 3     |
-| `native-app-architecture`          | 3     | 0.97        | 0.00           | 0                     | n/a               | 3 of 3     |
-| `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     | 3 of 3            | 1 of 2     |
-| `package-json-checklist`           | 3     | 0.96        | 0.45           | 0                     | n/a               | 3 of 3     |
-| `planning`                         | 7     | 0.92        | 0.38           | 2                     | n/a               | 7 of 7     |
-| `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     | n/a               | 2 of 2     |
-| `postgres-locking`                 | 12    | 0.99        | 0.39           | 4                     | n/a               | 12 of 12   |
-| `postgres-node-performance-tuning` | 3     | 0.90        | 0.00           | 0                     | 2 of 3, under 80% | 3 of 3     |
-| `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     | n/a               | 2 of 2     |
-| `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     | n/a               | 5 of 5     |
-| `pr-description`                   | 4     | 1.00        | 0.08           | 0                     | n/a               | 4 of 4     |
-| `pull-requests`                    | 1     | 1.00        | 0.67           | 0                     | n/a               | 1 of 1     |
-| `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     | n/a               | 4 of 4     |
-| `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     | n/a               | 1 of 1     |
-| `review-ci-logs`                   | 4     | 0.90        | 0.58           | 2                     | 1 of 3, under 80% | 4 of 4     |
-| `revisit-followups`                | 1     | 0.83        | 0.00           | 0                     | n/a               | 1 of 1     |
-| `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     | n/a               | 1 of 1     |
-| `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     | n/a               | 2 of 2     |
-| `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     | n/a               | 2 of 2     |
-| `static-analysis-checklist`        | 2     | 1.00        | 0.42           | 0                     | n/a               | 2 of 2     |
-| `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     | n/a               | 2 of 2     |
-| `structured-logging`               | 3     | 1.00        | 0.00           | 0                     | n/a               | 3 of 3     |
-| `technical-writing`                | 3     | 0.94        | 0.00           | 0                     | 3 of 3            | 3 of 3     |
-| `test-authoring`                   | 6     | 0.90        | 0.50           | 2                     | 1 of 3, under 80% | 6 of 6     |
-| `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     | n/a               | 2 of 2     |
-| `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     | n/a               | 3 of 3     |
-| `verification`                     | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80% | 1 of 1     |
-| `webhooks`                         | 1     | 1.00        | 1.00           | 1                     | n/a               | 1 of 1     |
+| Skill                              | Cases | With plugin | Without plugin | Already right unaided | Loaded                               | Met target |
+| ---------------------------------- | ----- | ----------- | -------------- | --------------------- | ------------------------------------ | ---------- |
+| `agent-coordination`               | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80%                    | 1 of 1     |
+| `agent-rules`                      | 3     | 0.94        | 0.11           | 0                     | n/a                                  | 3 of 3     |
+| `agent-workflow`                   | 3     | 0.44        | 0.67           | 2                     | 0 of 9, under 80%                    | 3 of 3     |
+| `bounded-iteration`                | 9     | 0.93        | 0.11           | 0                     | 3 of 3, from 1 of 9 cases            | 8 of 9     |
+| `debugging`                        | 2     | 0.70        | 1.00           | 2                     | 0 of 3, from 1 of 2 cases, under 80% | 2 of 2     |
+| `dependabot`                       | 4     | 1.00        | 0.50           | 1                     | n/a                                  | 4 of 4     |
+| `documentation`                    | 3     | 0.89        | 0.56           | 1                     | n/a                                  | 3 of 3     |
+| `error-handling`                   | 3     | 1.00        | 0.33           | 1                     | n/a                                  | 3 of 3     |
+| `evals`                            | 4     | 1.00        | 0.25           | 0                     | 6 of 6, from 2 of 4 cases            | 4 of 4     |
+| `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     | n/a                                  | 1 of 1     |
+| `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     | n/a                                  | 3 of 3     |
+| `git-commit-checklist`             | 4     | 1.00        | 0.33           | 1                     | 6 of 6, from 2 of 4 cases            | 4 of 4     |
+| `github-actions-authoring`         | 10    | 0.95        | 0.20           | 1                     | 5 of 6, from 2 of 10 cases           | 10 of 10   |
+| `github-ci-operations`             | 7     | 0.95        | 0.26           | 1                     | n/a                                  | 7 of 7     |
+| `github-issue`                     | 5     | 0.85        | 0.20           | 0                     | 3 of 6, from 2 of 5 cases, under 80% | 4 of 5     |
+| `github-repository-settings`       | 3     | 1.00        | 0.33           | 0                     | 3 of 3, from 1 of 3 cases            | 3 of 3     |
+| `glide-mq`                         | 5     | 1.00        | 0.33           | 1                     | n/a                                  | 5 of 5     |
+| `http-api-design`                  | 4     | 1.00        | 0.17           | 0                     | n/a                                  | 4 of 4     |
+| `lint-rule-authoring`              | 1     | 1.00        | 0.00           | 0                     | n/a                                  | 1 of 1     |
+| `list-reads`                       | 4     | 0.99        | 0.67           | 2                     | n/a                                  | 4 of 4     |
+| `llm-calls`                        | 3     | 0.97        | 0.44           | 1                     | n/a                                  | 3 of 3     |
+| `native-app-architecture`          | 3     | 0.97        | 0.00           | 0                     | n/a                                  | 3 of 3     |
+| `npm-publishing`                   | 2     | 0.97        | 0.56           | 0                     | 3 of 3, from 1 of 2 cases            | 1 of 2     |
+| `package-json-checklist`           | 3     | 0.96        | 0.45           | 0                     | n/a                                  | 3 of 3     |
+| `planning`                         | 7     | 0.92        | 0.38           | 2                     | n/a                                  | 7 of 7     |
+| `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     | n/a                                  | 2 of 2     |
+| `postgres-locking`                 | 12    | 0.99        | 0.39           | 4                     | n/a                                  | 12 of 12   |
+| `postgres-node-performance-tuning` | 3     | 0.90        | 0.00           | 0                     | 2 of 3, from 1 of 3 cases, under 80% | 3 of 3     |
+| `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     | n/a                                  | 2 of 2     |
+| `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     | n/a                                  | 5 of 5     |
+| `pr-description`                   | 4     | 1.00        | 0.08           | 0                     | n/a                                  | 4 of 4     |
+| `pull-requests`                    | 1     | 1.00        | 0.67           | 0                     | n/a                                  | 1 of 1     |
+| `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     | n/a                                  | 4 of 4     |
+| `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     | n/a                                  | 1 of 1     |
+| `review-ci-logs`                   | 4     | 0.90        | 0.58           | 2                     | 1 of 3, from 1 of 4 cases, under 80% | 4 of 4     |
+| `revisit-followups`                | 1     | 0.83        | 0.00           | 0                     | n/a                                  | 1 of 1     |
+| `rust-authoring`                   | 1     | 1.00        | 0.00           | 0                     | n/a                                  | 1 of 1     |
+| `service-boundaries`               | 2     | 1.00        | 0.67           | 1                     | n/a                                  | 2 of 2     |
+| `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     | n/a                                  | 2 of 2     |
+| `static-analysis-checklist`        | 2     | 1.00        | 0.42           | 0                     | n/a                                  | 2 of 2     |
+| `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     | n/a                                  | 2 of 2     |
+| `structured-logging`               | 3     | 1.00        | 0.00           | 0                     | n/a                                  | 3 of 3     |
+| `technical-writing`                | 3     | 0.94        | 0.00           | 0                     | 3 of 3, from 1 of 3 cases            | 3 of 3     |
+| `test-authoring`                   | 6     | 0.90        | 0.50           | 2                     | 1 of 3, from 1 of 6 cases, under 80% | 6 of 6     |
+| `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     | n/a                                  | 2 of 2     |
+| `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     | n/a                                  | 3 of 3     |
+| `verification`                     | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80%                    | 1 of 1     |
+| `webhooks`                         | 1     | 1.00        | 1.00           | 1                     | n/a                                  | 1 of 1     |
 
 <!-- /evals:groups -->
 
@@ -93,7 +93,9 @@ averaged over attempts.
   that passes half the time. The priorities were proposed by an agent and are open to
   correction.
 - A case has two layers. "Loaded" is how often the skill loaded, and it has its own target: 80%
-  of a skill's attempts, over all its cases. "Passed" counts the attempts whose answer was right,
+  of a skill's attempts, over all its cases. A case is counted once it has a loading count
+  from a run of every planned attempt; "from 1 of 9 cases" means the other eight are not
+  counted yet, and the skill is not shown to meet the target until all are. "Passed" counts the attempts whose answer was right,
   whether or not the skill loaded, and is what a case's target applies to; [EVALS.md](EVALS.md)
   also gives the passes among the attempts that loaded. A skill with "n/a" under "Loaded" was
   last measured before 2026-11-26, when an attempt passed only if the skill had also loaded, so

@@ -110,15 +110,35 @@ def layers(row):
     return loaded, f"{row['loaded_passed']} of {row['loaded']}"
 
 
+def graded_for_loading(row):
+    return (Path("evals") / row["case"] / "graders" / "skill-fired.md").exists()
+
+
 def loading(group):
-    """A skill's loading over the attempts of all its cases that have a count, and whether it
-    reaches LOADING_TARGET. None when no case of the skill has a count."""
-    counted = [row for row in group if row["loaded"]]
+    """A skill's loading: (loaded, attempts, reaches LOADING_TARGET, cases counted, cases that
+    have a `skill-fired` grader). Only a row that ran every planned attempt is counted, since a
+    run that stopped early is not a rate. None when no case of the skill is counted."""
+    gradable = [row for row in group if graded_for_loading(row)]
+    counted = [
+        row
+        for row in gradable
+        if row["loaded"] and int(row["with_attempts"]) >= int(row["attempts_planned"])
+    ]
     if not counted:
         return None
     loaded = sum(int(row["loaded"]) for row in counted)
     attempts = sum(int(row["with_attempts"]) for row in counted)
-    return loaded, attempts, loaded * 100 >= LOADING_TARGET * attempts
+    return loaded, attempts, loaded * 100 >= LOADING_TARGET * attempts, len(counted), len(gradable)
+
+
+def loading_cell(rate):
+    if rate is None:
+        return "n/a"
+    loaded, attempts, reached, counted, gradable = rate
+    cell = f"{loaded} of {attempts}"
+    if counted < gradable:
+        cell += f", from {counted} of {gradable} cases"
+    return cell if reached else f"{cell}, under {LOADING_TARGET}%"
 
 
 def cases_table(rows):
@@ -157,6 +177,7 @@ def blocks(all_rows):
     ]
     rates = {skill: rate for skill, group in skills.items() if (rate := loading(group))}
     low = sorted(skill for skill, rate in rates.items() if not rate[2])
+    full = {skill for skill, rate in rates.items() if rate[3] == rate[4]}
     headline = "\n".join(
         [
             f"- **{len(rows)} cases** across {len(skills)} skills.",
@@ -170,9 +191,11 @@ def blocks(all_rows):
             f"- **{met(rows)} cases** meet their target: {', '.join(by_priority)}. "
             "The rows come from different runs, and a row with fewer attempts than planned stopped "
             "early: read it as a verdict, not a rate.",
-            f"- **Loading** is counted for {len(rates)} of {len(skills)} skills, and "
-            f"{len(rates) - len(low)} of those load in at least {LOADING_TARGET}% of attempts."
-            + (f" Below it: {', '.join(f'`{skill}`' for skill in low)}." if low else ""),
+            f"- **Loading** is counted for every case of {len(full)} of {len(skills)} skills, and "
+            f"{len(full) - len([skill for skill in low if skill in full])} of those load in at "
+            f"least {LOADING_TARGET}% of attempts. For {len(rates) - len(full)} more it is counted "
+            "for some cases only, which does not show the skill meets the target."
+            + (f" Under it on what was counted: {', '.join(f'`{skill}`' for skill in low)}." if low else ""),
         ]
     )
     table = [
@@ -184,7 +207,7 @@ def blocks(all_rows):
         group = skills[skill]
         measured = [row for row in group if row["without_score"]]
         rate = rates.get(skill)
-        loaded = "n/a" if rate is None else f"{rate[0]} of {rate[1]}" + ("" if rate[2] else f", under {LOADING_TARGET}%")
+        loaded = loading_cell(rate)
         table.append(
             f"| `{skill}` | {len(group)} | {mean([score(row) for row in group])} "
             f"| {mean([baseline(row) for row in measured])} "
