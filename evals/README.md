@@ -11,11 +11,11 @@ needed.
 
 <!-- evals:headline -->
 
-- **159 cases** across 48 skills.
+- **160 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.35, over the 158 cases measured both ways.
-- **124 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
-- **144 of 159 cases** meet their target: critical 2 of 3, high 20 of 26, medium 105 of 110, low 17 of 20. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.35, over the 159 cases measured both ways.
+- **125 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
+- **145 of 160 cases** meet their target: critical 2 of 3, high 20 of 26, medium 106 of 111, low 17 of 20. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 
 <!-- /evals:headline -->
 
@@ -41,7 +41,7 @@ averaged over attempts.
 | `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     | 1 of 1     |
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     | 3 of 3     |
 | `git-commit-checklist`             | 4     | 0.83        | 0.33           | 1                     | 2 of 4     |
-| `github-actions-authoring`         | 9     | 0.93        | 0.17           | 1                     | 8 of 9     |
+| `github-actions-authoring`         | 10    | 0.93        | 0.20           | 1                     | 9 of 10    |
 | `github-ci-operations`             | 7     | 0.95        | 0.26           | 1                     | 7 of 7     |
 | `github-issue`                     | 3     | 0.94        | 0.22           | 0                     | 3 of 3     |
 | `github-repository-settings`       | 2     | 1.00        | 0.34           | 0                     | 2 of 2     |

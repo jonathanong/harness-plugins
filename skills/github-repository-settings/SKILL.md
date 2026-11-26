@@ -51,7 +51,8 @@ Set these up when the repository is created, before the first outside pull reque
   read the same way by everyone who might use the code.
 - **Coverage:** require 100% line and branch coverage in CI, and upload the report to Codecov so
   each pull request shows the lines it leaves untested. At 100%, any new untested line fails the
-  build; below it, a threshold lets untested code in as long as the total holds.
+  build; below it, a threshold lets untested code in as long as the total holds. The upload step
+  must not fail the job; `github-actions-authoring` says how.
 - **Labeler:** run `actions/labeler` on pull requests to label them by the paths they change.
 - **Dependabot**, per the `dependabot` skill, and the linters and `actionlint`, per
   `static-code-analysis`.
