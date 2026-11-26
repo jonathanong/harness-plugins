@@ -69,7 +69,7 @@ Each still gets a loading case and an answer case.
       is a ceiling case, and so were two pilots on a ten-file fixture, where the model
       followed the imports to the tracker call (`evals/HISTORY.md`, 2026-11-23). Try a fixture
       where that path is longer, or a review of a diff that reports a caller's mistake.
-- [ ] **`agent-coordination` loads in 0 of 12,** as `verification` did before it became part of `status-reports`, and a plainer description did
+- [ ] **`agent-coordination` loaded in 0 of 3** for a request to brief a second agent on 2026-11-26, as its earlier direct-question case did in 0 of 15, and a plainer description did
       not change that: their cases ask a direct question and the agent answers it. Each needs a
       case inside real work on a fixture repository, as do `expand-contract-migrations` and
       `resuming-work`, whose cases pass unaided.

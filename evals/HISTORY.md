@@ -4,6 +4,22 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `agent-coordination` case replaced
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.60,
+of which $0.37 agent and $0.23 judges.
+
+- Removed `agent-coordination/peer-message-is-not-approval`. It asked a direct question, loaded
+  the skill in 0 of 15 attempts over its runs, and passed unaided. The owner's concern is an
+  agent passing on the person's direction wrongly, not approval by a peer. The rule stays in
+  the skill.
+- `agent-coordination`, "Brief a worker", gains one line: the brief carries every instruction
+  and limit the person gave, as theirs and not reworded.
+- New case `brief-carries-the-persons-limits`, low priority: loaded 0 of 3, passed 3 of 3 with
+  the plugin and 3 of 3 without. A ceiling case, kept because every skill needs one case; the
+  model already carries four stated limits into a brief when they are listed in the prompt. A
+  case that shows the mistake needs limits scattered through a longer session.
+
 ## 2026-11-26: four rules from this week's runs added to `evals` and `evals/AGENTS.md` (not run)
 
 No case, grader, or fixture changed. Each rule comes from a run recorded below.
