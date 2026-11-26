@@ -212,6 +212,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   each on 2026-11-26, with the plugin only, after `agent-workflow` was split. Their "Without
   plugin" values are from before the split. **The rows under `deciding-or-asking` and
   `implementing-changes`** are each from a two-arm run of three attempts per arm the same day.
+- **`pr-description/agent-written-change-ends-with-provenance`** takes its plugin result and
+  loading from a run of six attempts on 2026-11-26, with the plugin only. Its "Without plugin"
+  value is from a two-arm run of three attempts per arm earlier that day.
 - **`evals/loading-and-passing-are-two-layers`** is from one two-arm run of three attempts per arm
   on 2026-11-26.
 - **`github-actions-authoring/coverage-upload-does-not-fail-the-job`** is from one two-arm run of

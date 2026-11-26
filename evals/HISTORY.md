@@ -6,7 +6,8 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-26: `pr-description` gains a provenance block, with one case
 
-Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.57,
+Both runs measured commit `2e54f79` or the same skill and case text before it. Sonnet agent, Opus
+judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.57,
 of which $0.37 agent and $0.20 judges.
 
 - `pr-description`: a description for a change an agent wrote ends with a collapsed
