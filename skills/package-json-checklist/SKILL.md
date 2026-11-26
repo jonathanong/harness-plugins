@@ -15,7 +15,11 @@ and package layout, and override these defaults.
 
 1. Identify the owning package and every consumer of the changed script, dependency, export, or
    binary. Prefer existing workspace utilities before adding a dependency.
-2. Use the repository's package manager for dependency changes. Update the lockfile when it records
+2. Use the repository's package manager for dependency changes, the one its lockfile shows. In a
+   new repository, use pnpm: its strict `node_modules` makes an import of an undeclared
+   dependency fail instead of working by accident, and it can refuse releases younger than a set
+   age. Require Node 24 or later (`"engines": { "node": ">=24" }`), and test on it in CI. Update
+   the lockfile when it records
    the affected metadata; avoid lockfile churn for metadata-only edits it does not record. Keep
    peer, optional, development, and runtime dependencies in their intended sections.
 3. For a published package, verify exports, types, files, binaries, and build output match the

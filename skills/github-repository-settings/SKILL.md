@@ -1,6 +1,6 @@
 ---
 name: github-repository-settings
-description: Use when hardening a public repository, limiting pull requests to collaborators, deciding when fork pull requests may run Actions, or auditing or cleaning up labels, milestones, and projects. Restricts who can open pull requests and run CI, with the REST calls to read, set, and roll back each setting, and audits issue taxonomy for sprawl and drift.
+description: Use when creating or hardening a public open-source repository, limiting pull requests to collaborators, deciding when fork pull requests may run Actions, or auditing or cleaning up labels, milestones, and projects. Restricts who can open pull requests and run CI, with the REST calls to read, set, and roll back each setting, and audits issue taxonomy for sprawl and drift.
 ---
 
 # GitHub repository settings
@@ -42,6 +42,19 @@ gh api -X PUT repos/<owner>/<repo>/actions/permissions/fork-pr-contributor-appro
 
 The default is `first_time_contributors`. Approve a run only after reading the workflow files and
 scripts the pull request changes.
+
+## A new open-source repository
+
+Set these up when the repository is created, before the first outside pull request:
+
+- **License:** MIT, in a `LICENSE` file and the package manifest. It is short, permissive, and
+  read the same way by everyone who might use the code.
+- **Coverage:** require 100% line and branch coverage in CI, and upload the report to Codecov so
+  each pull request shows the lines it leaves untested. At 100%, any new untested line fails the
+  build; below it, a threshold lets untested code in as long as the total holds.
+- **Labeler:** run `actions/labeler` on pull requests to label them by the paths they change.
+- **Dependabot**, per the `dependabot` skill, and the linters and `actionlint`, per
+  `static-code-analysis`.
 
 ## Audit issue taxonomy
 

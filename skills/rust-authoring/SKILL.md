@@ -1,6 +1,6 @@
 ---
 name: rust-authoring
-description: Use when writing or reviewing Rust code or tests, adding a cache, or running cargo build, test, or coverage jobs, especially from several agents or worktrees at once. Lay out Rust tests and caches, and run heavy cargo builds without exhausting a shared machine.
+description: Use when writing or reviewing Rust code or tests, including a Node.js addon built on N-API, adding a cache, or running cargo build, test, or coverage jobs, especially from several agents or worktrees at once. Lay out Rust tests and caches, and run heavy cargo builds without exhausting a shared machine.
 ---
 
 # Rust authoring
@@ -21,6 +21,18 @@ the code it tests.
 Cache in memory for the length of one run. Do not persist a cache between runs unless the design
 calls for it and says how the cache is keyed, invalidated, and versioned. A persisted cache makes
 a result depend on what ran before, and a stale entry looks like a logic bug.
+
+## Node.js addons (N-API)
+
+Every call from JavaScript into an addon crosses the N-API boundary, and that crossing costs
+more than most of the work inside a small function.
+
+- Take and return `Buffer`s, not strings. A string is converted between JavaScript's encoding
+  and UTF-8 and copied on every crossing; a `Buffer` hands over the bytes.
+- Make any call that does real work async: run it on the libuv thread pool (an `AsyncTask` in
+  napi-rs) and return a promise. A synchronous call blocks the event loop for its whole length.
+- Batch: take a list of items in one call rather than one call per item, so the crossing is paid
+  once.
 
 ## Heavy builds on a shared machine
 
