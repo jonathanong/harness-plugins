@@ -72,6 +72,35 @@ arm under test:
   gets no interval: an interval describes variation between attempts, and it has none. Say so
   where its result is shown.
 
+## Two layers: loading, then passing
+
+Most skills load on demand, so a case can fail in two places: the skill never loaded, or it
+loaded and the answer was still wrong. Record both for each case, each with its own count:
+
+| Layer              | Count                       | A low number means                     |
+| ------------------ | --------------------------- | -------------------------------------- |
+| Loaded             | attempts where it loaded    | the description or the prompt is wrong |
+| Passed when loaded | passes among those attempts | the skill's body is wrong or unclear   |
+| Passed overall     | passes over all attempts    | one of the two above; read them to see |
+
+- The overall rate is what a person using the skill gets, so the priority target applies to it.
+  2 of 3 loaded and 1 of 2 passed when loaded is 1 of 3 overall: write all three counts, not only
+  the last.
+- An attempt where the skill did not load counts as it scored. It usually fails. When it passes,
+  it is a pass, and it shows the model did not need the skill for that prompt.
+- Loading has its own target, 80% by default for every on-demand skill, whatever the priority of
+  its cases. Judge it per skill, over the attempts of all its cases: three attempts of one case
+  cannot tell a 70% loading rate from a 90% one. Also name any single case that loads in under
+  half of its attempts.
+- The two targets multiply. A critical case at 80% overall, on a skill that loads 80% of the
+  time, has to pass every time it loads. So raise the loading target toward 100% for a skill with
+  critical cases, or expect those cases to miss.
+- Passed when loaded has no target of its own by default; it is there to say what to fix. When
+  the skill never loaded, write "not measured" for it, not 0.
+- Give each layer its interval from its own count: loading over all attempts, passed when loaded
+  over the attempts that loaded.
+- A skill that is always in context has one layer. Leave the loading columns out.
+
 ## Suite and group goal
 
 A suite, or a group such as one skill's cases, meets its goal when every case meets its own
@@ -130,8 +159,8 @@ rows of the cases that run covered. Suggested columns:
 - run date, commit, agent model, judge model, harness version;
 - for each arm: passed, attempts run, rate, interval low, interval high, and the score when the
   suite's score is not the pass rate, such as a share of graders passed;
-- whether the skill loaded, the verdict (met or missed), whether the baseline arm is at the
-  ceiling, and the gap between arms;
+- how many attempts the skill loaded in, how many of those passed, the verdict (met or missed),
+  whether the baseline arm is at the ceiling, and the gap between arms;
 - total cost, and agent cost and judge cost when the runner reports them.
 
 For an arm that stopped early, leave its rate, its interval, and the gap empty, and keep the
