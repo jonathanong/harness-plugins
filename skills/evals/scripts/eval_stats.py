@@ -23,8 +23,8 @@ Z = 1.959963984540054  # two-sided 95%
 
 
 def needed(target, attempts):
-    """Passes a case needs to meet a target given in percent. Whole numbers only: in floating
-    point ceil(0.7 * 10) is 8."""
+    """Passes a case needs to meet a target given in percent. Whole numbers only: a floating-point
+    product can land just above a whole number, so ceil(0.28 * 25) is 8, not 7."""
     return -(-target * attempts // 100)
 
 
