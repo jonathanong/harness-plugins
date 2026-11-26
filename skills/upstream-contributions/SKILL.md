@@ -67,9 +67,13 @@ upstream, and one in the fork against the fork's default branch.
   upstream alone while the fork's review has findings.
 - Do not merge the fork's pull request. It is there for checks and review; only the upstream
   pull request lands.
-- Do not close it when upstream merges, either. First pull upstream's default branch into the
-  fork's default branch, so the fork has the change the way upstream landed it. Then close the
-  fork's pull requests whose change that brought in, each with a link to the upstream merge.
+- Do not close it when upstream merges, either. First fast-forward the fork's default branch to
+  upstream's, so the fork has the change the way upstream landed it: `gh repo sync <fork>`
+  fast-forwards and refuses anything else, as does `git merge --ff-only`. Then close the fork's
+  pull requests whose change that brought in, each with a link to the upstream merge.
+- The fork's default branch only ever fast-forwards to upstream. When it cannot, it holds
+  commits upstream lacks: stop and tell the person. Do not make a merge commit, rebase, or use
+  `gh repo sync --force`, which resets the branch.
 - When upstream declines, ask the person whether the fork should carry the change before
   closing or merging anything.
 - Link each pull request from the other, and say in the fork's that upstream is the one that

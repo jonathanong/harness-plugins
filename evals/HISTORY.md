@@ -4,6 +4,21 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `upstream-contributions`: the fork's default branch only fast-forwards to upstream
+
+Commit `7067598` plus the rule and grader below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
+case, both arms, three attempts each: $0.88, of which $0.41 agent and $0.47 judges.
+
+- The rule: after upstream merges, fast-forward the fork's default branch with `gh repo sync` or
+  `git merge --ff-only`; when it cannot fast-forward, stop and tell the person. No merge commit,
+  rebase, or forced sync. It replaces "pull upstream's default branch into the fork's".
+- The mistake it prevents: a plain merge or pull that leaves a merge commit on the fork's default
+  branch, after which the fork never matches upstream again. No attempt made it; the rule is
+  kept on the person's direction, not on a measured gain.
+- `upstream-contributions/upstream-merged-fork-syncs`, grader: the sync must be fast-forward
+  only. Loaded 3 of 3, passed 3 of 3, and 3 of 3 without the plugin. Still a ceiling case; the
+  harder case stays in `ROADMAP.md`.
+
 ## 2026-11-26: `upstream-contributions`: the fork's pull request is not merged, and is closed after the fork takes upstream's branch
 
 Commit `10356d4` plus the rule and case below. Sonnet agent, Opus judge, Claude Code 2.1.332. One

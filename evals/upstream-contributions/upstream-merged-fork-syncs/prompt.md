@@ -1,5 +1,5 @@
 ---
-description: After upstream merges, the fork's default branch takes upstream's, and only then is the fork's pull request closed, not merged.
+description: After upstream merges, the fork's default branch is fast-forwarded to upstream's, and only then is the fork's pull request closed, not merged.
 tags: [upstream-contributions, skill-fired]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
