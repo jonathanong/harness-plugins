@@ -21,6 +21,12 @@ it beats that simple query, not merely the previous version; see
 
 - Select only the required columns: no `SELECT *`, `alias.*`, or `RETURNING *`. A new column then
   cannot change a result shape or widen a row by accident.
+- Read each entity once per query: join its row once and take every field you need from that
+  join. For a few columns, join the base table with the predicates it needs (such as
+  `deleted_at IS NULL`) rather than reading through a view built for full embeds or lookups.
+  Compute a derived field on that row with a shared SQL-fragment helper, not a copied
+  expression, a view column, or a database function. See
+  [one read per entity](references/performance-patterns.md#one-read-per-entity).
 - A new query shape (a new filter, join key, or sort) gets its index in the same change. Check
   the plan at representative cardinality, add the index it needs, and do not wait to be asked. An
   unindexed shape works in tests and fails at production row counts.

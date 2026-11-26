@@ -4,6 +4,17 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `postgres-node-performance-tuning` reads each entity once (not run)
+
+No run. New rule: read each entity once per query, from one join, and for a few columns join the
+base table with its predicates rather than reading through a view built for full embeds or
+lookups, and compute a derived field with a shared SQL-fragment helper rather than a copied
+expression, a view column, or a database function. It comes
+from a real fix in which two correlated subqueries through two user views replaced one join and
+turned about one author read per page into several hundred index probes. New case
+`postgres-node-performance-tuning/author-read-once`, not yet run. No existing case or grader
+changed.
+
 ## 2026-11-26: review fixes to the two-layer tables; one grader split and rerun
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $1.06,

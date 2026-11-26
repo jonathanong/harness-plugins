@@ -109,6 +109,43 @@ with `SET LOCAL track_functions = 'all'` and `pg_stat_xact_user_functions` in th
 inlined functions are not counted. See [reading plans](reading-plans.md#opaque-function-calls).
 Put per-row logic in the query as a join or `EXISTS`, or keep the function a plain expression.
 
+## One read per entity
+
+A second join or scalar subquery for another field of the same row repeats the lookup for every
+row of the result. Through a view it repeats the view's own joins and subqueries too: two
+correlated subqueries into two user views on a 101-row page can make several hundred index
+probes where one join makes about one read per author.
+
+```sql
+-- Wrong: two lookups of one author, each through a view that expands per row
+SELECT n.id,
+  (SELECT username FROM users_embedded WHERE id = n.author_id) AS author_username,
+  (SELECT display_name FROM users_public WHERE id = n.author_id) AS author_display_name
+FROM notes n ...
+
+-- Right: one join to the base table, its predicate, and the derived field from a helper
+SELECT n.id, author.username AS author_username,
+  ${verifiedDisplayName('author')} AS author_display_name
+FROM notes n
+LEFT JOIN users author ON author.id = n.author_id AND author.deleted_at IS NULL ...
+```
+
+A view built for embedding a whole entity, or for lookups by id or slug, computes columns this
+query does not need. Read the base table with the view's predicates.
+
+When the field is derived, such as a display name shown only once the user is verified, put its
+expression in one code helper that takes the row's alias and returns the SQL fragment:
+
+```ts
+const verifiedDisplayName = (alias: string) =>
+  sql`CASE WHEN ${alias}.verified_at IS NOT NULL THEN ${alias}.display_name END`
+```
+
+Every query that needs the field calls the helper, so a change to the rule changes them all. A
+copy of the expression in each query drifts; a database function hides the expression from the
+planner and needs a migration to change; a view column brings back the view. Where views are
+built in code, build them from the same helpers.
+
 ## Reading views by key
 
 PostgreSQL expands a view into the calling query, and a simple view lets the outer filter push
