@@ -109,12 +109,12 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **166 cases** across 50 skills.
-- **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.35, over the 165 cases measured both ways.
-- **130 cases** are ones the model fails unaided. The other 35 it already gets right: 7 check that a skill stays out of the way, and 28 show at most that the skill loads.
-- **162 of 166 cases** meet their target: critical 2 of 3, high 24 of 25, medium 113 of 114, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 5 of 50 skills, and 1 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `github-issue`, `implementing-changes`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
+- **167 cases** across 50 skills.
+- **With the plugin:** mean score 0.93.
+- **Without it:** mean score 0.35, over the 166 cases measured both ways.
+- **130 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **162 of 167 cases** meet their target: critical 3 of 3, high 23 of 25, medium 113 of 115, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 9 of 50 skills, and 5 of those load in at least 80% of attempts. For 22 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `documentation`, `github-ci-operations`, `github-issue`, `implementing-changes`, `planning`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
 
 <!-- /evals:headline -->
 

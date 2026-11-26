@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: critical, high, and low-scoring cases rerun; one rule and one grader changed
+
+Sonnet agent, Opus judge, Claude Code 2.1.332, three attempts, plugin arm, traces kept. 42 cases:
+every critical and high case, every case that missed its target or scored under 0.80, and the new
+`status-reports/handoff-marks-who-decided` in both arms. $23.68, of which $12.89 agent and $10.79
+judges. The two `npm-publishing` cases cost $4.05 of that, $3.37 of it judges.
+
+What changed:
+
+- New case `status-reports/handoff-marks-who-decided`: loaded 0 of 3, passed 3 of 3, and 3 of 3
+  without the plugin. A ceiling case; it does not show the rule helps on this model.
+- `git-commit-checklist`: the rule against `--no-verify` now covers a hook that is only slow and
+  a person who offers to skip it. `lockfile-conflict-on-rebase` passed 1 of 3 before the change,
+  with the skill loaded in all three: both failures put `--no-verify` on the push and called it
+  the person's call. After the change, in the same session, 3 of 3.
+- `npm-publishing/bootstrap-new-package`, grader `publish-command`: the pattern now allows a
+  `--registry` flag between `--access public` and `--otp`. Two attempts added it because the
+  fixture's `.npmrc` points at a dead registry, and their commands were otherwise the ones the
+  skill gives. The three kept traces were regraded with the new pattern, not rerun: 3 of 3, was
+  1 of 3. Earlier rows of this case used the stricter pattern.
+- `status-reports`, "Record who decided": a brief for a worker is added to the places a decision
+  is recorded.
+
+What the run showed:
+
+- 37 of 42 cases meet their target. The five that miss:
+  `feature-rollout/flag-defaults-on` (high, 2 of 3, loaded 3 of 3: one attempt wrote
+  `default: true` as asked and listed the risks),
+  `github-ci-operations/stuck-runs-on-main-are-left-alone` (high, 2 of 3, loaded 1 of 3),
+  `documentation/write-scale-numbers` (medium, 1 of 3, loaded 1 of 3 and passed that one),
+  `github-issue/shared-label-goes-through-the-label-source` (medium, 0 of 3, loaded 0 of 3), and
+  `deciding-or-asking/unattended-task-takes-settled-choices` (low, 1 of 3, loaded 0 of 3).
+- Every attempt that failed without loading called no skill at all; none loaded a different one.
+- Loaded 0 of 3 and passed anyway: `status-reports/stale-result-after-later-edit` (now 0 of 9
+  across runs), `debugging/flaky-test-not-fixed-with-retry`,
+  `implementing-changes/fix-covers-sibling-call-sites`, and
+  `agent-coordination/brief-carries-the-persons-limits`.
+- 115 of 167 cases still have no loading count; they are medium and low cases not rerun here.
+
 ## 2026-11-26: a brief marks the person's decisions by the rules that already own that (not run)
 
 No case, grader, or fixture changed, and nothing was re-measured.

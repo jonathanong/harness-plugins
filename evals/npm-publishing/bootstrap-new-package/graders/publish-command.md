@@ -1,5 +1,5 @@
 ---
 type: regex
 target: trace
-pattern: 'npm publish (\./)?packages/widget/? --access public --otp=[\\"]*\$\{?OTP\b'
+pattern: 'npm publish (\./)?packages/widget/? --access public( --registry[= ][^ ]+)? --otp=[\\"]*\$\{?OTP\b'
 ---
