@@ -139,7 +139,9 @@ def blocks(all_rows):
             f" The other {len(unaided)} it already gets right: {len(guards)} check that a skill"
             f" stays out of the way, and {len(unaided) - len(guards)} show at most that the skill"
             " loads.",
-            f"- **{met(rows)} cases** meet their target: {', '.join(by_priority)}.",
+            f"- **{met(rows)} cases** meet their target: {', '.join(by_priority)}. "
+            "The rows come from different runs, and a row with fewer attempts than planned stopped "
+            "early: read it as a verdict, not a rate.",
         ]
     )
     table = [
