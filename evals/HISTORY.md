@@ -4,7 +4,7 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-26: six skills reworded where a rule read two ways (not run)
+## 2026-11-26: seven skills reworded where a rule read two ways (not run)
 
 No case, grader, or fixture changed, and nothing was re-measured.
 
@@ -19,6 +19,10 @@ No case, grader, or fixture changed, and nothing was re-measured.
 - `pr-description`: a title may start "Fix"; a verb that says nothing, such as "Update", may not.
 - `list-reads` rule 5: the ban is on a setting for a candidate pool's size. An inspected-row
   cap is a tunable from runtime configuration, as `bounded-iteration` rule 8 says.
+- `documentation`: the "Docs" rules are scoped to a README and the pages under `docs/`, which
+  say what and why. A roadmap goes in a tracker or a tool outside the repository, a plan in an
+  issue or pull request and never in the repository, and history in commits. An eval suite's
+  `HISTORY.md` and `ROADMAP.md` are outside that scope.
 - `expand-contract-migrations`: the sequence said "one step per deploy" over seven steps, two
   of which are not deploys, and a heading said a rename is four steps.
 
