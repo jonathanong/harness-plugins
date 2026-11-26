@@ -63,7 +63,7 @@ then fetch every touched item again and verify it.
 2. Check that the paths and the behavior the issue names are still true on the default branch. An
    issue copied from an older note often describes code that has moved.
 3. An issue that asks for a fix or a change states a verified problem.
-   [Verified](../agent-workflow/SKILL.md#verify-a-finding) means you reproduced it, traced it in
+   [Verified](../change-review/SKILL.md#verify-a-finding) means you reproduced it, traced it in
    the code, or saw it in staging or production data where that is available and relevant, and the
    issue shows the evidence: a failing run, a reproduction, the data, or the file and line that
    make it reachable. A review note, a hunch, or "this could happen" is not verification. When the
@@ -76,7 +76,7 @@ then fetch every touched item again and verify it.
    happen is a verified problem: file it as a bug, and put a guessed cause in the body as a guess.
 4. Write it so a reader with no other context can act: the problem, the desired outcome, what is
    out of scope, the files or areas involved, how to verify it, and links to outside context.
-   Mark the decisions in it **User:** or **Agent:**, per `agent-workflow`'s "Record who
+   Mark the decisions in it **User:** or **Agent:**, per `status-reports`' "Record who
    decided"; do the same in a comment that records a decision.
 5. Fetch the live labels and milestones. Apply the ones that match. Omit an optional label rather
    than inventing one.

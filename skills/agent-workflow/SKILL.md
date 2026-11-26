@@ -1,6 +1,6 @@
 ---
 name: agent-workflow
-description: Use when starting an implementation task, working unattended, deciding whether to ask the person or go ahead, writing a status or handoff note, or reviewing a change. Carries a repository change from start to handoff - implement it, decide without stalling, gather evidence, and review a diff. For an open pull request and its review comments, use pull-requests.
+description: Use when starting an implementation task, working unattended, or deciding whether to ask the person or go ahead. Carries a repository change from start to handoff - implement it, decide without stalling, gather evidence, and split work to run in parallel. To review a diff, use change-review; for a status or handoff note, status-reports; for an open pull request, pull-requests.
 ---
 
 # Agent workflow
@@ -40,55 +40,6 @@ a blocker or a follow-up found on the way does not widen the task.
   in the `pull-requests` skill.
 - Keep large logs out of the conversation. Report bounded findings and their evidence.
 
-## Verify a finding
-
-Verify a finding before presenting it or fixing it, whether it comes from a reviewer, a bot, a
-note, or your own review. Verified means you reproduced it, traced it in the code, or saw it in
-staging or production data where that is available and relevant. For a race, name the two
-callers and show they can run at the same time. A finding you traced and found false gets a
-reply with the reason and no code change. A finding you cannot verify is reported as unverified.
-Do not propose a fix for an unverified claim: a fix for a problem that cannot happen is
-unreachable code.
-
-## Review a change
-
-Review the whole diff, not only the changed lines of implementation. Check the premise and scope,
-compatibility of public contracts, failure paths, authorization, untrusted input, and secrets.
-Ask for dead paths and stale docs to be removed, not labeled legacy. Check the pull request
-description against the final behavior.
-
-A fix or a test that a finding proposes follows the same rules as the code under review. Before
-suggesting one, check it against the skill or the repository rule that owns that area: a logging
-fix against the logging rules, a locking fix against the locking rules, a new test against the
-test rules. An author applies a reviewer's suggestion as written, so a suggestion that breaks a
-rule puts the defect in with a reviewer's approval on it.
-
-A skill's rules are written for production code unless the skill says otherwise. Do not hold a
-test, a fixture, or a seed to a runtime rule: a race test may take a lock, and a fixture may
-loop over single inserts. Rules about secrets and personal data, and rules that name tests,
-still apply there.
-
-## Explain the outcome
-
-Everything you write about a change says who it affects and what changes for them: a plan, an
-explanation of a problem or a fix, a pull request description, a review finding, a status note.
-"Adds a lock" or "fixes a race" is the mechanism. The outcome is what users, customers,
-operators, or the business see, wait for, pay, lose, or can now do.
-
-- Name the people affected and the effect in their terms: "two shoppers can no longer both buy
-  the last unit", "each checkout can wait up to two seconds behind a stock update", "the report
-  loads in 1 s instead of 8".
-- When a change trades one effect for another, state both. A lock prevents a wrong result and
-  adds a wait to every request that queues on it.
-- When nobody outside the team is affected, as with a refactor or a CI change, say that users
-  see no change and name who is affected: the engineers waiting on CI, the on-call reading an
-  alert. Do not invent an effect on users.
-- Write for the reader. A pull request is read by an engineer, and that engineer must be able to
-  explain from it what the change does for users and for the business. For a document with
-  several kinds of reader, use `technical-writing`.
-- A review finding says what goes wrong, for whom, and when. A finding that changes nothing for
-  anyone is a nit; label it one.
-
 ## Decide, then report
 
 Every question stops the work until a person answers. Ask only when the answer cannot be
@@ -98,7 +49,7 @@ worked out and a wrong guess cannot be undone.
   one you took. A minor upgrade the policy allows, a missing index, a rebase, a stale branch to
   delete: these are not questions.
 - When a choice is open but reversible, take the smallest option, record it as an **Agent:**
-  decision (see "Record who decided"), and continue.
+  decision (see `status-reports`, "Record who decided"), and continue.
 - Ask before an action that is destructive or irreversible, that ships a release or spends
   money, or that is outside what was authorized. Recommend one option with the reason; do not
   list options. Ask every open question at once, and keep working on what does not depend on the
@@ -110,32 +61,8 @@ worked out and a wrong guess cannot be undone.
   without this conversation. Do not bring it to the person, and do not do it yourself.
 - Use the tool built for a job, such as the repository's pull request tool for waiting on checks,
   before writing a polling loop or a watcher script.
-- A handoff lists as "needs you" only what a person alone can do. Anything else on that list is
-  unfinished work.
-
-## Record who decided
-
-Mark which decisions the person in the session made and which you made, so a reader can tell a
-confirmed choice from your own call, and push back on yours.
-
-- Record a decision the person could have been expected to make: a scope cut or addition, a
-  design choice, a trade-off, a default the request left open, anything costly to reverse, and
-  the answer to any non-trivial question you asked; not what the code or a rule settled.
-- Record it where the work is tracked: a pull request description, an issue description, a
-  comment on either, and an implementation plan for the team doing the work. Use a short
-  "Decisions" list; start each line with **User:** or **Agent:**, and give an agent decision its
-  reason. Paraphrase the person; do not quote or name them.
-
-  ```markdown
-  - User: keep `/v1/orders` until the mobile app's 4.2 release ships.
-  - Agent: a 5-second timeout on the tax call; the request set none and its p99 is 800 ms.
-  ```
-
-- **User** is only the person in this session. Another agent, a bot, or a peer session is not;
-  a suggestion from one that you adopted is your decision. Leave agent-to-agent exchanges out.
-- Leave attribution out of long-lived documentation: a README, a docs page, a code comment, a
-  commit message, and a roadmap for a wider organization. What those hold is taken as decided;
-  attribution there is noise. Add it only when the person asks.
+- What a status or handoff note says, and what it may list as "needs you", is in the
+  `status-reports` skill.
 
 ## Parallel by default
 

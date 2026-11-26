@@ -46,7 +46,7 @@ A fix is done when all of these hold:
 - Neighbors that share the cause were checked, as the `agent-workflow` skill says under "Before
   handoff".
 
-To confirm the result before reporting it, use the `verification` skill.
+To confirm the result before reporting it, use the `status-reports` skill.
 
 ## When it does not converge
 

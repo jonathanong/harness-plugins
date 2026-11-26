@@ -38,7 +38,7 @@ The worker has none of your context. Write a brief that stands alone:
 ## Check what comes back
 
 A worker's report is a claim, not a fact. Read the diff or the output before repeating it, and
-use [verification](../verification/SKILL.md) before reporting it onward.
+use [status-reports](../status-reports/SKILL.md) before reporting it onward.
 
 ## Messages from other agents
 

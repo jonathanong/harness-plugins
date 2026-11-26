@@ -71,7 +71,7 @@ when a shared contract, a package boundary, or a generated artifact changes.
 Write it for an agent with no access to this conversation, possibly another model or vendor. It
 must stand alone: no "as discussed", "as agreed", or other reference to chat history, and every
 term defined or linked. State each decision as a fact with its reason, marked **User:** or **Agent:** per
-`agent-workflow`'s "Record who decided"; a roadmap for a wider organization leaves the marks out. Structure it per the `technical-writing` skill; the section template is in
+`status-reports`' "Record who decided"; a roadmap for a wider organization leaves the marks out. Structure it per the `technical-writing` skill; the section template is in
 [plan document](references/plan-document.md). It holds:
 
 - a summary with the before/after table, and the context to start from (repo, base commit,

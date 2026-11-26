@@ -69,7 +69,7 @@ Each still gets a loading case and an answer case.
       is a ceiling case, and so were two pilots on a ten-file fixture, where the model
       followed the imports to the tracker call (`evals/HISTORY.md`, 2026-11-23). Try a fixture
       where that path is longer, or a review of a diff that reports a caller's mistake.
-- [ ] **`agent-coordination` and `verification` load in 0 of 12,** and a plainer description did
+- [ ] **`agent-coordination` loads in 0 of 12,** as `verification` did before it became part of `status-reports`, and a plainer description did
       not change that: their cases ask a direct question and the agent answers it. Each needs a
       case inside real work on a fixture repository, as do `expand-contract-migrations` and
       `resuming-work`, whose cases pass unaided.
@@ -120,13 +120,15 @@ Each still gets a loading case and an answer case.
       now in the skill). `agent-coordination`: read the preferred workers' availability from
       the live source before using a fallback; read the change behind a worker's numbers
       before relaying them as a trade-off.
-- [ ] **`agent-workflow` stopped loading for a status note.** `status-note-asks-only-what-it-must`
-      loaded the skill in 3 of 3 on 2026-11-22, 1 of 3 on 2026-11-23, and 0 of 3 on 2026-11-24,
-      with the description unchanged. Find which part of the request no longer matches it.
-      On 2026-11-25 it also loaded in 0 of 6 attempts of the new review and status-note cases
-      for "Explain the outcome"; that rule is measured only through `postgres-locking`.
+- [ ] **`status-reports` does not load for a direct question.** `stale-result-after-later-edit`
+      ("so we're good to merge, right?") loaded it in 0 of 6 on 2026-11-26 and passed unaided.
+      It needs a case inside real work on a fixture, where the agent itself is about to say
+      "done".
+- [ ] **`agent-workflow` has one case left,** for "Decide, then report", and a request for a
+      status note loads `status-reports` for it. Add a case where the agent is implementing
+      and meets a choice it should take without asking.
 - [ ] **Does a link alone carry a rule?** `github-issue` rule 3, `postgres-locking`, and the
-      `pull-requests` review response each keep a short copy of `agent-workflow`, "Verify a
+      `pull-requests` review response each keep a short copy of `change-review`, "Verify a
       finding", beside the link to it. In 9 of 9 plugin attempts on 2026-11-24 no agent opened the
       link, and each passed on the local text; no link-only version was measured. Cut
       `github-issue` rule 3 to the link plus the evidence an issue shows, and rerun

@@ -11,12 +11,12 @@ needed.
 
 <!-- evals:headline -->
 
-- **164 cases** across 48 skills.
-- **With the plugin:** mean score 0.94.
+- **164 cases** across 49 skills.
+- **With the plugin:** mean score 0.95.
 - **Without it:** mean score 0.35, over the 163 cases measured both ways.
 - **129 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
 - **161 of 164 cases** meet their target: critical 2 of 3, high 25 of 26, medium 112 of 113, low 22 of 22. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 3 of 48 skills, and 0 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `agent-workflow`, `debugging`, `github-issue`, `postgres-node-performance-tuning`, `review-ci-logs`, `test-authoring`, `verification`.
+- **Loading** is counted for every case of 4 of 49 skills, and 1 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `agent-workflow`, `debugging`, `github-issue`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
 
 <!-- /evals:headline -->
 
@@ -32,8 +32,9 @@ averaged over attempts.
 | ---------------------------------- | ----- | ----------- | -------------- | --------------------- | ------------------------------------ | ---------- |
 | `agent-coordination`               | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80%                    | 1 of 1     |
 | `agent-rules`                      | 3     | 0.94        | 0.11           | 0                     | n/a                                  | 3 of 3     |
-| `agent-workflow`                   | 3     | 0.44        | 0.67           | 2                     | 0 of 9, under 80%                    | 3 of 3     |
+| `agent-workflow`                   | 1     | 0.67        | 0.00           | 0                     | 4 of 6, under 80%                    | 1 of 1     |
 | `bounded-iteration`                | 9     | 0.93        | 0.11           | 0                     | 3 of 3, from 1 of 9 cases            | 8 of 9     |
+| `change-review`                    | 1     | 1.00        | 1.00           | 1                     | 6 of 6                               | 1 of 1     |
 | `debugging`                        | 2     | 0.70        | 1.00           | 2                     | 0 of 3, from 1 of 2 cases, under 80% | 2 of 2     |
 | `dependabot`                       | 4     | 1.00        | 0.50           | 1                     | n/a                                  | 4 of 4     |
 | `documentation`                    | 3     | 0.89        | 0.56           | 1                     | n/a                                  | 3 of 3     |
@@ -71,12 +72,12 @@ averaged over attempts.
 | `skill-authoring`                  | 2     | 0.92        | 0.00           | 0                     | n/a                                  | 2 of 2     |
 | `static-analysis-checklist`        | 2     | 1.00        | 0.42           | 0                     | n/a                                  | 2 of 2     |
 | `static-code-analysis`             | 2     | 1.00        | 0.41           | 0                     | n/a                                  | 2 of 2     |
+| `status-reports`                   | 2     | 0.67        | 1.00           | 2                     | 4 of 12, under 80%                   | 2 of 2     |
 | `structured-logging`               | 3     | 1.00        | 0.00           | 0                     | n/a                                  | 3 of 3     |
 | `technical-writing`                | 3     | 0.94        | 0.00           | 0                     | 3 of 3, from 1 of 3 cases            | 3 of 3     |
 | `test-authoring`                   | 6     | 0.90        | 0.50           | 2                     | 1 of 3, from 1 of 6 cases, under 80% | 6 of 6     |
 | `triage-codex-security`            | 2     | 1.00        | 0.64           | 0                     | n/a                                  | 2 of 2     |
 | `typescript-authoring`             | 3     | 1.00        | 0.00           | 0                     | n/a                                  | 3 of 3     |
-| `verification`                     | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80%                    | 1 of 1     |
 | `webhooks`                         | 1     | 1.00        | 1.00           | 1                     | n/a                                  | 1 of 1     |
 
 <!-- /evals:groups -->

@@ -21,7 +21,7 @@ Before any action, check the sources of truth:
 
 Compare each against the note. A step described as "about to" may already be done, and one
 described as done may never have been pushed. To check claims in the note, use the
-[verification](../verification/SKILL.md) skill.
+[status-reports](../status-reports/SKILL.md) skill.
 
 ## Do not repeat a step
 
@@ -51,7 +51,7 @@ Do this before work that may be interrupted, and whenever you stop:
 - Commit and push work in progress on its own branch, so a crash loses nothing.
 - Write the state where the next reader will look, such as the pull request or the issue: what is
   done, what is in flight, what is next, and what was ruled out with the reason. For the handoff
-  note itself, use [agent-workflow](../agent-workflow/SKILL.md).
+  note itself, use [status-reports](../status-reports/SKILL.md).
 
 ## Clean up what was left
 

@@ -1,6 +1,6 @@
 ---
 description: A test run from before a later edit is stale; asked whether it can merge, the answer says to re-run first.
-tags: [verification, skill-fired, priority-high]
+tags: [status-reports, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
