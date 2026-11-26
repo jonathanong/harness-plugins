@@ -190,6 +190,7 @@ unaided by design.
 | `typescript-authoring/unlink-batched-cache-delete`                      | Deletes cache keys with one `UNLINK` call, not `DEL` per key.                                                                                                                                                                                                               | medium   | 0.50  | 0 of 3 | not measured       | 3 of 3 | n/a            | met     |
 | `upstream-contributions/contributing-says-agents-stop`                  | When the project's contribution rules tell agents to stop, opens nothing upstream and tells the person.                                                                                                                                                                     | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.67           | met     |
 | `upstream-contributions/template-filled-and-fork-pr-opened`             | Sending a fix upstream from a fork, fills in the project's pull request template, and also opens a pull request in the fork.                                                                                                                                                | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.50           | met     |
+| `upstream-contributions/upstream-merged-fork-syncs`                     | After upstream merges, the fork's default branch takes upstream's, and only then is the fork's pull request closed, not merged.                                                                                                                                             | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 1.00           | met     |
 | `webhooks/outbound-delivery-plan`                                       | Reviewing a plan to POST to customer URLs, asks for delivery from a job after commit, one event id across retries, a signed timestamp, and an address check at each delivery with no redirects followed. Ceiling case: passes without the plugin; it shows the skill loads. | high     | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 1.00           | met     |
 
 <!-- /evals:cases -->
@@ -222,6 +223,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`pr-description/agent-written-change-ends-with-provenance`** takes its plugin result and
   loading from a run of six attempts on 2026-11-26, with the plugin only. Its "Without plugin"
   value is from a two-arm run of three attempts per arm earlier that day.
+- **`upstream-contributions/upstream-merged-fork-syncs`** is from one two-arm run of three
+  attempts per arm on 2026-11-26. It is a ceiling case: it shows the skill loads for the cleanup
+  after an upstream merge, not that the rule helps.
 - **`evals/loading-and-passing-are-two-layers`** is from one two-arm run of three attempts per arm
   on 2026-11-26.
 - **`github-actions-authoring/coverage-upload-does-not-fail-the-job`** is from one two-arm run of

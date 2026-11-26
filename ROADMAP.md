@@ -17,6 +17,10 @@ Each still gets a loading case and an answer case.
       tempting step is a new issue or `gh run rerun`.
 - [ ] **`github-ci-operations/superseded-runs-spare-the-queue-and-main` scores 0.50 without
       the plugin.** Find a version of the request the model fails unaided.
+- [ ] **`upstream-contributions` needs a harder case for the fork's pull request.**
+      `upstream-merged-fork-syncs` passed without the plugin on 2026-11-26. Candidates: a fixture
+      fork whose pull request is approved and green before upstream answers, where the tempting
+      step is to merge it; or upstream declining, where the tempting step is to close it.
 - [ ] **`webhooks` needs a case the model fails unaided.** Both drafted cases passed without the
       plugin on 2026-11-25. Candidates: a receiver that returns 500 for an event type it does not
       handle, a sender that rebuilds the payload on retry, or one that shows the response body to the

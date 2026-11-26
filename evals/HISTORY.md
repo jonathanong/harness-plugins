@@ -4,6 +4,28 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `upstream-contributions`: the fork's pull request is not merged, and is closed after the fork takes upstream's branch
+
+Commit `10356d4` plus the rule and case below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
+case, both arms, three attempts each: $0.79, of which $0.41 agent and $0.38 judges.
+
+- The rule: do not merge the fork's pull request; when upstream merges, pull upstream's default
+  branch into the fork's, then close the fork's pull requests whose change that brought in; when
+  upstream declines, ask. It replaces "close it when upstream merges or declines".
+- New case `upstream-contributions/upstream-merged-fork-syncs`: loaded 3 of 3, passed 3 of 3,
+  and 3 of 3 without the plugin. It is a ceiling case: it shows the skill loads for the cleanup
+  after an upstream merge and does no harm, not that the rule helps.
+- The mistakes the rule prevents: merging the fork's pull request because its checks are green
+  and it is approved, so the fork's default branch diverges from upstream's squash; and closing
+  it while the fork's default branch still lacks the change. No attempt made either mistake, so
+  the rule is kept on the person's direction for how a fork is run, not on a measured gain. The
+  earlier text allowed the merge and did not ask for the sync.
+- After review the grader also fails a reset or force push of the fork's default branch,
+  including `gh repo sync --force`. A second run of both arms, three attempts each, $0.85 ($0.41
+  agent, $0.44 judges), gave the same result: 3 of 3 with the plugin, loaded 3 of 3, and 3 of 3
+  without. The row is from this run.
+- The other two cases were not rerun; the text they test did not change.
+
 ## 2026-11-26: every case now has a loading count; three descriptions, two rules, three graders, and one case changed
 
 Commit `95fb56b` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332, plugin
