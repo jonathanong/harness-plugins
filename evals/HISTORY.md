@@ -17,6 +17,10 @@ of which $0.37 agent and $0.20 judges.
   loaded, 1 of 3 overall, and 0 of 3 without the plugin. It misses its target of 2 of 3 on
   loading: the two attempts that did not load called no skill and wrote no such block. Three
   attempts do not settle the loading rate.
+- A second run of six attempts with the plugin, after review, $0.87 ($0.53 agent, $0.34
+  judges): loaded 5 of 6, passed 5 of 5 when loaded, 5 of 6 overall. The case meets its target
+  and the loading target; the table row is from this run, and its without-plugin column from the
+  first.
 
 ## 2026-11-26: new skill `upstream-contributions`, with two cases
 
