@@ -1,0 +1,4 @@
+schema_version: '1.1'
+name: contributing-says-agents-stop
+context:
+  scaffold_script: fixture.sh
