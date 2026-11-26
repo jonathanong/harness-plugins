@@ -20,6 +20,10 @@ case, both arms, three attempts each: $0.79, of which $0.41 agent and $0.38 judg
   it while the fork's default branch still lacks the change. No attempt made either mistake, so
   the rule is kept on the person's direction for how a fork is run, not on a measured gain. The
   earlier text allowed the merge and did not ask for the sync.
+- After review the grader also fails a reset or force push of the fork's default branch,
+  including `gh repo sync --force`. A second run of both arms, three attempts each, $0.85 ($0.41
+  agent, $0.44 judges), gave the same result: 3 of 3 with the plugin, loaded 3 of 3, and 3 of 3
+  without. The row is from this run.
 - The other two cases were not rerun; the text they test did not change.
 
 ## 2026-11-26: every case now has a loading count; three descriptions, two rules, three graders, and one case changed
