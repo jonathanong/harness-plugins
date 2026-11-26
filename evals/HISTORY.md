@@ -6,7 +6,9 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-26: every case now has a loading count; three descriptions, two rules, three graders, and one case changed
 
-Sonnet agent, Opus judge, Claude Code 2.1.332, plugin arm, traces kept. 123 cases: the 115 that
+Commit `95fb56b` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332, plugin
+arm, three attempts a case, and six for the four cases whose description changed;
+`stale-result-after-later-edit` also ran three without the plugin. Traces kept. 123 cases: the 115 that
 had no loading count at three attempts, and eight changed here. $64.39, of which $38.33 agent and
 $26.06 judges.
 
@@ -47,6 +49,60 @@ What the run showed:
 - `debugging/crash-fixed-at-cause-with-a-test` is not recorded: in all three attempts the run's
   workspace was read-only, so the agent could not apply the fix it found. It cost $4.54. Its row
   keeps the earlier result.
+
+## 2026-11-26: `pr-description` gains a provenance block, with one case
+
+Both runs measured commit `2e54f79` or the same skill and case text before it. Sonnet agent, Opus
+judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.57,
+of which $0.37 agent and $0.20 judges.
+
+- `pr-description`: a description for a change an agent wrote ends with a collapsed
+  "Provenance" block: where it was verified and what that does not cover, the agent with its
+  model and session, the harness it ran in, and the branch or worktree. It leaves out the
+  hostname, the username, and absolute paths.
+- New case `agent-written-change-ends-with-provenance`: loaded 1 of 3, passed 1 of 1 when
+  loaded, 1 of 3 overall, and 0 of 3 without the plugin. It misses its target of 2 of 3 on
+  loading: the two attempts that did not load called no skill and wrote no such block. Three
+  attempts do not settle the loading rate.
+- A second run of six attempts with the plugin, after review, $0.87 ($0.53 agent, $0.34
+  judges): loaded 5 of 6, passed 5 of 5 when loaded, 5 of 6 overall. The case meets its target
+  and the loading target; the table row is from this run, and its without-plugin column from the
+  first.
+
+## 2026-11-26: the two view cases of `postgres-node-performance-tuning` run, after a prompt and a grader change
+
+Commit `6566c2c` plus the case and rule changes below. Sonnet agent, Opus judge, Claude Code
+2.1.332. Attempts per arm: `view-joined-only-to-filter` three with the plugin and three without;
+`author-read-once` six with the plugin and three without. $4.95 in all, of which $2.66 agent and $2.28
+judges: a first run of both cases in both arms ($1.49), a second after the changes below ($1.57),
+and nine more plugin-arm attempts of `author-read-once` ($1.88).
+
+- The first run failed every attempt in both arms, for reasons in the cases. In
+  `view-joined-only-to-filter` the prompt named only the deleted-author filter, so every answer
+  questioned or dropped the membership join; the prompt now names both filters. In
+  `author-read-once` one grader held two rules, and the loaded attempts shared the `CASE` as a
+  fragment with the alias fixed inside. The grader is split into `reads-the-author-once` and
+  `derived-field-from-a-helper`, and the rule in `SKILL.md` now says the helper takes the row's
+  alias.
+- `view-joined-only-to-filter`: loaded 3 of 3, passed 3 of 3, and 2 of 3 without the plugin.
+- `author-read-once`: over the last six attempts, loaded 2 of 6, passed 2 of 2 when loaded, 2 of
+  6 overall; 0 of 3 without the plugin. It misses its target, and the miss is loading: across
+  twelve attempts since the change the skill loaded in 2. In the ten that did not load, six still
+  read the author once from `users`, and none used a helper.
+
+## 2026-11-26: `postgres-node-performance-tuning` reads each entity once (not run)
+
+No run. New rules: join or subquery a plain (not materialized) view only to embed its whole row as JSON; reading a view's
+column, or joining one only to filter or sort, is a defect, so join the base table with its
+predicates and compute a derived field with a shared SQL-fragment helper rather than a copied
+expression, a view column, or a database function; and look up each entity once per statement.
+"Reading views by key" now embeds the view's row and sorts on the base table. The case's grader passes only a display name computed through a shared helper. A view is
+embedded only when the caller uses the whole object. Second new case
+`postgres-node-performance-tuning/view-joined-only-to-filter`, not yet run. It comes
+from a real fix in which two correlated subqueries through two user views replaced one join and
+turned about one author read per page into several hundred index probes. New case
+`postgres-node-performance-tuning/author-read-once`, not yet run. No existing case or grader
+changed.
 
 ## 2026-11-26: new skill `upstream-contributions`, with two cases
 

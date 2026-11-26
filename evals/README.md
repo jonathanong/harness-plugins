@@ -11,12 +11,12 @@ needed.
 
 <!-- evals:headline -->
 
-- **169 cases** across 51 skills.
+- **172 cases** across 51 skills.
 - **With the plugin:** mean score 0.90.
-- **Without it:** mean score 0.36, over the 168 cases measured both ways.
-- **132 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **159 of 169 cases** meet their target: critical 3 of 3, high 24 of 24, medium 110 of 118, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 49 of 51 skills, and 37 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
+- **Without it:** mean score 0.36, over the 170 cases measured both ways.
+- **134 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **161 of 172 cases** meet their target: critical 3 of 3, high 24 of 24, medium 112 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
 
@@ -59,10 +59,10 @@ averaged over attempts.
 | `planning`                         | 7     | 0.74        | 0.38           | 2                     | 11 of 18, under 80%                  | 5 of 7     |
 | `playwright-authoring`             | 2     | 1.00        | 0.00           | 0                     | 6 of 6                               | 2 of 2     |
 | `postgres-locking`                 | 12    | 0.93        | 0.39           | 4                     | 31 of 33                             | 11 of 12   |
-| `postgres-node-performance-tuning` | 3     | 0.94        | 0.00           | 0                     | 8 of 9                               | 3 of 3     |
+| `postgres-node-performance-tuning` | 5     | 0.85        | 0.17           | 0                     | 13 of 18, under 80%                  | 4 of 5     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     | 6 of 6                               | 2 of 2     |
 | `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     | 15 of 15                             | 5 of 5     |
-| `pr-description`                   | 4     | 1.00        | 0.08           | 0                     | 12 of 12                             | 4 of 4     |
+| `pr-description`                   | 5     | 0.97        | 0.07           | 0                     | 17 of 18                             | 5 of 5     |
 | `pull-requests`                    | 1     | 0.67        | 0.67           | 0                     | 1 of 3, under 80%                    | 1 of 1     |
 | `react-app-structure`              | 4     | 1.00        | 0.46           | 1                     | 12 of 12                             | 4 of 4     |
 | `resuming-work`                    | 1     | 0.50        | 1.00           | 1                     | 2 of 3, under 80%                    | 0 of 1     |
