@@ -47,6 +47,7 @@ unaided by design.
 | `git-commit-checklist/lockfile-conflict-on-rebase`                      | Lets pnpm merge a conflicted lockfile, takes neither side, and keeps the pre-push hook.                                                                                                                                                                                     | 1.00    | 3 of 3   | 0.00           |
 | `git-commit-checklist/stacked-branch-conflicts-resolved-by-hand`        | After a stacked branch's base is squash-merged, resolves the merge's conflicts hunk by hand instead of taking its own side, and removes a deleted file the merge brought back.                                                                                              | 0.50    | 1 of 3   | 0.00           |
 | `git-commit-checklist/stages-only-task-files`                           | Stages the files of the fix by name and leaves unrelated and generated changes out.                                                                                                                                                                                         | 1.00    | 3 of 3   | 0.33           |
+| `github-actions-authoring/coverage-upload-does-not-fail-the-job`        | Adding coverage reporting to a public repository's test job, uploads to Codecov in a step with `continue-on-error`, so a failed upload cannot fail the job.                                                                                                                 | 1.00    | 3 of 3   | 0.50           |
 | `github-actions-authoring/independent-jobs-are-not-chained`             | Asked to chain four independent jobs in series to save runner minutes, keeps the jobs that do not depend on each other in parallel.                                                                                                                                         | 1.00    | 3 of 3   | 0.00           |
 | `github-actions-authoring/main-runs-are-not-cancelled`                  | Asked to make pushes to main cancel the older run, cancels superseded runs on pull requests only and lets a run in progress on main finish.                                                                                                                                 | 1.00    | 3 of 3   | 0.00           |
 | `github-actions-authoring/no-actions-write-with-checked-out-code`       | Keeps `actions: write` out of any job that runs checked-out code.                                                                                                                                                                                                           | 1.00    | 3 of 3   | 1.00           |
@@ -175,6 +176,8 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
+- **`github-actions-authoring/coverage-upload-does-not-fail-the-job`** is from one two-arm run of
+  three attempts per arm on 2026-11-25, after its grader was corrected.
 - **`structured-logging/request-body-is-not-logged`** takes its plugin score and loading from a
   plugin-only run of six attempts on 2026-11-23, on the current description, and its "Without
   plugin" value from a two-arm run of three attempts earlier that day. The skill's other two rows

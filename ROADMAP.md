@@ -21,6 +21,9 @@ Each still gets a loading case and an answer case.
       plugin on 2026-11-25. Candidates: a receiver that returns 500 for an event type it does not
       handle, a sender that rebuilds the payload on retry, or one that shows the response body to the
       customer.
+- [ ] **`agent-coordination`, "Delegate from the main agent", has no case.** The eval agent has
+      no subagent tool. Try a case that asks for a plan of who does what on a named harness, and
+      grade whether briefable work goes to a cheaper tier.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**
