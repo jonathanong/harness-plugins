@@ -24,20 +24,6 @@ to split work, see "Parallel by default" in [agent-workflow](../agent-workflow/S
 - Spawn no more workers than there are independent units. Each worker costs context to brief and
   to check.
 
-## Delegate from the main agent
-
-- On a harness with tiered models, such as Claude Code, Codex, or Antigravity with Gemini, the
-  main agent hands work to subagents whenever the work can be briefed: a search, a read across
-  many files, a mechanical edit, an independent unit. The main session runs on the most capable
-  and most costly model, and a subagent on a cheaper tier does bounded work for less and keeps
-  its output out of the main context.
-- Keep in the main agent what needs the whole conversation: the decisions, the review of what
-  comes back, and anything irreversible or that the person must approve.
-- Pick the cheapest tier that can do the unit, and say which in the brief when the harness lets
-  you choose.
-- On a harness with one model, such as Grok, a subagent costs the same as the main agent.
-  Delegate there only to run independent units at once or to keep a long output out of context.
-
 ## Brief a worker
 
 The worker has none of your context. Write a brief that stands alone:

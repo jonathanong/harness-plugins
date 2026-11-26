@@ -4,7 +4,7 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-25: Codecov uploads that cannot fail CI, and delegating from the main agent
+## 2026-11-25: Codecov uploads that cannot fail CI
 
 Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both
 arms, three attempts per arm: $1.08, of which $0.47 agent and $0.61 judges, $0.18 per attempt. A
@@ -15,11 +15,8 @@ What changed, from the repository owner's request:
 - `github-actions-authoring`: in a public repository, report test coverage to Codecov, with
   `continue-on-error: true` on the upload step, because the upload fails for reasons the change
   did not cause.
-- `agent-coordination`: new section "Delegate from the main agent". On a harness with tiered
-  models the main agent hands briefable work to subagents on a cheaper tier and keeps the
-  decisions, the review, and anything irreversible. On a harness with one model a subagent costs
-  the same, so it delegates only for parallel units or to protect context. No case: the eval
-  agent has no subagent tool, so the rule is unmeasured, and `ROADMAP.md` lists it.
+- `github-repository-settings`: the coverage item of the new-repository checklist points to that
+  rule.
 
 | Case                                                             | With                        | Without      |
 | ---------------------------------------------------------------- | --------------------------- | ------------ |
