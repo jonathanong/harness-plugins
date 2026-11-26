@@ -91,11 +91,9 @@ directory, so leave out results and history. Cover:
 
 ## Rules worth putting in AGENTS.md
 
-These are defaults. Adopt the ones the suite can enforce.
-For the kinds of eval a skill suite runs and the attempts each needs, read
-`references/eval-types.md`.
-
-For the case and grader rules, read `references/case-and-grader-rules.md` when writing or changing a case or grader, or when writing the suite's `AGENTS.md`.
+These are defaults. Adopt the ones the suite can enforce. Read `references/eval-types.md` for the
+kinds of eval a skill suite runs and the attempts each needs, and
+`references/case-and-grader-rules.md` when writing a case, a grader, or the suite's `AGENTS.md`.
 
 **Runs and numbers**
 
@@ -105,6 +103,10 @@ For the case and grader rules, read `references/case-and-grader-rules.md` when w
   cannot change its verdict, and record the attempts that ran ("2 of 2"), never a full count.
   Read `references/measuring-runs.md` for the intervals, the stopping rule, cost, and the
   tracking CSV.
+- For a skill that loads on demand, report two layers per case: how often it loaded, and how
+  often the case passed when it did. 2 of 3 loaded and 1 of 2 passed when loaded is 1 of 3
+  overall; the priority target is for the overall rate. Hold loading to its own target, 80% by
+  default. Fix low loading in the description, not the body.
 - Pilot a new case with one attempt to check its graders. Measure with at least three attempts
   per arm before quoting a number.
 - Compare a change against a control measured in the same session. Scores drift between days, so

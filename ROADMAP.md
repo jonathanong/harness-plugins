@@ -135,7 +135,8 @@ Each still gets a loading case and an answer case.
       where a case sits between pass and fail.
 - [ ] **Report how often each skill loads** beside its score. `evals/cases.csv` has a `loaded`
       column that a run fills; rows not rerun since it was added are blank, and no table shows it
-      yet.
+      yet. Also show how many of the loaded attempts passed, and check each skill's loading
+      against the 80% target, as `evals` now says to.
 - [ ] **Review the case priorities.** An agent proposed them on 2026-11-25 (3 critical, 26 high,
       22 low, the rest medium) by the cost of the mistake each case catches. The reason for each is
       only in the description of the pull request that added the tags, not in this repository.
