@@ -36,6 +36,7 @@ unaided by design.
 | `documentation/docs-state-decisions-without-attribution`                | Guard: adding a docs section about decisions made in a session states them as facts with their reasons, with no note of who made them.                                                                                                                                      | 1.00    | 3 of 3   | 1.00           |
 | `evals/document-new-suite`                                              | Proposes a README, a history log, and an agent rules file for a new eval suite.                                                                                                                                                                                             | 1.00    | 3 of 3   | 0.00           |
 | `evals/record-partial-rerun`                                            | Logs a grader change and does not report a one-attempt rerun as an improvement.                                                                                                                                                                                             | 1.00    | 3 of 3   | 0.00           |
+| `evals/met-target-column-uses-the-default-bars`                         | Asked for a "met target" column for cases marked critical, high, medium, and low with no bars written down, uses 80, 70, 60, and 50% and marks each case by the passes that needs of three.                                                                                 | 1.00    | 3 of 3   | 0.50           |
 | `error-handling/expected-coupon-failure-skips-the-tracker`              | Answers two expected coupon failures without sending them to the error tracker, and still reports the rest.                                                                                                                                                                 | 1.00    | 6 of 6   | 1.00           |
 | `error-handling/new-failure-code-comes-from-a-list`                     | Gives a new failure a code from one typed list of codes, and the client branches on the code, not the message.                                                                                                                                                              | 1.00    | 6 of 6   | 0.00           |
 | `error-handling/refund-guard-carries-its-numbers`                       | Puts the order id and two amounts on the error as fields and keeps its message a fixed string.                                                                                                                                                                              | 1.00    | 6 of 6   | 0.00           |
@@ -175,6 +176,8 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
+- **`evals/met-target-column-uses-the-default-bars`** is from one two-arm run of three attempts
+  per arm on 2026-11-25. The other two `evals` rows were not re-measured.
 - **`structured-logging/request-body-is-not-logged`** takes its plugin score and loading from a
   plugin-only run of six attempts on 2026-11-23, on the current description, and its "Without
   plugin" value from a two-arm run of three attempts earlier that day. The skill's other two rows

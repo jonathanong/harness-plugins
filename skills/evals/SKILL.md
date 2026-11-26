@@ -19,7 +19,8 @@ that in three files beside the cases. Each has one reader and one job.
 Start with one set at `evals/`. Add a nested set at `evals/<group>/` only when that group has its
 own scores, run command, or rules that would crowd the top-level files. A nested `AGENTS.md` adds
 to the parent's rules. A nested `README.md` owns its group's table, and the parent `README.md`
-keeps one summary row per group that links to it. Never state the same score in two files.
+keeps one summary row per group that links to it. Each score has one source file; any other
+file that shows it is generated from that source.
 
 ## README.md: the current state, for people
 
@@ -28,7 +29,8 @@ Write it for someone who has not seen the suite and will not read the cases. In 
 1. **What the suite evaluates.** One paragraph: the behavior under test, and the question a score
    answers.
 2. **Current results.** One table from one run. Above it, state the run's date, commit, agent
-   model, judge model, attempts per arm, and total cost when the runner reports it.
+   model, judge model, attempts per arm, and cost, split into agent and judges when the runner
+   reports them apart.
 3. **What each case checks.** One line per case, or per group when there are many, in plain words.
    A reader should be able to tell what a failing row means without opening the case.
 4. **How to read the numbers.** The noise at this sample size, which cases are at the ceiling, and
@@ -56,7 +58,7 @@ Rules for the results table:
 `HISTORY.md` only grows. Newest entry first. Each entry is a dated heading with a short title,
 then:
 
-- the commit, agent model, judge model, attempts per arm, and cost;
+- the commit, agent model, judge model, attempts per arm, and cost, split the same way;
 - the scores, or the rows that changed since the previous entry;
 - what changed in the suite since the previous entry: cases added or removed, grader or fixture
   edits, model or runner changes;
@@ -97,6 +99,12 @@ For the case and grader rules, read `references/case-and-grader-rules.md` when w
 
 **Runs and numbers**
 
+- Give each case a priority and a target pass rate: critical 80%, high 70%, medium 60%, low 50%.
+  At three attempts that is 3 of 3 for critical and high and 2 of 3 for medium and low. Report
+  every rate with its 95% interval and count. Stop a case early once its remaining attempts
+  cannot change its verdict, and record the attempts that ran ("2 of 2"), never a full count.
+  Read `references/measuring-runs.md` for the intervals, the stopping rule, cost, and the
+  tracking CSV.
 - Pilot a new case with one attempt to check its graders. Measure with at least three attempts
   per arm before quoting a number.
 - Compare a change against a control measured in the same session. Scores drift between days, so
