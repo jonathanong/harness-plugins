@@ -55,6 +55,12 @@ class Verdict(unittest.TestCase):
     def test_critical_misses_at_first_failure(self):
         self.assertEqual(eval_stats.verdict(0, 1, 3, 80), "missed")
 
+    def test_required_needs_every_attempt(self):
+        target = eval_stats.TARGETS["required"]
+        self.assertEqual(eval_stats.verdict(1, 1, 1, target), "met")
+        self.assertEqual(eval_stats.verdict(2, 3, 10, target), "missed")
+        self.assertEqual(eval_stats.verdict(9, 9, 10, target), "undecided")
+
     def test_all_attempts_run(self):
         self.assertEqual(eval_stats.verdict(2, 3, 3, 70), "missed")
         self.assertEqual(eval_stats.verdict(3, 3, 3, 70), "met")

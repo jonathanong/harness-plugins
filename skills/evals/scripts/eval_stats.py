@@ -5,8 +5,9 @@ describes them.
 Usage: eval_stats.py results.csv [--planned 3] [--seed 0] [--draws 10000]
 
 The CSV has a header and one row per case. Columns: `case`, `passed`, `attempts` (the attempts
-that ran), and optionally `priority` (critical, high, medium, low; empty means medium), `planned`
-(attempts planned for the case), and `baseline_passed` with `baseline_attempts` for a second arm.
+that ran), and optionally `priority` (critical, high, medium, low, or required for a case that
+must pass every attempt; empty means medium), `planned` (attempts planned for the case), and
+`baseline_passed` with `baseline_attempts` for a second arm.
 
 It prints one line per case with its rate, Wilson 95% interval, count, and verdict; then the
 suite's mean rate with a bootstrap interval, the cases that met their target, the gap between
@@ -16,7 +17,8 @@ import argparse, csv, math, random, sys
 
 sys.dont_write_bytecode = True
 
-TARGETS = {"critical": 80, "high": 70, "medium": 60, "low": 50}
+# "required" is a case that must pass every attempt; it is not a priority.
+TARGETS = {"required": 100, "critical": 80, "high": 70, "medium": 60, "low": 50}
 Z = 1.959963984540054  # two-sided 95%
 
 
