@@ -7,7 +7,7 @@ scores are in [EVALS.md](EVALS.md).
 ## 2026-11-26: `upstream-contributions`: the fork's pull request is not merged, and is closed after the fork takes upstream's branch
 
 Commit `10356d4` plus the rule and case below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
-case, both arms, three attempts each: $0.79.
+case, both arms, three attempts each: $0.79, of which $0.41 agent and $0.38 judges.
 
 - The rule: do not merge the fork's pull request; when upstream merges, pull upstream's default
   branch into the fork's, then close the fork's pull requests whose change that brought in; when
@@ -15,6 +15,11 @@ case, both arms, three attempts each: $0.79.
 - New case `upstream-contributions/upstream-merged-fork-syncs`: loaded 3 of 3, passed 3 of 3,
   and 3 of 3 without the plugin. It is a ceiling case: it shows the skill loads for the cleanup
   after an upstream merge and does no harm, not that the rule helps.
+- The mistakes the rule prevents: merging the fork's pull request because its checks are green
+  and it is approved, so the fork's default branch diverges from upstream's squash; and closing
+  it while the fork's default branch still lacks the change. No attempt made either mistake, so
+  the rule is kept on the person's direction for how a fork is run, not on a measured gain. The
+  earlier text allowed the merge and did not ask for the sync.
 - The other two cases were not rerun; the text they test did not change.
 
 ## 2026-11-26: every case now has a loading count; three descriptions, two rules, three graders, and one case changed

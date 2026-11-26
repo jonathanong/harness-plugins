@@ -223,6 +223,9 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 - **`pr-description/agent-written-change-ends-with-provenance`** takes its plugin result and
   loading from a run of six attempts on 2026-11-26, with the plugin only. Its "Without plugin"
   value is from a two-arm run of three attempts per arm earlier that day.
+- **`upstream-contributions/upstream-merged-fork-syncs`** is from one two-arm run of three
+  attempts per arm on 2026-11-26. It is a ceiling case: it shows the skill loads for the cleanup
+  after an upstream merge, not that the rule helps.
 - **`evals/loading-and-passing-are-two-layers`** is from one two-arm run of three attempts per arm
   on 2026-11-26.
 - **`github-actions-authoring/coverage-upload-does-not-fail-the-job`** is from one two-arm run of
