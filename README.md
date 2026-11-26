@@ -112,6 +112,7 @@ Every skill has [eval cases](evals) run with
 - **Without it:** mean score 0.35, over the 160 cases measured both ways.
 - **126 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
 - **146 of 161 cases** meet their target: critical 2 of 3, high 20 of 26, medium 107 of 112, low 17 of 20. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for 2 of 48 skills, and 2 of those load in at least 80% of attempts.
 
 <!-- /evals:headline -->
 

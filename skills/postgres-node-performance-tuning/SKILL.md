@@ -14,7 +14,7 @@ still counts test workers.
 
 Measure the query plan and the workload shape before changing code.
 
-Use the simplest query; making it more complex requires `EXPLAIN ANALYZE` plans. Start with filters in `WHERE`, keyed `EXISTS`, joins or
+Use the simplest query. Start with filters in `WHERE`, keyed `EXISTS`, joins or
 subqueries, `ORDER BY`, and `LIMIT`. A complex shape stays only with `EXPLAIN ANALYZE` plans showing
 it beats that simple query, not merely the previous version; see
 [simplest query first](references/performance-patterns.md#simplest-query-first).

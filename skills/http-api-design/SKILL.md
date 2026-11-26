@@ -43,8 +43,8 @@ and ordering, invites enumeration, and ties every client to the storage layout.
 
 - A UUID is not a user-facing identifier, even a random or a truncated one. Do not use it as the
   identifier in a route, a visible label, or a field a person types or pastes. Give the resource
-  a slug, a natural key, or a short public id. A UUID in a URL is unreadable, cannot be said
-  aloud, and ties clients to the storage layer.
+  a slug, a natural key, or a short public id. A UUID in a URL is unreadable and cannot be
+  said aloud.
 - Where a route takes a slug, a UUID may stay as a fallback for old links. Answer it with a
   permanent redirect to the canonical slug URL, so one resource has one URL for caches, search
   engines, and bookmarks.

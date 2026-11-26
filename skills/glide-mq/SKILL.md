@@ -80,7 +80,7 @@ option `concurrency`, `lockDuration`, `limiter: { max, duration }`, `job.moveToD
    configuration, and give batched families a low cap.
 3. **Group FIFO ignores `priority`.** Jobs sharing an ordering key run in enqueue order whatever
    their priority. Work that must not wait behind a flood, and dispatchers that rely on
-   priority, get their own lane. Put work that outsiders can flood in a lane of its own.
+   priority, get their own lane.
    Ordering keys are the orchestration layer; add none on top.
 4. **Job count is not a KPI.** Many small jobs with a dispatcher and a sweep are fine. Do not
    merge or remove jobs to cut the count. Judge a design by model calls or spend per item and by

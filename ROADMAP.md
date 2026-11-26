@@ -82,8 +82,7 @@ Each still gets a loading case and an answer case.
       `index-change-rechecks-neighbors` in 19 of 21. Read the misses.
 - [ ] **Cases for the rules added without one.** A prompt with the code or the list inline did not
       work: the model passed five of seven unaided. Build them on a fixture or a longer task:
-      asking less in `planning` and `github-issue`; language-model calls in `service-boundaries`;
-      API keys in `http-api-design`; a review's proposed fix following the
+      asking less in `planning` and `github-issue`; API keys in `http-api-design`; a review's proposed fix following the
       owning skill in `agent-workflow`, which a plain request to review a diff loaded in 0 of 3;
       what a test may do in the six skills that gained a scope sentence on 2026-11-23; a sweep
       that must not overlap and has a deadline in `bounded-iteration`; in `agent-workflow`,
