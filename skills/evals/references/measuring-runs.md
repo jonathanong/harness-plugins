@@ -1,0 +1,97 @@
+# Measuring a run: cost, intervals, targets, stopping early, tracking
+
+Read this when choosing how many attempts a case gets, reporting a score or a run's cost, setting
+targets, or writing the script that summarizes a run.
+
+## Cost
+
+- Record each run's cost in two parts: the agent's attempts and the judges. Also record cost per
+  attempt. Compare cost per attempt between runs, since the total moves with the number of
+  cases.
+- Put the cost in every `HISTORY.md` entry and above the `README.md` table, so a rise shows up in
+  the next run. Cost per attempt should fall over time, as cases stop early and graders move from
+  a model to a deterministic check.
+- Use a deterministic grader whenever the check is a string, a file, or a tool call. A model judge
+  costs about a third of an attempt and adds its own noise.
+
+## Confidence intervals
+
+Report every rate with its 95% interval and its count: `67 [21-94], 2 of 3`.
+
+- **Per case**, use the Wilson score interval on passes over attempts, for each arm. The normal
+  approximation gives `[0-0]` for 0 of 3 and runs past 100 near the top; Wilson does neither.
+
+  | Attempts | 0 passed | 1 passed  | 2 passed     | 3 passed     |
+  | -------- | -------- | --------- | ------------ | ------------ |
+  | 2        | 0 [0-66] | 50 [9-91] | 100 [34-100] |              |
+  | 3        | 0 [0-56] | 33 [6-79] | 67 [21-94]   | 100 [44-100] |
+
+- **Per suite**, average the per-case rates and give a bootstrap interval: draw the cases with
+  replacement, then each case's attempts with replacement, 10,000 times with a fixed seed, and
+  take the 2.5th and 97.5th percentiles. Resample cases, not attempts pooled across cases:
+  attempts within a case are not independent, and pooling them gives an interval too narrow to
+  trust.
+- **The gap between arms** gets its own interval, by the same bootstrap with the two arms of each
+  case drawn together. A gap whose interval includes 0 is not an improvement.
+- Read the interval before the rate. At three attempts, 3 of 3 cannot be told from a case that
+  passes half the time. Say so when a decision rests on it.
+
+## Priority and target
+
+Give each case a priority by the cost of the mistake it catches, and a target pass rate for the
+arm under test:
+
+| Priority | Target | For a mistake that                                            | Passes needed of 3 |
+| -------- | ------ | ------------------------------------------------------------- | ------------------ |
+| Critical | 80%    | loses data, leaks a secret, moves money, or cannot be undone  | 3                  |
+| High     | 70%    | breaks production or misleads a reviewer                      | 3                  |
+| Medium   | 60%    | costs rework or review time; the default for an unmarked case | 2                  |
+| Low      | 50%    | is a matter of style or wording                               | 2                  |
+
+- Store the priority in the case, as a tag the runner can filter on, so a cheap run can take only
+  the critical cases.
+- A case meets its target when its passes reach `ceil(target x attempts)`. Every priority gets
+  three attempts by default. A case may set more, for example to tell critical from high: at ten
+  attempts they need 8 and 7.
+- A case below its target is a failure to read and fix, not noise to average away. Report, per
+  priority, how many cases meet their target.
+
+## Stopping early
+
+Run attempts in rounds, and stop a case once the attempts left cannot change its verdict. With
+`n` attempts and `k = ceil(target x n)` passes needed:
+
+- the case **meets** its target once it has `k` passes;
+- it **misses** once its passes plus the attempts left are fewer than `k`;
+- otherwise run another attempt.
+
+At three attempts: 2 of 2 meets a medium or low target and skips the third; 0 of 2 misses every
+target; 1 of 2 runs the third; a critical or high case misses at its first failure. Judges taking
+a majority of three votes can stop the same way after two votes that agree.
+
+- Record the attempts actually run: "2 of 2", never "3 of 3". The interval comes from those
+  attempts, so a case that stopped early has a wider one.
+- Stop early only when the question is the verdict against a target. When the question is a rate,
+  run every attempt: a loading rate, a description A/B, or a with-vs-without gap a change will
+  quote. A rate from attempts that stopped when they looked good is biased toward the stopping
+  point.
+- Stopping early needs a runner that runs attempts in rounds, or a driver that reruns only the
+  undecided cases and merges their results. If neither exists, say so rather than reporting a
+  partial run as a full one.
+
+## Tracking file
+
+Keep the latest result of every case in one committed CSV beside the cases, such as
+`evals/cases.csv`, with one row per case. A script writes it after each run and replaces only the
+rows of the cases that run covered. Suggested columns:
+
+- case, skill or group, priority, target, attempts planned;
+- run date, commit, agent model, judge model, harness version;
+- for each arm: passed, attempts run, rate, interval low, interval high;
+- whether the skill loaded, the verdict (met, missed, ceiling), and the gap between arms;
+- agent cost, judge cost, and total cost.
+
+The CSV holds the current state, and its git history shows each row's changes; `HISTORY.md` is
+still where a run is explained. Generate the `README.md` table from the CSV rather than copying
+numbers by hand, and mark any row whose run differs from the newest, so each score has one
+source.

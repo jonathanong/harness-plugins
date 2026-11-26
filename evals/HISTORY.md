@@ -4,6 +4,17 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: `evals` measures cost, intervals, targets, and stopping early (not run)
+
+No run. The `evals` skill gains `references/measuring-runs.md`: each run's cost split into agent
+and judges, with cost per attempt; a Wilson 95% interval per case and a bootstrap interval over
+cases for the suite and for the gap between arms; a priority per case with targets of 80, 70, 60,
+and 50%, three attempts by default; a rule to stop a case once its remaining attempts cannot change
+its verdict, only when the question is a verdict and not a rate; and a CSV holding each case's
+latest result, from which the README table is generated. New case
+`evals/stop-early-against-target`, not yet run. No existing case or grader changed, and this
+repository's own run scripts do not do any of this yet.
+
 ## 2026-11-25: record who decided, the person or the agent
 
 Commit: this change. Sonnet agent, Opus judge, three attempts per arm. The two new cases, both
