@@ -136,10 +136,10 @@ Each still gets a loading case and an answer case.
       ran into the eval account's weekly limit, which resets 2026-11-30.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
-- [ ] **Report how often each skill loads** beside its score. `evals/cases.csv` has a `loaded`
-      column that a run fills; rows not rerun since it was added are blank, and no table shows it
-      yet. Also show how many of the loaded attempts passed, and check each skill's loading
-      against the 80% target, as `evals` now says to.
+- [ ] **Rerun the rows that have no loading count.** `evals/EVALS.md` and `evals/README.md` now
+      show "Loaded", "Passed when loaded", and "Passed", and check each skill's loading against
+      80%. A row with "n/a" under "Loaded" was measured when a pass also required the skill to
+      load; rerun it, with the plugin only, to split the two.
 - [ ] **Review the case priorities.** An agent proposed them on 2026-11-25 (3 critical, 26 high,
       22 low, the rest medium) by the cost of the mistake each case catches. The reason for each is
       only in the description of the pull request that added the tags, not in this repository.

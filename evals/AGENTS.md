@@ -19,8 +19,11 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
 - Sonnet is the agent and Opus is the judge. Measure with three attempts, the default.
 - The default run has no no-plugin arm. Run that arm once for a new case, to check that the model
   does not already pass it without the skill, and record what it scored in `HISTORY.md`.
-- A two-arm run leaves `skill-fired` out of its own score. `scripts/eval-summary.py` counts it
-  again; use that script's numbers, not the report's.
+- `scripts/eval-summary.py` records two layers for each case: `loaded`, the attempts where
+  `skill-fired` passed, and `with_passed`, the attempts where every other grader passed. A
+  case's verdict is on `with_passed`. A skill's loading is judged apart, against 80% of the
+  attempts of all its cases. Use that script's numbers, not the runner's report, which counts
+  `skill-fired` in one arm's score and not the other's.
 - `EVAL_STOP_EARLY=1` runs two attempts and then one at a time, with the plugin only, and stops a case
   once the attempts left cannot change its verdict against its target. Use it for a regression
   run or to check that cases still meet their targets. Do not use it for a number a change will
