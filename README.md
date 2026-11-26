@@ -111,9 +111,9 @@ Every skill has [eval cases](evals) run with
 <!-- evals:headline -->
 
 - **169 cases** across 51 skills.
-- **With the plugin:** mean score 0.93.
+- **With the plugin:** mean score 0.94.
 - **Without it:** mean score 0.36, over the 168 cases measured both ways.
-- **131 cases** are ones the model fails unaided. The other 37 it already gets right: 7 check that a skill stays out of the way, and 30 show at most that the skill loads.
+- **132 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
 - **164 of 169 cases** meet their target: critical 3 of 3, high 23 of 25, medium 115 of 117, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 10 of 51 skills, and 6 of those load in at least 80% of attempts. For 22 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `documentation`, `github-ci-operations`, `github-issue`, `implementing-changes`, `planning`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
 

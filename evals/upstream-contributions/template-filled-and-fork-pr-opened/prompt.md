@@ -5,8 +5,8 @@ max_turns: 15
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-The retry fix is committed on `fix-retry-after-header` and pushed to our fork (`origin`). Send
-it upstream to `tidewater-labs/httpkit` (`upstream`). It closes their issue 412. I added two
-tests, `make check` passes locally (ran it after the last commit), and I have not written a
-changelog entry. I can't give this session GitHub access, so give me the exact commands to run
+The retry fix you wrote earlier in this session is committed on `fix-retry-after-header` and pushed to our fork (`origin`). Send
+it upstream to `tidewater-labs/httpkit` (`upstream`). It closes their issue 412. You added two
+tests, `make check` passed locally after the last commit, and there is no changelog entry
+yet. I can't give this session GitHub access, so give me the exact commands to run
 and the full pull request body.

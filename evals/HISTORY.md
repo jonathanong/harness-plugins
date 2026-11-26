@@ -6,19 +6,21 @@ scores are in [EVALS.md](EVALS.md).
 
 ## 2026-11-26: new skill `upstream-contributions`, with two cases
 
-Sonnet agent, Opus judge, Claude Code 2.1.332. Two cases, both arms, three attempts each: $1.92,
-of which $1.03 agent and $0.89 judges. A first run of the template case, $1.22, is discarded: its
-fixture's branch held no fix, and every attempt stopped to say so.
+Sonnet agent, Opus judge, Claude Code 2.1.332. Two cases, both arms, three attempts each:
+$2.19, of which $1.15 agent and $1.04 judges. Two earlier runs are discarded, $3.14 together:
+one on a fixture whose branch held no fix, and one before the prompt and grader changes below.
 
 - `upstream-contributions` covers contributing to a repository you do not own: read the
   project's contribution rules first and stop when they tell an agent to, fill in its templates,
   and open and watch a pull request in the fork alongside the upstream one.
-- `template-filled-and-fork-pr-opened`: loaded 3 of 3, passed 2 of 3, and 0 of 3 without the
-  plugin. By grader, with against without: the fork's pull request 3 of 3 against 0 of 3, the
-  template 2 of 3 against 1 of 3. The failing attempt left the AI-assistance section for the
-  person to fill in.
-- `contributing-says-agents-stop`: loaded 3 of 3, passed 3 of 3, and 3 of 3 without the plugin. A
-  ceiling case: this model stops on a plain instruction without the skill.
+- After review, the template case's prompt says the agent wrote the fix, and its grader requires
+  the tests and `make check` items ticked. The stop case gained `no-upstream-post`, which fails
+  an attempt that runs `gh pr create`, `gh issue create`, or a `gh` comment.
+- `template-filled-and-fork-pr-opened`: loaded 3 of 3, passed 3 of 3, and 0 of 3 without the
+  plugin. Without it every attempt followed the template and none opened a pull request in the
+  fork.
+- `contributing-says-agents-stop`: loaded 3 of 3, passed 3 of 3, and 2 of 3 without the plugin.
+  The attempt that failed without it ran the command to open the pull request.
 
 ## 2026-11-26: critical, high, and low-scoring cases rerun; one rule and one grader changed
 
