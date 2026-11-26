@@ -11,12 +11,12 @@ needed.
 
 <!-- evals:headline -->
 
-- **171 cases** across 51 skills.
+- **172 cases** across 51 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.36, over the 169 cases measured both ways.
-- **133 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **165 of 171 cases** meet their target: critical 3 of 3, high 23 of 25, medium 116 of 119, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 10 of 51 skills, and 6 of those load in at least 80% of attempts. For 22 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `documentation`, `github-ci-operations`, `github-issue`, `implementing-changes`, `planning`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
+- **Without it:** mean score 0.36, over the 170 cases measured both ways.
+- **134 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **166 of 172 cases** meet their target: critical 3 of 3, high 23 of 25, medium 117 of 120, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 10 of 51 skills, and 6 of those load in at least 80% of attempts. For 23 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `documentation`, `github-ci-operations`, `github-issue`, `implementing-changes`, `planning`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
 
 <!-- /evals:headline -->
 
@@ -62,7 +62,7 @@ averaged over attempts.
 | `postgres-node-performance-tuning` | 5     | 0.83        | 0.17           | 0                     | 7 of 12, from 3 of 5 cases, under 80% | 4 of 5     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     | 3 of 3, from 1 of 2 cases             | 2 of 2     |
 | `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     | n/a                                   | 5 of 5     |
-| `pr-description`                   | 4     | 1.00        | 0.08           | 0                     | n/a                                   | 4 of 4     |
+| `pr-description`                   | 5     | 0.97        | 0.07           | 0                     | 5 of 6, from 1 of 5 cases             | 5 of 5     |
 | `pull-requests`                    | 1     | 1.00        | 0.67           | 0                     | n/a                                   | 1 of 1     |
 | `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     | n/a                                   | 4 of 4     |
 | `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     | n/a                                   | 1 of 1     |

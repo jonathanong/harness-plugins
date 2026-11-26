@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `pr-description` gains a provenance block, with one case
+
+Both runs measured commit `2e54f79` or the same skill and case text before it. Sonnet agent, Opus
+judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.57,
+of which $0.37 agent and $0.20 judges.
+
+- `pr-description`: a description for a change an agent wrote ends with a collapsed
+  "Provenance" block: where it was verified and what that does not cover, the agent with its
+  model and session, the harness it ran in, and the branch or worktree. It leaves out the
+  hostname, the username, and absolute paths.
+- New case `agent-written-change-ends-with-provenance`: loaded 1 of 3, passed 1 of 1 when
+  loaded, 1 of 3 overall, and 0 of 3 without the plugin. It misses its target of 2 of 3 on
+  loading: the two attempts that did not load called no skill and wrote no such block. Three
+  attempts do not settle the loading rate.
+- A second run of six attempts with the plugin, after review, $0.87 ($0.53 agent, $0.34
+  judges): loaded 5 of 6, passed 5 of 5 when loaded, 5 of 6 overall. The case meets its target
+  and the loading target; the table row is from this run, and its without-plugin column from the
+  first.
+
 ## 2026-11-26: the two view cases of `postgres-node-performance-tuning` run, after a prompt and a grader change
 
 Commit `6566c2c` plus the case and rule changes below. Sonnet agent, Opus judge, Claude Code

@@ -24,6 +24,7 @@ code is this way. Write for both. Build it from the final diff, not from the pla
    and a table when there are two or more rows to compare.
 5. **Rollout and risk**, when they apply: a migration, a flag, an order of deploys, how to revert.
 6. **Decisions**, marked **User:** or **Agent:**, per `status-reports`' "Record who decided".
+7. **Provenance**, last, when an agent wrote the change; see "Provenance" below.
 
 ## Show one real run
 
@@ -100,6 +101,36 @@ turns green. An outage or a failure that can only happen in CI is not a gap; do 
 
 Say plainly what was not done or not verified. A known gap stated in the description costs less
 than one found in review.
+
+## Provenance
+
+When an agent wrote the change, end the description with a collapsed "Provenance" block. A
+reviewer weighs a change by what produced it and where it was checked, and a later reader can
+find the session that holds the reasoning.
+
+- **Verified in:** the environment the checks ran in, and what it does not cover, such as a
+  local database with a prepared fixture and no production data.
+- **Agent:** the agent and its model, and the session name or id. The model is the agent's own
+  claim, which nothing in the pull request can prove; say so.
+- **Harness:** the tool the agent ran in, such as Antigravity, the Claude Code CLI, or the
+  Claude Code desktop app. The same model behaves differently in each.
+- **Branch or worktree** the work was done in.
+
+Leave out the machine's hostname, the account's username, and absolute paths: they are private
+detail, and say nothing a reviewer needs. A repository that wants them says so in its
+`AGENTS.md`.
+
+```markdown
+<details>
+<summary>Provenance</summary>
+
+Verified in: a local checkout of `main`, PostgreSQL 18, a prepared fixture. Not production data.
+Agent: Claude (model as it reports itself: Sonnet 5.5), session `orders-cursor-api`
+Harness: Claude Code CLI
+Worktree: `orders-cursor-api`
+
+</details>
+```
 
 ## Scope
 
