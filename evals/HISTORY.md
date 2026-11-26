@@ -44,6 +44,9 @@ What it showed:
   of which $0.52 judges; passed 1 of 3, 1 of 3 unaided). The failing answers ask the person
   about the unused file or plan the table drop. The rule applies in the middle of work, not to
   a kind of request, and a description did not change that.
+- `unattended-task-takes-settled-choices` is marked low priority: the skill is kept for the
+  rule's text, and the case is not expected to gate a change until a request is found that
+  loads it. At 1 of 3 it misses the low target of 50% as well.
 - `fix-covers-sibling-call-sites` loaded `implementing-changes` in 0 of 3 and passed 3 of 3 in
   both arms ($0.59, of which $0.22 judges): a ceiling case, and "Fix this bug" with the code
   inline loads no skill at all.

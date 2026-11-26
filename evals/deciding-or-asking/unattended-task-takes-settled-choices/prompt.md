@@ -1,6 +1,6 @@
 ---
 description: Starting a task unattended, takes the choices that policy or the evidence settles, asks only about the irreversible one with a recommendation, and keeps working meanwhile.
-tags: [deciding-or-asking, skill-fired]
+tags: [deciding-or-asking, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
