@@ -137,7 +137,8 @@ Each still gets a loading case and an answer case.
       column that a run fills; rows not rerun since it was added are blank, and no table shows it
       yet.
 - [ ] **Review the case priorities.** An agent proposed them on 2026-11-25 (3 critical, 26 high,
-      22 low, the rest medium); `evals/HISTORY.md` lists the reasons.
+      22 low, the rest medium) by the cost of the mistake each case catches. The reason for each is
+      only in the description of the pull request that added the tags, not in this repository.
 - [ ] **Intervals in the tables.** `skills/evals/scripts/eval_stats.py` computes the Wilson
       interval per case and the bootstrap interval per suite; `scripts/eval-docs.py` does not
       print them yet, and the without-plugin counts they need are blank for most rows.

@@ -23,6 +23,7 @@ from eval_stats import TARGETS, verdict  # noqa: E402
 
 RESULTS = "evals/results"
 DEFAULT_PLANNED = 3
+PRIORITY_TAGS = {"priority-critical": "critical", "priority-high": "high", "priority-low": "low"}
 OWNED_FLAGS = {"--runs", "--json", "--ablation", "--case", "--concurrency", "-j", "--max-cost-usd"}
 
 
@@ -30,11 +31,14 @@ OWNED_FLAGS = {"--runs", "--json", "--ablation", "--case", "--concurrency", "-j"
 
 
 def priority(prompt_text):
-    """critical, high, medium, or low, from the priority-* tag in a prompt.md frontmatter."""
-    parts = prompt_text.split("---", 2)
-    frontmatter = parts[1] if prompt_text.startswith("---") and len(parts) > 2 else ""
-    match = re.search(r"\bpriority-(critical|high|low)\b", frontmatter)
-    return match.group(1) if match else "medium"
+    """critical, high, medium, or low, from the priority-* tag in a prompt.md frontmatter. Raises
+    ValueError for two tags or an unknown one, as scripts/check-evals.sh and scripts/eval-docs.py
+    reject them: a mistyped tag must not run the case against the medium target."""
+    match = re.match(r"---\n(.*?)\n---\n", prompt_text, re.S)
+    found = re.findall(r"priority-[A-Za-z0-9_-]+", match[1] if match else "")
+    if len(found) > 1 or any(tag not in PRIORITY_TAGS for tag in found):
+        raise ValueError(f"priority tags {found}; use at most one of {', '.join(PRIORITY_TAGS)}")
+    return PRIORITY_TAGS[found[0]] if found else "medium"
 
 
 def skill_of(case):
@@ -157,11 +161,16 @@ def read_priorities(cases):
     priorities = {}
     for case in cases:
         prompt = ROOT / case["dir"] / "prompt.md"
-        priorities[case["dir"]] = priority(prompt.read_text() if prompt.exists() else "")
+        try:
+            priorities[case["dir"]] = priority(prompt.read_text() if prompt.exists() else "")
+        except ValueError as error:
+            sys.exit(f"{prompt}: {error}")
     return priorities
 
 
 def finish(rounds, priorities, message=None):
+    """Writes the merged result and returns the exit code: 1 when the run stopped short or a case
+    missed its target, as `claude plugin eval` exits 1 for a case below its threshold."""
     merged = merge(rounds)
     (ROOT / RESULTS / "latest.json").write_text(json.dumps(merged, indent=2) + "\n")
     counts = tally(merged, priorities) if priorities else {}
@@ -170,6 +179,10 @@ def finish(rounds, priorities, message=None):
     print(f"{ran} attempts run of {full} a full run would use; total cost ${merged['costUsd']:.2f}")
     if message:
         print(message, file=sys.stderr)
+        return 1
+    missed = sorted(case for case, count in counts.items() if count[4] == "missed")
+    if missed:
+        print(f"{len(missed)} missed their target: {' '.join(missed)}", file=sys.stderr)
         return 1
     return 0
 
