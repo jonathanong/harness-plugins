@@ -108,5 +108,6 @@ what order they land. Whether to split or stack is in the `pull-requests` skill.
 
 ## Title
 
-Say what changes, in the imperative, in under about 70 characters. Do not put the ticket number
-alone, and do not describe the activity ("fixes", "updates").
+Say what changes, in the imperative, in under about 70 characters. "Fix the retry on a
+timed-out upload" is a title. Do not put the ticket number alone, and do not use a verb that
+says nothing about the change, such as "Update" or "Changes to".

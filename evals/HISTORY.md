@@ -4,6 +4,24 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: six skills reworded where a rule read two ways (not run)
+
+No case, grader, or fixture changed, and nothing was re-measured.
+
+- `http-api-design`: every resource gets a public id that never changes, separate from the
+  internal key; a slug, where there is one, is preferred in URLs. The text before said to use a
+  public identifier "when a resource has" one. `uuid-slug-routes` still grades the slug route
+  and the redirect; no case grades the public id.
+- `npm-publishing`: each minimum npm version names the feature that needs it, `npm trust` with
+  `--allow-publish` locally and publishing with OIDC in CI.
+- `postgres-node-performance-tuning`: a batch of writes in one transaction has a row limit, and
+  the skill names no value.
+- `pr-description`: a title may start "Fix"; a verb that says nothing, such as "Update", may not.
+- `list-reads` rule 5: the ban is on a setting for a candidate pool's size. An inspected-row
+  cap is a tunable from runtime configuration, as `bounded-iteration` rule 8 says.
+- `expand-contract-migrations`: the sequence said "one step per deploy" over seven steps, two
+  of which are not deploys, and a heading said a rename is four steps.
+
 ## 2026-11-26: the tables show loading and passing apart; 18 cases rerun
 
 Commit: 0ff91ff. Sonnet agent, Opus judge, Claude Code 2.1.332. 18 cases, three attempts each, 63

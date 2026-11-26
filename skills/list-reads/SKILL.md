@@ -25,8 +25,9 @@ ranking over every row is its global-ranking rule, not a list read.
    join and `ORDER BY` on the stored score.
 5. **No candidate pools.** No capped or `MATERIALIZED` CTE over the listed entity that is filtered
    or limited afterward, no window loops or resume probes, no proof state in the cursor, and no
-   runtime-config fields that exist only to cap a read. A single walk with an inspected-row cap is
-   fine, and may return a short or empty page with a continuation cursor and `has_next_page` true.
+   setting for the size of such a pool. A single walk with an inspected-row cap is fine; the cap
+   is a tunable, from runtime configuration as in
+   [bounded-iteration](../bounded-iteration/SKILL.md) rule 8. The walk may return a short or empty page with a continuation cursor and `has_next_page` true.
    See [`MATERIALIZED` CTEs](../postgres-node-performance-tuning/references/performance-patterns.md).
 6. **Small viewer-scoped sets** (the viewer's follows, mutes, blocks and memberships) may be
    subqueries or semi-joins, because write limits bound them.

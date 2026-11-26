@@ -17,7 +17,8 @@ with the version before it and the version after it.
 
 ## The sequence
 
-One step per deploy, in this order:
+In this order. Steps 1, 2, 5, 6, and 7 are each a deploy of their own; the backfill and the
+check run between deploys:
 
 1. Expand: add the new shape, nullable or with a default, and unused. Nothing reads it yet.
 2. Write both: code writes the old and the new shape on every write.
@@ -32,7 +33,7 @@ One step per deploy, in this order:
 Never put an expand and the contract of the same thing in one change. The deploy between them is
 the only time anything can be undone.
 
-## A rename is four steps
+## A rename follows the sequence
 
 Never rename in place: `ALTER TABLE ... RENAME COLUMN` breaks every running instance that still
 uses the old name, the moment it runs. Add the new name, copy, switch readers, drop the old name.

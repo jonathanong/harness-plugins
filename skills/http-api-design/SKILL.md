@@ -37,13 +37,15 @@ For an operation that is not plain create, read, update, or delete, name the thi
 
 ## Identifiers
 
-When a resource has a stable user-facing identifier, such as a slug or a public id, use it in
-URLs and responses. Do not expose the internal primary key there. An internal id leaks volume
+Give every resource a public id: short, generated once, never changed, and separate from the
+internal primary key. A resource people name or link to also gets a slug. Use the slug in URLs
+and labels where there is one, since that is what a slug is for, and the public id elsewhere and
+as the reference that survives a rename. Do not expose the internal primary key. It leaks volume
 and ordering, invites enumeration, and ties every client to the storage layout.
 
 - A UUID is not a user-facing identifier, even a random or a truncated one. Do not use it as the
-  identifier in a route, a visible label, or a field a person types or pastes. Give the resource
-  a slug, a natural key, or a short public id. A UUID in a URL is unreadable and cannot be
+  identifier in a route, a visible label, or a field a person types or pastes. Use the slug or the
+  public id. A UUID in a URL is unreadable and cannot be
   said aloud.
 - Where a route takes a slug, a UUID may stay as a fallback for old links. Answer it with a
   permanent redirect to the canonical slug URL, so one resource has one URL for caches, search

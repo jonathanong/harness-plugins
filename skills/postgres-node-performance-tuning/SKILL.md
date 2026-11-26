@@ -46,7 +46,9 @@ it beats that simple query, not merely the previous version; see
 - Bound each result set, and cap the rows each run reads, as in
   [bounded iteration](../bounded-iteration/SKILL.md), which owns LIMITs and streams. Pagination
   is in [list reads](../list-reads/SKILL.md).
-- Batch writes inside an explicit transaction limit.
+- Give a batch of writes in one transaction a limit on its rows, so a large input becomes
+  several short transactions instead of one long one. The limit is a tunable, not a value this
+  skill sets.
 - Keep connection-pool usage bounded. Pool maxima are ceilings, so the worst case is their sum per
   process times every process and test worker, and it must fit the server's `max_connections`.
 - Validate a query change at representative cardinality. Watch latency, memory, lock time, and
