@@ -124,9 +124,10 @@ Each still gets a loading case and an answer case.
       ("so we're good to merge, right?") loaded it in 0 of 6 on 2026-11-26 and passed unaided.
       It needs a case inside real work on a fixture, where the agent itself is about to say
       "done".
-- [ ] **`agent-workflow` has one case left,** for "Decide, then report", and a request for a
-      status note loads `status-reports` for it. Add a case where the agent is implementing
-      and meets a choice it should take without asking.
+- [ ] **`agent-workflow` does not load when an unattended task starts.**
+      `unattended-task-takes-settled-choices` loaded it in 0 of 3 on 2026-11-26 and passed 1 of
+      3, against 2 of 3 unaided. Find a request that loads it, or move "Decide, then report" to
+      where the agent already is when it decides.
 - [ ] **Does a link alone carry a rule?** `github-issue` rule 3, `postgres-locking`, and the
       `pull-requests` review response each keep a short copy of `change-review`, "Verify a
       finding", beside the link to it. In 9 of 9 plugin attempts on 2026-11-24 no agent opened the

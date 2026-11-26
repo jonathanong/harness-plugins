@@ -7,7 +7,8 @@ scores are in [EVALS.md](EVALS.md).
 ## 2026-11-26: `agent-workflow` split into three skills; loading measured before and after
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. Four cases, plugin arm only, six attempts each,
-24 attempts: $2.74, of which $1.92 agent and $0.82 judges, $0.11 per attempt. The "before"
+24 attempts: $2.74, of which $1.92 agent and $0.82 judges, $0.11 per attempt. Then one new
+case, both arms, three attempts each: $0.84, of which $0.38 agent and $0.46 judges. The "before"
 column is the targeted run earlier the same day, three attempts each, on the unsplit skills.
 
 What changed:
@@ -18,14 +19,15 @@ What changed:
   finding.
 - New `status-reports` holds all of `verification`, which is removed, with "Explain the
   outcome" and "Record who decided". Links in nine other skills follow the sections.
-- Three cases moved with their rules. `status-note-asks-only-what-it-must` stays under
-  `agent-workflow`, whose rule it grades, and its `skill-fired` grader accepts either
-  `agent-workflow` or `status-reports`, since a request for a note loads the second.
+- All four cases moved to the two new skills. `status-note-asks-only-what-it-must` is under
+  `status-reports`, which a request for a note loads and whose "What the note asks" it grades.
+- New case `agent-workflow/unattended-task-takes-settled-choices` for "Decide, then report" at
+  the start of a task, since the kept skill had no case left.
 
 | Case                                                | Loaded before | Loaded after | Passed when loaded | Passed before | Passed after |
 | --------------------------------------------------- | ------------- | ------------ | ------------------ | ------------- | ------------ |
 | `change-review/review-says-who-waits-and-who-pays`  | 0 of 3        | 6 of 6       | 6 of 6             | 3 of 3        | 6 of 6       |
-| `agent-workflow/status-note-asks-only-what-it-must` | 0 of 3        | 4 of 6       | 4 of 4             | 2 of 3        | 4 of 6       |
+| `status-reports/status-note-asks-only-what-it-must` | 0 of 3        | 4 of 6       | 4 of 4             | 2 of 3        | 4 of 6       |
 | `status-reports/status-note-with-no-user-change`    | 0 of 3        | 4 of 6       | 4 of 4             | 3 of 3        | 6 of 6       |
 | `status-reports/stale-result-after-later-edit`      | 0 of 3        | 0 of 6       | not measured       | 3 of 3        | 6 of 6       |
 
@@ -33,14 +35,17 @@ What it showed:
 
 - Loading went from 0 of 12 to 14 of 24. A request to review a diff loaded `change-review`
   every time, and a request for a status note loaded `status-reports` in 8 of 12.
-- `status-note-asks-only-what-it-must` passed 4 of 4 when a skill loaded and 0 of 2 when none
-  did. No attempt loaded `agent-workflow` itself.
+- `status-note-asks-only-what-it-must` passed 4 of 4 when `status-reports` loaded and 0 of 2
+  when nothing did.
+- The new `agent-workflow` case loaded the skill in 0 of 3 and passed 1 of 3, against 2 of 3
+  without the plugin. The failing answers ask the person about the unused file or plan the
+  table drop. So the kept skill does not load when an unattended task starts, and there is no
+  earlier measurement of this request to say whether the split changed that.
 - A direct question, "so we're good to merge, right?", still loads nothing, as it did for
   `verification`. The traces show no skill call in any unloaded attempt, so no neighbor took
   them.
-- Not measured: whether the narrower `agent-workflow` still loads when an implementation task
-  starts; it has no case for that. No two-arm run, so the "Without plugin" values are the
-  earlier ones.
+- The four moved cases had no two-arm run, so their "Without plugin" values are the earlier
+  ones.
 
 ## 2026-11-26: review fixes to the two-layer tables; one grader split and rerun
 

@@ -1,6 +1,6 @@
 ---
 description: A status note with four open items acts on the three that policy or ownership settles and asks the person only about the irreversible one, with a recommendation.
-tags: [agent-workflow, skill-fired]
+tags: [status-reports, skill-fired]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
