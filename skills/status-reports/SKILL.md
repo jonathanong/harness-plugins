@@ -74,9 +74,11 @@ confirmed choice from your own call, and push back on yours.
   design choice, a trade-off, a default the request left open, anything costly to reverse, and
   the answer to any non-trivial question you asked; not what the code or a rule settled.
 - Record it where the work is tracked: a pull request description, an issue description, a
-  comment on either, and an implementation plan for the team doing the work. Use a short
+  comment on either, an implementation plan for the team doing the work, and a brief for a
+  worker. Use a short
   "Decisions" list; start each line with **User:** or **Agent:**, and give an agent decision its
-  reason. Paraphrase the person; do not quote or name them.
+  reason. Do not quote or name the person. Restate what they decided without changing its meaning or
+  its scope: no exception, reason, or condition they did not give.
 
   ```markdown
   - User: keep `/v1/orders` until the mobile app's 4.2 release ships.

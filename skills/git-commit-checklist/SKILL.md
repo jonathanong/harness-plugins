@@ -40,7 +40,9 @@ editor. The push then overwrites commits you never read.
   goes.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
 - Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
-  say which hook is broken and ask.
+  say which hook is broken and ask. A slow hook is not a reason either, also when the person
+  offers to skip it: say what the hook checks, leave it running, and do not hand over the flag
+  as their call.
 
 ## A conflict in a hand-written file
 

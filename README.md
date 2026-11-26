@@ -84,6 +84,7 @@ on top, in its `AGENTS.md`. Skills load as `jong-skills:<skill>`, for example
 | [`rust-authoring`](skills/rust-authoring/SKILL.md)                                     | Laying out Rust tests and caches, and running heavy cargo builds.                                                        |
 | [`http-api-design`](skills/http-api-design/SKILL.md)                                   | Shaping an HTTP API: resources, thin handlers, identifiers, secrets.                                                     |
 | [`service-boundaries`](skills/service-boundaries/SKILL.md)                             | Calling another service or a partner API, or handling a webhook.                                                         |
+| [`upstream-contributions`](skills/upstream-contributions/SKILL.md)                     | Contributing to a repository you do not own: its rules first, its templates, and a pull request in the fork too.         |
 | [`webhooks`](skills/webhooks/SKILL.md)                                                 | Receiving or sending webhooks: signatures, replay, duplicates, order, retries, and customer URLs.                        |
 | [`feature-rollout`](skills/feature-rollout/SKILL.md)                                   | Adding a feature flag, or a table or service that needs an entry point.                                                  |
 | [`expand-contract-migrations`](skills/expand-contract-migrations/SKILL.md)             | Renaming or dropping a column, table, or field without a deploy-time break.                                              |
@@ -109,12 +110,12 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **167 cases** across 50 skills.
-- **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.35, over the 166 cases measured both ways.
-- **131 cases** are ones the model fails unaided. The other 35 it already gets right: 7 check that a skill stays out of the way, and 28 show at most that the skill loads.
-- **162 of 167 cases** meet their target: critical 2 of 3, high 24 of 25, medium 113 of 115, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 5 of 50 skills, and 1 of those load in at least 80% of attempts. For 13 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `github-issue`, `implementing-changes`, `postgres-node-performance-tuning`, `pr-description`, `review-ci-logs`, `status-reports`, `test-authoring`.
+- **170 cases** across 51 skills.
+- **With the plugin:** mean score 0.93.
+- **Without it:** mean score 0.35, over the 169 cases measured both ways.
+- **133 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **164 of 170 cases** meet their target: critical 3 of 3, high 23 of 25, medium 115 of 118, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 10 of 51 skills, and 6 of those load in at least 80% of attempts. For 23 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `documentation`, `github-ci-operations`, `github-issue`, `implementing-changes`, `planning`, `postgres-node-performance-tuning`, `pr-description`, `review-ci-logs`, `status-reports`, `test-authoring`.
 
 <!-- /evals:headline -->
 
