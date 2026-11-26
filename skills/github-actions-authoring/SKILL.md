@@ -104,7 +104,7 @@ head that is being checked.
 - If the producer cannot emit a usable event, add the bridge at the producer or provider boundary
   and let that bridge dispatch the correlated completion event.
 - Bounded retries are allowed only for the same failed operation, and only when the failure is
-  transient and the operation is idempotent.
+  transient and the operation is idempotent. `review-ci-logs` says how to retry a download.
 - A local process readiness check is allowed when that process runs inside the job and cannot emit
   a workflow event.
 - Neither exception allows repeated observation of remote state.

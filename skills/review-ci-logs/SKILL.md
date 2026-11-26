@@ -37,9 +37,17 @@ commands, read its [cookbook](../github-ci-operations/references/cookbook.md).
    infrastructure failure a gap in local checks.
 5. When the cause is one the repository owns, make one bounded fix at the cause. For an outage,
    or an infrastructure failure outside the repository, report it and skip steps 5 and 6. Keep
-   non-zero exits, the primary error, artifacts, summaries, and diagnostic output. Do not hide stderr, quiet output globally, or add a retry
-   that masks the cause. A retry is right only for the same idempotent operation failing for a
-   transient outside reason.
+   non-zero exits, the primary error, artifacts, summaries, and diagnostic output. Do not hide
+   stderr, quiet output globally, or add a retry that masks the cause. A retry is right only for
+   the same idempotent operation failing for a transient outside reason.
+
+   A download in CI is that case: a tool, a package, or a test dependency fetched during setup.
+   Retry it once, so two attempts in total, and give each attempt a short timeout, a small
+   multiple of what a healthy download takes. Retry only when the attempt timed out or the
+   connection failed, not on a checksum mismatch or a 4xx response, which a second attempt
+   repeats. A long timeout with several retries turns one stalled host into minutes on every
+   shard. This does not allow retrying a test.
+
 6. Add a focused regression check, run the workflow checker, and compare the output before and
    after where that means something. Report what was left alone. Do not file issues unless asked;
    when asked, `github-issue` owns how.
