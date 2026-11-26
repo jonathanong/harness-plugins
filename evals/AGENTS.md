@@ -16,7 +16,10 @@ python3 scripts/eval-summary.py                           # write the run's rows
 python3 scripts/eval-docs.py                              # rebuild EVALS.md and the README tables
 ```
 
-- Sonnet is the agent and Opus is the judge. Measure with three attempts, the default.
+- Sonnet is the agent and Opus is the judge. Measure with three attempts, the default. Quote a
+  loading rate only from six attempts or more of a case.
+- `pnpm run evals` keeps every attempt's trace, under the path each failed attempt prints. Do
+  not turn that off: a run without traces cannot say why an attempt did not load.
 - The default run has no no-plugin arm. Run that arm once for a new case, to check that the model
   does not already pass it without the skill, and record what it scored in `HISTORY.md`.
 - `scripts/eval-summary.py` records two layers for each case: `loaded`, the attempts where
@@ -55,6 +58,8 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
 - Write the prompt as a person would ask it. Do not use the skill's own wording, and do not name
   the skill.
 - Build a case on a decision the model gets wrong without the skill.
+- Put the agent inside the work, on a fixture when the work needs files. Do not write a case
+  that asks about the rule directly: such a prompt loads no skill and passes unaided.
 - A case the model passes without the skill may be dropped, and `HISTORY.md` records it. The rule
   it covered stays in the skill, because weaker models need it: the change names the mistake the
   rule prevents, as the Review section of the `evals` skill requires. Never cite a ceiling case as a reason to
@@ -91,18 +96,18 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
 
 The `evals` skill's `references/eval-types.md` defines each kind. Here:
 
-| Kind             | Command                                                                  |
-| ---------------- | ------------------------------------------------------------------------ |
-| With vs. without | `EVAL_ABLATION=with-without pnpm run evals <skill>`                      |
-| Loading          | `EVAL_FLAGS='--runs 8 --case <case> --keep-temp' pnpm run evals <skill>` |
-| Description A/B  | The loading command once per description version, in the same session    |
-| Neighbors        | A case with a `tool_used` grader for each skill that should load         |
-| Guard            | The with-vs-without command; label the case a guard                      |
-| Regression       | `pnpm run evals` after a Claude Code or model upgrade                    |
+| Kind             | Command                                                               |
+| ---------------- | --------------------------------------------------------------------- |
+| With vs. without | `EVAL_ABLATION=with-without pnpm run evals <skill>`                   |
+| Loading          | `EVAL_FLAGS='--runs 8 --case <case>' pnpm run evals <skill>`          |
+| Description A/B  | The loading command once per description version, in the same session |
+| Neighbors        | A case with a `tool_used` grader for each skill that should load      |
+| Guard            | The with-vs-without command; label the case a guard                   |
+| Regression       | `pnpm run evals` after a Claude Code or model upgrade                 |
 
 - Before changing a description to make a skill load, run the A/B on the cases that miss and keep
   the change only if it loads more often.
-- `--keep-temp` keeps the traces. Check whether a miss called no skill or another one. No call
+- Check in the traces whether a miss called no skill or another one. No call
   needs a clearer trigger; a neighbor's call needs the two descriptions to divide the work.
 
 ## Record
@@ -118,6 +123,8 @@ The `evals` skill's `references/eval-types.md` defines each kind. Here:
   directories differ.
 - A row that stopped early shows the attempts that ran, such as "2 of 2", and a verdict. It is
   not a rate; do not quote it as one.
+- When the way a count is made changes, rerun the old rows by priority, critical and high first,
+  not the whole suite, and say in `README.md` which rows still use the old count.
 - A change to a case, grader, or fixture with no run still gets a `HISTORY.md` entry. Say under
   "Where each row comes from" that the affected rows were not re-measured.
 - Planned work goes in the root `ROADMAP.md`, not in `README.md` or `EVALS.md`.

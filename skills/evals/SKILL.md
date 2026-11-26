@@ -106,13 +106,13 @@ kinds of eval a skill suite runs and the attempts each needs, and
 - For a skill that loads on demand, report two layers per case: how often it loaded, and how
   often the case passed when it did. 2 of 3 loaded and 1 of 2 passed when loaded is 1 of 3
   overall; the priority target is for the overall rate. Hold loading to its own target, 80% by
-  default. Fix low loading in the description, not the body.
+  default, judged from six attempts or more. Fix low loading in the description, not the body.
 - Pilot a new case with one attempt to check its graders. Measure with at least three attempts
   per arm before quoting a number.
 - Compare a change against a control measured in the same session. Scores drift between days, so
   a stored number is not a control.
-- Read the failing attempts before changing anything. Decide whether the case, the grader, or the
-  thing under test is wrong. Do not loosen a grader to make a row pass.
+- Keep every attempt's trace, and read the failing attempts before changing anything. Decide
+  whether the case, the grader, or the thing under test is wrong. Never loosen a grader to pass.
 - When a change is aimed at one group of cases, also run the groups it does not target.
 - Keep raw results out of version control when they are large or hold transcripts. Then
   `README.md` and `HISTORY.md` are the durable record, so update them before the raw results are

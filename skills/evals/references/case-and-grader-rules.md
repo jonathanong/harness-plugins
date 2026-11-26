@@ -9,6 +9,10 @@ Defaults for the `Cases` and `Graders` parts of a suite's `AGENTS.md`. Adopt the
   test; a prompt that quotes it measures recall of the wording.
 - Build each case on a decision the model gets wrong on its own. Check that by running the
   baseline arm before keeping the case.
+- Put the agent inside the work. A prompt that asks about the rule directly ("so we are good to
+  merge, right?") gets a direct answer: the agent loads nothing, and passes or fails on what the
+  model already knows. Hand it the task in which the rule applies, on a fixture when the task
+  needs files.
 - Make the prompt well posed. If the agent cannot reach something the task needs, say so in the
   prompt, or both arms spend their turns discovering it.
 - Add cases where the thing under test must stay out of the way, and grade that it did.

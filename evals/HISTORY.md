@@ -4,6 +4,19 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: four rules from this week's runs added to `evals` and `evals/AGENTS.md` (not run)
+
+No case, grader, or fixture changed. Each rule comes from a run recorded below.
+
+- Keep every attempt's trace. The targeted run of 18 cases discarded them, so why its unloaded
+  and failing attempts went wrong is unknown. `scripts/run-evals.sh` and
+  `scripts/eval-rounds.py` now pass `--keep-temp`.
+- Quote a loading rate from six attempts or more. `stacked-branch-conflicts-resolved-by-hand`
+  loaded 1 of 3 and then 3 of 3 on one description.
+- A case puts the agent inside the work. Direct questions loaded nothing in 0 of 6 and 0 of 3
+  and passed unaided.
+- When a count changes, rerun old rows by priority instead of the whole suite.
+
 ## 2026-11-26: `agent-workflow` split into four skills and removed; loading measured before and after
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. Four cases, plugin arm only, six attempts each,
