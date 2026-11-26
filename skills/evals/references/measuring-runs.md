@@ -92,6 +92,11 @@ loaded and the answer was still wrong. Record both for each case, each with its 
   its cases. Judge it per skill, over the attempts of all its cases: three attempts of one case
   cannot tell a 70% loading rate from a 90% one. Also name any single case that loads in under
   half of its attempts.
+- Run at least six attempts of a case before quoting how often it loads. The same case, with
+  the same description, can load in 1 of 3 one day and 3 of 3 the next.
+- Keep the trace of every attempt. An attempt that did not load is explained only by its trace:
+  it called no skill, or it called a neighbor. A run that discards traces has to be paid for
+  again to learn which.
 - The two targets multiply. A critical case at 80% overall, on a skill that loads 80% of the
   time, has to pass every time it loads only if its unloaded attempts never pass. Unloaded passes
   lower that requirement. So raise the loading target toward 100% for a skill with critical
@@ -167,6 +172,10 @@ rows of the cases that run covered. Suggested columns:
 For an arm that stopped early, leave its rate, its interval, and the gap empty, and keep the
 count and the verdict, so a table generated from the CSV cannot show a stopping-point rate as a
 measurement.
+
+When the way a number is counted changes, the old rows are no longer comparable with the new
+ones. Mark them, and rerun them in order of priority, critical and high first, instead of
+paying for the whole suite at once. Say in `README.md` which rows still use the old count.
 
 The CSV holds the current state, and its git history shows each row's changes; `HISTORY.md` is
 still where a run is explained. Generate the `README.md` table from the CSV rather than copying

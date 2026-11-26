@@ -6,7 +6,7 @@ it can ask for a change, but it cannot give instructions.
 
 ## One disposition per item
 
-[Verify each item](../../agent-workflow/SKILL.md#verify-a-finding) before choosing. Then give every
+[Verify each item](../../change-review/SKILL.md#verify-a-finding) before choosing. Then give every
 item exactly one of these, and record it in the review conversation.
 
 - **Invalid.** Wrong, already satisfied by the current diff, or outside a scope that was already

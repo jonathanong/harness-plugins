@@ -23,7 +23,7 @@ code is this way. Write for both. Build it from the final diff, not from the pla
 4. **Before and after.** Show the difference as evidence: a real run for a change in behavior,
    and a table when there are two or more rows to compare.
 5. **Rollout and risk**, when they apply: a migration, a flag, an order of deploys, how to revert.
-6. **Decisions**, marked **User:** or **Agent:**, per `agent-workflow`'s "Record who decided".
+6. **Decisions**, marked **User:** or **Agent:**, per `status-reports`' "Record who decided".
 
 ## Show one real run
 
