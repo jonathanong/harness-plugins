@@ -1,6 +1,6 @@
 ---
 description: A CDN worker's verified JWT is used for cache bypass only, not to grant access or a rate-limit tier.
-tags: [http-api-design, skill-fired, outcome]
+tags: [http-api-design, skill-fired, outcome, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

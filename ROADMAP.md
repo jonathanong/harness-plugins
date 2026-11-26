@@ -133,6 +133,14 @@ Each still gets a loading case and an answer case.
       ran into the eval account's weekly limit, which resets 2026-11-30.
 - [ ] **One full two-arm run** so every row comes from the same run, with more than three attempts
       where a case sits between pass and fail.
-- [ ] **Report how often each skill loads** beside its score.
+- [ ] **Report how often each skill loads** beside its score. `evals/cases.csv` has a `loaded`
+      column that a run fills; rows not rerun since it was added are blank, and no table shows it
+      yet.
+- [ ] **Review the case priorities.** An agent proposed them on 2026-11-25 (3 critical, 26 high,
+      22 low, the rest medium) by the cost of the mistake each case catches. The reason for each is
+      only in the description of the pull request that added the tags, not in this repository.
+- [ ] **Intervals in the tables.** `skills/evals/scripts/eval_stats.py` computes the Wilson
+      interval per case and the bootstrap interval per suite; `scripts/eval-docs.py` does not
+      print them yet, and the without-plugin counts they need are blank for most rows.
 - [ ] **Anchor pattern graders** to the command the agent ran, and split graders that check two
       things.

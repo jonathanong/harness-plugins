@@ -1,6 +1,6 @@
 ---
 description: 'Guard: updating a docs page with a decision made in a session states the decision and its reason as fact, with no note of who made it.'
-tags: [documentation, guard]
+tags: [documentation, guard, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

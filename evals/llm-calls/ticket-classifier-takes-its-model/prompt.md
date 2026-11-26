@@ -1,6 +1,6 @@
 ---
 description: A new ticket classifier takes its model from configuration or an argument, with no model id or fallback written in the code
-tags: [llm-calls, skill-fired, outcome]
+tags: [llm-calls, skill-fired, outcome, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

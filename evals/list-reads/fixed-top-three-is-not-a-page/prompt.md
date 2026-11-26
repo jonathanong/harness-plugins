@@ -1,6 +1,6 @@
 ---
 description: Guard - the three latest sign-ins for an account banner are one query with a fixed limit, not a paginated read.
-tags: [list-reads, guard]
+tags: [list-reads, guard, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

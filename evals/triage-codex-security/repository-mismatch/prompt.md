@@ -1,6 +1,6 @@
 ---
 description: An export that names another repository blocks every hosted action.
-tags: [triage-codex-security, outcome, skill-fired]
+tags: [triage-codex-security, outcome, skill-fired, priority-high]
 max_turns: 30
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]

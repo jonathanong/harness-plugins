@@ -1,6 +1,6 @@
 ---
 description: An xUnit test for a leak in a private dictionary asserts the public result and does not reflect on the field.
-tags: [test-authoring, skill-fired]
+tags: [test-authoring, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

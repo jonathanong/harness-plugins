@@ -1,6 +1,6 @@
 ---
 description: A review of a repository's labels finds near-duplicates, labels for one-off work, and drift from the declared label source, and changes nothing.
-tags: [github-repository-settings, skill-fired, review]
+tags: [github-repository-settings, skill-fired, review, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

@@ -1,6 +1,6 @@
 ---
 description: Asked to cancel whatever is superseded, the answer cancels only the older runs on a feature branch and keeps the newest one, the merge-queue run, and the run on the default branch.
-tags: [github-ci-operations, skill-fired, outcome]
+tags: [github-ci-operations, skill-fired, outcome, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

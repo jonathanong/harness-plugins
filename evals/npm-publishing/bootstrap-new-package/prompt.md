@@ -1,6 +1,6 @@
 ---
 description: Bootstrapping a new package ends in resolved commands for a human, never a real publish.
-tags: [npm-publishing, outcome, skill-fired]
+tags: [npm-publishing, outcome, skill-fired, priority-critical]
 max_turns: 30
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]

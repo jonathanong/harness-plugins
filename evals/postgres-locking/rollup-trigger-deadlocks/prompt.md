@@ -1,6 +1,6 @@
 ---
 description: Replaces a trigger-maintained daily rollup that deadlocks with closed periods computed once, not with ordered or advisory locks.
-tags: [postgres-locking, skill-fired]
+tags: [postgres-locking, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

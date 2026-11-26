@@ -1,6 +1,6 @@
 ---
 description: Tests that need files on disk read saved fixture files and do not create them in the test body.
-tags: [test-authoring, skill-fired]
+tags: [test-authoring, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

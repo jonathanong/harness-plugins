@@ -1,6 +1,6 @@
 ---
 description: A rebase that conflicts in a generated API client is resolved by rerunning the generator on the merged specification, not by merging the hunks by hand or taking one side.
-tags: [git-commit-checklist, skill-fired]
+tags: [git-commit-checklist, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

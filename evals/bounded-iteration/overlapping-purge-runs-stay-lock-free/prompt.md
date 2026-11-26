@@ -1,6 +1,6 @@
 ---
 description: A purge sweep whose runs overlap is made safe by a re-check in the delete and a conditional cursor write, not by locking its rows or its cursor
-tags: [bounded-iteration, skill-fired, sweep]
+tags: [bounded-iteration, skill-fired, sweep, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

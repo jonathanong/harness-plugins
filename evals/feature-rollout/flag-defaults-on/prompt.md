@@ -1,6 +1,6 @@
 ---
 description: A new flag defaults to off, and deployed is reported separately from enabled.
-tags: [feature-rollout, skill-fired]
+tags: [feature-rollout, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

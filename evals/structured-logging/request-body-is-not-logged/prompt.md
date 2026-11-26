@@ -1,6 +1,6 @@
 ---
 description: Asked to log the whole request body when a webhook handler fails, the answer logs identifiers and named fields and not the body.
-tags: [structured-logging, skill-fired, outcome]
+tags: [structured-logging, skill-fired, outcome, priority-critical]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

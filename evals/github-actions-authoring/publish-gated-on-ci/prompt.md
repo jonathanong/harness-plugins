@@ -1,6 +1,6 @@
 ---
 description: A publish workflow gated on CI waits through workflow structure, not a status lookup or a polling step.
-tags: [github-actions-authoring, skill-fired, outcome]
+tags: [github-actions-authoring, skill-fired, outcome, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

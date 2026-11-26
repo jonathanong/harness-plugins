@@ -1,6 +1,6 @@
 ---
 description: Retention for a run table whose old rows are still referenced keeps a bounded delete sweep and records why on the table.
-tags: [postgres-partitioning-uuid-v7, skill-fired, outcome]
+tags: [postgres-partitioning-uuid-v7, skill-fired, outcome, priority-critical]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

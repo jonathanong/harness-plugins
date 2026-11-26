@@ -4,6 +4,45 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-25: priorities, a results CSV, and a stop-early run
+
+Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The three `evals` cases of the time,
+plugin arm only, stopping early: $0.72, of which $0.54 agent and $0.18 judges, $0.12 per attempt.
+
+What changed:
+
+- `evals/cases.csv` is now the source of every case's latest result. `scripts/eval-summary.py`
+  writes a run's rows to it, and `scripts/eval-docs.py` generates the `EVALS.md` table and the
+  `README.md` tables from it. The CSV was filled from the `EVALS.md` table as it stood; every
+  Score, Passed, and Without plugin value is unchanged. Date, commit, cost, loading, and
+  without-plugin counts are blank for rows not rerun since.
+- Every case has a priority, as a `priority-*` tag; none means medium. An agent proposed them by
+  the cost of the mistake each case catches: 3 critical (a logged request body, a real first
+  publish, retention that drops referenced rows), 26 high, 22 low, 111 medium. The pull request
+  lists each with its reason. No prompt, grader, or fixture changed, so scores stay comparable.
+- `EVAL_STOP_EARLY=1 pnpm run evals` runs attempts in rounds through `scripts/eval-rounds.py` and
+  stops a case once its verdict cannot change. The validation run below used rounds of one. After
+  review the first round became two attempts, so no verdict rests on one, and the driver plans
+  three attempts itself and no longer reads the runner's `runsPerCase`; that version was checked
+  on saved results, not rerun.
+- The `evals` skill bundles `scripts/eval_stats.py`: Wilson intervals, the suite and gap
+  bootstrap, passes needed, and the verdict.
+
+| Case                              | Priority | With plugin                 | Verdict |
+| --------------------------------- | -------- | --------------------------- | ------- |
+| `evals/document-new-suite`        | low      | 1.00, 2 of 2, loaded 2 of 2 | met     |
+| `evals/record-partial-rerun`      | medium   | 1.00, 2 of 2, loaded 2 of 2 | met     |
+| `evals/stop-early-against-target` | medium   | 0.67, 0 of 2, loaded 0 of 2 | missed  |
+
+The run used 6 attempts where a full run uses 9. Each case was undecided after one attempt and
+settled after two. `stop-early-against-target` was a draft case that the entry below replaces
+with `met-target-column-uses-the-default-bars`; it has no row now. These rows are verdicts, not rates: the two passing cases stood at 3 of 3 in
+earlier full runs, and their rows now read "2 of 2". `stop-early-against-target` still does not
+load its skill, now 0 of 6 across the day's runs.
+
+By the backfilled rows, 144 of 159 measured cases meet their target: critical 2 of 3, high 20 of
+26, medium 105 of 110, low 17 of 20. Those counts mix runs from different days.
+
 ## 2026-11-25: Codecov uploads that cannot fail CI
 
 Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both

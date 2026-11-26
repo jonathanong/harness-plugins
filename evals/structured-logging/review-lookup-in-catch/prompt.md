@@ -1,6 +1,6 @@
 ---
 description: A review of a catch block that fetches the customer's name to log it flags the extra query on the failure path and the personal data, and asks for the identifier instead.
-tags: [structured-logging, skill-fired]
+tags: [structured-logging, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

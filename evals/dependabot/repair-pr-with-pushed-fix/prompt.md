@@ -1,6 +1,6 @@
 ---
 description: A Dependabot pull request that carries a pushed fix and now conflicts is rebased by hand with the lockfile regenerated, not rebuilt with a Dependabot comment that would drop the fix.
-tags: [dependabot, skill-fired]
+tags: [dependabot, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

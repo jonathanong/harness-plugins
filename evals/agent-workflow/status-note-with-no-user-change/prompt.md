@@ -1,6 +1,6 @@
 ---
 description: Guard. A status note for a day of internal-only work says no user-visible change and names who benefits, without inventing a user impact.
-tags: [agent-workflow, skill-fired]
+tags: [agent-workflow, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

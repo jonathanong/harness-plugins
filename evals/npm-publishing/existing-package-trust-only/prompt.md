@@ -1,6 +1,6 @@
 ---
 description: An existing package gets a trust check and trust setup only, with no publish command.
-tags: [npm-publishing, outcome, skill-fired]
+tags: [npm-publishing, outcome, skill-fired, priority-high]
 max_turns: 30
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]

@@ -1,6 +1,6 @@
 ---
 description: A rename updates every caller instead of leaving a forwarding alias, and a promise returned inside try is awaited.
-tags: [typescript-authoring, skill-fired]
+tags: [typescript-authoring, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
