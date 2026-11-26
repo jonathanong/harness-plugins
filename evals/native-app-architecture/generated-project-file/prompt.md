@@ -1,6 +1,6 @@
 ---
 description: A first-commit checklist for a new Xcode app commits the project specification and ignores the generated project file.
-tags: [native-app-architecture, skill-fired]
+tags: [native-app-architecture, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

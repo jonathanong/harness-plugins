@@ -1,6 +1,6 @@
 ---
 description: Guard - a mechanical rename gets done and verified, not a multi-section plan document.
-tags: [planning, guard]
+tags: [planning, guard, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

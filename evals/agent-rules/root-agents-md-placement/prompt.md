@@ -1,6 +1,6 @@
 ---
 description: Keeps a root AGENTS.md to principles - moves a release procedure out and drops a file listing the code already shows.
-tags: [agent-rules, skill-fired]
+tags: [agent-rules, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

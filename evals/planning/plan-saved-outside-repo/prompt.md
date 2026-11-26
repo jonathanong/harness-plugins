@@ -1,6 +1,6 @@
 ---
 description: A plan for a cross-cutting change is saved in an issue or pull request, not committed to the repository, and weighs not doing the change.
-tags: [planning, skill-fired]
+tags: [planning, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

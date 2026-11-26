@@ -1,6 +1,6 @@
 ---
 description: A migration for a new membership table names every constraint, its primary key included, with the pk_, fk_, uq_, and ck_ prefixes.
-tags: [postgres-schema-design, skill-fired, outcome]
+tags: [postgres-schema-design, skill-fired, outcome, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

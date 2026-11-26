@@ -1,7 +1,7 @@
 # Eval rules
 
-The suite runs with `claude plugin eval`. `EVALS.md` in this directory holds one row per case with its
-current score, `README.md` holds the roll-up by skill for people, and `HISTORY.md` holds the log. The `evals` skill in this plugin describes how the three files
+The suite runs with `claude plugin eval`. `cases.csv` in this directory holds one row per case with its
+latest result; `EVALS.md` and the roll-up by skill in `README.md` are generated from it, and `HISTORY.md` holds the log. The `evals` skill in this plugin describes how the three files
 work; follow it.
 
 ## Run
@@ -11,7 +11,9 @@ pnpm run evals                  # every case, with the plugin
 pnpm run evals <skill> ...      # the cases tagged with those skills
 EVAL_FLAGS='--runs 1' pnpm run evals <skill>              # pilot a new case
 EVAL_ABLATION=with-without pnpm run evals <skill>         # add a no-plugin arm
-python3 scripts/eval-summary.py                           # rows for EVALS.md
+EVAL_STOP_EARLY=1 pnpm run evals <skill>                  # stop each case once its verdict is settled
+python3 scripts/eval-summary.py                           # write the run's rows to cases.csv
+python3 scripts/eval-docs.py                              # rebuild EVALS.md and the README tables
 ```
 
 - Sonnet is the agent and Opus is the judge. Measure with three attempts, the default.
@@ -19,6 +21,11 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
   does not already pass it without the skill, and record what it scored in `HISTORY.md`.
 - A two-arm run leaves `skill-fired` out of its own score. `scripts/eval-summary.py` counts it
   again; use that script's numbers, not the report's.
+- `EVAL_STOP_EARLY=1` runs attempts in rounds of one, with the plugin only, and stops a case
+  once the attempts left cannot change its verdict against its target. Use it for a regression
+  run or to check that cases still meet their targets. Do not use it for a number a change will
+  quote: a with-vs-without gap, a loading rate, or a description A/B runs every attempt. Set
+  `EVAL_MAX_COST_USD` to cap what a run spends.
 - The run needs model credentials and executes each case's `fixture.sh` on the machine. Run it
   only on a checkout you trust. It does not run in CI.
 
@@ -32,6 +39,9 @@ python3 scripts/eval-summary.py                           # rows for EVALS.md
   grants Bash only, and a grant applies to every case. An agent that sees a tool it may not use
   can decline to edit through the shell.
 - Tag every case with its skill name.
+- A case's priority is a tag: `priority-critical`, `priority-high`, or `priority-low`. A case with
+  none is medium. The `evals` skill's `references/measuring-runs.md` defines the four levels and
+  their targets. Set it by the cost of the mistake the case catches, not by the skill's topic.
 - Every case has `graders/skill-fired.md`: a `tool_used` grader on the `Skill` tool that names the
   skill. `pnpm run evals:check` fails a skill with no such case.
 - Every case has at least one more grader that checks the outcome. Skill-fired alone proves
@@ -94,14 +104,18 @@ The `evals` skill's `references/eval-types.md` defines each kind. Here:
 
 ## Record
 
-- After a measured run, add an entry at the top of `HISTORY.md` and replace the rows that ran in
-  `EVALS.md` with the output of `scripts/eval-summary.py`. After a partial run (one skill or
-  `--case`), keep every other row and say which run the new rows came from under "Where each row
-  comes from".
-- Then run `scripts/eval-docs.py`. It rebuilds the per-skill table in `README.md` and the headline
-  in `README.md` and the root `README.md`. `pnpm run evals:check` fails when they are out of date
-  or when `EVALS.md` and the case directories differ.
+- After a measured run, add an entry at the top of `HISTORY.md` with the run's cost, split into
+  agent and judges, and run `scripts/eval-summary.py`. It replaces the rows of the cases that ran
+  in `cases.csv` and leaves every other row. After a partial run (one skill or `--case`), say
+  which run the new rows came from under "Where each row comes from" in `EVALS.md`.
+- Then run `scripts/eval-docs.py`. It rebuilds the case table in `EVALS.md`, the per-skill table
+  in `README.md`, and the headline in `README.md` and the root `README.md`. Do not edit those
+  blocks by hand; a case's one-line description is the `checks` column of `cases.csv`.
+  `pnpm run evals:check` fails when a block is out of date or when `cases.csv` and the case
+  directories differ.
+- A row that stopped early shows the attempts that ran, such as "2 of 2", and a verdict. It is
+  not a rate; do not quote it as one.
 - A change to a case, grader, or fixture with no run still gets a `HISTORY.md` entry. Say under
   "Where each row comes from" that the affected rows were not re-measured.
 - Planned work goes in the root `ROADMAP.md`, not in `README.md` or `EVALS.md`.
-- `evals/results/` is ignored by git, so `EVALS.md` and `HISTORY.md` are the only durable record.
+- `evals/results/` is ignored by git, so `cases.csv` and `HISTORY.md` are the only durable record.

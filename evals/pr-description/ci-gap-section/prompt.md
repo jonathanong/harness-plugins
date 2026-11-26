@@ -1,6 +1,6 @@
 ---
 description: Updating a description after a CI failure caused by a narrower local check adds a short section naming the first failing run, what was run locally, and the correction, and leaves out the work history.
-tags: [pr-description, skill-fired]
+tags: [pr-description, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

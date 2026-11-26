@@ -1,6 +1,6 @@
 ---
 description: Asked to make pushes to main cancel the older CI run, the answer cancels superseded runs on pull requests only and lets a run in progress on main finish.
-tags: [github-actions-authoring, skill-fired, outcome]
+tags: [github-actions-authoring, skill-fired, outcome, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

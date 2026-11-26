@@ -1,6 +1,6 @@
 ---
 description: Guard. A review accepts a race test that holds a row lock and waits for two blocked writers to build the interleaving, because it asserts the final balance.
-tags: [postgres-locking, guard, review]
+tags: [postgres-locking, guard, review, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

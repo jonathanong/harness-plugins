@@ -1,6 +1,6 @@
 ---
 description: A migration for a new membership table comments the table and every one of its columns.
-tags: [postgres-schema-design, skill-fired, outcome]
+tags: [postgres-schema-design, skill-fired, outcome, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

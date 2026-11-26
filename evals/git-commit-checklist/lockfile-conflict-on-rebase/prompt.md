@@ -1,6 +1,6 @@
 ---
 description: A rebase that conflicts in pnpm-lock.yaml is resolved by letting pnpm merge the lockfile, not by taking one side, and the push keeps its hooks.
-tags: [git-commit-checklist, skill-fired]
+tags: [git-commit-checklist, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

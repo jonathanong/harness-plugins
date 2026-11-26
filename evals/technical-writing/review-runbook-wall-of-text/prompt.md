@@ -1,6 +1,6 @@
 ---
 description: A review of a runbook written as one block of prose asks for the action first, steps as a list, the jargon defined, and the changing numbers replaced by how to fetch them.
-tags: [technical-writing, skill-fired, review]
+tags: [technical-writing, skill-fired, review, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

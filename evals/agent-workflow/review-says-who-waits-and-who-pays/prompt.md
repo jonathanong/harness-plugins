@@ -1,6 +1,6 @@
 ---
 description: A review of a retry added around a payment call in the checkout request says what it does to shoppers - how long a checkout can hang and that a retried charge can bill twice - not only what the code does.
-tags: [agent-workflow, skill-fired, review]
+tags: [agent-workflow, skill-fired, review, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

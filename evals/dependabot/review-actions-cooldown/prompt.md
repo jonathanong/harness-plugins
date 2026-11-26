@@ -1,6 +1,6 @@
 ---
 description: A review of a Dependabot setup whose auto-merge workflow holds a write token asks for at least seven days on every ecosystem and every semver key.
-tags: [dependabot, skill-fired, review]
+tags: [dependabot, skill-fired, review, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

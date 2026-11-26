@@ -1,6 +1,6 @@
 ---
 description: A new table that is keyed by a UUIDv7 id gets no second wall-clock creation column.
-tags: [postgres-schema-design, skill-fired]
+tags: [postgres-schema-design, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

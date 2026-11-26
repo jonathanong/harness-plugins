@@ -1,6 +1,6 @@
 ---
 description: A review of a plan to send webhooks to customer URLs asks for delivery from a queue after commit, a stable event id across retries, a signed timestamp, and an address check at delivery time without following redirects.
-tags: [webhooks, skill-fired, review]
+tags: [webhooks, skill-fired, review, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

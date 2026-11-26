@@ -1,6 +1,6 @@
 ---
 description: After a stacked pull request's base is squash-merged, the conflicts from merging main are resolved hunk by hand, not by taking this branch's side, and a file the branch deleted that came back is removed again.
-tags: [git-commit-checklist, skill-fired]
+tags: [git-commit-checklist, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

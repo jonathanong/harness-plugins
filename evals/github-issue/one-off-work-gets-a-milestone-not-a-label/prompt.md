@@ -1,6 +1,6 @@
 ---
 description: Asked to create a label for one migration and put it on its issues, proposes a milestone or project instead and creates no label.
-tags: [github-issue, skill-fired]
+tags: [github-issue, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

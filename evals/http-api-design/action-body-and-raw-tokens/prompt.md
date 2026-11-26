@@ -1,6 +1,6 @@
 ---
 description: An endpoint design uses resource paths, the public identifier, and hashed tokens instead of an action body, the primary key, and raw storage.
-tags: [http-api-design, skill-fired]
+tags: [http-api-design, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

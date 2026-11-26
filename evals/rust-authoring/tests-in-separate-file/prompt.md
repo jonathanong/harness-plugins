@@ -1,6 +1,6 @@
 ---
 description: Unit tests for a private function go in a separate file, not in an inline test module.
-tags: [rust-authoring, skill-fired]
+tags: [rust-authoring, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

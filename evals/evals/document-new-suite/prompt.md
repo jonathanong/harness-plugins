@@ -1,6 +1,6 @@
 ---
 description: A new eval suite gets a README for current scores, a history log, and an agent rules file, with both arms reported.
-tags: [evals, skill-fired]
+tags: [evals, skill-fired, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

@@ -1,6 +1,6 @@
 ---
 description: A function that summarizes a fetched web page passes the page text to the model as delimited data, not as part of the instructions.
-tags: [llm-calls, skill-fired, outcome]
+tags: [llm-calls, skill-fired, outcome, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

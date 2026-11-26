@@ -3,6 +3,10 @@
 Read this when choosing how many attempts a case gets, reporting a score or a run's cost, setting
 targets, or writing the script that summarizes a run.
 
+`scripts/eval_stats.py`, beside this skill, computes the intervals, the passes a target needs, and
+each case's verdict from a CSV of passes and attempts, with the Python standard library only.
+Run it, or import it from the script that summarizes a run, before writing the arithmetic again.
+
 ## Cost
 
 - Record each run's cost in two parts, the agent's attempts and the judges, when the runner

@@ -1,6 +1,6 @@
 ---
 description: Renaming a column in a service with rolling restarts and a worker is split into add, copy, switch, and drop over separate deploys.
-tags: [expand-contract-migrations, skill-fired]
+tags: [expand-contract-migrations, skill-fired, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

@@ -1,6 +1,6 @@
 ---
 description: An outbox relay and a ledger write get their own queue, not a lane on the shared background queue.
-tags: [glide-mq, skill-fired, outcome]
+tags: [glide-mq, skill-fired, outcome, priority-high]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

@@ -1,67 +1,160 @@
 #!/usr/bin/env python3
-"""Rolls evals/EVALS.md up into the per-skill table and headline shown to people.
+"""Generates the eval tables from evals/cases.csv, the latest result of every case.
 
-Usage: scripts/eval-docs.py          rewrite the generated blocks
-       scripts/eval-docs.py --check  fail when a block is out of date
+Usage: scripts/eval-docs.py          refresh the CSV and rewrite the generated blocks
+       scripts/eval-docs.py --check  fail when the CSV or a block is out of date
 
-Each block sits between `<!-- evals:NAME -->` and `<!-- /evals:NAME -->`: `groups` in
+Each case's priority comes from the `priority-*` tag in its prompt.md, so the CSV's priority,
+target, and verdict are refreshed from the tags on every run. Each block sits between
+`<!-- evals:NAME -->` and `<!-- /evals:NAME -->`: `cases` in evals/EVALS.md, `groups` in
 evals/README.md, `headline` in evals/README.md and README.md.
 """
+import csv
+import io
 import re
 import sys
 from collections import defaultdict
+from pathlib import Path
 
-ROW = re.compile(r"^\| `([\w-]+)/([\w-]+)` +\|(.*)\|$")
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "skills/evals/scripts"))
+from eval_stats import TARGETS, verdict  # noqa: E402
+
+CSV = "evals/cases.csv"
+COLUMNS = [
+    "case", "skill", "priority", "target", "attempts_planned", "checks",
+    "run_date", "commit", "agent_model", "judge_model", "harness_version",
+    "with_passed", "with_attempts", "with_score",
+    "without_passed", "without_attempts", "without_score",
+    "loaded", "verdict", "ceiling", "cost_total", "cost_agent", "cost_judge",
+]  # fmt: skip
+PRIORITY_TAGS = {"priority-critical": "critical", "priority-high": "high", "priority-low": "low"}
+PRIORITIES = ["critical", "high", "medium", "low"]
 
 
-def cases():
-    for line in open("evals/EVALS.md"):
-        match = ROW.match(line)
-        if match:
-            checks, score, _passed, without = (cell.strip() for cell in match[3].split("|"))
-            if score == "not run":
-                continue
-            baseline = None if without == "n/a" else float(without)
-            yield match[1], float(score), baseline, checks.startswith("Guard:")
+def frontmatter(case):
+    path = Path(f"evals/{case}/prompt.md")
+    if not path.exists():
+        sys.exit(f"::error::{CSV} lists {case} but {path} does not exist")
+    text = path.read_text()
+    match = re.match(r"---\n(.*?)\n---\n", text, re.S)
+    return match[1] if match else ""
+
+
+def priority(case):
+    # The same pattern as scripts/check-evals.sh, so the two never disagree on a case's tags.
+    found = re.findall(r"priority-[A-Za-z0-9_-]+", frontmatter(case))
+    if len(found) > 1 or any(tag not in PRIORITY_TAGS for tag in found):
+        sys.exit(f"::error::evals/{case}/prompt.md has priority tags {found}; use at most one of "
+                 f"{', '.join(PRIORITY_TAGS)}")  # fmt: skip
+    return PRIORITY_TAGS[found[0]] if found else "medium"
+
+
+def description(case):
+    match = re.search(r"^description:[ \t]*(.*)$", frontmatter(case), re.M)
+    return match[1].strip() if match else ""
+
+
+def derive(row):
+    """Fills the columns that follow from the tags and the counts."""
+    row["skill"] = row["case"].split("/")[0]
+    row["priority"] = priority(row["case"])
+    row["target"] = str(TARGETS[row["priority"]])
+    row["attempts_planned"] = row["attempts_planned"] or "3"
+    result = ""
+    if row["with_attempts"]:
+        result = verdict(int(row["with_passed"]), int(row["with_attempts"]),
+                         int(row["attempts_planned"]), int(row["target"]))  # fmt: skip
+    row["verdict"] = "" if result == "undecided" else result
+    row["ceiling"] = "" if not row["without_score"] else "yes" if float(row["without_score"]) == 1 else "no"
+    return row
+
+
+def read_rows():
+    with open(CSV, newline="") as handle:
+        return {row["case"]: row for row in csv.DictReader(handle)}
+
+
+def render_csv(rows):
+    out = io.StringIO()
+    writer = csv.DictWriter(out, COLUMNS, lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(derive(rows[case]) for case in sorted(rows))
+    return out.getvalue()
+
+
+def write_rows(rows):
+    text = render_csv(rows)
+    if Path(CSV).read_text() != text:
+        Path(CSV).write_text(text)
 
 
 def mean(values):
     return f"{sum(values) / len(values):.2f}" if values else "n/a"
 
 
-def blocks():
-    rows = list(cases())
+def met(group):
+    return f"{sum(1 for row in group if row['verdict'] == 'met')} of {len(group)}"
+
+
+def cases_table(rows):
+    table = [
+        "| Case | Checks that the agent | Priority | Score | Passed | Without plugin | Verdict |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for row in rows:
+        if row["with_attempts"]:
+            score, passed = row["with_score"], f"{row['with_passed']} of {row['with_attempts']}"
+            without = row["without_score"] or "n/a"
+            result = row["verdict"] or "undecided"
+        else:
+            score = passed = without = result = "not run"
+        table.append(f"| `{row['case']}` | {row['checks']} | {row['priority']} | {score} "
+                     f"| {passed} | {without} | {result} |")  # fmt: skip
+    return "\n".join(table)
+
+
+def blocks(all_rows):
+    rows = [row for row in all_rows if row["with_attempts"]]
     skills = defaultdict(list)
     for row in rows:
-        skills[row[0]].append(row)
-    both = [row for row in rows if row[2] is not None]
-    unaided = [row for row in both if row[2] == 1.0]
-    guards = [row for row in unaided if row[3]]
+        skills[row["skill"]].append(row)
+    score = lambda row: float(row["with_score"])  # noqa: E731
+    baseline = lambda row: float(row["without_score"])  # noqa: E731
+    both = [row for row in rows if row["without_score"]]
+    unaided = [row for row in both if baseline(row) == 1.0]
+    guards = [row for row in unaided if row["checks"].startswith("Guard:")]
+    by_priority = [
+        f"{name} {met(group)}"
+        for name in PRIORITIES
+        if (group := [row for row in rows if row["priority"] == name])
+    ]
     headline = "\n".join(
         [
             f"- **{len(rows)} cases** across {len(skills)} skills.",
-            f"- **With the plugin:** mean score {mean([row[1] for row in both])}.",
-            f"- **Without it:** mean score {mean([row[2] for row in both])},"
+            f"- **With the plugin:** mean score {mean([score(row) for row in both])}.",
+            f"- **Without it:** mean score {mean([baseline(row) for row in both])},"
             f" over the {len(both)} cases measured both ways.",
             f"- **{len(both) - len(unaided)} cases** are ones the model fails unaided."
             f" The other {len(unaided)} it already gets right: {len(guards)} check that a skill"
             f" stays out of the way, and {len(unaided) - len(guards)} show at most that the skill"
             " loads.",
+            f"- **{met(rows)} cases** meet their target: {', '.join(by_priority)}.",
         ]
     )
     table = [
-        "| Skill | Cases | With plugin | Without plugin | Already right unaided |",
-        "| --- | --- | --- | --- | --- |",
+        "| Skill | Cases | With plugin | Without plugin | Already right unaided | Met target |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for skill in sorted(skills):
         group = skills[skill]
-        measured = [row for row in group if row[2] is not None]
+        measured = [row for row in group if row["without_score"]]
         table.append(
-            f"| `{skill}` | {len(group)} | {mean([row[1] for row in group])} "
-            f"| {mean([row[2] for row in measured])} "
-            f"| {sum(1 for row in measured if row[2] == 1.0)} |"
+            f"| `{skill}` | {len(group)} | {mean([score(row) for row in group])} "
+            f"| {mean([baseline(row) for row in measured])} "
+            f"| {sum(1 for row in measured if baseline(row) == 1.0)} | {met(group)} |"
         )
-    return {"headline": headline, "groups": "\n".join(table)}
+    return {"cases": cases_table(all_rows), "headline": headline, "groups": "\n".join(table)}
 
 
 def squash(text):
@@ -72,10 +165,17 @@ def squash(text):
 def main():
     check = "--check" in sys.argv
     stale = []
-    for path in ("evals/README.md", "README.md"):
+    rows = read_rows()
+    text = render_csv(rows)
+    if Path(CSV).read_text() != text:
+        stale.append(CSV)
+        if not check:
+            Path(CSV).write_text(text)
+    generated = blocks([rows[case] for case in sorted(rows)])
+    for path in ("evals/EVALS.md", "evals/README.md", "README.md"):
         text = open(path).read()
         new = text
-        for name, body in blocks().items():
+        for name, body in generated.items():
             pattern = re.compile(rf"(<!-- evals:{name} -->\n)(.*?)(<!-- /evals:{name} -->)", re.S)
             new = pattern.sub(
                 lambda m: m[0] if squash(m[2]) == squash(body) else f"{m[1]}\n{body}\n\n{m[3]}", new
@@ -89,4 +189,5 @@ def main():
         sys.exit(1)
 
 
-main()
+if __name__ == "__main__":
+    main()

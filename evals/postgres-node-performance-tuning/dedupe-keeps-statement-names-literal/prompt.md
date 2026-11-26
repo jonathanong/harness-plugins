@@ -1,6 +1,6 @@
 ---
 description: Asked to remove duplication between three lookups, the agent shares the column list and keeps each statement's name written out in its SQL.
-tags: [postgres-node-performance-tuning, skill-fired, outcome]
+tags: [postgres-node-performance-tuning, skill-fired, outcome, priority-low]
 max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
