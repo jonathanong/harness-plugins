@@ -4,6 +4,17 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: a brief marks the person's decisions by the rules that already own that (not run)
+
+No case, grader, or fixture changed, and nothing was re-measured.
+
+- `agent-coordination`, "Brief a worker": the line added earlier the same day restated two
+  rules other skills own. It now links to them: `status-reports`, "Record who decided", for
+  marking a decision **User:** or **Agent:**, and `agent-rules`, "Writing a rule", for marking
+  your own reading of a stated rule as yours.
+- `status-reports`, "Record who decided": "Paraphrase the person" read as leave to change what
+  they said. It now says to restate the decision without changing its meaning or scope.
+
 ## 2026-11-26: `agent-coordination` case replaced
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.60,
