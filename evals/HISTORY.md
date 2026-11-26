@@ -10,7 +10,7 @@ Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case
 arms, three attempts per arm: $1.20, of which $0.46 agent and $0.75 judges, $0.20 per attempt. A
 one-attempt pilot of both arms cost $0.29.
 
-What changed, from the repository owner's request: for a skill that loads on demand, `evals` now
+What changed: for a skill that loads on demand, `evals` now
 says to report how often the skill loaded and how often the case passed when it did, beside the
 overall rate. The priority target stays on the overall rate, and loading gets its own target of
 80% by default. The rule is in `SKILL.md`; `references/measuring-runs.md` has a new section, "Two
