@@ -11,12 +11,12 @@ needed.
 
 <!-- evals:headline -->
 
-- **166 cases** across 50 skills.
+- **167 cases** across 50 skills.
 - **With the plugin:** mean score 0.94.
-- **Without it:** mean score 0.35, over the 165 cases measured both ways.
-- **130 cases** are ones the model fails unaided. The other 35 it already gets right: 7 check that a skill stays out of the way, and 28 show at most that the skill loads.
-- **162 of 166 cases** meet their target: critical 2 of 3, high 24 of 25, medium 113 of 114, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 5 of 50 skills, and 1 of those load in at least 80% of attempts. For 12 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `github-issue`, `implementing-changes`, `postgres-node-performance-tuning`, `review-ci-logs`, `status-reports`, `test-authoring`.
+- **Without it:** mean score 0.35, over the 166 cases measured both ways.
+- **131 cases** are ones the model fails unaided. The other 35 it already gets right: 7 check that a skill stays out of the way, and 28 show at most that the skill loads.
+- **162 of 167 cases** meet their target: critical 2 of 3, high 24 of 25, medium 113 of 115, low 23 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 5 of 50 skills, and 1 of those load in at least 80% of attempts. For 13 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `github-issue`, `implementing-changes`, `postgres-node-performance-tuning`, `pr-description`, `review-ci-logs`, `status-reports`, `test-authoring`.
 
 <!-- /evals:headline -->
 
@@ -62,7 +62,7 @@ averaged over attempts.
 | `postgres-node-performance-tuning` | 3     | 0.90        | 0.00           | 0                     | 2 of 3, from 1 of 3 cases, under 80% | 3 of 3     |
 | `postgres-partitioning-uuid-v7`    | 2     | 1.00        | 0.34           | 0                     | n/a                                  | 2 of 2     |
 | `postgres-schema-design`           | 5     | 1.00        | 0.60           | 2                     | n/a                                  | 5 of 5     |
-| `pr-description`                   | 4     | 1.00        | 0.08           | 0                     | n/a                                  | 4 of 4     |
+| `pr-description`                   | 5     | 0.87        | 0.07           | 0                     | 1 of 3, from 1 of 5 cases, under 80% | 4 of 5     |
 | `pull-requests`                    | 1     | 1.00        | 0.67           | 0                     | n/a                                  | 1 of 1     |
 | `react-app-structure`              | 4     | 0.96        | 0.46           | 1                     | n/a                                  | 4 of 4     |
 | `resuming-work`                    | 1     | 0.83        | 1.00           | 1                     | n/a                                  | 1 of 1     |

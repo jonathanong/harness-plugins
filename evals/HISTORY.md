@@ -4,6 +4,20 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `pr-description` gains a provenance block, with one case
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.57,
+of which $0.37 agent and $0.20 judges.
+
+- `pr-description`: a description for a change an agent wrote ends with a collapsed
+  "Provenance" block: where it was verified and what that does not cover, the agent with its
+  model and session, the harness it ran in, and the branch or worktree. It leaves out the
+  hostname, the username, and absolute paths.
+- New case `agent-written-change-ends-with-provenance`: loaded 1 of 3, passed 1 of 1 when
+  loaded, 1 of 3 overall, and 0 of 3 without the plugin. It misses its target of 2 of 3 on
+  loading: the two attempts that did not load called no skill and wrote no such block. Three
+  attempts do not settle the loading rate.
+
 ## 2026-11-26: `agent-coordination` case replaced
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. One case, both arms, three attempts each: $0.60,
