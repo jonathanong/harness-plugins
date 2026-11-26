@@ -40,9 +40,10 @@ A pull request that is waiting on review or checks does not pause the other unit
 The worker has none of your context. Write a brief that stands alone:
 
 - The goal, and why it matters.
-- Every instruction and limit the person gave that touches this work, stated as theirs and not
-  reworded into something weaker or wider. A limit left out of the brief does not bind the
-  worker, and the worker cannot ask the person what they meant.
+- Every decision and limit the person gave that touches this work, marked **User:**, apart
+  from your own calls, marked **Agent:**, as `status-reports` says under "Record who decided".
+  A worker cannot ask the person what they meant, and follows your reading of a rule as theirs
+  unless you mark it yours (`agent-rules`, "Writing a rule").
 - What is already ruled out, so it does not retry it.
 - The files and documents to read first.
 - The exact scope and what not to touch.
