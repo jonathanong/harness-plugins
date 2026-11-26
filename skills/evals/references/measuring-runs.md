@@ -53,8 +53,22 @@ arm under test:
 - A case meets its target when its passes reach `ceil(target x attempts)`. Every priority gets
   three attempts by default. A case may set more, for example to tell critical from high: at ten
   attempts they need 8 and 7.
-- A case below its target is a failure to read and fix, not noise to average away. Report, per
-  priority, how many cases meet their target.
+- Report, per priority, how many cases meet their target.
+
+## Suite and group goal
+
+A suite, or a group such as one skill's cases, meets its goal when every case meets its own
+target: "12 of 12 cases met their target", not a 100% pass rate on every attempt. A tool that does
+one job, such as a code reviewer, is one suite. A plugin of skills is one group per skill, and
+each case in a group has its own priority.
+
+- Spread a group's cases across the distinct rules of what it tests, one case per rule that
+  matters, not several versions of one prompt. For each rule, name the case that would fail if the
+  rule were removed; a rule with no such case is unmeasured.
+- The more cases a group has, the likelier one misses by chance: if each case meets its target 90%
+  of the time, ten cases all meet theirs 35% of the time, and twenty only 12%. So rerun a case
+  that misses with more attempts before calling it a regression. A case that misses again is a
+  failure to read and fix, not noise to average away.
 
 ## Stopping early
 

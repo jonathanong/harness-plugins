@@ -10,7 +10,7 @@ No run. The `evals` skill gains `references/measuring-runs.md`: each run's cost 
 and judges, with cost per attempt; a Wilson 95% interval per case and a bootstrap interval over
 cases for the suite and for the gap between arms; a priority per case with targets of 80, 70, 60,
 and 50%, three attempts by default; a rule to stop a case once its remaining attempts cannot change
-its verdict, only when the question is a verdict and not a rate; and a CSV holding each case's
+its verdict, only when the question is a verdict and not a rate; a suite or group goal of every case meeting its own target, with cases spread across a group's rules and a miss rerun before it is called a regression; and a CSV holding each case's
 latest result, from which the README table is generated. New case
 `evals/stop-early-against-target`, not yet run. No existing case or grader changed, and this
 repository's own run scripts do not do any of this yet.
