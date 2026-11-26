@@ -29,6 +29,10 @@ Each still gets a loading case and an answer case.
 - [ ] **`evals` has no case for stopping early or for intervals.** Two drafts passed unaided
       (`evals/HISTORY.md`, 2026-11-25). Candidate: a gap quoted from attempts that stopped
       early.
+- [ ] **`review-ci-logs`, "retry a download once", has no case.** A draft on 2026-11-26 was a
+      ceiling case and loaded the skill in one attempt of three; `evals/HISTORY.md` has the runs.
+      A working case needs a prompt where the model unaided adds several retries, and a request
+      that reads as a CI failure so the skill loads.
 - [ ] **Replace cases the model passes unaided.** [evals/EVALS.md](evals/EVALS.md) lists them:
       every row with 1.00 in "Without plugin" that is not a guard.
 - [ ] **Cases that still load their skill in under eight of eight attempts:**

@@ -4,6 +4,28 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: a download in CI may be retried once (case abandoned)
+
+Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. Three runs of one draft
+case, $2.14 in total; no case was added, and no row changed.
+
+What changed: `review-ci-logs` step 5 now says a download in CI is retried once, with a short
+timeout on each attempt, and only when the attempt timed out or the connection failed.
+`github-actions-authoring` points to it from its rule on bounded retries.
+
+The draft case gave a test-setup helper whose 180-second download stalled on one shard, and
+graded that the fix retries once and that each attempt gets 90 seconds or less.
+
+| Run                                       | With plugin                        | Without plugin      |
+| ----------------------------------------- | ---------------------------------- | ------------------- |
+| Pilot, prompt asks to change the helper   | retried twice; skill loaded 0 of 1 | retried twice       |
+| Pilot, prompt asks why CI failed, $0.32   | retried once 2 of 2; loaded 1 of 2 | not run             |
+| Measurement, second prompt, three per arm | retried once 3 of 3; loaded 1 of 3 | retried once 3 of 3 |
+
+The second prompt is a ceiling case, and `review-ci-logs` loads for it in one attempt of three,
+so it measures neither the rule nor the loading. Every answer in every run gave each attempt a
+short timeout, so that grader showed nothing. `ROADMAP.md` lists what a working case needs.
+
 ## 2026-11-26: `evals` reports loading and passing as two layers
 
 Commit: this change. Sonnet agent, Opus judge, Claude Code 2.1.332. The new case alone, both
