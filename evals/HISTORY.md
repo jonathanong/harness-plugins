@@ -4,6 +4,22 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: new skill `upstream-contributions`, with two cases
+
+Sonnet agent, Opus judge, Claude Code 2.1.332. Two cases, both arms, three attempts each: $1.92,
+of which $1.03 agent and $0.89 judges. A first run of the template case, $1.22, is discarded: its
+fixture's branch held no fix, and every attempt stopped to say so.
+
+- `upstream-contributions` covers contributing to a repository you do not own: read the
+  project's contribution rules first and stop when they tell an agent to, fill in its templates,
+  and open and watch a pull request in the fork alongside the upstream one.
+- `template-filled-and-fork-pr-opened`: loaded 3 of 3, passed 2 of 3, and 0 of 3 without the
+  plugin. By grader, with against without: the fork's pull request 3 of 3 against 0 of 3, the
+  template 2 of 3 against 1 of 3. The failing attempt left the AI-assistance section for the
+  person to fill in.
+- `contributing-says-agents-stop`: loaded 3 of 3, passed 3 of 3, and 3 of 3 without the plugin. A
+  ceiling case: this model stops on a plain instruction without the skill.
+
 ## 2026-11-26: critical, high, and low-scoring cases rerun; one rule and one grader changed
 
 Sonnet agent, Opus judge, Claude Code 2.1.332, three attempts, plugin arm, traces kept. 42 cases:
