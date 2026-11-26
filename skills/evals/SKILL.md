@@ -99,10 +99,11 @@ For the case and grader rules, read `references/case-and-grader-rules.md` when w
 
 **Runs and numbers**
 
-- Give each case a priority and a target pass rate, report every rate with its 95% interval and
-  count, and stop a case early once its remaining attempts cannot change its verdict. Record the
-  attempts that ran ("2 of 2"), never a full count. Read
-  `references/measuring-runs.md` for the targets, the intervals, the stopping rule, cost, and the
+- Give each case a priority and a target pass rate: critical 80%, high 70%, medium 60%, low 50%.
+  At three attempts that is 3 of 3 for critical and high and 2 of 3 for medium and low. Report
+  every rate with its 95% interval and count. Stop a case early once its remaining attempts
+  cannot change its verdict, and record the attempts that ran ("2 of 2"), never a full count.
+  Read `references/measuring-runs.md` for the intervals, the stopping rule, cost, and the
   tracking CSV.
 - Pilot a new case with one attempt to check its graders. Measure with at least three attempts
   per arm before quoting a number.

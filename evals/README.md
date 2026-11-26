@@ -14,8 +14,8 @@ needed.
 - **159 cases** across 48 skills.
 - **With the plugin:** mean score 0.94.
 - **Without it:** mean score 0.35, over the 158 cases measured both ways.
-- **123 cases** are ones the model fails unaided. The other 35 it already gets right: 7 check that a skill stays out of the way, and 28 show at most that the skill loads.
-- **143 of 159 cases** meet their target: critical 2 of 3, high 20 of 26, medium 104 of 110, low 17 of 20.
+- **124 cases** are ones the model fails unaided. The other 34 it already gets right: 7 check that a skill stays out of the way, and 27 show at most that the skill loads.
+- **144 of 159 cases** meet their target: critical 2 of 3, high 20 of 26, medium 105 of 110, low 17 of 20.
 
 <!-- /evals:headline -->
 
@@ -37,7 +37,7 @@ averaged over attempts.
 | `dependabot`                       | 4     | 1.00        | 0.50           | 1                     | 4 of 4     |
 | `documentation`                    | 3     | 0.89        | 0.56           | 1                     | 3 of 3     |
 | `error-handling`                   | 3     | 1.00        | 0.33           | 1                     | 3 of 3     |
-| `evals`                            | 3     | 0.89        | 0.33           | 1                     | 2 of 3     |
+| `evals`                            | 3     | 1.00        | 0.17           | 0                     | 3 of 3     |
 | `expand-contract-migrations`       | 1     | 1.00        | 1.00           | 1                     | 1 of 1     |
 | `feature-rollout`                  | 3     | 1.00        | 0.33           | 1                     | 3 of 3     |
 | `git-commit-checklist`             | 4     | 0.83        | 0.33           | 1                     | 2 of 4     |

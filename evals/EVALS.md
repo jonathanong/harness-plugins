@@ -45,8 +45,8 @@ unaided by design.
 | `error-handling/new-failure-code-comes-from-a-list`                     | Gives a new failure a code from one typed list of codes, and the client branches on the code, not the message.                                                                                                                                                              | medium   | 1.00    | 6 of 6   | 0.00           | met     |
 | `error-handling/refund-guard-carries-its-numbers`                       | Puts the order id and two amounts on the error as fields and keeps its message a fixed string.                                                                                                                                                                              | medium   | 1.00    | 6 of 6   | 0.00           | met     |
 | `evals/document-new-suite`                                              | Proposes a README, a history log, and an agent rules file for a new eval suite.                                                                                                                                                                                             | low      | 1.00    | 2 of 2   | 0.00           | met     |
+| `evals/met-target-column-uses-the-default-bars`                         | Asked to fill a "met target" column for cases marked critical, high, medium, and low with no bars written down, uses 80, 70, 60, and 50% and marks each case by the passes that needs of three.                                                                             | medium   | 1.00    | 3 of 3   | 0.50           | met     |
 | `evals/record-partial-rerun`                                            | Logs a grader change and does not report a one-attempt rerun as an improvement.                                                                                                                                                                                             | medium   | 1.00    | 2 of 2   | 0.00           | met     |
-| `evals/stop-early-against-target`                                       | Ceiling case that does not load the skill: after two attempts per case, runs a third only where it can change the verdict against the case's priority target, and records an early stop as the attempts run, not padded to three.                                           | medium   | 0.67    | 0 of 2   | 1.00           | missed  |
 | `expand-contract-migrations/rename-column-in-one-migration`             | Renames a column as add, write both, backfill, switch reads, and drop in later deploys, not in place.                                                                                                                                                                       | high     | 1.00    | 3 of 3   | 1.00           | met     |
 | `feature-rollout/dark-route-without-caller`                             | Guard: accepts a mounted route behind an off flag that no page calls yet.                                                                                                                                                                                                   | medium   | 1.00    | 3 of 3   | 1.00           | met     |
 | `feature-rollout/flag-defaults-on`                                      | Defaults a new flag to off and reports deployed separately from enabled.                                                                                                                                                                                                    | high     | 1.00    | 3 of 3   | 0.00           | met     |
@@ -185,10 +185,11 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
-- **The three `evals` rows** take their plugin result from a stop-early run on 2026-11-25, with
-  the plugin only: each case stopped after two attempts. `stop-early-against-target` takes its
-  "Without plugin" value from a two-arm run of three attempts per arm the same day, where it
-  scored 0 of 3 with the plugin; the other two keep theirs from earlier two-arm runs.
+- **`evals/document-new-suite` and `evals/record-partial-rerun`** take their plugin result from a
+  stop-early run on 2026-11-25, with the plugin only: each stopped after two attempts. Their
+  "Without plugin" values are from earlier two-arm runs.
+  **`evals/met-target-column-uses-the-default-bars`** is from one two-arm run of three attempts
+  per arm the same day.
 - **`structured-logging/request-body-is-not-logged`** takes its plugin score and loading from a
   plugin-only run of six attempts on 2026-11-23, on the current description, and its "Without
   plugin" value from a two-arm run of three attempts earlier that day. The skill's other two rows
