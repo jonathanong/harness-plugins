@@ -21,6 +21,14 @@ it beats that simple query, not merely the previous version; see
 
 - Select only the required columns: no `SELECT *`, `alias.*`, or `RETURNING *`. A new column then
   cannot change a result shape or widen a row by accident.
+- Join or subquery a plain view only to embed its whole row as one JSON value (`to_jsonb(v)`),
+  and only when the caller uses the whole object. Reading one of its columns, or joining it only
+  to filter or sort, is a defect; a materialized view is stored like a table and is read like
+  one. Join the base table with the predicates it needs (such as `deleted_at IS NULL`), and
+  compute a derived field with a shared SQL-fragment helper that takes the row's alias, not a copied expression, a view
+  column, or a database function. Look up each entity once per statement and take every field
+  from that one join. A view that enforces access is the exception: read through it. See
+  [views and entity reads](references/performance-patterns.md#views-and-entity-reads).
 - A new query shape (a new filter, join key, or sort) gets its index in the same change. Check
   the plan at representative cardinality, add the index it needs, and do not wait to be asked. An
   unindexed shape works in tests and fails at production row counts.

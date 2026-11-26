@@ -4,6 +4,41 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: the two view cases of `postgres-node-performance-tuning` run, after a prompt and a grader change
+
+Commit `6566c2c` plus the case and rule changes below. Sonnet agent, Opus judge, Claude Code
+2.1.332. Attempts per arm: `view-joined-only-to-filter` three with the plugin and three without;
+`author-read-once` six with the plugin and three without. $4.95 in all, of which $2.66 agent and $2.28
+judges: a first run of both cases in both arms ($1.49), a second after the changes below ($1.57),
+and nine more plugin-arm attempts of `author-read-once` ($1.88).
+
+- The first run failed every attempt in both arms, for reasons in the cases. In
+  `view-joined-only-to-filter` the prompt named only the deleted-author filter, so every answer
+  questioned or dropped the membership join; the prompt now names both filters. In
+  `author-read-once` one grader held two rules, and the loaded attempts shared the `CASE` as a
+  fragment with the alias fixed inside. The grader is split into `reads-the-author-once` and
+  `derived-field-from-a-helper`, and the rule in `SKILL.md` now says the helper takes the row's
+  alias.
+- `view-joined-only-to-filter`: loaded 3 of 3, passed 3 of 3, and 2 of 3 without the plugin.
+- `author-read-once`: over the last six attempts, loaded 2 of 6, passed 2 of 2 when loaded, 2 of
+  6 overall; 0 of 3 without the plugin. It misses its target, and the miss is loading: across
+  twelve attempts since the change the skill loaded in 2. In the ten that did not load, six still
+  read the author once from `users`, and none used a helper.
+
+## 2026-11-26: `postgres-node-performance-tuning` reads each entity once (not run)
+
+No run. New rules: join or subquery a plain (not materialized) view only to embed its whole row as JSON; reading a view's
+column, or joining one only to filter or sort, is a defect, so join the base table with its
+predicates and compute a derived field with a shared SQL-fragment helper rather than a copied
+expression, a view column, or a database function; and look up each entity once per statement.
+"Reading views by key" now embeds the view's row and sorts on the base table. The case's grader passes only a display name computed through a shared helper. A view is
+embedded only when the caller uses the whole object. Second new case
+`postgres-node-performance-tuning/view-joined-only-to-filter`, not yet run. It comes
+from a real fix in which two correlated subqueries through two user views replaced one join and
+turned about one author read per page into several hundred index probes. New case
+`postgres-node-performance-tuning/author-read-once`, not yet run. No existing case or grader
+changed.
+
 ## 2026-11-26: new skill `upstream-contributions`, with two cases
 
 Sonnet agent, Opus judge, Claude Code 2.1.332. Two cases, both arms, three attempts each:

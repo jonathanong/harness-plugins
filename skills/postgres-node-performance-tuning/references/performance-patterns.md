@@ -109,6 +109,66 @@ with `SET LOCAL track_functions = 'all'` and `pg_stat_xact_user_functions` in th
 inlined functions are not counted. See [reading plans](reading-plans.md#opaque-function-calls).
 Put per-row logic in the query as a join or `EXISTS`, or keep the function a plain expression.
 
+## Views and entity reads
+
+A plain view is for embedding a whole object. Join or subquery it only to project its entire row as
+one JSON value:
+
+```sql
+SELECT n.id, to_jsonb(t) AS thing FROM notes n JOIN things_embedded t ON t.id = n.thing_id ...
+SELECT n.id, (SELECT to_jsonb(t) FROM things_embedded t WHERE t.id = n.thing_id) AS thing ...
+```
+
+Embed a view only when the caller uses the whole object; when it needs a few fields, join the
+base table. Reading individual columns from a view (`t.name`), or joining one only to filter or
+sort, is a defect. The view computes every column for each row it touches, and the query depends on a shape
+built for another reader. Read the base table instead. A materialized view is stored like a
+table, so reading, filtering, and sorting its columns is fine.
+
+```sql
+-- Wrong: the view is joined only to drop notes whose author is deleted
+SELECT n.id, n.body FROM notes n JOIN users_public up ON up.id = n.author_id ...
+-- Right: test the base table with the predicate the view applied
+SELECT n.id, n.body FROM notes n
+WHERE EXISTS (SELECT 1 FROM users u WHERE u.id = n.author_id AND u.deleted_at IS NULL) ...
+```
+
+Look up each entity once per statement. A second join or scalar subquery for another field of the same row repeats the lookup for every
+row of the result. Through a view it repeats the view's own joins and subqueries too: two
+correlated subqueries into two user views on a 101-row page can make several hundred index
+probes where one join makes about one read per author.
+
+```sql
+-- Wrong: two lookups of one author, each reading a column through a view
+SELECT n.id,
+  (SELECT username FROM users_embedded WHERE id = n.author_id) AS author_username,
+  (SELECT display_name FROM users_public WHERE id = n.author_id) AS author_display_name
+FROM notes n ...
+
+-- Right: one join to the base table, its predicate, and the derived field from a helper
+SELECT n.id, author.username AS author_username,
+  ${verifiedDisplayName('author')} AS author_display_name
+FROM notes n
+LEFT JOIN users author ON author.id = n.author_id AND author.deleted_at IS NULL ...
+```
+
+Apply the predicates the view applies, such as `deleted_at IS NULL`, in the join. When more than
+one query needs the same predicate, share it through a helper as well, so a new state such as a
+suspended account is added in one place. A view that enforces access, such as a
+`security_barrier` view or one that hides columns or rows the caller may not read, is the
+exception: read through it. When the field is derived, such as a display name shown only once the user is verified, put its
+expression in one code helper that takes the row's alias and returns the SQL fragment:
+
+```ts
+const verifiedDisplayName = (alias: string) =>
+  sql`CASE WHEN ${alias}.verified_at IS NOT NULL THEN ${alias}.display_name END`
+```
+
+Every query that needs the field calls the helper, so a change to the rule changes them all. A
+copy of the expression in each query drifts; a database function hides the expression from the
+planner and needs a migration to change; a view column brings back the view. Where views are
+built in code, build them from the same helpers.
+
 ## Reading views by key
 
 PostgreSQL expands a view into the calling query, and a simple view lets the outer filter push
@@ -118,7 +178,7 @@ before a filter on a value it derives (such as an aggregate) applies, and before
 count over its output. A restriction on a grouping column can still be pushed below an aggregate,
 so let the plan decide. Confirm from the
 plan (large `Actual Rows` and `Actual Loops` inside the view's nodes), then choose the ids from the
-base tables first and read the view by its key, as a correlated `LATERAL` lookup so the page
+base tables first and embed the view's row by its key, as a correlated `LATERAL` lookup so the page
 restriction can reach inside the view. Reach for this only after the plan shows the simple
 query builds the whole view, and keep it only if its plan beats the simple query. This works for an aggregate or `GROUP BY` view whose key is
 a grouping column; a `LIMIT` in the view blocks pushdown of any qual, so rewrite that view's query
@@ -134,15 +194,15 @@ WITH page AS (
   WHERE (SELECT count(*) FROM events e WHERE e.order_id = o.id) > 3
   ORDER BY o.id LIMIT 50
 )
-SELECT s.id, s.total_cents, s.event_count
+SELECT page.id, to_jsonb(s) AS summary
 FROM page
 CROSS JOIN LATERAL (
   SELECT * FROM order_summaries WHERE id = page.id
 ) s
-ORDER BY s.id;
+ORDER BY page.id;
 ```
 
-Filter and sort on indexed base-table columns, and read only the view columns the page needs.
+Filter and sort on indexed base-table columns, and read the view only to embed its whole row.
 Confirm in the plan that the view's inner nodes run with `Actual Loops` equal to the page size and
 read only that page's rows.
 
