@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Runs the eval suite in rounds of one attempt and stops each case once the attempts left cannot
-change its verdict against its priority target, as skills/evals/references/measuring-runs.md
+"""Runs the eval suite in rounds, two attempts and then one at a time, and stops each case once
+the attempts left cannot change its verdict against its priority target, as skills/evals/references/measuring-runs.md
 ("Stopping early") describes. Writes the merged result to evals/results/latest.json.
 
 Usage: scripts/eval-rounds.py [--dry-run] [skill ...]   (default: every skill)
@@ -22,7 +22,12 @@ sys.path.insert(0, str(ROOT / "skills/evals/scripts"))
 from eval_stats import TARGETS, verdict  # noqa: E402
 
 RESULTS = "evals/results"
-DEFAULT_PLANNED = 3
+# Attempts a case gets when it never stops early. The driver owns this number: the runner's
+# `runsPerCase` is not read, since a runner that reported the round's --runs there would make
+# every case look finished after its first round.
+PLANNED = 3
+# Attempts in the first round, so no verdict rests on one attempt.
+MINIMUM = 2
 PRIORITY_TAGS = {"priority-critical": "critical", "priority-high": "high", "priority-low": "low"}
 OWNED_FLAGS = {"--runs", "--json", "--ablation", "--case", "--concurrency", "-j", "--max-cost-usd"}
 
@@ -75,9 +80,8 @@ def tally(merged, priorities):
     for case in merged["cases"]:
         runs = case["arms"]["with"]
         passed = sum(attempt_passed(run) for run in runs)
-        planned = case.get("runsPerCase") or DEFAULT_PLANNED
         target = TARGETS[priorities[case["dir"]]]
-        out[case["dir"]] = (passed, len(runs), planned, target, verdict(passed, len(runs), planned, target))
+        out[case["dir"]] = (passed, len(runs), PLANNED, target, verdict(passed, len(runs), PLANNED, target))
     return out
 
 
@@ -103,7 +107,7 @@ def split_budget(max_cost, spent, invocations):
     return max(0.0, max_cost - spent) / invocations
 
 
-def base_command(env):
+def base_command(env, runs):
     """The `claude plugin eval` command scripts/run-evals.sh builds, up to the per-round flags."""
     return [
         "claude", "plugin", "eval", ".",
@@ -113,14 +117,15 @@ def base_command(env):
         "--judge-model", env.get("EVAL_JUDGE_MODEL") or "opus",
         "--ablation", "none",
         "--no-publish",
-        "--runs", "1",
+        "--runs", str(runs),
         *shlex.split(env.get("EVAL_FLAGS") or ""),
     ]  # fmt: skip
 
 
 def round_command(env, json_path, concurrency, budget, tags, case=None):
-    """One invocation of a round. --allow-tools and --tag take lists, so --tag goes last."""
-    command = base_command(env) + ["--concurrency", str(concurrency), "--json", json_path]
+    """One invocation of a round: the first round, which has no --case, runs MINIMUM attempts, and
+    a later one runs one. --allow-tools and --tag take lists, so --tag goes last."""
+    command = base_command(env, MINIMUM if case is None else 1) + ["--concurrency", str(concurrency), "--json", json_path]
     if budget is not None:
         command += ["--max-cost-usd", f"{budget:.4f}"]
     if case is not None:

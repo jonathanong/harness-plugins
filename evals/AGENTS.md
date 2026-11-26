@@ -21,7 +21,7 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
   does not already pass it without the skill, and record what it scored in `HISTORY.md`.
 - A two-arm run leaves `skill-fired` out of its own score. `scripts/eval-summary.py` counts it
   again; use that script's numbers, not the report's.
-- `EVAL_STOP_EARLY=1` runs attempts in rounds of one, with the plugin only, and stops a case
+- `EVAL_STOP_EARLY=1` runs two attempts and then one at a time, with the plugin only, and stops a case
   once the attempts left cannot change its verdict against its target. Use it for a regression
   run or to check that cases still meet their targets. Do not use it for a number a change will
   quote: a with-vs-without gap, a loading rate, or a description A/B runs every attempt. Set

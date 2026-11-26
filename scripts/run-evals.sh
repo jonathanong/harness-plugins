@@ -4,7 +4,7 @@
 # model already passes on its own.
 # Usage: scripts/run-evals.sh [skill ...]   (default: every skill)
 # Extra `claude plugin eval` flags go in EVAL_FLAGS, e.g. EVAL_FLAGS='--runs 1'.
-# EVAL_STOP_EARLY=1 runs scripts/eval-rounds.py instead: one attempt per round, stopping each case
+# EVAL_STOP_EARLY=1 runs scripts/eval-rounds.py instead: two attempts, then one at a time, stopping each case
 # once its verdict against its priority target cannot change. EVAL_MAX_COST_USD caps its cost.
 # It exits 1 when a case misses its target.
 set -euo pipefail

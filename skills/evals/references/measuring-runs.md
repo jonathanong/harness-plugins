@@ -97,9 +97,16 @@ Run attempts in rounds, and stop a case once the attempts left cannot change its
 - otherwise run another attempt.
 
 At three attempts: 2 of 2 meets a medium or low target and skips the third; 0 of 2 misses every
-target; 1 of 2 runs the third; a critical or high case misses at its first failure. Judges taking
+target; 1 of 2 runs the third for a medium or low case and misses a critical or high one, which
+needs all three; 2 of 2 on a critical or high case runs the third. Judges taking
 a majority of three votes can stop the same way after two votes that agree.
 
+- Run at least two attempts before any verdict. A critical or high case has already missed at
+  its first failure, but the second attempt costs little beside a verdict that would rest on
+  one attempt.
+- Take the planned number of attempts from your own configuration, not from a field the runner
+  echoes back: a runner that reports the round's size there makes every case look finished after
+  its first round.
 - Record the attempts actually run: "2 of 2", never "3 of 3". Give a case that stopped early its
   count and its verdict, with no interval: the interval assumes the number of attempts was fixed
   before the run. Such a row is a verdict, not a rate to quote.

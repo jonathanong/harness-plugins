@@ -20,8 +20,11 @@ What changed:
   the cost of the mistake each case catches: 3 critical (a logged request body, a real first
   publish, retention that drops referenced rows), 26 high, 22 low, 111 medium. The pull request
   lists each with its reason. No prompt, grader, or fixture changed, so scores stay comparable.
-- `EVAL_STOP_EARLY=1 pnpm run evals` runs attempts in rounds of one through
-  `scripts/eval-rounds.py` and stops a case once its verdict cannot change.
+- `EVAL_STOP_EARLY=1 pnpm run evals` runs attempts in rounds through `scripts/eval-rounds.py` and
+  stops a case once its verdict cannot change. The validation run below used rounds of one. After
+  review the first round became two attempts, so no verdict rests on one, and the driver plans
+  three attempts itself and no longer reads the runner's `runsPerCase`; that version was checked
+  on saved results, not rerun.
 - The `evals` skill bundles `scripts/eval_stats.py`: Wilson intervals, the suite and gap
   bootstrap, passes needed, and the verdict.
 
