@@ -115,7 +115,7 @@ Each still gets a loading case and an answer case.
       `resuming-work`: a scheduled or repeating prompt is as old as the day it was written,
       and every standing copy changes when the instruction does; after a context summary,
       re-read the standing notes before acting on a limit, hold, or approval it states.
-      `agent-workflow`: a yes covers the action that was asked about, not a wider or permanent
+      `deciding-or-asking`: a yes covers the action that was asked about, not a wider or permanent
       mechanism; raise a pending question once (verifying a finding before flagging it is
       now in the skill). `agent-coordination`: read the preferred workers' availability from
       the live source before using a fallback; read the change behind a worker's numbers
