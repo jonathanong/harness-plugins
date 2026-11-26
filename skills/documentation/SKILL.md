@@ -1,6 +1,6 @@
 ---
 name: documentation
-description: Use when writing or reviewing a README, a docs page, or a code comment, including a diff that adds or changes one. Decide what belongs in docs and comments so they do not drift from the code. For AGENTS.md, also use agent-rules; for skills, skill-authoring.
+description: Use when writing or reviewing a README or a section of one, a docs page, or a code comment, including a diff that adds or changes one and a request to draft a section that holds numbers, status, or plans. Decide what belongs in docs and comments so they do not drift from the code. For AGENTS.md, also use agent-rules; for skills, skill-authoring.
 ---
 
 # Documentation and comments

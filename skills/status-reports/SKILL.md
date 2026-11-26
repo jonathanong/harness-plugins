@@ -17,6 +17,9 @@ their bug.
 - Run the check that matches the claim. Tests for "tests pass", the real behavior for "it
   works", the remote state for "pushed", "merged", or "deployed". A build or typecheck passing
   shows the code compiles, not that it behaves.
+- Where a required check runs on the pushed commit, point to that check; do not re-run it
+  locally to make the claim. What no check covers, such as a manual look at a screen, a
+  migration tried on a local database, or a timing, is yours to re-run.
 - Re-run after the last change. A result from before a later edit says nothing about the code
   now, even if the edit was one line.
 - Read the exit code and the output together. A command that printed errors and exited 0, or
