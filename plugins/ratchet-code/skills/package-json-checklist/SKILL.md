@@ -27,17 +27,24 @@ workspace topology, registry, release process, and package layout.
    checks required by the affected package. Do not publish or alter registry state without explicit
    authorization.
 5. Review the lockfile and generated metadata for unrelated churn before committing.
-6. Add a dependency at the newest release that the repository's cooldown or release-age policy
+6. When a merge or rebase conflicts in a lockfile, let the package manager regenerate it from the
+   resolved manifests and commit the result, without asking. Do not hand-merge the conflict
+   markers and do not keep one side: either can drop a resolution or record a version no
+   manifest asks for. `ratchet-github:git-commit-checklist` owns the steps, under "A conflict in
+   a generated file"; with pnpm, leave the markers and run `pnpm install --no-frozen-lockfile`.
+   A lockfile one side deleted stays deleted only when the resolved project no longer uses that
+   package manager; otherwise regenerate it.
+7. Add a dependency at the newest release that the repository's cooldown or release-age policy
    allows, on an LTS line where one exists (see the `dependabot` skill for cooldowns). Look the
    version up; do not recall it. An old version starts the package behind on fixes the update bot
    then has to deliver.
-7. Do not use package-manager version overrides to work around a dependency. An override silently
+8. Do not use package-manager version overrides to work around a dependency. An override silently
    pins every consumer and outlives its reason. When a package omits a dependency or peer it
    needs, add it with `packageExtensions`; that only adds what the manifest lacks and cannot
    change a declared range. When a package's peer range is too narrow for a version that works,
    accept that version for that package only with pnpm's `peerDependencyRules.allowedVersions`
    (`"old-pkg>react": "19"`). A scoped override (`"pkg>dep"`) is still an override.
-8. To change anything else a package declares, such as `exports` or `bin`, patch the package.
+9. To change anything else a package declares, such as `exports` or `bin`, patch the package.
    A dependency range is the exception: it cannot be changed in place. Under pnpm, a patch
    edits the package's files after the versions are resolved, so a patched range installs the
    old version, and `packageExtensions` cannot change a declared range. Upgrade the package to a

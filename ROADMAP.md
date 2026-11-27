@@ -63,6 +63,10 @@ Each still gets a loading case and an answer case.
       like the request ("take mine for all of these"). The shipped description also loads
       `generated-file-conflict-on-rebase` in 2 of 3, against 3 of 3 on the earlier one in the
       same session.
+- [ ] **`package-json-checklist`, "regenerate a conflicted lockfile", has no case.** A draft on
+      2026-11-27 needed to write in the run's workspace, which the runner mounts read-only, and
+      the model named the right commands unaided. Try a review of a diff that hand-merged the
+      lockfile.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
