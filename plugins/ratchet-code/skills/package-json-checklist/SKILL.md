@@ -40,6 +40,7 @@ workspace topology, registry, release process, and package layout.
 
    A hand-merged or one-sided lockfile can drop this branch's resolutions or record versions no
    manifest asks for. The regenerated one is what the package manager would produce anyway.
+
 7. Add a dependency at the newest release that the repository's cooldown or release-age policy
    allows, on an LTS line where one exists (see the `dependabot` skill for cooldowns). Look the
    version up; do not recall it. An old version starts the package behind on fixes the update bot
