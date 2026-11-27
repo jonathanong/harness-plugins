@@ -1,0 +1,4 @@
+schema_version: '1.1'
+name: rebase-conflict-in-lockfile
+context:
+  scaffold_script: fixture.sh

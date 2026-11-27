@@ -27,17 +27,30 @@ workspace topology, registry, release process, and package layout.
    checks required by the affected package. Do not publish or alter registry state without explicit
    authorization.
 5. Review the lockfile and generated metadata for unrelated churn before committing.
-6. Add a dependency at the newest release that the repository's cooldown or release-age policy
+6. When a merge or rebase conflicts in a lockfile, do not hand-merge the conflict markers and do
+   not keep one side. Take the base branch's lockfile, rerun the package manager so it
+   re-resolves this branch's manifests, check it, and commit the result as the resolution,
+   without asking:
+
+   ```bash
+   git checkout <base> -- pnpm-lock.yaml
+   pnpm install --lockfile-only            # npm install --package-lock-only
+                                           # yarn install --mode update-lockfile
+   ```
+
+   A hand-merged or one-sided lockfile can drop this branch's resolutions or record versions no
+   manifest asks for. The regenerated one is what the package manager would produce anyway.
+7. Add a dependency at the newest release that the repository's cooldown or release-age policy
    allows, on an LTS line where one exists (see the `dependabot` skill for cooldowns). Look the
    version up; do not recall it. An old version starts the package behind on fixes the update bot
    then has to deliver.
-7. Do not use package-manager version overrides to work around a dependency. An override silently
+8. Do not use package-manager version overrides to work around a dependency. An override silently
    pins every consumer and outlives its reason. When a package omits a dependency or peer it
    needs, add it with `packageExtensions`; that only adds what the manifest lacks and cannot
    change a declared range. When a package's peer range is too narrow for a version that works,
    accept that version for that package only with pnpm's `peerDependencyRules.allowedVersions`
    (`"old-pkg>react": "19"`). A scoped override (`"pkg>dep"`) is still an override.
-8. To change anything else a package declares, such as `exports` or `bin`, patch the package.
+9. To change anything else a package declares, such as `exports` or `bin`, patch the package.
    A dependency range is the exception: it cannot be changed in place. Under pnpm, a patch
    edits the package's files after the versions are resolved, so a patched range installs the
    old version, and `packageExtensions` cannot change a declared range. Upgrade the package to a

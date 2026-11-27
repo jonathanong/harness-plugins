@@ -4,6 +4,22 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-27: `package-json-checklist` gains a lockfile-conflict rule; one new case, not measured
+
+Commit `9b1e4d9` plus the changes below. The run did not start: `claude plugin eval` stopped with
+`auth_failed` before any attempt, so no agent or judge cost was spent ($0) and no row was
+written to `cases.csv`.
+
+- `package-json-checklist` gains step 6: when a merge or rebase conflicts in a lockfile, take the
+  base branch's lockfile, rerun the package manager so it re-resolves this branch's manifests,
+  check it, and commit the result, without asking; never hand-merge the markers or keep one side.
+  The description is unchanged, so no A/B was run.
+- New case `package-json-checklist/rebase-conflict-in-lockfile`: the agent sits in a fixture
+  repository stopped mid-rebase on a `pnpm-lock.yaml` conflict and is asked to finish the
+  rebase. Graders: `skill-fired`, `regenerates-lockfile` (regex on a `pnpm install
+  --lockfile-only` command), and an `outcome` llm grader. Not piloted and not measured; the
+  with and without scores and `cases.csv` row are still to be recorded.
+
 ## 2026-11-27: PostgreSQL skills gain a simplest-design ladder and review wording; one new case
 
 Commit `5e96aa5` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. The
