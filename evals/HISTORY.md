@@ -4,6 +4,32 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `npm-publishing` gains the release flow; one new case
+
+Commit `960fb7a` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. The
+measured run of the new case, three attempts with the plugin and three without: $4.73, of which
+$0.59 agent and $4.13 judges. Two one-attempt pilots of both arms before it: $1.15. Total $5.88.
+No other case ran. The run started after midnight UTC, so its row in `cases.csv` is dated
+2026-11-27.
+
+- `npm-publishing` gains a section on the release workflow and `references/release-bump-and-push.md`: the
+  workflow bumps the version and pushes the commit and tag to the default branch, later jobs
+  publish from that commit's SHA, the registry is reached with OIDC, and the push uses a
+  `RELEASE_TOKEN` that a person creates. Its description now also names writing or reviewing a
+  release workflow.
+- New case `npm-publishing/release-workflow-bumps-and-publishes` (high): a person who bumps and
+  tags by hand asks for a release they can start from the Actions tab, on a default branch whose
+  ruleset requires pull requests. With the plugin it passed 3 of 3 and loaded the skill 3 of 3.
+  Without it, 0 of 3: every attempt failed `workflow-pushes-the-bump` and
+  `push-token-handed-off`, and passed `publishes-the-pushed-commit` and `oidc-no-token`. So the
+  case measures the push and its token; the model already publishes from the right commit with
+  OIDC unaided, and those two rules stay for weaker models.
+- The first pilot asked the agent to edit the workflow file. The runner mounts
+  `.github/workflows` read-only, so neither arm could write it, and a `tool_used` grader against
+  `npm publish` matched the attempted write of the file. The case now asks for the workflow in
+  the reply, has no `Bash`, and drops that grader. The second pilot ran the case as it is now.
+- The two older `npm-publishing` rows were not re-measured after the description changed.
+
 ## 2026-11-26: `jong-skills` becomes four plugins; one case dropped; rows not re-measured
 
 Commit `b8ee3c7` plus the split below. Sonnet agent, Opus judge, Claude Code 2.1.332. A check of

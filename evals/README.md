@@ -11,18 +11,19 @@ needed.
 
 <!-- evals:headline -->
 
-- **172 cases** across 51 skills.
+- **173 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.36, over the 170 cases measured both ways.
-- **134 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **162 of 172 cases** meet their target: critical 3 of 3, high 24 of 24, medium 113 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.36, over the 171 cases measured both ways.
+- **135 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **163 of 173 cases** meet their target: critical 3 of 3, high 25 of 25, medium 113 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
 
-**Every score below was measured before 2026-11-26, when the skills were one plugin of 51.** A
-case now runs with only its skill's plugin installed, 11 to 15 skills, and no row has been
-re-measured since; see "`jong-skills` becomes four plugins" in [HISTORY.md](HISTORY.md).
+**Every score below but one was measured before the split on 2026-11-26, when the skills were
+one plugin of 51.** A case now runs with only its skill's plugin installed, 11 to 15 skills, and
+no row has been re-measured since. The exception is
+`npm-publishing/release-workflow-bumps-and-publishes`, which was added after the split; see "`jong-skills` becomes four plugins" in [HISTORY.md](HISTORY.md).
 
 Agent Sonnet, judge Opus, three attempts per case unless [EVALS.md](EVALS.md) says a row
 comes from a run with more. A score is the share of graders that passed,
@@ -58,7 +59,7 @@ averaged over attempts.
 | `list-reads`                       | `ratchet-backend`   | 4     | 1.00        | 0.67           | 2                     | 9 of 9                               | 4 of 4     |
 | `llm-calls`                        | `ratchet-backend`   | 3     | 0.89        | 0.44           | 1                     | 7 of 9, under 80%                    | 3 of 3     |
 | `native-app-architecture`          | `ratchet-code`      | 3     | 0.94        | 0.00           | 0                     | 9 of 9                               | 3 of 3     |
-| `npm-publishing`                   | `ratchet-code`      | 2     | 1.00        | 0.56           | 0                     | 6 of 6                               | 2 of 2     |
+| `npm-publishing`                   | `ratchet-code`      | 3     | 1.00        | 0.54           | 0                     | 9 of 9                               | 3 of 3     |
 | `package-json-checklist`           | `ratchet-code`      | 3     | 0.89        | 0.45           | 0                     | 8 of 9                               | 3 of 3     |
 | `planning`                         | `ratchet-workflows` | 6     | 0.81        | 0.28           | 1                     | 11 of 15, under 80%                  | 5 of 6     |
 | `playwright-authoring`             | `ratchet-code`      | 2     | 1.00        | 0.00           | 0                     | 6 of 6                               | 2 of 2     |

@@ -106,6 +106,7 @@ unaided by design.
 | `native-app-architecture/inbox-ends-on-the-flag`                        | Ends a SwiftUI list and shows its empty state from the API's next-page flag, with the paging state outside the view.                                                                                                                                                        | medium   | 0.83  | 3 of 3 | 2 of 3             | 2 of 3 | 0.00           | met     |
 | `npm-publishing/bootstrap-new-package`                                  | Prepares a first publish for a person to run, and never publishes itself.                                                                                                                                                                                                   | critical | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.40           | met     |
 | `npm-publishing/existing-package-trust-only`                            | Sets up trusted publishing for an existing package without publishing or changing trust.                                                                                                                                                                                    | high     | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.73           | met     |
+| `npm-publishing/release-workflow-bumps-and-publishes`                   | A reworked release workflow pushes the version bump itself with a token that may pass the ruleset, and publishes that commit with OIDC.                                                                                                                                     | high     | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.50           | met     |
 | `package-json-checklist/pinned-transitive-version-replaces-the-package` | Asked for an override to force a transitive dependency's version, declines and says to replace or fork the package that pins it.                                                                                                                                            | medium   | 0.67  | 2 of 3 | 2 of 2             | 2 of 3 | 0.00           | met     |
 | `package-json-checklist/review-override-for-peer-warning`               | Accepts React 19 for one package with `peerDependencyRules`, not an override.                                                                                                                                                                                               | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.67           | met     |
 | `package-json-checklist/workspace-dependency-and-export`                | Adds dependencies with pnpm in the right fields and keeps the root export.                                                                                                                                                                                                  | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.67           | met     |
@@ -198,9 +199,11 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
-- **Every row was measured before the skills were split into four plugins on 2026-11-26**, with
-  all 51 skills installed as one plugin. A case now runs with only its skill's plugin installed.
-  No row was re-measured after the split; see the entry "`jong-skills` becomes four plugins" in
+- **Every row but one was measured before the skills were split into four plugins on
+  2026-11-26**, with all 51 skills installed as one plugin. The exception is
+  `npm-publishing/release-workflow-bumps-and-publishes`, added and run on 2026-11-26 with only
+  `ratchet-code` installed. A case now runs with only its skill's plugin installed.
+  No other row was re-measured after the split; see the entry "`jong-skills` becomes four plugins" in
   [HISTORY.md](HISTORY.md).
 - **The 123 cases of the plugin-only run on 2026-11-26** (see the entry "every case now has a
   loading count" in [HISTORY.md](HISTORY.md)) take their plugin result and loading from that run: three attempts each, and six for the two `github-ci-operations` cases about stuck and

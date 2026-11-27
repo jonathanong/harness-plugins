@@ -132,19 +132,19 @@ Backend design: PostgreSQL, migrations, lists and loops, queues, HTTP APIs, webh
 
 Writing code and its checks: TypeScript, Rust, React and native apps, tests, packages, and static analysis.
 
-| Skill                                                                                         | Use it when                                                                          |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [`lint-rule-authoring`](plugins/ratchet-code/skills/lint-rule-authoring/SKILL.md)             | Writing the code of a lint rule or AST check: bindings, untraceable names, fixtures. |
-| [`native-app-architecture`](plugins/ratchet-code/skills/native-app-architecture/SKILL.md)     | Structuring a native app around a portable core with thin views.                     |
-| [`npm-publishing`](plugins/ratchet-code/skills/npm-publishing/SKILL.md)                       | Preparing a first npm publish, trusted publishing, and the release workflow.         |
-| [`package-json-checklist`](plugins/ratchet-code/skills/package-json-checklist/SKILL.md)       | Changing `package.json`, a lockfile, or a package entry point.                       |
-| [`playwright-authoring`](plugins/ratchet-code/skills/playwright-authoring/SKILL.md)           | Writing browser tests: what needs a browser, locators, and test ids.                 |
-| [`react-app-structure`](plugins/ratchet-code/skills/react-app-structure/SKILL.md)             | Structuring API calls, links, redirects, and config in a React app.                  |
-| [`rust-authoring`](plugins/ratchet-code/skills/rust-authoring/SKILL.md)                       | Laying out Rust tests and caches, and running heavy cargo builds.                    |
-| [`static-analysis-checklist`](plugins/ratchet-code/skills/static-analysis-checklist/SKILL.md) | Adding or changing one static-analysis invariant.                                    |
-| [`static-code-analysis`](plugins/ratchet-code/skills/static-code-analysis/SKILL.md)           | Creating a repository: which static checks to add and how strict to start.           |
-| [`test-authoring`](plugins/ratchet-code/skills/test-authoring/SKILL.md)                       | Which tests to write; fixtures, mocks, guards; Vitest, Storybook, Swift, .NET.       |
-| [`typescript-authoring`](plugins/ratchet-code/skills/typescript-authoring/SKILL.md)           | Writing TypeScript without aliases, shims, or hidden calls.                          |
+| Skill                                                                                         | Use it when                                                                               |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [`lint-rule-authoring`](plugins/ratchet-code/skills/lint-rule-authoring/SKILL.md)             | Writing the code of a lint rule or AST check: bindings, untraceable names, fixtures.      |
+| [`native-app-architecture`](plugins/ratchet-code/skills/native-app-architecture/SKILL.md)     | Structuring a native app around a portable core with thin views.                          |
+| [`npm-publishing`](plugins/ratchet-code/skills/npm-publishing/SKILL.md)                       | A first npm publish, trusted publishing, and a release workflow that bumps and publishes. |
+| [`package-json-checklist`](plugins/ratchet-code/skills/package-json-checklist/SKILL.md)       | Changing `package.json`, a lockfile, or a package entry point.                            |
+| [`playwright-authoring`](plugins/ratchet-code/skills/playwright-authoring/SKILL.md)           | Writing browser tests: what needs a browser, locators, and test ids.                      |
+| [`react-app-structure`](plugins/ratchet-code/skills/react-app-structure/SKILL.md)             | Structuring API calls, links, redirects, and config in a React app.                       |
+| [`rust-authoring`](plugins/ratchet-code/skills/rust-authoring/SKILL.md)                       | Laying out Rust tests and caches, and running heavy cargo builds.                         |
+| [`static-analysis-checklist`](plugins/ratchet-code/skills/static-analysis-checklist/SKILL.md) | Adding or changing one static-analysis invariant.                                         |
+| [`static-code-analysis`](plugins/ratchet-code/skills/static-code-analysis/SKILL.md)           | Creating a repository: which static checks to add and how strict to start.                |
+| [`test-authoring`](plugins/ratchet-code/skills/test-authoring/SKILL.md)                       | Which tests to write; fixtures, mocks, guards; Vitest, Storybook, Swift, .NET.            |
+| [`typescript-authoring`](plugins/ratchet-code/skills/typescript-authoring/SKILL.md)           | Writing TypeScript without aliases, shims, or hidden calls.                               |
 
 ### Evals
 
@@ -153,17 +153,17 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **172 cases** across 51 skills.
+- **173 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.36, over the 170 cases measured both ways.
-- **134 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **162 of 172 cases** meet their target: critical 3 of 3, high 24 of 24, medium 113 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.36, over the 171 cases measured both ways.
+- **135 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **163 of 173 cases** meet their target: critical 3 of 3, high 25 of 25, medium 113 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
 
-These scores were measured when the skills were one plugin, and have not been re-measured since
-the split into four.
+All but one of these scores were measured when the skills were one plugin, and have not been
+re-measured since the split into four. The exception is the newest `npm-publishing` case.
 
 Scores by skill are in [`evals/README.md`](evals/README.md), every case in
 [`evals/EVALS.md`](evals/EVALS.md), the run log in [`evals/HISTORY.md`](evals/HISTORY.md), and
