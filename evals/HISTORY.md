@@ -4,21 +4,28 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-27: `package-json-checklist` gains a lockfile-conflict rule; one new case, not measured
+## 2026-11-27: `package-json-checklist` gains a lockfile-conflict rule; its drafted case is dropped
 
-Commit `9b1e4d9` plus the changes below. The run did not start: `claude plugin eval` stopped with
-`auth_failed` before any attempt, so no agent or judge cost was spent ($0) and no row was
-written to `cases.csv`.
+Commit `9b1e4d9` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
+one-attempt pilot of the drafted case, with the plugin and without: $0.83. No measured run, and
+no row in `cases.csv`. A first try at the pilot stopped with `auth_failed` before any attempt and
+cost nothing.
 
 - `package-json-checklist` gains step 6: when a merge or rebase conflicts in a lockfile, take the
   base branch's lockfile, rerun the package manager so it re-resolves this branch's manifests,
   check it, and commit the result, without asking; never hand-merge the markers or keep one side.
   The description is unchanged, so no A/B was run.
-- New case `package-json-checklist/rebase-conflict-in-lockfile`: the agent sits in a fixture
-  repository stopped mid-rebase on a `pnpm-lock.yaml` conflict and is asked to finish the
-  rebase. Graders: `skill-fired`, `regenerates-lockfile` (regex on a `pnpm install
-  --lockfile-only` command), and an `outcome` llm grader. Not piloted and not measured; the
-  with and without scores and `cases.csv` row are still to be recorded.
+- The drafted case, `package-json-checklist/rebase-conflict-in-lockfile`, put the agent in a
+  fixture repository stopped mid-rebase on a `pnpm-lock.yaml` conflict and asked it to finish
+  the rebase. It is dropped for two reasons. The runner mounted the case's working directory
+  read-only, so neither arm could write a file or continue the rebase, as happened to
+  `debugging/crash-fixed-at-cause-with-a-test` on 2026-11-26; a case that has to write cannot be
+  measured here. And the one attempt without the plugin already named the rule's steps in its
+  answer: take one side of the lockfile, then run `pnpm install --lockfile-only`. So a version of
+  the case that only asks for the commands would likely pass without the skill.
+- The rule stays: a weaker model edits the markers or keeps one side. A case that can tell is
+  listed in `ROADMAP.md`.
+- The existing `package-json-checklist` rows were not re-measured after the skill changed.
 
 ## 2026-11-27: PostgreSQL skills gain a simplest-design ladder and review wording; one new case
 
