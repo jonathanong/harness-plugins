@@ -10,7 +10,9 @@ table. When state keeps returning to earlier states, keep the current state on t
 append each change to a history table in the same transaction, rather than erasing the previous
 lifecycle. Current state is never derived from the newest history row, and the live row holds no
 `latest_*_id` pointer to its history: both make every read of the entity depend on a table that
-exists for its past.
+exists for its past. History order is also not commit order, since a UUIDv7 `id` is assigned at
+insert: two writers can append in one order and update the live row in the other, so the newest
+history row is not proof of the final state. Do not lock to make the two agree.
 
 | Concept                    | Shape                                                                                                                                                                                                     |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

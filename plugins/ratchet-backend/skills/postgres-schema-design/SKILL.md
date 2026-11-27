@@ -52,7 +52,8 @@ you rejected and why:
   force depend on which ran last; a migration that changes it says what it replaces.
 - **A table partitioned with only a `DEFAULT` partition is not partitioned.** Record the evidence
   for partitioning and who owns retention, or keep an ordinary table.
-- **A table, column, or enum value that no code reads is deleted.**
+- **A table, column, or enum value that no code reads is deleted.** A column that a `CHECK` or a
+  foreign key uses is read on every write and stays.
 
 ## Names, columns, and keys
 
