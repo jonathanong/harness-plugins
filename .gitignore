@@ -3,6 +3,7 @@ node_modules/
 *.log
 .claude/
 evals/results/
+plugins/*/evals/results/
 .coverage
 coverage/
 __pycache__/

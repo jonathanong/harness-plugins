@@ -1,14 +1,50 @@
 {
-  "name": "harness-plugins",
+  "name": "ratchet-stack",
   "interface": {
-    "displayName": "Jonathan Ong's harness plugins"
+    "displayName": "Ratchet stack"
   },
   "plugins": [
     {
-      "name": "jong-skills",
+      "name": "ratchet-workflows",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/ratchet-workflows"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "ratchet-github",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ratchet-github"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "ratchet-backend",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ratchet-backend"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "ratchet-code",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ratchet-code"
       },
       "policy": {
         "installation": "AVAILABLE",

@@ -1,18 +1,39 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "harness-plugins",
-  "description": "Jonathan Ong's agent plugins: generic skills, PR shepherding, code review, GitHub event hooks, code-graph checks, agent telemetry, and service status.",
+  "name": "ratchet-stack",
+  "description": "Jonathan Ong's agent plugins: generic skills in four plugins, PR shepherding, code review, GitHub event hooks, code-graph checks, agent telemetry, and service status.",
   "owner": {
     "name": "Jonathan Ong",
     "url": "https://github.com/jonathanong"
   },
   "plugins": [
     {
-      "name": "jong-skills",
-      "description": "Generic agent skills that explain a design or a procedure: CI and dependencies, PostgreSQL and queues, testing, TypeScript, Rust, React and native apps, HTTP APIs, rollout, logging, pull requests, docs, and evals.",
-      "source": "./",
+      "name": "ratchet-workflows",
+      "description": "Skills for how an agent works on a task: planning, deciding or asking, implementing, debugging, reviewing a change, reporting status, resuming work, coordinating agents, and writing docs, agent rules, skills, and evals.",
+      "source": "./plugins/ratchet-workflows",
       "category": "productivity",
-      "homepage": "https://github.com/jongleberry/harness-plugins"
+      "homepage": "https://github.com/jongleberry/ratchet-stack"
+    },
+    {
+      "name": "ratchet-github",
+      "description": "Skills for Git and GitHub work: commits, pull requests and their descriptions, issues, Actions workflows, CI operations and failing logs, Dependabot, repository settings, security findings, and contributing upstream.",
+      "source": "./plugins/ratchet-github",
+      "category": "productivity",
+      "homepage": "https://github.com/jongleberry/ratchet-stack"
+    },
+    {
+      "name": "ratchet-backend",
+      "description": "Skills for backend design: PostgreSQL schema, locking, queries, and partitioning; migrations in steps; list reads and bounded loops; queues; HTTP APIs, webhooks, and service boundaries; errors, logging, rollout, and LLM calls.",
+      "source": "./plugins/ratchet-backend",
+      "category": "productivity",
+      "homepage": "https://github.com/jongleberry/ratchet-stack"
+    },
+    {
+      "name": "ratchet-code",
+      "description": "Skills for writing code and its checks: TypeScript, Rust, React and native apps, tests and browser tests, package.json and npm publishing, lint rules, and static analysis.",
+      "source": "./plugins/ratchet-code",
+      "category": "productivity",
+      "homepage": "https://github.com/jongleberry/ratchet-stack"
     },
     {
       "name": "hook-harness",

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ratchet-workflows",
+  "description": "Skills for how an agent works on a task: planning, deciding or asking, implementing, debugging, reviewing a change, reporting status, resuming work, coordinating agents, and writing docs, agent rules, skills, and evals.",
+  "author": {
+    "name": "Jonathan Ong"
+  },
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "ratchet-github",
+  "description": "Skills for Git and GitHub work: commits, pull requests and their descriptions, issues, Actions workflows, CI operations and failing logs, Dependabot, repository settings, security findings, and contributing upstream.",
+  "author": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "homepage": "https://github.com/jongleberry/ratchet-stack",
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT",
+  "keywords": ["skills", "git", "github", "github-actions", "dependabot", "pull-requests", "ci"],
+  "skills": "./skills/"
+}

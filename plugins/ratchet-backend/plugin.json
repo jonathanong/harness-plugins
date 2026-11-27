@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ratchet-backend",
+  "description": "Skills for backend design: PostgreSQL schema, locking, queries, and partitioning; migrations in steps; list reads and bounded loops; queues; HTTP APIs, webhooks, and service boundaries; errors, logging, rollout, and LLM calls.",
+  "author": {
+    "name": "Jonathan Ong"
+  },
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT"
+}
