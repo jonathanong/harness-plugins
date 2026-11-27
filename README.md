@@ -46,19 +46,6 @@ Code treats each commit on its `main` as an update. A plugin whose manifest sets
 updates only when its repository releases a new version. Codex picks up changes when you run
 `codex plugin marketplace upgrade ratchet-stack`.
 
-### Moving from `harness-plugins`
-
-This marketplace was `harness-plugins` and its skills were one plugin, `jong-skills`. Remove the old
-marketplace, which uninstalls its plugins, then add this one and install the plugins again:
-
-```bash
-claude plugin marketplace remove harness-plugins
-claude plugin marketplace add jongleberry/ratchet-stack
-```
-
-In Codex, run `codex plugin marketplace remove harness-plugins`, then the commands above. A
-repository that enables plugins in its settings names them `<plugin>@ratchet-stack` now.
-
 ## Skills
 
 Generic agent skills that explain a design or a procedure. A skill may say which approach to pick
