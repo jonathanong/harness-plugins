@@ -4,6 +4,51 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-27: PostgreSQL skills gain a simplest-design ladder and review wording; one new case
+
+Commit `5e96aa5` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. The
+measured run of the new case, three attempts with the plugin and three without: $0.80, of which
+$0.54 agent and $0.26 judges. Four one-attempt pilots of both arms before it: $1.08. Total $1.88.
+No other case ran.
+
+- `postgres-schema-design` gains "The simplest design first": five rungs from a column on the
+  existing row to a new table with a named reader, taken in order, with the rejected rung named
+  in the change. It also gains rules on what a trigger may do, one owner per number, a named
+  reader for history, a reason in the comment of a lease table and of a generation column, one
+  creator per object, a `DEFAULT`-only partitioned table, and deleting what no code reads. A new
+  reference, `references/shapes-to-count.md`, lists the shapes to count against a baseline.
+  `references/table-shapes.md` no longer derives current state from the newest history row or
+  projects it with a trigger: the live row holds it. Its description now also names triggers and
+  the additions the ladder covers.
+- `postgres-locking` points to the ladder, says not to lock a row to read its prior value and
+  that a trigger function takes no row lock, and says a session-level advisory lock is held on a
+  client reserved for it, never one that returns to the request pool.
+- `bounded-iteration` and `list-reads` drop the names of four `jongleberry/no-mistakes` rules
+  they cited for behavior those rules do not check. `bounded-iteration` adds that eligibility
+  belongs in the `WHERE` and that a persisted cursor says why a self-shrinking predicate does
+  not work.
+- `postgres-node-performance-tuning` adds: no `SELECT` pre-check of what the write can guard, a
+  bound constant instead of a copied literal, one place for an authorization predicate, a plan
+  for a partial-index twin, and one statement per batch behind a callback.
+  `static-analysis-checklist` adds what an allow or disable entry names.
+- New case `postgres-schema-design/review-trigger-that-keeps-a-counter` (medium): a review of a
+  migration that keeps a per-project open-task count on `projects` with a trigger on `tasks`.
+  With the plugin it passed 3 of 3 and loaded the skill 3 of 3: each review said not to merge
+  and to count at read time first. Without it, 0 of 3: each review kept the counter and repaired
+  the trigger.
+- The first pilot of that case told the agent the page shows "99+", and passed without the
+  plugin. The prompt no longer says so. The second pilot failed in both arms: the grader required
+  the review to ask outright for the trigger and the column to be dropped, and the answer with
+  the plugin recommended the read-time count first and listed what the trigger would need if the
+  owner kept it, which is what the skill asks for. The grader now passes that answer and fails a
+  review whose recommendation is to repair the trigger. The measured run used the corrected
+  grader.
+- Two more drafted cases passed without the plugin on their one pilot attempt and were dropped:
+  one closed a lost enqueue with a column and a sweep, not an outbox table, and one enforced a
+  parent's kind with a composite foreign key and a `CHECK`, not a trigger. Those rules stay,
+  since a weaker model reaches for the table or the trigger.
+- No other row of the six changed skills was re-measured.
+
 ## 2026-11-26: `npm-publishing` gains the release flow; one new case
 
 Commit `960fb7a` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. The

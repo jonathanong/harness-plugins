@@ -12,7 +12,7 @@ ranking over every row is its global-ranking rule, not a list read.
 
 1. **Keyset pagination.** No `OFFSET`. Clamp the client's page size on the server. The API schema
    keeps a static ceiling; the default and the effective maximum are runtime-tunable but never
-   above it. (`postgres-no-offset`)
+   above it.
 2. **A list read is one walk over the entity being listed.** Filters go in `WHERE`, served by an
    index. Order with `ORDER BY key DESC, id DESC` and `LIMIT page+1`, and continue with a plain
    keyset cursor, `(key, id) < ($1, $2)`.
@@ -51,6 +51,3 @@ ranking over every row is its global-ranking rule, not a list read.
 
 Rules 8 to 10 are the contract for a page that crosses an API boundary. A sweep that reads its own
 table may still end on a short batch, as in [bounded-iteration](../bounded-iteration/SKILL.md).
-
-Names in parentheses are generic `jongleberry/no-mistakes` rules; check that the installed release
-has one before relying on it.

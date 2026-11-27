@@ -30,7 +30,8 @@ syntax, and rollout policy.
    untracked and ignored files neither fail it nor satisfy it. A scan of tracked files sees a new file only
    after `git add`, so when a check says a new path does not exist, stage it before changing the
    rule. Make suppressions and allowlists narrow, justified, and mechanically checked for
-   freshness where practical.
+   freshness where practical. An allow or disable entry names a tracking issue, or a reason
+   that goes stale visibly: one a check or a reader can see is no longer true.
 5. Run the focused fixture test and analyzer, then the local aggregate checks. Keep diagnostics
    actionable and deterministic.
 6. Update the local inventory or documentation and delete superseded migration artifacts only when

@@ -17,7 +17,8 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 1. **Choose work, not entities.** Read only rows that need work, through a predicate an index
    serves: a work-item or dirty-marker row, a parent id, a due timestamp with a partial index, or a
    time or UUIDv7 window past a high-water mark. Column-to-column comparisons, `OR` of unrelated
-   conditions, and `EXISTS` as the only condition are not filters. (`postgres-required-predicates`)
+   conditions, and `EXISTS` as the only condition are not filters. Eligibility belongs in the
+   `WHERE`, not in a filter after the read, which pays for rows it then skips.
    Base a sweep on `updated_at` only if the sweep controls all of `updated_at`'s inputs, or doing
    the work twice is no harm. A trigger sets `updated_at` on any update to the row, so every other
    writer moves it. A table only for post moderations can be swept by `updated_at`; posts cannot.
@@ -52,7 +53,7 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    another row, such as a hold on the parent, put that guard in the write as well;
    `postgres-locking` says when such a guard needs a lock. `FOR UPDATE SKIP LOCKED` is only for a
    work-item claim, where two workers must not do the same non-idempotent work.
-   (`postgres-lock-ordering`, [postgres-locking](../postgres-locking/SKILL.md))
+   ([postgres-locking](../postgres-locking/SKILL.md))
 4. **A stream is not a bound.** A cursor or stream bounds memory, not work. Cap the rows streamed
    per run.
 5. **Resume without restarting.** Keep a keyset position on the UUIDv7 key or a
@@ -65,8 +66,8 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    compare-and-set on the value the batch started from, never an unconditional write, so an
    overlapping or stale run cannot move it backward. Asked to guard a shared cursor that does not
    need to be shared, move the position into the job's data instead of adding the guard: that
-   removes the race, and a guard only survives it.
-   (`postgres-generated-column-predicates`)
+   removes the race, and a guard only survives it. A sweep that keeps any persisted cursor says
+   why a predicate the processed row leaves, as in rule 16, does not work.
 6. **Runs that must not overlap do not start.** Whether runs may overlap depends on what the sweep
    does: overlapping runs of an idempotent sweep only repeat work, but runs that together overload
    the database or an upstream must be kept apart. When they must not overlap, and nothing needs a
@@ -144,7 +145,5 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 For work-item, lease, and cursor tables, read [postgres-schema-design](../postgres-schema-design/SKILL.md).
 For query shape and streaming, read [performance patterns](../postgres-node-performance-tuning/references/performance-patterns.md).
 For UUIDv7 windows and pruning, use [UUIDv7 partitioning](../postgres-partitioning-uuid-v7/SKILL.md).
-Names in parentheses are generic `jongleberry/no-mistakes` rules; check that the installed release
-has one before relying on it. No generic rule checks run caps, streams, or fan-out.
 A consuming repository owns run caps, tunable names and ceilings, schedules, and enforcement
 configuration.

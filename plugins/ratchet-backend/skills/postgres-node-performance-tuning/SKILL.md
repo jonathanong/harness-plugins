@@ -21,8 +21,9 @@ it beats that simple query, not merely the previous version; see
 
 - Select only the required columns: no `SELECT *`, `alias.*`, or `RETURNING *`. A new column then
   cannot change a result shape or widen a row by accident.
-- Join or subquery a plain view only to embed its whole row as one JSON value (`to_jsonb(v)`),
-  and only when the caller uses the whole object. Reading one of its columns, or joining it only
+- A view is read for whole rows by key; one or two columns come from the base table. Join or
+  subquery a plain view only to embed its whole row as one JSON value (`to_jsonb(v)`), and only
+  when the caller uses the whole object. Reading one of its columns, or joining it only
   to filter or sort, is a defect; a materialized view is stored like a table and is read like
   one. Join the base table with the predicates it needs (such as `deleted_at IS NULL`), and
   compute a derived field with a shared SQL-fragment helper that takes the row's alias, not a copied expression, a view
@@ -32,6 +33,8 @@ it beats that simple query, not merely the previous version; see
 - A new query shape (a new filter, join key, or sort) gets its index in the same change. Check
   the plan at representative cardinality, add the index it needs, and do not wait to be asked. An
   unindexed shape works in tests and fails at production row counts.
+- A partial index that repeats another's keys with one more predicate needs a plan showing the
+  query uses it and is slower without it. Each such twin is paid for on every write.
 - An index change rechecks the plan of every query that depends on that index's predicate, join,
   ordering, or selected columns, not only the query being fixed. A changed or dropped index can
   turn a neighbor's plan into a scan. Find those queries by searching the query builders
@@ -48,9 +51,15 @@ it beats that simple query, not merely the previous version; see
   handed a client already inside a transaction joins it and never commits or rolls back; only the
   scope that opened the transaction owns that.
 - An `INSERT` on a path that can be retried (a job, a webhook, a client retry) is idempotent with
-  `ON CONFLICT`. A hot get-or-create on a table with an identity or sequence default reads first and
-  inserts only on a miss: the default is evaluated before the conflict check, so every conflicting
-  insert burns a sequence value.
+  `ON CONFLICT`. A get-or-create on a lookup table reads first and inserts only on a miss: nearly
+  every call finds the row, and an identity or sequence default is evaluated before the conflict
+  check, so every conflicting insert burns a sequence value.
+- Do not check with a `SELECT` what the write's own `WHERE` or `EXISTS` can guard. The pre-check
+  is a second round trip, and its answer can be stale by the time the write runs.
+- Bind a constant the code defines, such as a policy revision or a version, as a parameter. A
+  copy of its literal in SQL keeps the old value when the constant changes.
+- Build an authorization or eligibility predicate in one place, as a shared SQL fragment. Copies
+  in several queries drift, and the one that was missed is an access bug.
 - Bound each result set, and cap the rows each run reads, as in
   [bounded iteration](../bounded-iteration/SKILL.md), which owns LIMITs and streams. Pagination
   is in [list reads](../list-reads/SKILL.md).
@@ -62,7 +71,8 @@ it beats that simple query, not merely the previous version; see
 - Validate a query change at representative cardinality. Watch latency, memory, lock time, and
   connection pressure together.
 - Cut round trips without weakening correctness: fold dependent reads, batch per-item lookups, and
-  overlap independent reads; see
+  overlap independent reads. One statement per batch also holds when the per-item query sits
+  behind a callback, a loader, or a hook called for each row; see
   [round trips](references/performance-patterns.md#round-trips).
 - Read the plan for hidden per-row work before trusting a change; see
   [reading plans](references/reading-plans.md).
