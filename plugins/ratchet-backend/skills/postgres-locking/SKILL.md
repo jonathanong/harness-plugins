@@ -11,7 +11,8 @@ Most writes need no lock: a comment, a like, a vote, a follow, a profile edit. E
 waiting, deadlock risk, and a reason for the next reader to keep it, and one held too long stalls
 every writer queued behind it. By default take none: add one only for a reason under "When a
 lock is allowed", and record that reason beside it. When more than one mechanism is correct,
-pick the simplest. For table design, use `postgres-schema-design`.
+pick the simplest, by [the ladder](../postgres-schema-design/SKILL.md#the-simplest-design-first)
+in `postgres-schema-design`, which also owns table design.
 
 ## What counts as a lock
 
@@ -34,7 +35,8 @@ needs; do not add one beside it.
   lock is allowed" justify more.
 - **A conditional write needs no lock on the row it writes.** `UPDATE ... WHERE state = 'open'`
   and `INSERT ... ON CONFLICT` already decide atomically. Delete the `SELECT ... FOR UPDATE` that
-  precedes one, and read the row count to learn who won.
+  precedes one, and read the row count to learn who won. Do not lock a row to read its prior
+  value either: `RETURNING old.col` (PostgreSQL 18) returns it from the write.
 - **A cap or a "don't remove the last X" guard is best effort.** Count up to the cap
   (`LIMIT cap + 1`), then write. Concurrent requests that all count before any of them commits may each land a row over; say so
   and accept it. When asked to make a cap exact, answer with this design. Do not add a lock, a counter or
@@ -47,9 +49,10 @@ needs; do not add one beside it.
 - Do not add generation, revision, claim, fence, or counter columns to coordinate concurrent
   writers. Make the write idempotent or use the options above. Two exceptions: an exact quantity,
   and an optimistic version column on an entity people edit by hand, so a lost update returns 409. A lease token on leased work is not a coordination column.
-- Do not keep a counter or rollup table current with triggers when that needs global or ordered
-  locks to avoid deadlocks. Compute each closed period once, with a scheduled job or a
-  materialized view, and read the open period from the source rows.
+- A trigger function takes no row lock, and does not keep a counter or rollup table current
+  (`postgres-schema-design`): no caller can see the order those locks are taken in. Compute each
+  closed period once, with a scheduled job or a materialized view, and read the open period from
+  the source rows.
 
 ## When a lock is allowed
 
@@ -73,8 +76,9 @@ writers, and never close a race with a wider lock. A cap or a last-one guard fit
   lock the rows the transaction writes, or their parent.
 
 An advisory lock is for those cases only when no row exists to lock, or when the critical section
-must span transactions or outside I/O; then hold it on a dedicated connection, taken from its own small pool so held locks cannot
-starve request queries, and release it in a `finally`. Otherwise avoid advisory locks.
+must span transactions or outside I/O. That second case alone takes a session-level lock: hold it
+on a client reserved for it from its own small pool, never one that returns to the request pool
+or sits behind a transaction-mode pooler, and release it in a `finally`. Otherwise avoid them.
 
 ## Record the reason
 
@@ -108,13 +112,9 @@ await tx.query('SELECT 1 FROM playlists WHERE id = $1 FOR NO KEY UPDATE', [playl
   is not needed. A sweep that deletes or updates the rows it found is not a claim: it locks
   neither its candidates nor its cursor row ([bounded-iteration](../bounded-iteration/SKILL.md)).
 - Remove a lock by deleting it, not by swapping in another serializer.
-
-## Lock order and deadlocks
-
-Before adding, moving, or removing a lock, read [lock order and deadlocks](references/deadlocks.md):
-locks that triggers and foreign keys take, what removing a lock does to other writers, why a
-lock-only statement does not refresh a waiting guard, and how wide a `SERIALIZABLE` transaction
-may be.
+- Before adding, moving, or removing one, read [lock order and deadlocks](references/deadlocks.md):
+  locks triggers and foreign keys take, what removing one does to other writers, why a lock-only
+  statement does not refresh a waiting guard, and how wide a `SERIALIZABLE` transaction may be.
 
 ## Adding a lock
 

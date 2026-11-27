@@ -141,6 +141,7 @@ unaided by design.
 | `postgres-schema-design/membership-table-is-commented`                  | Comments a new table and every one of its columns in the database.                                                                                                                                                                                                          | low      | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.33           | met     |
 | `postgres-schema-design/membership-table-names-its-constraints`         | Names every constraint on a new table, its primary key included, with the `pk_`, `fk_`, `uq_`, and `ck_` prefixes.                                                                                                                                                          | low      | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.00           | met     |
 | `postgres-schema-design/per-run-cursor-rows-are-removed`                | Gives a table of one saved position per run a way to remove finished runs' rows: delete on completion, or drop old rows. Ceiling case.                                                                                                                                      | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 1.00           | met     |
+| `postgres-schema-design/review-trigger-that-keeps-a-counter`            | Reviewing a migration that keeps a per-project task count current with a trigger, asks for a count at read time first, not a repaired trigger.                                                                                                                              | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.00           | met     |
 | `postgres-schema-design/uuidv7-no-created-at-default`                   | Adds no `created_at DEFAULT now()` beside a UUIDv7 key.                                                                                                                                                                                                                     | low      | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.67           | met     |
 | `pr-description/agent-written-change-ends-with-provenance`              | Ends an agent-written change's description with a provenance block (where verified, agent and model, harness, worktree) and leaves out the hostname, username, and absolute path.                                                                                           | medium   | 0.83  | 5 of 6 | 5 of 5             | 5 of 6 | 0.00           | met     |
 | `pr-description/behavior-change-shows-a-real-run`                       | Shows one real run of a changed command from a user's point of view, on the realistic scenario, not only a minimal fixture or a summary table.                                                                                                                              | medium   | 1.00  | 3 of 3 | 3 of 3             | 3 of 3 | 0.33           | met     |
@@ -199,10 +200,15 @@ unaided by design.
 
 The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
-- **Every row but one was measured before the skills were split into four plugins on
-  2026-11-26**, with all 51 skills installed as one plugin. The exception is
+- **Every row but two was measured before the skills were split into four plugins on
+  2026-11-26**, with all 51 skills installed as one plugin. The exceptions are
   `npm-publishing/release-workflow-bumps-and-publishes`, added and run on 2026-11-26 with only
-  `ratchet-code` installed. A case now runs with only its skill's plugin installed.
+  `ratchet-code` installed, and `postgres-schema-design/review-trigger-that-keeps-a-counter`,
+  added and run on 2026-11-27 with only `ratchet-backend` installed, both arms, three attempts
+  each. A case now runs with only its skill's plugin installed.
+- **The rows of `postgres-schema-design`, `postgres-locking`, `bounded-iteration`, `list-reads`,
+  `postgres-node-performance-tuning`, and `static-analysis-checklist`** other than that new case
+  were not re-measured after those skills changed on 2026-11-27.
   No other row was re-measured after the split; see the entry "`jong-skills` becomes four plugins" in
   [HISTORY.md](HISTORY.md).
 - **The 123 cases of the plugin-only run on 2026-11-26** (see the entry "every case now has a

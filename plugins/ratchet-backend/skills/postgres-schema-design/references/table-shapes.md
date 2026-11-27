@@ -6,14 +6,19 @@ timestamps such as `claimed_at`, `completed_at`, and `failed_at`. A time-based e
 explicit sweeper-written timestamp; `now()` cannot appear in an immutable generated expression.
 Per-column timestamps fit a flow that is unidirectional or limited, such as start, success, and
 fail. When there are a lot of scenarios, such as post statuses, the events belong in a history
-table. When state keeps returning to earlier states, record append-only attempts or changes and
-derive current state from the latest row rather than erasing the previous lifecycle.
+table. When state keeps returning to earlier states, keep the current state on the live row and
+append each change to a history table in the same transaction, rather than erasing the previous
+lifecycle. Current state is never derived from the newest history row, and the live row holds no
+`latest_*_id` pointer to its history: both make every read of the entity depend on a table that
+exists for its past. History order is also not commit order, since a UUIDv7 `id` is assigned at
+insert: two writers can append in one order and update the live row in the other, so the newest
+history row is not proof of the final state. Do not lock to make the two agree.
 
 | Concept                    | Shape                                                                                                                                                                                                     |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Field-diff history         | `<entity>_revisions`: UUIDv7 `id`, entity FK, nullable revision actor FK with `ON DELETE SET NULL`, revision-type enum, `changes jsonb`.                                                                  |
 | Typed lifecycle ledger     | `<entity>_changes`: UUIDv7 `id`, entity FK, change-type enum, retained actor identity FK with `ON DELETE RESTRICT`, typed joined payload and JSON for unjoined data. Time comes from `id`.                |
-| Current state from a log   | Latest change by `id DESC`, projected through a shared trigger or read through a view.                                                                                                                    |
+| Current state beside a log | On the live row, written in the same transaction as the appended change. Not projected by a trigger, pointed to by a `latest_*_id` column, or read from the newest change.                                |
 | Per-entity work            | Default to a queue job id plus a bounded re-enqueue sweep. When justified, `<entity>_<job>_work_items`: entity FK, lease and final-outcome columns, claim index, retention.                               |
 | Job progress               | Prefer the position in job data. Use `<job>_cursors` only when it must be transactional with domain rows: finite enum key or checked singleton, keyset positions without FKs, optional sweep upper bound. |
 | Inbound or protocol events | Append-only `<source>_events` with `occurred_at` recording the event's business time.                                                                                                                     |
@@ -30,8 +35,8 @@ A system change has a NULL actor. Retained actors remain historical identities, 
 Default to a queue job whose job id is the durable row id, enqueued after commit, plus a bounded
 sweep that re-enqueues rows with no recorded outcome. The queue already supplies attempts,
 backoff, locking, stall recovery and unique ids. A lease or outbox work-item table needs a stated
-reason: legal or payment records, old values that vanish at commit, or an outcome that must
-commit with domain rows. Making a cap exact is never a reason: no counter, slot, or claim table
+reason, written in its table comment: legal or payment records, old values that vanish at commit,
+or an outcome that must commit with domain rows. Making a cap exact is never a reason: no counter, slot, or claim table
 for a cap; count up to the cap and write, as in the lock rules in
 [locking](../../postgres-locking/SKILL.md).
 A queue is ephemeral and the work-item row is the state; see [glide-mq](../../glide-mq/SKILL.md).
@@ -47,10 +52,10 @@ the lease on the invoice. Do not create a shared polymorphic lease table.
 
 A full lease uses `lease_token uuid`, `leased_at`, `lease_expires_at`, `attempt_count`, `available_at`, and
 `completed_at` plus timestamps for final outcomes. Add `generation` only when re-enqueue can race
-a running worker. Each claim or reclaim gets a fresh opaque token. Every renewal, completion,
+a running worker, and write that interleaving in the column's comment. Each claim or reclaim gets a fresh opaque token. Every renewal, completion,
 and failure must include `WHERE lease_token = $mine`; zero affected rows means ownership was lost.
-Keep retries in an optional `_attempts` ledger with `attempt_number` when their lifecycle must
-survive. One-shot compare-and-set claims and human assignments need their own shapes.
+Keep retries in an optional `_attempts` ledger with `attempt_number` when a named reader needs
+their lifecycle to survive. One-shot compare-and-set claims and human assignments need their own shapes.
 
 ## Retention
 

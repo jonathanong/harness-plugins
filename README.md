@@ -110,7 +110,7 @@ Backend design: PostgreSQL, migrations, lists and loops, queues, HTTP APIs, webh
 | [`postgres-locking`](plugins/ratchet-backend/skills/postgres-locking/SKILL.md)                                 | When PostgreSQL code may take a lock, and what to use instead.                                    |
 | [`postgres-node-performance-tuning`](plugins/ratchet-backend/skills/postgres-node-performance-tuning/SKILL.md) | Writing or tuning a query: shape, indexes, plans, round trips.                                    |
 | [`postgres-partitioning-uuid-v7`](plugins/ratchet-backend/skills/postgres-partitioning-uuid-v7/SKILL.md)       | Partitioning and pruning a table keyed by UUIDv7.                                                 |
-| [`postgres-schema-design`](plugins/ratchet-backend/skills/postgres-schema-design/SKILL.md)                     | Designing tables, relations, history, and retention.                                              |
+| [`postgres-schema-design`](plugins/ratchet-backend/skills/postgres-schema-design/SKILL.md)                     | Designing tables, relations, history, and retention, simplest design first.                       |
 | [`service-boundaries`](plugins/ratchet-backend/skills/service-boundaries/SKILL.md)                             | Calling another service or a partner API, or handling a webhook.                                  |
 | [`structured-logging`](plugins/ratchet-backend/skills/structured-logging/SKILL.md)                             | Writing log lines with a static message and structured fields.                                    |
 | [`webhooks`](plugins/ratchet-backend/skills/webhooks/SKILL.md)                                                 | Receiving or sending webhooks: signatures, replay, duplicates, order, retries, and customer URLs. |
@@ -140,17 +140,18 @@ Every skill has [eval cases](evals) run with
 
 <!-- evals:headline -->
 
-- **173 cases** across 51 skills.
+- **174 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.36, over the 171 cases measured both ways.
-- **135 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **163 of 173 cases** meet their target: critical 3 of 3, high 25 of 25, medium 113 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.36, over the 172 cases measured both ways.
+- **136 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **164 of 174 cases** meet their target: critical 3 of 3, high 25 of 25, medium 114 of 122, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
 
-All but one of these scores were measured when the skills were one plugin, and have not been
-re-measured since the split into four. The exception is the newest `npm-publishing` case.
+All but two of these scores were measured when the skills were one plugin, and have not been
+re-measured since the split into four. The exceptions are the newest `npm-publishing` and
+`postgres-schema-design` cases.
 
 Scores by skill are in [`evals/README.md`](evals/README.md), every case in
 [`evals/EVALS.md`](evals/EVALS.md), the run log in [`evals/HISTORY.md`](evals/HISTORY.md), and

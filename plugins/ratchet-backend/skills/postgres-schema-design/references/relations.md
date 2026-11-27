@@ -25,6 +25,21 @@ Both source columns have their own FK. If a reference must belong to the same ac
 invoices (account_id, id) ON DELETE RESTRICT` with a corresponding unique key on the target. A validation trigger is unnecessary. With nullable `invoice_id`,
 default `MATCH SIMPLE` skips that composite check when the reference is absent.
 
+The same pair replaces a trigger that only compares one parent column with a literal or with a
+column of the child. For a row that may reference only a business account, copy the compared
+column to the child, fix it with a `CHECK`, and let the composite foreign key hold the two
+together:
+
+```sql
+account_kind account_kind NOT NULL,
+CONSTRAINT ck_credit_lines__account_kind CHECK (account_kind = 'business'),
+CONSTRAINT fk_credit_lines__account_id_account_kind FOREIGN KEY (account_id, account_kind)
+  REFERENCES accounts (id, kind) ON DELETE RESTRICT
+```
+
+The target needs a unique key on `(id, kind)`. A change of the parent's `kind` then fails while a
+child depends on it, which the trigger on the child never checked.
+
 A ledger that survives deletion references a retained identity row with explicit deletion
 behavior. Retained identities preserve history; they do not authorize operations on a deleted
 account, order, or invoice. Index every FK column with a leading key usable by referential checks; without one, each parent

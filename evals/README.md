@@ -11,19 +11,20 @@ needed.
 
 <!-- evals:headline -->
 
-- **173 cases** across 51 skills.
+- **174 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.36, over the 171 cases measured both ways.
-- **135 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **163 of 173 cases** meet their target: critical 3 of 3, high 25 of 25, medium 113 of 121, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.36, over the 172 cases measured both ways.
+- **136 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **164 of 174 cases** meet their target: critical 3 of 3, high 25 of 25, medium 114 of 122, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
 
-**Every score below but one was measured before the split on 2026-11-26, when the skills were
+**Every score below but two was measured before the split on 2026-11-26, when the skills were
 one plugin of 51.** A case now runs with only its skill's plugin installed, 11 to 15 skills, and
-no row has been re-measured since. The exception is
-`npm-publishing/release-workflow-bumps-and-publishes`, which was added after the split; see "`jong-skills` becomes four plugins" in [HISTORY.md](HISTORY.md).
+no row has been re-measured since. The exceptions are
+`npm-publishing/release-workflow-bumps-and-publishes` and
+`postgres-schema-design/review-trigger-that-keeps-a-counter`, which were added after the split; see "`jong-skills` becomes four plugins" in [HISTORY.md](HISTORY.md).
 
 Agent Sonnet, judge Opus, three attempts per case unless [EVALS.md](EVALS.md) says a row
 comes from a run with more. A score is the share of graders that passed,
@@ -66,7 +67,7 @@ averaged over attempts.
 | `postgres-locking`                 | `ratchet-backend`   | 12    | 0.93        | 0.39           | 4                     | 31 of 33                             | 11 of 12   |
 | `postgres-node-performance-tuning` | `ratchet-backend`   | 5     | 0.85        | 0.17           | 0                     | 13 of 18, under 80%                  | 4 of 5     |
 | `postgres-partitioning-uuid-v7`    | `ratchet-backend`   | 2     | 1.00        | 0.34           | 0                     | 6 of 6                               | 2 of 2     |
-| `postgres-schema-design`           | `ratchet-backend`   | 5     | 1.00        | 0.60           | 2                     | 15 of 15                             | 5 of 5     |
+| `postgres-schema-design`           | `ratchet-backend`   | 6     | 1.00        | 0.50           | 2                     | 18 of 18                             | 6 of 6     |
 | `pr-description`                   | `ratchet-github`    | 5     | 0.97        | 0.07           | 0                     | 17 of 18                             | 5 of 5     |
 | `pull-requests`                    | `ratchet-github`    | 1     | 0.67        | 0.67           | 0                     | 1 of 3, under 80%                    | 1 of 1     |
 | `react-app-structure`              | `ratchet-code`      | 4     | 1.00        | 0.46           | 1                     | 12 of 12                             | 4 of 4     |
