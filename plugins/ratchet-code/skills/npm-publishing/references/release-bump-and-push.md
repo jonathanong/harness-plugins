@@ -56,8 +56,8 @@ and the provenance the registry records points at a commit that is on the defaul
 
 The first job pushes a commit straight to the default branch. The default `GITHUB_TOKEN` can do
 that only on a branch with no protection, and its pushes start no other workflow, so CI never
-runs on the bump commit. A ruleset that requires pull requests or status checks rejects it. So the push uses a token
-stored as the repository secret `RELEASE_TOKEN`.
+runs on the bump commit. A ruleset that requires pull requests or status checks rejects it. So
+the push uses a token stored as the repository secret `RELEASE_TOKEN`.
 
 A person creates the token and stores it. Hand these steps over; do not create the token, and
 never ask for its value or put one in a command.

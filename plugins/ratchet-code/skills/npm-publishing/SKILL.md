@@ -60,7 +60,7 @@ A release is one run of one workflow. A person starts it; the workflow does the 
 - After a failed publish, re-run the failed jobs. Do not start the workflow again: that bumps the
   version a second time and leaves a tag with nothing published under it.
 
-[references/release-flow.md](references/release-flow.md) has the workflow and the reasons; read it
+[references/release-bump-and-push.md](references/release-bump-and-push.md) has the workflow and the reasons; read it
 when writing or reviewing a release workflow.
 
 ## Hand off the mutations

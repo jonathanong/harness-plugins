@@ -4,14 +4,15 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
-## 2026-11-27: `npm-publishing` gains the release flow; one new case
+## 2026-11-26: `npm-publishing` gains the release flow; one new case
 
 Commit `960fb7a` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. The
 measured run of the new case, three attempts with the plugin and three without: $4.73, of which
 $0.59 agent and $4.13 judges. Two one-attempt pilots of both arms before it: $1.15. Total $5.88.
-No other case ran.
+No other case ran. The run started after midnight UTC, so its row in `cases.csv` is dated
+2026-11-27.
 
-- `npm-publishing` gains a section on the release workflow and `references/release-flow.md`: the
+- `npm-publishing` gains a section on the release workflow and `references/release-bump-and-push.md`: the
   workflow bumps the version and pushes the commit and tag to the default branch, later jobs
   publish from that commit's SHA, the registry is reached with OIDC, and the push uses a
   `RELEASE_TOKEN` that a person creates. Its description now also names writing or reviewing a

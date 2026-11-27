@@ -201,7 +201,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
 
 - **Every row but one was measured before the skills were split into four plugins on
   2026-11-26**, with all 51 skills installed as one plugin. The exception is
-  `npm-publishing/release-workflow-bumps-and-publishes`, added and run on 2026-11-27 with only
+  `npm-publishing/release-workflow-bumps-and-publishes`, added and run on 2026-11-26 with only
   `ratchet-code` installed. A case now runs with only its skill's plugin installed.
   No other row was re-measured after the split; see the entry "`jong-skills` becomes four plugins" in
   [HISTORY.md](HISTORY.md).

@@ -2,7 +2,7 @@
 
 Read this when writing or fixing the GitHub Actions job that publishes the package, or when a
 publish from CI fails with `E404` or `ENEEDAUTH`. For the whole release, from the version bump to the
-publish, read [release-flow.md](release-flow.md).
+publish, read [release-bump-and-push.md](release-bump-and-push.md).
 
 ## Requirements
 
