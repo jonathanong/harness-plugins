@@ -58,7 +58,9 @@ A release is one run of one workflow. A person starts it; the workflow does the 
   read and write, owned by someone on the branch ruleset's bypass list. Hand over those steps;
   never ask for the token's value.
 - After a failed publish, re-run the failed jobs. Do not start the workflow again: that bumps the
-  version a second time and leaves a tag with nothing published under it.
+  version a second time and leaves a tag with nothing published under it. A release that bumps
+  and publishes in one job cannot be re-run this way; give it an input that publishes an
+  existing tag without bumping.
 
 [references/release-bump-and-push.md](references/release-bump-and-push.md) has the workflow and the reasons; read it
 when writing or reviewing a release workflow.

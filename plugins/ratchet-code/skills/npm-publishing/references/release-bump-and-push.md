@@ -12,8 +12,9 @@ itself and its `E404` and `ENEEDAUTH` failures, read [release-workflow.md](relea
    pushes the commit and the tag together. It outputs the commit's SHA.
 3. Every later job checks out that SHA, builds from it, and publishes.
 
-The published version, the tag, and the commit on the default branch then name the same source,
-and the provenance the registry records points at a commit that is on the default branch.
+The published version, the tag, and the commit on the default branch then name the same source.
+The provenance npm records does not: it names the commit the run started on, which is the one
+before the bump. The tag is what names the released source.
 
 ## Rules
 
@@ -105,9 +106,13 @@ renewal date.
 ## When a release fails partway
 
 - **Before the push:** nothing changed. Fix the cause and start the workflow again.
-- **After the push:** the version is committed and tagged but not published. Use "Re-run failed
-  jobs". The first job is not run again, and its outputs still name the same SHA. Starting the
-  workflow again would bump to the next version and leave a tag with nothing published under it.
+- **After the push:** the version is committed and tagged but not published. When the
+  push and the publish are separate jobs, use "Re-run failed jobs". The first job is not run
+  again, and its outputs still name the same SHA. Starting the workflow again would bump to the
+  next version and leave a tag with nothing published under it.
+- **After the push, in a single-job release:** re-running the job runs the bump again, so it
+  bumps a second time or fails on the existing tag. Such a workflow needs the `resume_version`
+  input below, and a failed publish is finished by starting the workflow with it.
 - **Make each publish step safe to run twice**: skip a package whose version is already on the
   registry, since a registry rejects a version it already has.
 - A workflow that people re-run days later can take an input such as `resume_version`: when it
@@ -195,5 +200,6 @@ Pin each action to a commit SHA in a real workflow. The input reaches the script
 not through `${{ }}` inside `run`, so its text is never parsed as shell.
 
 A small package can do all of this in one job: bump, push, then publish from the same checkout.
-The published files still come from the pushed commit, because nothing checks out again. Split
+The published files still come from the pushed commit, because nothing checks out again. It
+then needs a `resume_version` input, since re-running the job would bump again. Split
 the jobs once the release builds on several runners or publishes several packages.
