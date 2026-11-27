@@ -5,8 +5,8 @@
     "name": "Jonathan Ong",
     "url": "https://github.com/jonathanong"
   },
-  "homepage": "https://github.com/jonathanong/harness-plugins",
-  "repository": "https://github.com/jonathanong/harness-plugins",
+  "homepage": "https://github.com/jongleberry/harness-plugins",
+  "repository": "https://github.com/jongleberry/harness-plugins",
   "license": "MIT",
   "keywords": [
     "skills",
@@ -25,7 +25,7 @@
     "developerName": "Jonathan Ong",
     "category": "Productivity",
     "capabilities": [],
-    "websiteURL": "https://github.com/jonathanong/harness-plugins",
+    "websiteURL": "https://github.com/jongleberry/harness-plugins",
     "defaultPrompt": ["Use the matching skill to guide this change."]
   }
 }

@@ -3,7 +3,7 @@
   "private": true,
   "description": "Generic agent skills that explain a design or a procedure.",
   "license": "MIT",
-  "repository": "github:jonathanong/harness-plugins",
+  "repository": "github:jongleberry/harness-plugins",
   "type": "module",
   "scripts": {
     "evals": "./scripts/run-evals.sh",

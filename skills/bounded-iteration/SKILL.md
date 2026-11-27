@@ -144,7 +144,7 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 For work-item, lease, and cursor tables, read [postgres-schema-design](../postgres-schema-design/SKILL.md).
 For query shape and streaming, read [performance patterns](../postgres-node-performance-tuning/references/performance-patterns.md).
 For UUIDv7 windows and pruning, use [UUIDv7 partitioning](../postgres-partitioning-uuid-v7/SKILL.md).
-Names in parentheses are generic `jonathanong/no-mistakes` rules; check that the installed release
+Names in parentheses are generic `jongleberry/no-mistakes` rules; check that the installed release
 has one before relying on it. No generic rule checks run caps, streams, or fan-out.
 A consuming repository owns run caps, tunable names and ceilings, schedules, and enforcement
 configuration.

@@ -8,13 +8,13 @@ once, then install any plugin from it.
 | Plugin                                                                                              | What it does                                                                             |
 | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | [jong-skills](skills)                                                                               | Generic skills that explain a design or a procedure; listed [below](#jong-skills).       |
-| [no-mistakes](https://github.com/jonathanong/no-mistakes)                                           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
-| [no-mistakes-rules](https://github.com/jonathanong/no-mistakes/tree/main/plugins/no-mistakes-rules) | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
-| [pr-shepherd](https://github.com/jonathanong/pr-shepherd)                                           | Takes a pull request through CI, review comments, and merge.                             |
-| [service-status](https://github.com/jonathanong/service-status)                                     | Tells an agent when a failure is a third-party outage and not its bug.                   |
-| [hook-harness](https://github.com/jonathanong/hook-harness)                                         | Turns GitHub events into agent runs.                                                     |
-| [agent-blackboard](https://github.com/jonathanong/agent-blackboard)                                 | Records agent telemetry so agents can improve from their own sessions.                   |
-| [code-reviewer](https://github.com/jonathanong/code-reviewer)                                       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
+| [no-mistakes](https://github.com/jongleberry/no-mistakes)                                           | Answers how code connects from the import graph: what uses a symbol, which tests to run. |
+| [no-mistakes-rules](https://github.com/jongleberry/no-mistakes/tree/main/plugins/no-mistakes-rules) | MUST NOT / SHOULD NOT rule skills that `no-mistakes` checks against.                     |
+| [pr-shepherd](https://github.com/jongleberry/pr-shepherd)                                           | Takes a pull request through CI, review comments, and merge.                             |
+| [service-status](https://github.com/jongleberry/service-status)                                     | Tells an agent when a failure is a third-party outage and not its bug.                   |
+| [hook-harness](https://github.com/jongleberry/hook-harness)                                         | Turns GitHub events into agent runs.                                                     |
+| [agent-blackboard](https://github.com/jongleberry/agent-blackboard)                                 | Records agent telemetry so agents can improve from their own sessions.                   |
+| [code-reviewer](https://github.com/jongleberry/code-reviewer)                                       | Standing multi-pillar code reviewer with label intake and follow-up reviews.             |
 
 `jong-skills` lives in this repository. Each other plugin lives in its own repository, and the
 marketplace points at it.
@@ -24,7 +24,7 @@ marketplace points at it.
 Claude Code:
 
 ```bash
-claude plugin marketplace add jonathanong/harness-plugins
+claude plugin marketplace add jongleberry/harness-plugins
 claude plugin install jong-skills@harness-plugins
 claude plugin install pr-shepherd@harness-plugins
 ```
@@ -32,7 +32,7 @@ claude plugin install pr-shepherd@harness-plugins
 Codex:
 
 ```bash
-codex plugin marketplace add jonathanong/harness-plugins --ref main
+codex plugin marketplace add jongleberry/harness-plugins --ref main
 codex plugin add jong-skills@harness-plugins
 codex plugin add pr-shepherd@harness-plugins
 ```

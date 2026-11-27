@@ -52,5 +52,5 @@ ranking over every row is its global-ranking rule, not a list read.
 Rules 8 to 10 are the contract for a page that crosses an API boundary. A sweep that reads its own
 table may still end on a short batch, as in [bounded-iteration](../bounded-iteration/SKILL.md).
 
-Names in parentheses are generic `jonathanong/no-mistakes` rules; check that the installed release
+Names in parentheses are generic `jongleberry/no-mistakes` rules; check that the installed release
 has one before relying on it.

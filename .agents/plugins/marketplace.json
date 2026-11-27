@@ -20,7 +20,7 @@
       "name": "hook-harness",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/hook-harness.git",
+        "url": "https://github.com/jongleberry/hook-harness.git",
         "path": "plugins/hook-harness",
         "ref": "main"
       },
@@ -34,7 +34,7 @@
       "name": "pr-shepherd",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/pr-shepherd.git",
+        "url": "https://github.com/jongleberry/pr-shepherd.git",
         "path": "plugins/pr-shepherd",
         "ref": "main"
       },
@@ -48,7 +48,7 @@
       "name": "no-mistakes",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "url": "https://github.com/jongleberry/no-mistakes.git",
         "path": "plugins/no-mistakes",
         "ref": "main"
       },
@@ -62,7 +62,7 @@
       "name": "no-mistakes-rules",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "url": "https://github.com/jongleberry/no-mistakes.git",
         "path": "plugins/no-mistakes-rules",
         "ref": "main"
       },
@@ -76,7 +76,7 @@
       "name": "service-status",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/service-status.git",
+        "url": "https://github.com/jongleberry/service-status.git",
         "path": "plugins/service-status",
         "ref": "main"
       },
@@ -90,7 +90,7 @@
       "name": "agent-blackboard",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/agent-blackboard.git",
+        "url": "https://github.com/jongleberry/agent-blackboard.git",
         "path": "plugins/agent-blackboard",
         "ref": "main"
       },
@@ -104,7 +104,7 @@
       "name": "code-reviewer",
       "source": {
         "source": "url",
-        "url": "https://github.com/jonathanong/code-reviewer.git",
+        "url": "https://github.com/jongleberry/code-reviewer.git",
         "ref": "main"
       },
       "policy": {

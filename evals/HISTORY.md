@@ -4,6 +4,15 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: the plugin repositories moved to the `jongleberry` organization; no run
+
+Commit `9324efd` plus the renames below. No case, grader, fixture, rule, or description changed,
+so nothing was run and no row was re-measured.
+
+- `bounded-iteration`, `list-reads`, and three references of the PostgreSQL skills name the
+  `no-mistakes` repository by its new owner. The marketplaces, manifests, and README do the same
+  for every plugin's source.
+
 ## 2026-11-26: `upstream-contributions`: the fork's default branch only fast-forwards to upstream
 
 Commit `7067598` plus the rule and grader below. Sonnet agent, Opus judge, Claude Code 2.1.332. One

@@ -75,7 +75,7 @@ in a join's `Hash Cond` or `Index Cond` is a plan red flag; the single lookup of
 at the boundary is expected and fine. See
 [reading plans](../../postgres-node-performance-tuning/references/reading-plans.md#text-join-and-index-conditions).
 
-Generic enforcement in `jonathanong/no-mistakes`: `postgres-column-naming`,
+Generic enforcement in `jongleberry/no-mistakes`: `postgres-column-naming`,
 `postgres-array-columns`, `postgres-table-shape`, `postgres-fk-index`, and
 `postgres-require-fk-on-delete`. These cover naming, configured shapes, and FK mechanics;
 inspect the installed rule versions and options rather than assuming complete semantic coverage.
