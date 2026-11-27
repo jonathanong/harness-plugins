@@ -1,6 +1,6 @@
 ---
 name: npm-publishing
-description: Use when publishing a new package, moving a package to trusted publishing, or fixing a CI publish that fails with E404 or ENEEDAUTH. Prepare a first npm publish and trusted publishing (OIDC) for a human to run, and set up the GitHub Actions job that publishes.
+description: Use when publishing a new package, moving a package to trusted publishing, writing or reviewing a release workflow that bumps a version and publishes it, or fixing a CI publish that fails with E404 or ENEEDAUTH. Prepare a first npm publish and trusted publishing (OIDC) for a human to run, and set up the GitHub Actions workflow that bumps, tags, and publishes.
 ---
 
 # npm publishing bootstrap
@@ -21,8 +21,8 @@ release workflow, build commands, and whether a laptop may publish, and override
 - On the default branch, the workflow must grant `id-token: write`, use a supported runner, set
   `registry-url` on `actions/setup-node`, run an npm that publishes with OIDC and no token (npm 11.5.1 or newer; check `npm --version`,
   since Node 22 bundles npm 10, which cannot), and publish this package with no npm token.
-  [references/release-workflow.md](references/release-workflow.md) has the job and explains the
-  `E404` and `ENEEDAUTH` failures; read it when writing or fixing that workflow.
+  [references/release-workflow.md](references/release-workflow.md) has the publishing job and
+  explains the `E404` and `ENEEDAUTH` failures; read it when a publish from CI fails.
 - When the package does not exist in the registry, create the smallest useful stub in its intended
   directory. Follow neighboring packages for metadata, source, exports, types, license, README,
   build output, and workspace registration.
@@ -37,6 +37,31 @@ release workflow, build commands, and whether a laptop may publish, and override
 - If the package already exists, have the human run `npm trust list <package-name>` before any
   mutation. Omit the initial publish command. If trust already exists, report it and omit trust
   creation. Do not revoke or replace it.
+
+## The release workflow
+
+A release is one run of one workflow. A person starts it; the workflow does the rest.
+
+- The workflow bumps the version, commits it, tags it, and pushes both to the default branch. Do
+  not bump the version by hand in a pull request: a hand bump can merge with no release behind
+  it, and two open pull requests can claim the same version.
+- Publish from the commit the workflow pushed, by its SHA. Do not check out the branch again, and
+  do not publish on a tag push: the branch may have moved since the bump, and a tag can be moved.
+- Authenticate to the registry with OIDC wherever the registry supports it. Keep a long-lived
+  token only for a registry that has no trusted publishing, in a secret that only the publishing
+  job reads.
+- Give the push and the publish to different jobs when the release has more than one job: the job
+  that can write to the repository gets no `id-token`, and the job that publishes gets no write
+  access to the repository.
+- The push to the default branch uses a token in the `RELEASE_TOKEN` secret, read by the pushing
+  job only. A person creates it: a fine-grained token limited to this repository with Contents
+  read and write, owned by someone on the branch ruleset's bypass list. Hand over those steps;
+  never ask for the token's value.
+- After a failed publish, re-run the failed jobs. Do not start the workflow again: that bumps the
+  version a second time and leaves a tag with nothing published under it.
+
+[references/release-flow.md](references/release-flow.md) has the workflow and the reasons; read it
+when writing or reviewing a release workflow.
 
 ## Hand off the mutations
 
