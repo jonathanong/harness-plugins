@@ -162,6 +162,9 @@ Every skill has [eval cases](evals) run with
 
 <!-- /evals:headline -->
 
+These scores were measured when the skills were one plugin, and have not been re-measured since
+the split into four.
+
 Scores by skill are in [`evals/README.md`](evals/README.md), every case in
 [`evals/EVALS.md`](evals/EVALS.md), the run log in [`evals/HISTORY.md`](evals/HISTORY.md), and
 planned work in [`ROADMAP.md`](ROADMAP.md).

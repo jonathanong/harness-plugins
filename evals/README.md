@@ -20,6 +20,10 @@ needed.
 
 <!-- /evals:headline -->
 
+**Every score below was measured before 2026-11-26, when the skills were one plugin of 51.** A
+case now runs with only its skill's plugin installed, 11 to 15 skills, and no row has been
+re-measured since; see "`jong-skills` becomes four plugins" in [HISTORY.md](HISTORY.md).
+
 Agent Sonnet, judge Opus, three attempts per case unless [EVALS.md](EVALS.md) says a row
 comes from a run with more. A score is the share of graders that passed,
 averaged over attempts.
