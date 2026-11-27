@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Runs the eval suite in rounds, two attempts and then one at a time, and stops each case once
-the attempts left cannot change its verdict against its priority target, as skills/evals/references/measuring-runs.md
-("Stopping early") describes. Writes the merged result to evals/results/latest.json.
+the attempts left cannot change its verdict against its priority target, as the `evals` skill's references/measuring-runs.md
+("Stopping early") describes. Runs one plugin, and writes the merged result to
+evals/results/latest-<plugin>.json.
 
-Usage: scripts/eval-rounds.py [--dry-run] [skill ...]   (default: every skill)
+Usage: scripts/eval-rounds.py --plugin plugins/<plugin> [--dry-run] [skill ...]
+       (default: every skill of the plugin; scripts/run-evals.sh calls it once per plugin)
 Reads EVAL_MODEL, EVAL_JUDGE_MODEL, EVAL_CONCURRENCY, EVAL_FLAGS as scripts/run-evals.sh does,
-and EVAL_MAX_COST_USD as a cost ceiling for the whole run.
+and EVAL_MAX_COST_USD as a cost ceiling for this plugin's run.
 """
 import concurrent.futures
 import copy
@@ -18,7 +20,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "skills/evals/scripts"))
+sys.path.insert(0, str(ROOT / "plugins/ratchet-workflows/skills/evals/scripts"))
 from eval_stats import TARGETS, verdict  # noqa: E402
 
 RESULTS = "evals/results"
@@ -108,10 +110,10 @@ def split_budget(max_cost, spent, invocations):
     return max(0.0, max_cost - spent) / invocations
 
 
-def base_command(env, runs):
+def base_command(env, runs, plugin):
     """The `claude plugin eval` command scripts/run-evals.sh builds, up to the per-round flags."""
     return [
-        "claude", "plugin", "eval", ".",
+        "claude", "plugin", "eval", plugin,
         "--trust-plugin",
         "--scaffold",
         "--model", env.get("EVAL_MODEL") or "sonnet",
@@ -124,10 +126,10 @@ def base_command(env, runs):
     ]  # fmt: skip
 
 
-def round_command(env, json_path, concurrency, budget, tags, case=None):
+def round_command(env, plugin, json_path, concurrency, budget, tags, case=None):
     """One invocation of a round: the first round, which has no --case, runs MINIMUM attempts, and
     a later one runs one. --allow-tools and --tag take lists, so --tag goes last."""
-    command = base_command(env, MINIMUM if case is None else 1) + ["--concurrency", str(concurrency), "--json", json_path]
+    command = base_command(env, MINIMUM if case is None else 1, plugin) + ["--concurrency", str(concurrency), "--json", json_path]
     if budget is not None:
         command += ["--max-cost-usd", f"{budget:.4f}"]
     if case is not None:
@@ -164,10 +166,10 @@ def invoke(command, json_path):
     return json.loads(path.read_text())
 
 
-def read_priorities(cases):
+def read_priorities(cases, plugin):
     priorities = {}
     for case in cases:
-        prompt = ROOT / case["dir"] / "prompt.md"
+        prompt = ROOT / plugin / "evals" / Path(*Path(case["dir"]).parts[-2:]) / "prompt.md"
         try:
             priorities[case["dir"]] = priority(prompt.read_text() if prompt.exists() else "")
         except ValueError as error:
@@ -175,11 +177,11 @@ def read_priorities(cases):
     return priorities
 
 
-def finish(rounds, priorities, message=None):
+def finish(rounds, priorities, name, message=None):
     """Writes the merged result and returns the exit code: 1 when the run stopped short or a case
     missed its target, as `claude plugin eval` exits 1 for a case below its threshold."""
     merged = merge(rounds)
-    (ROOT / RESULTS / "latest.json").write_text(json.dumps(merged, indent=2) + "\n")
+    (ROOT / RESULTS / f"latest-{name}.json").write_text(json.dumps(merged, indent=2) + "\n")
     counts = tally(merged, priorities) if priorities else {}
     ran = sum(count[1] for count in counts.values())
     full = sum(count[2] for count in counts.values())
@@ -195,6 +197,12 @@ def finish(rounds, priorities, message=None):
 
 
 def main(argv, env):
+    if len(argv) < 2 or argv[0] != "--plugin":
+        print("usage: eval-rounds.py --plugin plugins/<plugin> [--dry-run] [skill ...]", file=sys.stderr)
+        return 2
+    plugin = argv[1].rstrip("/")
+    name = Path(plugin).name
+    argv = argv[2:]
     dry_run = "--dry-run" in argv
     skills = [arg for arg in argv if arg != "--dry-run"]
     reason = refusal(env)
@@ -204,16 +212,16 @@ def main(argv, env):
     max_cost = float(env["EVAL_MAX_COST_USD"]) if env.get("EVAL_MAX_COST_USD") else None
     concurrency = int(env.get("EVAL_CONCURRENCY") or 6)
 
-    first = round_command(env, f"{RESULTS}/round-1.json", concurrency, max_cost, skills)
+    first = round_command(env, plugin, f"{RESULTS}/round-1-{name}.json", concurrency, max_cost, skills)
     if dry_run:
         print(shlex.join(first))
         return 0
-    result = invoke(first, f"{RESULTS}/round-1.json")
+    result = invoke(first, f"{RESULTS}/round-1-{name}.json")
     if result is None:
         print("Round 1 failed without writing its results.", file=sys.stderr)
         return 1
     rounds = [result]
-    priorities = read_priorities(result["cases"])
+    priorities = read_priorities(result["cases"], plugin)
     number, ran = 1, len(result["cases"])
     while True:
         merged = merge(rounds)
@@ -221,25 +229,25 @@ def main(argv, env):
         decided = len(merged["cases"]) - len(left)
         print(f"round {number}: {ran} cases run, {decided} of {len(merged['cases'])} decided")
         if merged.get("partial"):
-            return finish(rounds, priorities, f"Round {number} stopped partway (partial: true).")
+            return finish(rounds, priorities, name, f"Round {number} stopped partway (partial: true).")
         if not left:
-            return finish(rounds, priorities)
+            return finish(rounds, priorities, name)
         if max_cost is not None and merged["costUsd"] >= max_cost:
             names = " ".join(case["name"] for case in left)
-            return finish(rounds, priorities, f"EVAL_MAX_COST_USD reached; undecided: {names}")
+            return finish(rounds, priorities, name, f"EVAL_MAX_COST_USD reached; undecided: {names}")
 
         number, ran = number + 1, len(left)
         budget = split_budget(max_cost, merged["costUsd"], len(left))
         jobs = []
         for case in left:
             path = f"{RESULTS}/round-{number}-{skill_of(case)}-{case['name']}.json"
-            jobs.append((round_command(env, path, 1, budget, [skill_of(case)], case["name"]), path))
+            jobs.append((round_command(env, plugin, path, 1, budget, [skill_of(case)], case["name"]), path))
         with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as pool:
             results = list(pool.map(lambda job: invoke(*job), jobs))
         rounds += [r for r in results if r is not None]
         failed = [case["name"] for case, r in zip(left, results) if not covers(r, case)]
         if failed:
-            return finish(rounds, priorities, f"Round {number} failed for: {' '.join(failed)}")
+            return finish(rounds, priorities, name, f"Round {number} failed for: {' '.join(failed)}")
 
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.dont_write_bytecode = True
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "skills/evals/scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "plugins/ratchet-workflows/skills/evals/scripts"))
 from eval_stats import TARGETS, verdict  # noqa: E402
 
 CSV = "evals/cases.csv"
@@ -34,8 +34,19 @@ PRIORITIES = ["critical", "high", "medium", "low"]
 LOADING_TARGET = 80
 
 
+def plugin_of(skill):
+    """The plugin that holds a skill; a skill's name is unique across the plugins."""
+    found = sorted(Path("plugins").glob(f"*/skills/{skill}"))
+    return found[0].parts[1] if found else ""
+
+
+def case_dir(case):
+    """A case `<skill>/<case>` lives in its skill's plugin, under plugins/<plugin>/evals/."""
+    return Path("plugins") / plugin_of(case.split("/")[0]) / "evals" / case
+
+
 def frontmatter(case):
-    path = Path(f"evals/{case}/prompt.md")
+    path = case_dir(case) / "prompt.md"
     if not path.exists():
         sys.exit(f"::error::{CSV} lists {case} but {path} does not exist")
     text = path.read_text()
@@ -47,7 +58,7 @@ def priority(case):
     # The same pattern as scripts/check-evals.sh, so the two never disagree on a case's tags.
     found = re.findall(r"priority-[A-Za-z0-9_-]+", frontmatter(case))
     if len(found) > 1 or any(tag not in PRIORITY_TAGS for tag in found):
-        sys.exit(f"::error::evals/{case}/prompt.md has priority tags {found}; use at most one of "
+        sys.exit(f"::error::{case_dir(case)}/prompt.md has priority tags {found}; use at most one of "
                  f"{', '.join(PRIORITY_TAGS)}")  # fmt: skip
     return PRIORITY_TAGS[found[0]] if found else "medium"
 
@@ -112,7 +123,7 @@ def layers(row):
 
 
 def graded_for_loading(row):
-    return (Path("evals") / row["case"] / "graders" / "skill-fired.md").exists()
+    return (case_dir(row["case"]) / "graders" / "skill-fired.md").exists()
 
 
 def loading(group):
@@ -200,9 +211,9 @@ def blocks(all_rows):
         ]
     )
     table = [
-        "| Skill | Cases | With plugin | Without plugin | Already right unaided | Loaded "
+        "| Skill | Plugin | Cases | With plugin | Without plugin | Already right unaided | Loaded "
         "| Met target |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for skill in sorted(skills):
         group = skills[skill]
@@ -210,7 +221,7 @@ def blocks(all_rows):
         rate = rates.get(skill)
         loaded = loading_cell(rate)
         table.append(
-            f"| `{skill}` | {len(group)} | {mean([score(row) for row in group])} "
+            f"| `{skill}` | `{plugin_of(skill)}` | {len(group)} | {mean([score(row) for row in group])} "
             f"| {mean([baseline(row) for row in measured])} "
             f"| {sum(1 for row in measured if baseline(row) == 1.0)} | {loaded} | {met(group)} |"
         )

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ratchet-github",
+  "description": "Skills for Git and GitHub work: commits, pull requests and their descriptions, issues, Actions workflows, CI operations and failing logs, Dependabot, repository settings, security findings, and contributing upstream.",
+  "author": {
+    "name": "Jonathan Ong"
+  },
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT"
+}

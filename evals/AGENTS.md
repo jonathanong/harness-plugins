@@ -1,14 +1,15 @@
 # Eval rules
 
-The suite runs with `claude plugin eval`. `cases.csv` in this directory holds one row per case with its
-latest result; `EVALS.md` and the roll-up by skill in `README.md` are generated from it, and `HISTORY.md` holds the log. The `evals` skill in this plugin describes how the three files
+The suite runs with `claude plugin eval`, once per plugin: a case runs with its own plugin installed
+and no other. `cases.csv` in this directory holds one row per case with its
+latest result; `EVALS.md` and the roll-up by skill in `README.md` are generated from it, and `HISTORY.md` holds the log. The `evals` skill in `ratchet-workflows` describes how the three files
 work; follow it.
 
 ## Run
 
 ```bash
-pnpm run evals                  # every case, with the plugin
-pnpm run evals <skill> ...      # the cases tagged with those skills
+pnpm run evals                  # every case, each with its plugin
+pnpm run evals <skill> ...      # the cases of those skills, in their plugins
 EVAL_FLAGS='--runs 1' pnpm run evals <skill>              # pilot a new case
 EVAL_ABLATION=with-without pnpm run evals <skill>         # add a no-plugin arm
 EVAL_STOP_EARLY=1 pnpm run evals <skill>                  # stop each case once its verdict is settled
@@ -31,13 +32,13 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
   once the attempts left cannot change its verdict against its target. Use it for a regression
   run or to check that cases still meet their targets. Do not use it for a number a change will
   quote: a with-vs-without gap, a loading rate, or a description A/B runs every attempt. Set
-  `EVAL_MAX_COST_USD` to cap what a run spends.
+  `EVAL_MAX_COST_USD` to cap what each plugin's run spends.
 - The run needs model credentials and executes each case's `fixture.sh` on the machine. Run it
   only on a checkout you trust. It does not run in CI.
 
 ## Cases
 
-- Layout: `evals/<skill>/<case>/prompt.md`, `graders/*.md`, and an optional `fixture.sh`.
+- Layout: `plugins/<plugin>/evals/<skill>/<case>/prompt.md`, `graders/*.md`, and an optional `fixture.sh`.
 - A case with a `fixture.sh` also needs a `case.yaml` that names the case and sets
   `context.scaffold_script: fixture.sh`. Without it the fixture does not run and the agent starts
   in an empty directory. Read one pilot trace before measuring.
@@ -45,6 +46,8 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
   grants Bash only, and a grant applies to every case. An agent that sees a tool it may not use
   can decline to edit through the shell.
 - Tag every case with its skill name.
+- A case sits in its skill's plugin and is named `<skill>/<case>` in `cases.csv`. Only that plugin
+  is installed when it runs, so a case cannot require a skill of another plugin to load.
 - A case's priority is a tag: `priority-critical`, `priority-high`, or `priority-low`. A case with
   none is medium. The `evals` skill's `references/measuring-runs.md` defines the four levels and
   their targets. Set it by the cost of the mistake the case catches, not by the skill's topic.

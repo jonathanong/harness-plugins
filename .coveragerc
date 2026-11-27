@@ -1,7 +1,7 @@
 [run]
-source = skills
+source = plugins
 branch = true
-omit = skills/*/tests/*
+omit = plugins/*/skills/*/tests/*
 
 [report]
 fail_under = 100

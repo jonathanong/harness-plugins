@@ -4,6 +4,33 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-26: `jong-skills` becomes four plugins; one case dropped; rows not re-measured
+
+Commit `b8ee3c7` plus the split below. Sonnet agent, Opus judge, Claude Code 2.1.332. A check of
+the tooling only: one case of each plugin, one attempt, with the plugin: $0.33, of which $0.26
+agent and $0.07 judges. Its results are not recorded in `cases.csv`.
+
+- The 51 skills move from one plugin to four: `ratchet-workflows` (14), `ratchet-github` (11),
+  `ratchet-backend` (15), and `ratchet-code` (11). Each skill's cases move with it, to
+  `plugins/<plugin>/evals/<skill>/`. No rule, description, prompt, or fixture changed.
+- Eight links from a skill to a skill now in another plugin became the name `<plugin>:<skill>`,
+  since a plugin is installed on its own and the link would not resolve.
+- A case now runs with its skill's plugin installed and no other, so 11 to 15 descriptions are
+  in context where 51 were. Every row in `cases.csv` was measured with all 51 installed. Loading
+  may differ in either direction: fewer descriptions compete, and a skill of another plugin can
+  no longer load. No row was re-measured.
+- `planning/plan-pulls-in-postgres-skill` is dropped. It required a PostgreSQL skill to load
+  beside `planning`, and those skills are now in another plugin. It last passed 0 of 3 with the
+  plugin and scored 1.00 without. The rule it covered stays in `planning`.
+- The check: `structured-logging/request-body-is-not-logged`,
+  `package-json-checklist/review-override-for-peer-warning`, and
+  `upstream-contributions/contributing-says-agents-stop` loaded their skill and passed.
+  `status-reports/stale-result-after-later-edit` passed without loading its skill; the trace
+  shows the 14 skills of `ratchet-workflows` listed. One attempt does not say whether its loading
+  changed; its row says 3 of 3 from before the split.
+- `scripts/run-evals.sh` runs each plugin in turn and writes one results file per plugin;
+  `scripts/eval-summary.py` reads them all. The per-skill table gains a plugin column.
+
 ## 2026-11-26: the plugin repositories moved to the `jongleberry` organization; no run
 
 Commit `9324efd` plus the renames below. No case, grader, fixture, rule, or description changed,

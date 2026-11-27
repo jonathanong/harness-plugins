@@ -1,9 +1,9 @@
 {
-  "name": "harness-plugins",
+  "name": "ratchet-stack",
   "private": true,
   "description": "Generic agent skills that explain a design or a procedure.",
   "license": "MIT",
-  "repository": "github:jongleberry/harness-plugins",
+  "repository": "github:jongleberry/ratchet-stack",
   "type": "module",
   "scripts": {
     "evals": "./scripts/run-evals.sh",

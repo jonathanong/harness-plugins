@@ -1,0 +1,23 @@
+{
+  "name": "ratchet-backend",
+  "description": "Skills for backend design: PostgreSQL schema, locking, queries, and partitioning; migrations in steps; list reads and bounded loops; queues; HTTP APIs, webhooks, and service boundaries; errors, logging, rollout, and LLM calls.",
+  "author": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "homepage": "https://github.com/jongleberry/ratchet-stack",
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT",
+  "keywords": ["skills", "postgresql", "queues", "http-api", "webhooks", "migrations", "logging"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Ratchet backend",
+    "shortDescription": "Backend design.",
+    "longDescription": "Skills for backend design: PostgreSQL schema, locking, queries, and partitioning; migrations in steps; list reads and bounded loops; queues; HTTP APIs, webhooks, and service boundaries; errors, logging, rollout, and LLM calls.",
+    "developerName": "Jonathan Ong",
+    "category": "Productivity",
+    "capabilities": [],
+    "websiteURL": "https://github.com/jongleberry/ratchet-stack",
+    "defaultPrompt": ["Use the matching skill to guide this change."]
+  }
+}

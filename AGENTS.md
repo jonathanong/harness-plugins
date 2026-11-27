@@ -1,6 +1,28 @@
 # Skills repository
 
-This repository is one plugin of generic skills for Claude Code and Codex. It is public.
+This repository is the `ratchet-stack` marketplace. It holds four plugins of generic skills for
+Claude Code and Codex, under `plugins/`, and lists plugins that live in other repositories. It is
+public.
+
+## Plugins
+
+A person installs only the plugins whose work they do, because an agent keeps the description of
+every installed skill in context.
+
+| Plugin              | Holds skills about                                                      |
+| ------------------- | ----------------------------------------------------------------------- |
+| `ratchet-workflows` | How an agent works on a task, in any repository and any language.       |
+| `ratchet-github`    | Git and GitHub: commits, pull requests, issues, Actions, repositories.  |
+| `ratchet-backend`   | Backend design: databases, queues, APIs, services, and their operation. |
+| `ratchet-code`      | Writing code and its checks: languages, apps, tests, packages, linting. |
+
+- Put a new skill in the plugin whose reader needs it. Add a plugin only when a group of skills
+  has readers who need none of the four.
+- A skill name is used once across the plugins. `pnpm run evals:check` enforces that.
+- A plugin is installed on its own, so a relative link from one plugin's skill to another's does
+  not resolve. Name the other skill as `<plugin>:<skill>` and do not link it. Link freely inside
+  a plugin.
+- A plugin lives in `plugins/<plugin>/`: its manifests, `skills/`, and `evals/`.
 
 ## What belongs here
 
@@ -9,8 +31,8 @@ This repository is one plugin of generic skills for Claude Code and Codex. It is
 - Do not add a rule that depends on one repository's tooling, file layout, service names, or
   product policy. Leave that to the consuming repository's `AGENTS.md`.
 - A skill is prose, and may bundle small scripts that carry out a procedure it describes, in
-  `skills/<skill>/scripts/`. A script is Python or TypeScript and uses only the standard library
-  (Node's built-in modules for TypeScript). Its tests live in `skills/<skill>/tests/` and cover
+  `plugins/<plugin>/skills/<skill>/scripts/`. A script is Python or TypeScript and uses only the standard library
+  (Node's built-in modules for TypeScript). Its tests live in the skill's `tests/` and cover
   every line and branch; `pnpm run test` runs them in CI. Anything that needs a dependency or a running
   service, such as a hook, an MCP server, or a larger CLI tool, belongs in its own repository, and
   a skill may tell the reader to use it. The scripts under `scripts/` check this repository, run
@@ -33,7 +55,7 @@ An agent pays for every line of a skill it loads, so load detail only when the t
   trigger; see `evals/HISTORY.md`, 2026-11-21.
 - `SKILL.md` holds what every use of the skill needs: the decisions, the defaults, and the reasons.
   Keep it to 150 lines. `pnpm run evals:check` enforces that.
-- Put anything only one branch of the work needs in `skills/<skill>/references/<topic>.md`: long
+- Put anything only one branch of the work needs in the skill's `references/<topic>.md`: long
   examples, tables of options, per-tool or per-framework detail, step-by-step procedures. Link it
   from `SKILL.md` with one line that says when to read it.
 - A reference file covers one topic. Split it when it passes about 500 lines.
@@ -52,11 +74,11 @@ An agent pays for every line of a skill it loads, so load detail only when the t
   fixtures, or scripts, say so in the rule. When a reviewer would likely apply a runtime rule to
   test code by mistake, say near the top of the skill what tests may do.
 - Prefer one short example to a paragraph of description.
-- Add the skill to the table in `README.md`.
+- Add the skill to its plugin's table in `README.md`.
 
 ## Evals
 
-Every skill has eval cases under `evals/<skill>/`. The rules are in
+Every skill has eval cases under `plugins/<plugin>/evals/<skill>/`. The rules are in
 [`evals/AGENTS.md`](evals/AGENTS.md). A change to a skill, a case, a grader, or a fixture updates
 `evals/cases.csv` and `evals/HISTORY.md` in the same pull request, and runs
 `scripts/eval-docs.py` to rebuild the tables in `evals/EVALS.md`, `evals/README.md`, and

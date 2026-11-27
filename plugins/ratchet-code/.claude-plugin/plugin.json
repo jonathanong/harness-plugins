@@ -1,0 +1,13 @@
+{
+  "name": "ratchet-code",
+  "description": "Skills for writing code and its checks: TypeScript, Rust, React and native apps, tests and browser tests, package.json and npm publishing, lint rules, and static analysis.",
+  "author": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "homepage": "https://github.com/jongleberry/ratchet-stack",
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT",
+  "keywords": ["skills", "typescript", "rust", "react", "testing", "npm", "static-analysis"],
+  "skills": "./skills/"
+}

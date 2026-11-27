@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Checks the Claude Code and Codex marketplaces against each other, the local plugin, the README,
+// Checks the Claude Code and Codex marketplaces against each other, the local plugins, the README,
 // and the repositories they point at. Pass --offline to skip the checks that fetch from GitHub.
 // A fetch that fails for a transient reason is retried.
 import { existsSync, readFileSync } from 'node:fs'
@@ -62,11 +62,13 @@ for (const { host, marketplace, manifest } of hosts) {
     }
   }
 }
-if (
-  existsSync(join(root, 'plugin.json')) &&
-  readJson('plugin.json').name !== readJson('.claude-plugin/plugin.json').name
-) {
-  errors.push('plugin.json and .claude-plugin/plugin.json name different plugins')
+// A local plugin's own plugin.json names the same plugin as its Claude Code manifest.
+for (const plugin of claude.plugins) {
+  const path = localPath(plugin.source)
+  if (path === null || !existsSync(join(root, path, 'plugin.json'))) continue
+  if (readJson(join(path, 'plugin.json')).name !== plugin.name) {
+    errors.push(`${join(path, 'plugin.json')} does not name the plugin "${plugin.name}"`)
+  }
 }
 
 // The README's plugin table lists every plugin in the marketplace, and nothing else.

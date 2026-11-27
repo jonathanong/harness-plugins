@@ -1,0 +1,31 @@
+{
+  "name": "ratchet-workflows",
+  "description": "Skills for how an agent works on a task: planning, deciding or asking, implementing, debugging, reviewing a change, reporting status, resuming work, coordinating agents, and writing docs, agent rules, skills, and evals.",
+  "author": {
+    "name": "Jonathan Ong",
+    "url": "https://github.com/jonathanong"
+  },
+  "homepage": "https://github.com/jongleberry/ratchet-stack",
+  "repository": "https://github.com/jongleberry/ratchet-stack",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "planning",
+    "debugging",
+    "code-review",
+    "documentation",
+    "evals",
+    "agents"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Ratchet workflows",
+    "shortDescription": "How an agent works on a task.",
+    "longDescription": "Skills for how an agent works on a task: planning, deciding or asking, implementing, debugging, reviewing a change, reporting status, resuming work, coordinating agents, and writing docs, agent rules, skills, and evals.",
+    "developerName": "Jonathan Ong",
+    "category": "Productivity",
+    "capabilities": [],
+    "websiteURL": "https://github.com/jongleberry/ratchet-stack",
+    "defaultPrompt": ["Use the matching skill to guide this change."]
+  }
+}

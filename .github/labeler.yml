@@ -1,17 +1,20 @@
 skills:
   - changed-files:
-      - any-glob-to-any-file: 'skills/**'
+      - any-glob-to-any-file: 'plugins/*/skills/**'
 
 evals:
   - changed-files:
-      - any-glob-to-any-file: 'evals/**'
+      - any-glob-to-any-file:
+          - 'evals/**'
+          - 'plugins/*/evals/**'
 
 plugin:
   - changed-files:
       - any-glob-to-any-file:
-          - 'plugin.json'
+          - 'plugins/*/plugin.json'
+          - 'plugins/*/.claude-plugin/**'
+          - 'plugins/*/.codex-plugin/**'
           - '.claude-plugin/**'
-          - '.codex-plugin/**'
           - '.agents/**'
 
 docs:
