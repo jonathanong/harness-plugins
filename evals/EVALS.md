@@ -206,8 +206,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   `ratchet-code` installed, and `postgres-schema-design/review-trigger-that-keeps-a-counter`,
   added and run on 2026-11-27 with only `ratchet-backend` installed, both arms, three attempts
   each. A case now runs with only its skill's plugin installed.
-- **The rows of `package-json-checklist`** were not re-measured after that skill gained its
-  lockfile-conflict step on 2026-11-27.
+- **The rows of `package-json-checklist` and `git-commit-checklist`** were not re-measured after
+  the lockfile-conflict wording changed in both on 2026-11-27.
 - **The rows of `postgres-schema-design`, `postgres-locking`, `bounded-iteration`, `list-reads`,
   `postgres-node-performance-tuning`, and `static-analysis-checklist`** other than that new case
   were not re-measured after those skills changed on 2026-11-27.

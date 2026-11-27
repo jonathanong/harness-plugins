@@ -32,6 +32,8 @@ workspace topology, registry, release process, and package layout.
    markers and do not keep one side: either can drop a resolution or record a version no
    manifest asks for. `ratchet-github:git-commit-checklist` owns the steps, under "A conflict in
    a generated file"; with pnpm, leave the markers and run `pnpm install --no-frozen-lockfile`.
+   A lockfile one side deleted on purpose, such as in a move to another package manager, stays
+   deleted.
 7. Add a dependency at the newest release that the repository's cooldown or release-age policy
    allows, on an LTS line where one exists (see the `dependabot` skill for cooldowns). Look the
    version up; do not recall it. An old version starts the package behind on fixes the update bot

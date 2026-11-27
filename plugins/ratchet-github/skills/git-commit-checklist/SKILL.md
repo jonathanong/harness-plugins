@@ -86,7 +86,8 @@ A lockfile needs more care, because it also records choices that are not in the 
 regenerating it from nothing moves every dependency to its newest allowed version.
 
 - With pnpm, leave the conflict markers in the lockfile and run
-  `pnpm install --no-frozen-lockfile`. pnpm merges both sides.
+  `pnpm install --no-frozen-lockfile`. pnpm merges both sides. If that install fails on the
+  markers, take the next step.
 - A package manager that cannot parse a conflicted lockfile needs a different step. Check its
   documentation. When it has no merge, restore the lockfile from the branch being rebased onto
   and rerun its lock command, so the resolved manifest adds this branch's changes back. That

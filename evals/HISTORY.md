@@ -28,7 +28,10 @@ cost nothing.
   regenerate would likely pass without the skill.
 - The rule stays: a weaker model edits the markers or keeps one side. A case that can tell is
   listed in `ROADMAP.md`.
-- The existing `package-json-checklist` rows were not re-measured after the skill changed.
+- `git-commit-checklist` gains one sentence: when pnpm's install fails on the conflict markers,
+  take the step for a package manager that cannot merge.
+- The existing `package-json-checklist` and `git-commit-checklist` rows were not re-measured
+  after the skills changed.
 
 ## 2026-11-27: PostgreSQL skills gain a simplest-design ladder and review wording; one new case
 
