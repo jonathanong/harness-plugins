@@ -99,6 +99,6 @@ columns may have explicit reviewed local exceptions; view comments describe thei
 Reuse generic trigger functions with `TG_ARGV` and `TG_TABLE_NAME`; quote dynamic identifiers
 with `format('%I', ...)`. A trigger function and a SQL-callable helper are separate functions.
 
-Generic enforcement in `jonathanong/no-mistakes`: `postgres-table-shape` and
+Generic enforcement in `jongleberry/no-mistakes`: `postgres-table-shape` and
 `postgres-duplicate-function-body`. Configure canonical shapes explicitly and verify which
 rules the installed release supports; lifecycle and authority decisions still need review.

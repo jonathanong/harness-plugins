@@ -66,7 +66,7 @@ from a historical time; see
 Rate limits query an actor-keyed table rather than
 recipient-keyed fan-out rows. Verify actual pruning with EXPLAIN.
 
-Generic `jonathanong/no-mistakes` checks include `postgres-no-offset`; inspect available rules
+Generic `jongleberry/no-mistakes` checks include `postgres-no-offset`; inspect available rules
 and configure reviewed cross-partition exceptions rather than treating a rule as plan evidence.
 
 ## Volatile functions in predicates

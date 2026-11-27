@@ -34,5 +34,5 @@ other rows), `create` (companion rows), `lock`, `register`, and `ensure` (retain
 Ordinary functions use a name that explains their return value.
 
 Generic enforcement: `postgres-object-naming`, `postgres-column-naming`, and
-`postgres-identifier-length` in `jonathanong/no-mistakes`. Check the installed rule's supported options before enabling it;
+`postgres-identifier-length` in `jongleberry/no-mistakes`. Check the installed rule's supported options before enabling it;
 an upstream rule name does not establish that the installed release includes it.

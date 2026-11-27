@@ -12,82 +12,82 @@
       "description": "Generic agent skills that explain a design or a procedure: CI and dependencies, PostgreSQL and queues, testing, TypeScript, Rust, React and native apps, HTTP APIs, rollout, logging, pull requests, docs, and evals.",
       "source": "./",
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/harness-plugins"
+      "homepage": "https://github.com/jongleberry/harness-plugins"
     },
     {
       "name": "hook-harness",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/hook-harness.git",
+        "url": "https://github.com/jongleberry/hook-harness.git",
         "path": "plugins/hook-harness",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/hook-harness"
+      "homepage": "https://github.com/jongleberry/hook-harness"
     },
     {
       "name": "pr-shepherd",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/pr-shepherd.git",
+        "url": "https://github.com/jongleberry/pr-shepherd.git",
         "path": "plugins/pr-shepherd",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/pr-shepherd"
+      "homepage": "https://github.com/jongleberry/pr-shepherd"
     },
     {
       "name": "no-mistakes",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "url": "https://github.com/jongleberry/no-mistakes.git",
         "path": "plugins/no-mistakes",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/no-mistakes"
+      "homepage": "https://github.com/jongleberry/no-mistakes"
     },
     {
       "name": "no-mistakes-rules",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/no-mistakes.git",
+        "url": "https://github.com/jongleberry/no-mistakes.git",
         "path": "plugins/no-mistakes-rules",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/no-mistakes"
+      "homepage": "https://github.com/jongleberry/no-mistakes"
     },
     {
       "name": "service-status",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/jonathanong/service-status.git",
+        "url": "https://github.com/jongleberry/service-status.git",
         "path": "plugins/service-status",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/service-status"
+      "homepage": "https://github.com/jongleberry/service-status"
     },
     {
       "name": "agent-blackboard",
       "source": {
         "source": "url",
-        "url": "https://github.com/jonathanong/agent-blackboard.git",
+        "url": "https://github.com/jongleberry/agent-blackboard.git",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/agent-blackboard"
+      "homepage": "https://github.com/jongleberry/agent-blackboard"
     },
     {
       "name": "code-reviewer",
       "source": {
         "source": "url",
-        "url": "https://github.com/jonathanong/code-reviewer.git",
+        "url": "https://github.com/jongleberry/code-reviewer.git",
         "ref": "main"
       },
       "category": "productivity",
-      "homepage": "https://github.com/jonathanong/code-reviewer"
+      "homepage": "https://github.com/jongleberry/code-reviewer"
     }
   ]
 }
