@@ -11,18 +11,21 @@ one-attempt pilot of the drafted case, with the plugin and without: $0.83. No me
 no row in `cases.csv`. A first try at the pilot stopped with `auth_failed` before any attempt and
 cost nothing.
 
-- `package-json-checklist` gains step 6: when a merge or rebase conflicts in a lockfile, take the
-  base branch's lockfile, rerun the package manager so it re-resolves this branch's manifests,
-  check it, and commit the result, without asking; never hand-merge the markers or keep one side.
-  The description is unchanged, so no A/B was run.
+- `package-json-checklist` gains step 6: when a merge or rebase conflicts in a lockfile, let the
+  package manager regenerate it and commit the result, without asking; never hand-merge the
+  markers or keep one side. The steps stay in `git-commit-checklist`, which already owned them;
+  the first draft of step 6 restored the base branch's lockfile first, which that skill warns
+  loses an update the branch made in the lockfile alone. The description is unchanged, so no A/B
+  was run.
 - The drafted case, `package-json-checklist/rebase-conflict-in-lockfile`, put the agent in a
   fixture repository stopped mid-rebase on a `pnpm-lock.yaml` conflict and asked it to finish
   the rebase. It is dropped for two reasons. The runner mounted the case's working directory
   read-only, so neither arm could write a file or continue the rebase, as happened to
   `debugging/crash-fixed-at-cause-with-a-test` on 2026-11-26; a case that has to write cannot be
   measured here. And the one attempt without the plugin already named the rule's steps in its
-  answer: take one side of the lockfile, then run `pnpm install --lockfile-only`. So a version of
-  the case that only asks for the commands would likely pass without the skill.
+  answer: take one side of the lockfile, then run `pnpm install --lockfile-only`, which is what
+  the first draft of the step said. So a version of the case that only asks whether to
+  regenerate would likely pass without the skill.
 - The rule stays: a weaker model edits the markers or keeps one side. A case that can tell is
   listed in `ROADMAP.md`.
 - The existing `package-json-checklist` rows were not re-measured after the skill changed.

@@ -27,20 +27,11 @@ workspace topology, registry, release process, and package layout.
    checks required by the affected package. Do not publish or alter registry state without explicit
    authorization.
 5. Review the lockfile and generated metadata for unrelated churn before committing.
-6. When a merge or rebase conflicts in a lockfile, do not hand-merge the conflict markers and do
-   not keep one side. Take the base branch's lockfile, rerun the package manager so it
-   re-resolves this branch's manifests, check it, and commit the result as the resolution,
-   without asking:
-
-   ```bash
-   git checkout <base> -- pnpm-lock.yaml
-   pnpm install --lockfile-only            # npm install --package-lock-only
-                                           # yarn install --mode update-lockfile
-   ```
-
-   A hand-merged or one-sided lockfile can drop this branch's resolutions or record versions no
-   manifest asks for. The regenerated one is what the package manager would produce anyway.
-
+6. When a merge or rebase conflicts in a lockfile, let the package manager regenerate it from the
+   resolved manifests and commit the result, without asking. Do not hand-merge the conflict
+   markers and do not keep one side: either can drop a resolution or record a version no
+   manifest asks for. `ratchet-github:git-commit-checklist` owns the steps, under "A conflict in
+   a generated file"; with pnpm, leave the markers and run `pnpm install --no-frozen-lockfile`.
 7. Add a dependency at the newest release that the repository's cooldown or release-age policy
    allows, on an LTS line where one exists (see the `dependabot` skill for cooldowns). Look the
    version up; do not recall it. An old version starts the package behind on fixes the update bot
