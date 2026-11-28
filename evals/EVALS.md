@@ -467,7 +467,7 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   per arm. The other rows of the skills that round changed were not replaced; HISTORY.md has their
   scores from that run.
 - **The `evals` rows** are from the run on 2026-11-28 at commit `f050f58`, three attempts with the
-  plugin. The "Without plugin" score of `evals/effort-impact-sets-priority` is from a two-arm run
-  of that case at `1cdd346`, in the same session; the other `evals` rows keep their earlier "Without plugin"
-  scores.
+  plugin. The "Without plugin" scores of `evals/effort-impact-sets-priority`,
+  `evals/document-new-suite`, and `evals/record-partial-rerun` are from two-arm runs of each in the
+  same session; the other two `evals` rows keep their "Without plugin" scores from 2026-11-26.
 - **Not measured without the plugin:** the row marked `n/a`.

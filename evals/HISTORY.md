@@ -50,18 +50,20 @@ Total $2.84.
 ## 2026-11-28: `evals` sets priority from effort × impact, adds lower-bound targets and multi-stage workflow evals; one new case kept, one dropped
 
 Commit `f050f58`. Sonnet agent, Opus judge, Claude Code 2.1.332. Every `evals` case at three
-attempts with the plugin, plus `evals/effort-impact-sets-priority` with and without it. About
-$8.98 in all, with two superseded runs and two pilots: agent $4.12, judges $4.85.
+attempts with the plugin, plus the no-plugin arm of three of them. About $11.13 in all, with
+two superseded runs and two pilots: agent $4.94, judges $6.19.
 
 | Case                                    | With plugin | Without plugin | Loaded |
 | --------------------------------------- | ----------- | -------------- | ------ |
 | `evals/effort-impact-sets-priority`     | 3 of 3, met | 0 of 3         | 3 of 3 |
-| `evals/document-new-suite`              | 3 of 3, met | not run        | 3 of 3 |
-| `evals/loading-and-passing-are-two-...` | 3 of 3, met | not run        | 3 of 3 |
-| `evals/met-target-column-uses-the-...`  | 3 of 3, met | not run        | 3 of 3 |
-| `evals/record-partial-rerun`            | 3 of 3, met | not run        | 3 of 3 |
+| `evals/document-new-suite`              | 3 of 3, met | 0 of 3         | 3 of 3 |
+| `evals/loading-and-passing-are-two-...` | 3 of 3, met | 1 of 3 (11-26) | 3 of 3 |
+| `evals/met-target-column-uses-the-...`  | 3 of 3, met | 0 of 3 (11-26) | 3 of 3 |
+| `evals/record-partial-rerun`            | 3 of 3, met | 0 of 3         | 3 of 3 |
 
-The table is from the last run ($2.38: agent $1.19, judges $1.19). How the text got there:
+The "With plugin" column is from the last run ($2.38: agent $1.19, judges $1.19). "Without
+plugin" marked 11-26 is from that day's run; the others are from this session. How the text got
+there:
 
 - The first three-attempt run ($2.32: agent $1.19, judges $1.12) scored
   `effort-impact-sets-priority` 0 of 3. `SKILL.md` said to set priority "from effort and impact"
@@ -78,6 +80,13 @@ The table is from the last run ($2.38: agent $1.19, judges $1.19). How the text 
   ranked the case's three bugs correctly.
 - The no-plugin run of the new case, at `1cdd346` ($1.15: agent $0.39, judges $0.76), failed 0 of
   3: each attempt ranked by impact alone and let difficulty move only the pass target.
+- `evals/document-new-suite` and `evals/record-partial-rerun` had no no-plugin result on record,
+  so each ran with and without the plugin at `c92494a`, whose skill text is that of `f050f58`
+  ($1.03: agent $0.39, judges $0.64; $1.13: agent $0.42, judges $0.70). With the plugin both
+  passed 3 of 3 again. Without it, every attempt of the first proposed four files (a README and
+  catalogs of cases and graders) with no history log and no agent-rules file, and every attempt of
+  the second declined the "v14 fixes it" claim and marked the README row but logged the grader
+  change nowhere. Neither is a ceiling case.
 - `evals/workflow-case-combined-score-and-ci` is dropped. Its graders check the Beta draws, the
   per-stage floor opt-out, and keeping early-stopped runs out of recorded numbers, which are only
   in `references/workflow-evals.md`. In its one-attempt pilot ($0.19) both reads of the
