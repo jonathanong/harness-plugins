@@ -93,16 +93,17 @@ kinds of eval a skill suite runs and the attempts each needs, and
 
 **Runs and numbers**
 
-- Set each case's priority from effort and impact (each suite defines its mapping in `AGENTS.md`),
-  with default targets of critical 80%, high 70%, medium 60%, low 50% (3 of 3 for critical and
-  high, 2 of 3 for medium and low) or a target on the 95% interval's lower bound. Always report
-  the 95% interval and count. Stop early once remaining attempts cannot change the verdict, and
-  record the attempts that ran ("2 of 2"). Read `references/measuring-runs.md` for the 4×4 matrix,
-  intervals, stopping rule, cost, and tracking CSV.
-- When one case runs across multiple workflow stages (such as planning, code review, and QA), give
-  each stage its own effort-by-impact matrix and priority floor, and combine stages by Noisy-OR
-  catch rate (sequential gates) or weighted average (independent dimensions) with a 95% credible
-  interval. Read `references/workflow-evals.md` for both formulas, floors, and spend optimization.
+- Set each case's priority from impact and the effort to catch and fix the mistake. Priority orders
+  what to run and improve first, so lower effort raises it: medium impact is high at low effort and
+  low at high effort, and critical at very high effort is medium. Each suite writes its mapping in
+  `AGENTS.md`. Default targets are critical 80%, high 70%, medium 60%, low 50% (3 of 3 for critical
+  and high, 2 of 3 for medium and low), or a bar on the 95% interval's lower bound. Report the 95%
+  interval and count. Stop early once remaining attempts cannot change the verdict, and record the
+  attempts that ran ("2 of 2"). Read `references/measuring-runs.md` for the 4×4 matrix, intervals,
+  stopping rule, cost, and tracking CSV.
+- When one case runs across workflow stages (planning, code review, QA), give each stage its own
+  matrix and floor, and combine them by Noisy-OR (sequential gates) or weighted average (independent
+  dimensions) with a 95% credible interval; see `references/workflow-evals.md`.
 - For a skill that loads on demand, report two layers per case: how often it loaded, and how
   often the case passed when it did. 2 of 3 loaded and 1 of 2 passed when loaded is 1 of 3
   overall; the priority target is for the overall rate. Hold loading to its own target, 80% by
