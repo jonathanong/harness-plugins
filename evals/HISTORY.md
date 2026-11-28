@@ -4,6 +4,25 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-28: `git-commit-checklist` keeps new work out of merge commits and compares heads before a force push; one new case
+
+Commit `a486e90` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. Two
+one-attempt pilots of both arms: $0.41. The measured run of the new case, three attempts with the
+plugin and three without: $0.63. Total $1.04.
+
+- "Before a rebase or a force push" gains a step: compare the old head with the new one
+  (`git diff --stat`, or `git range-diff`) and account for every file that disappeared or
+  changed. A rebase without `--rebase-merges` drops whatever lived only in a merge commit.
+- "A conflict in a hand-written file" gains a rule: a merge commit holds only the merge and its
+  conflict resolutions; new files and other edits get their own commit.
+- New case `git-commit-checklist/new-files-kept-out-of-the-merge`: asked to fold two new fixture
+  files into a merge commit, the agent commits them on their own. 3 of 3 with the plugin, 0 of 3
+  without.
+- A first drafted case, `rebase-drops-a-file-from-a-merge`, asked for the push command after a
+  rebase that dropped a merge commit. Both arms passed its pilot, and the plugin arm did not load
+  the skill. It is dropped; the step stays, and `ROADMAP.md` lists a harder case.
+- The other `git-commit-checklist` rows were not re-measured after the skill changed.
+
 ## 2026-11-28: `bounded-iteration` stores outcome times when the intervals are configured; one new case
 
 Commit `a486e90` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. Two

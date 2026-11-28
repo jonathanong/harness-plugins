@@ -11,11 +11,11 @@ needed.
 
 <!-- evals:headline -->
 
-- **175 cases** across 51 skills.
+- **176 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.35, over the 173 cases measured both ways.
-- **137 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **165 of 175 cases** meet their target: critical 3 of 3, high 25 of 25, medium 115 of 123, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.35, over the 174 cases measured both ways.
+- **138 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **166 of 176 cases** meet their target: critical 3 of 3, high 25 of 25, medium 116 of 124, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
@@ -48,7 +48,7 @@ averaged over attempts.
 | `evals`                            | `ratchet-workflows` | 4     | 1.00        | 0.25           | 0                     | 6 of 6, from 2 of 4 cases            | 4 of 4     |
 | `expand-contract-migrations`       | `ratchet-backend`   | 1     | 1.00        | 1.00           | 1                     | 3 of 3                               | 1 of 1     |
 | `feature-rollout`                  | `ratchet-backend`   | 3     | 1.00        | 0.33           | 1                     | 9 of 9                               | 3 of 3     |
-| `git-commit-checklist`             | `ratchet-github`    | 4     | 0.96        | 0.33           | 1                     | 11 of 12                             | 4 of 4     |
+| `git-commit-checklist`             | `ratchet-github`    | 5     | 0.97        | 0.27           | 1                     | 14 of 15                             | 5 of 5     |
 | `github-actions-authoring`         | `ratchet-github`    | 10    | 0.85        | 0.20           | 1                     | 25 of 30                             | 8 of 10    |
 | `github-ci-operations`             | `ratchet-github`    | 7     | 0.92        | 0.26           | 1                     | 24 of 27                             | 7 of 7     |
 | `github-issue`                     | `ratchet-github`    | 5     | 0.93        | 0.20           | 0                     | 18 of 18                             | 5 of 5     |

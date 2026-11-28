@@ -71,6 +71,10 @@ Each still gets a loading case and an answer case.
       unaided.** A review of a dispatcher whose skipped rows count toward its cap passed both
       arms on 2026-11-27. Try a dispatcher whose skip is inside a helper, or one where only a
       thrown fetch leaves the timestamp unwritten.
+- [ ] **`git-commit-checklist`, "compare the heads before a force push", has no case the model
+      fails unaided.** A draft on 2026-11-28 pasted a rebased log that had lost a merge commit;
+      both arms passed and the skill did not load. Try a rebase whose log does not show the
+      merge commit going away.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.
