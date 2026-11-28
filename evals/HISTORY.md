@@ -4,6 +4,26 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-27: `bounded-iteration` allows a forward-only mutable cursor and names every outcome that holds the front; its drafted case is dropped
+
+Commit `df7c5b8` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
+one-attempt pilot of the drafted case, with the plugin and without: $0.30. No measured run, and
+no row in `cases.csv`.
+
+- Rule 5 and `references/sweep-patterns.md` allow a `(time, id)` keyset on a column that changes
+  after insert when only the database writes it, from the clock, and the run fixes its due cutoff
+  when it starts. A business time or a column a client can set is still never a position.
+- Rule 17 and "A failed row leaves the front" add the other outcomes that leave a row at the
+  front of an oldest-first walk: a skip for a host in backoff, a lost claim, a rate limit, and a
+  throw before the due time is written. Each advances the sort column or is filtered out before
+  it takes a slot of the run's capacity, with a test of more stuck rows than one run's capacity.
+- The drafted case, `bounded-iteration/review-dispatcher-skips-at-the-front`, asked for a review
+  of an oldest-first feed dispatcher whose skipped and unclaimed feeds kept their old timestamp
+  and counted toward the run's cap. Both arms passed: the review without the plugin found the
+  starvation and proposed filtering in the query. It is dropped; the rule stays, because a weaker
+  model misses it. A harder case is listed in `ROADMAP.md`.
+- The existing `bounded-iteration` rows were not re-measured after the skill changed.
+
 ## 2026-11-27: `package-json-checklist` gains a lockfile-conflict rule; its drafted case is dropped
 
 Commit `9b1e4d9` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. One

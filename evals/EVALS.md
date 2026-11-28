@@ -208,6 +208,8 @@ The rows are not from one run. [HISTORY.md](HISTORY.md) has the run for each.
   each. A case now runs with only its skill's plugin installed.
 - **The rows of `package-json-checklist` and `git-commit-checklist`** were not re-measured after
   the lockfile-conflict wording changed in both on 2026-11-27.
+- **The rows of `bounded-iteration`** were not re-measured after the cursor and front-of-line
+  wording changed on 2026-11-27.
 - **The rows of `postgres-schema-design`, `postgres-locking`, `bounded-iteration`, `list-reads`,
   `postgres-node-performance-tuning`, and `static-analysis-checklist`** other than that new case
   were not re-measured after those skills changed on 2026-11-27.
