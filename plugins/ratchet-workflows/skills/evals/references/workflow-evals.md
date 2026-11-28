@@ -40,17 +40,35 @@ Pick the combining formula that matches how the stages relate to each other, and
 
 ### Sequential gates: Noisy-OR (`1 - prod(1 - e_i * p_i)`)
 
-Use Noisy-OR for a dependent defense-in-depth pipeline where a bug escapes only if every stage
-misses it (for example, engineering planning → code review → QA):
+**Litmus test:** if stage A catches the issue, does stage B become unnecessary? Use Noisy-OR when a
+case passes through dependent defense-in-depth layers and only fails if every layer misses it.
 
-- Each stage has an **effectiveness** `e_i` in `(0, 1]` (default `1.0`).
-  - Hard gates (code review, QA) default to `1.0`: a 70% code review and a 50% QA combine to
-    `1 - (1 - 0.70)(1 - 0.50) = 85%`, and if code review catches 100%, QA does not matter.
-  - Advisory or non-gate stages (such as planning) take `e_i < 1.0` (for example `0.5` or `1/3`),
-    so even 100% in planning caps at `e_plan` and can never mask broken downstream gates.
-  - A suite that wants the score itself to favor cheaper gates may also discount an expensive late
-    gate (for example `e_plan = 0.33`, `e_cr = 1.0`, `e_qa = 0.67`), or keep both gates at `1.0`
-    and enforce catching early via per-stage floors and run order.
+**Use-cases:**
+
+- **Regression pipelines:** engineering planning → code review → QA (a bug blocked in code review
+  never reaches QA).
+- **Layered safety or security guards:** input filter → tool guard → output verifier (blocking a
+  secret leak or unsafe action at any layer prevents the incident).
+- **Redundant detection:** static check → review agent → staging canary (any one layer catching the
+  defect stops a customer-facing failure).
+
+**How to set `effectiveness` (`e_i` in `(0, 1]`, default `1.0`):**
+
+- **`1.0` for hard gates** where a catch blocks merge, release, or execution (code review, CI
+  check, QA release gate, runtime guard). With two hard gates at `1.0`, a 70% code review and a 50%
+  QA combine to `1 - (1 - 0.70)(1 - 0.50) = 85%`, and 100% code review makes QA unnecessary.
+- **`0.3–0.6` for advisory or soft stages** that warn without blocking (planning review, design
+  review, non-blocking bot comment). Pick roughly the fraction of flagged issues that get fixed
+  rather than ignored; even 100% in planning then caps at `e_plan` and cannot mask broken gates.
+- **`0.6–0.9` for discounted late or expensive gates** (optional): set `e_qa < 1.0` (for example
+  `e_plan = 0.33`, `e_cr = 1.0`, `e_qa = 0.67`) when you want the combined score itself to penalize
+  relying on slow, costly late catches. Alternatively, keep every hard gate at `1.0` so the score
+  stays a literal catch rate, and enforce catching early with per-stage floors and run order.
+- **Sanity check:** a stage scoring 100% alone yields a case score of `e_i`. Never set `e_i = 1.0`
+  on a stage that should not be able to carry the case by itself.
+
+**Pitfalls and caveats:**
+
 - **Do not put weights as exponents on `p_i` (`1 - p_i^w_i`)**: for `0 < p < 1`, raising `p` to a
   higher power shrinks it and inverts the weights. Do not use unnormalized `(1 - p_i)^w_i` either:
   it pretends one stage ran `w_i` independent times and inflates scores.
@@ -65,14 +83,36 @@ misses it (for example, engineering planning → code review → QA):
 
 ### Independent dimensions: weighted average (`sum(w_i * p_i) / sum(w_i)`)
 
-Use a weighted average when stages or dimensions are independent and catching one does not make the
-others moot (for example, scoring separate requirements or parallel checks on one case):
+**Litmus test:** does every stage or dimension still matter even when another one scores 100%? Use
+a weighted average when stages stand on their own and passing one does not cover the others.
 
-- Give each dimension a positive `weight` (default `1` for an unweighted average), summing only
-  over the dimensions that apply to that case.
-- Stays conservative (three stages at 70% score 70%, never inflated), gives higher-weight
-  dimensions more control over passing, stays on the `0–100%` scale, and requires no independence
-  assumption.
+**Use-cases:**
+
+- **Separate deliverables across a workflow:** one task evaluated on spec quality, code
+  correctness, and migration or documentation completeness — a strong spec does not cover broken
+  code or missing docs.
+- **Parallel rubric dimensions on one output:** grading a single change on correctness, security,
+  and maintainability — acing maintainability does not offset a security miss.
+- **Cross-surface coverage:** one behavior checked on web, mobile, and API — passing on web does
+  not make a broken mobile client acceptable.
+- **Model or environment matrices:** the same case evaluated across several models, languages, or
+  harnesses when you want one conservative summary rate rather than "at least one succeeded."
+
+**How to set `weight` (`w_i > 0`, default `1`):**
+
+- **Default to `1` for every dimension** (unweighted average) until you have a concrete reason to
+  weight them differently. Sum only over the dimensions that apply to a given case.
+- **Use small integers (such as `1, 2, 3`)** rather than false-precision decimals:
+  - By importance or cost of failure: primary requirement or core gate `3`, secondary requirement
+    `2`, advisory or polish `1`.
+  - By workload share: if 60% of traffic is API, 30% web, and 10% CLI, use `6, 3, 1` (or `3, 2, 1`).
+- **Sanity check blocking power:** a dimension with share `w_i / sum(w)` caps the case score at
+  `100% - share` when it scores 0%. With weights `1, 3, 2` (sum `6`), the weight-3 dimension holds
+  50% of the score — failing it caps the case at 50% (cannot clear a 60–80% bar) — while failing
+  the weight-1 dimension still leaves up to 83% reachable. Pick weights so the dimensions that must
+  succeed carry enough share to block the case when they fail.
+- Stays conservative (three stages at 70% score 70%, never inflated), stays on the `0–100%` scale,
+  and requires no independence assumption.
 
 ## Case 95% credible interval and verdict
 
