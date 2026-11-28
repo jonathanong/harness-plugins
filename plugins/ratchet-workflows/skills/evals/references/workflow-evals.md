@@ -132,8 +132,10 @@ Beta-posterior model used for suite intervals in `references/measuring-runs.md`:
 Step 2 assumes each stage's attempts were sampled **separately**. When multiple weighted dimensions
 are graded on the **same** attempts (such as parallel rubric scores on one set of runs),
 independent Beta draws count one body of evidence several times and produce an overly narrow
-interval; for shared-trial rubrics, compute the weighted score per attempt and bootstrap over
-attempts instead, or omit the independent-stage Beta interval and say so.
+interval, while a plain bootstrap over attempts collapses to `[100-100]` whenever every attempt
+scores 100%. For shared-trial rubrics, either score each attempt as binary pass/fail and report its
+Wilson interval, or omit the combined interval and any lower-bound CI verdict and state that the
+dimensions share trials.
 
 Example at three attempts per stage (Noisy-OR with `e_plan = 0.5`, `e_cr = 1.0`, `e_qa = 1.0` vs.
 weighted average with `w = 1, 3, 2`):
