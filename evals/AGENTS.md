@@ -50,7 +50,8 @@ python3 scripts/eval-docs.py                              # rebuild EVALS.md and
   is installed when it runs, so a case cannot require a skill of another plugin to load.
 - A case's priority is a tag: `priority-critical`, `priority-high`, or `priority-low`. A case with
   none is medium. The `evals` skill's `references/measuring-runs.md` defines the four levels and
-  their targets. Set it by the cost of the mistake the case catches, not by the skill's topic.
+  their targets. Set it from effort and impact with that file's 4×4 matrix: how hard the mistake
+  is to catch and fix, and what missing it costs, not by the skill's topic.
 - Every case has `graders/skill-fired.md`: a `tool_used` grader on the `Skill` tool that names the
   skill. `pnpm run evals:check` fails a skill with no such case.
 - Every case has at least one more grader that checks the outcome. Skill-fired alone proves

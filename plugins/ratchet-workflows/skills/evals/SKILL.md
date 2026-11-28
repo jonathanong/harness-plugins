@@ -114,8 +114,8 @@ kinds of eval a skill suite runs and the attempts each needs, and
 - Keep every attempt's trace, and read the failing attempts before changing anything. Decide
   whether the case, the grader, or the thing under test is wrong. Never loosen a grader to pass.
 - When a change is aimed at one group of cases, also run the groups it does not target.
-- Keep large raw results or transcripts out of git; update `README.md` and `HISTORY.md` before
-  discarding them.
+- Keep large raw results or transcripts out of git. `README.md` and `HISTORY.md` are then the
+  durable record, so update them before discarding the raw results.
 
 ## After a run
 

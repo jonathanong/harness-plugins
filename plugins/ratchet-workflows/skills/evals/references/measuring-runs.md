@@ -50,8 +50,9 @@ Report every rate with its 95% interval and its count: `67 [21-94], 2 of 3`.
 Set each case's priority from **effort** (how hard the mistake is to detect or handle reliably)
 and **impact** (the cost of missing it), rather than impact alone. A low-effort bug with medium
 impact is easy to catch and belongs at high or critical priority; a high-effort bug with the same
-medium impact is genuinely hard and belongs at low or medium. Priority drives both what agents fix
-first and where to spend eval budget.
+medium impact is genuinely hard and belongs at low or medium. Priority decides which cases to run
+and improve first and where to spend eval budget, so a case that is cheap to catch and fix can
+outrank a costly one with higher impact.
 
 Default 4×4 mapping (use as a starting point; each suite defines and adjusts its own decision
 matrix in `AGENTS.md` and documents it in `README.md`, and a multi-stage workflow suite defines
@@ -82,11 +83,11 @@ Impact levels and default target pass rates for the arm under test:
   `ceil(0.28 x 25)` is 8, not 7. The four default targets do not hit this at small counts; a custom
   target can.
 - **Targeting the 95% lower bound**: a suite may instead (or also) set a target on the lower bound
-  of the 95% interval — for example, requiring a critical case's 95% lower bound to exceed 50%.
-  Always show the 95% interval either way. Because small samples have wide intervals, check that
-  the planned attempt count can clear the bar: for a single stage, even 3 of 3 has a Wilson lower
-  bound of 44%, so clearing 50% needs at least 4 attempts (4 of 4 gives 51%; 5 of 5 gives 57%; 7 of
-  8 gives 53%).
+  of the 95% interval — for example, requiring a critical case's 95% lower bound to be at least 50%.
+  Always show the 95% interval either way. Because small samples have wide intervals, check that the
+  planned attempt count can clear the bar: for a single stage, even 3 of 3 has a Wilson lower bound
+  of 44%, so clearing 50% needs at least 4 attempts (4 of 4 gives 51%; 5 of 5 gives 57%; 7 of 8
+  gives 53%).
 - Report, per priority, how many cases meet their target.
 - Mark a case **required** when one failure is unacceptable or its result does not vary between
   runs, such as a deterministic evaluator over a labelled set of inputs. A required case must pass

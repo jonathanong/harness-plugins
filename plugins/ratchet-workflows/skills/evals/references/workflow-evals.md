@@ -17,7 +17,7 @@ A case in a workflow eval has two levels of goals:
   code review critical 90%, QA critical 70%, QA low 50%). A single regression may be medium
   priority in planning, high in code review, and low in QA because catching it in QA is hard.
 - **Case priority and target.** Each case also has its own overall priority and target (for
-  example, `regression-1` critical 80%, or a 95% lower-bound target such as `> 50%`).
+  example, `regression-1` critical 80%, or a 95% lower-bound target such as `>= 50%`).
 
 Per-stage targets are primarily **low floors** so a hard stage does not block a case unnecessarily;
 the **case target** is what matters most.
@@ -139,7 +139,9 @@ per-attempt binary pass rate and its Wilson interval separately rather than as a
 combined score.
 
 Example at three attempts per stage (Noisy-OR with `e_plan = 0.5`, `e_cr = 1.0`, `e_qa = 1.0` vs.
-weighted average with `w = 1, 3, 2`):
+weighted average with `w = 1, 3, 2`). The score is the exact rate from the counts, while the
+interval comes from the Beta draws, so a stage at `3/3` pulls the interval below 100: the
+weighted all-pass row's `100 [64–99]` is correct, not a typo.
 
 | Stage results (`plan`, `CR`, `QA`) | Noisy-OR `e=(0.5, 1, 1)` (95% CrI) | Weighted `w=(1, 3, 2)` (95% CrI) |
 | ---------------------------------- | ---------------------------------- | -------------------------------- |
@@ -152,11 +154,11 @@ weighted average with `w = 1, 3, 2`):
 - **Point-estimate verdict:** compare the exact combined score against `case_target` using exact
   rationals (no floating-point rounding) — `scripts/eval_stats.py` handles both modes.
 - **Lower-bound CI verdict:** a suite may instead (or also) require the 95% credible interval's
-  lower bound to meet a bar (for example, `> 50%` or `> 70%` for critical cases). Under Noisy-OR,
+  lower bound to meet a bar (for example, `>= 50%` or `>= 70%` for critical cases). Under Noisy-OR,
   clearing a higher lower-bound bar lets a team either add cheap attempts to code review (`10 of 10`
-  reaches a 72% lower bound even when QA scores 0 of 3 — still running QA's planned attempts if QA
-  is included in the recorded case, or omitting QA from that case's stages) or backstop code review
-  with passing QA runs.
+  reaches a combined lower bound of about 80% even when QA scores 0 of 3 — still running QA's
+  planned attempts if QA is included in the recorded case, or omitting QA from that case's stages)
+  or backstop code review with passing QA runs.
 - **Early stopping:** if any stage stopped early or was skipped, do not report a combined rate or
   credible interval — stopping early biases the stage rate. Report stage counts and verdict only.
 

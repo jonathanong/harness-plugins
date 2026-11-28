@@ -63,6 +63,8 @@ Two new `evals` cases added and not yet run: `evals/effort-impact-sets-priority`
 - `plugins/ratchet-workflows/skills/evals/scripts/eval_stats.py`: added `ci_low_target` support,
   `workflow_score`, `workflow_interval`, `workflow_verdict` (`noisy-or` and `weighted` modes), and
   automatic workflow CSV mode with 100% line and branch coverage.
+- `evals/AGENTS.md`: this suite now sets each case's priority from the effort × impact matrix
+  instead of impact alone.
 
 ## 2026-11-27: `bounded-iteration` allows a forward-only mutable cursor and names every outcome that holds the front; its drafted case is dropped
 
