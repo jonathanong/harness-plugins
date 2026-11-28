@@ -100,9 +100,9 @@ kinds of eval a skill suite runs and the attempts each needs, and
   record the attempts that ran ("2 of 2"). Read `references/measuring-runs.md` for the 4×4 matrix,
   intervals, stopping rule, cost, and tracking CSV.
 - When one case runs across multiple workflow stages (such as planning, code review, and QA), give
-  each stage its own effort-by-impact matrix, priority floor, and weight, and judge the case by
-  its weighted average score and 95% credible interval. Read `references/workflow-evals.md` for the
-  formula, per-stage floors, and spend-optimization rules.
+  each stage its own effort-by-impact matrix and priority floor, and combine stages by Noisy-OR
+  catch rate (sequential gates) or weighted average (independent dimensions) with a 95% credible
+  interval. Read `references/workflow-evals.md` for both formulas, floors, and spend optimization.
 - For a skill that loads on demand, report two layers per case: how often it loaded, and how
   often the case passed when it did. 2 of 3 loaded and 1 of 2 passed when loaded is 1 of 3
   overall; the priority target is for the overall rate. Hold loading to its own target, 80% by

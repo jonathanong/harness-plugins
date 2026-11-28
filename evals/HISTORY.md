@@ -50,18 +50,19 @@ Total $2.84.
 ## 2026-11-27: `evals` adds effort × impact priority matrix, lower-CI targets, and multi-stage workflow evals (not run)
 
 Two new `evals` cases added and not yet run: `evals/effort-impact-sets-priority` and
-`evals/workflow-case-weighted-score-and-ci`. Existing `evals` rows were not re-measured.
+`evals/workflow-case-combined-score-and-ci`. Existing `evals` rows were not re-measured.
 
 - `plugins/ratchet-workflows/skills/evals/references/measuring-runs.md`: priority now comes from a
   4×4 effort × impact matrix (with suite-defined mapping in `AGENTS.md` and per-stage matrices in
   workflow suites), and suites may target the 95% interval's lower bound while always reporting the
   95% interval.
 - `plugins/ratchet-workflows/skills/evals/references/workflow-evals.md`: new reference for one case
-  evaluated across multiple stages (per-stage floors vs. case target, weighted average case score,
-  Beta-posterior 95% credible interval, and spend-optimization rules).
+  evaluated across multiple stages (per-stage floors vs. case target, Noisy-OR catch rate for
+  sequential gates and weighted average for independent dimensions, Beta-posterior 95% credible
+  interval, and spend-optimization rules).
 - `plugins/ratchet-workflows/skills/evals/scripts/eval_stats.py`: added `ci_low_target` support,
-  `workflow_score`, `workflow_interval`, `workflow_verdict`, and automatic workflow CSV mode with
-  100% line and branch coverage.
+  `workflow_score`, `workflow_interval`, `workflow_verdict` (`noisy-or` and `weighted` modes), and
+  automatic workflow CSV mode with 100% line and branch coverage.
 
 ## 2026-11-27: `bounded-iteration` allows a forward-only mutable cursor and names every outcome that holds the front; its drafted case is dropped
 

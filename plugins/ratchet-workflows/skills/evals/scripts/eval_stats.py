@@ -2,15 +2,17 @@
 """Intervals, targets, and stopping decisions for eval results, as references/measuring-runs.md
 and references/workflow-evals.md describe them.
 
-Usage: eval_stats.py results.csv [--planned 3] [--seed 0] [--draws 10000] [--no-stage-floors]
+Usage: eval_stats.py results.csv [--planned 3] [--seed 0] [--draws 10000]
+                                 [--combine noisy-or|weighted] [--no-stage-floors]
 
 Single-stage CSV: `case`, `passed`, `attempts`, and optionally `priority` (critical, high, medium,
 low, or required; empty means medium), `target` (overrides priority default), `ci_low_target`,
 `planned`, and `baseline_passed` with `baseline_attempts`.
 
 Workflow CSV (detected by a `stage` column): `case`, `stage`, `passed`, `attempts`, and optionally
-`weight` (default 1), `planned`, `stage_priority`, `stage_target`, `case_priority`, `case_target`,
-and `case_ci_low_target`.
+`effectiveness` (for `--combine noisy-or`, in (0, 1], default 1) or `weight` (for `--combine
+weighted`, > 0, default 1), `planned`, `stage_priority`, `stage_target`, `case_priority`,
+`case_target`, and `case_ci_low_target`.
 """
 import argparse, csv, math, random, sys
 from collections import defaultdict
@@ -95,47 +97,70 @@ def gap_interval(pairs, seed=0, draws=10000):
     return 100 * gap, 100 * low, 100 * high
 
 
-def workflow_score(stages):
-    """Exact weighted average pass rate over (passed, attempts, weight) stages, as a Fraction."""
-    weights = [Fraction(str(weight)) for _, _, weight in stages]
-    return sum(w * Fraction(passed, attempts) for (passed, attempts, _), w in zip(stages, weights)) / sum(
-        weights
-    )
+def _combine_exact(rates, params, combine):
+    if combine == "weighted":
+        return sum(w * r for r, w in zip(rates, params)) / sum(params)
+    return 1 - math.prod(1 - e * r for r, e in zip(rates, params))
 
 
-def workflow_interval(stages, seed=0, draws=10000):
-    """Weighted average pass rate over (passed, attempts, weight) stages with a 95% credible
-    interval from Beta(passed + 0.5, failed + 0.5) draws per stage. Returns mean, low, high."""
-    weights = [float(weight) for _, _, weight in stages]
-    total = sum(weights)
+def _combine_float(rates, params, combine):
+    if combine == "weighted":
+        return sum(w * r for r, w in zip(rates, params)) / sum(params)
+    return 1.0 - math.prod(1.0 - e * r for r, e in zip(rates, params))
+
+
+def workflow_score(stages, combine="noisy-or"):
+    """Exact combined score over (passed, attempts, param) stages as a Fraction.
+    `combine="noisy-or"` uses 1 - prod(1 - e_i * p_i) for sequential gates;
+    `combine="weighted"` uses sum(w_i * p_i) / sum(w_i) for independent dimensions."""
+    params = [Fraction(str(param)) for _, _, param in stages]
+    rates = [Fraction(passed, attempts) for passed, attempts, _ in stages]
+    return _combine_exact(rates, params, combine)
+
+
+def workflow_interval(stages, combine="noisy-or", seed=0, draws=10000):
+    """Combined score over (passed, attempts, param) stages with a 95% credible interval from
+    Beta(passed + 0.5, failed + 0.5) draws per stage. Returns mean, low, high."""
+    params = [float(param) for _, _, param in stages]
     rng = random.Random(seed)
     samples = [
-        sum(w * _rate(rng, passed, attempts) for (passed, attempts, _), w in zip(stages, weights)) / total
+        _combine_float([_rate(rng, passed, attempts) for passed, attempts, _ in stages], params, combine)
         for _ in range(draws)
     ]
     low, high = _percentiles(samples)
-    return 100 * float(workflow_score(stages)), 100 * low, 100 * high
+    return 100 * float(workflow_score(stages, combine)), 100 * low, 100 * high
 
 
-def workflow_verdict(stages, case_target, enforce_floors=True, ci_low_target=None, seed=0, draws=10000):
-    """Verdict for one multi-stage workflow case over (passed, run, planned, weight, stage_target)
+def workflow_verdict(
+    stages,
+    case_target,
+    combine="noisy-or",
+    enforce_floors=True,
+    ci_low_target=None,
+    seed=0,
+    draws=10000,
+):
+    """Verdict for one multi-stage workflow case over (passed, run, planned, param, stage_target)
     tuples. Returns met, missed, or undecided."""
     stage_verdicts = [verdict(p, r, pl, st) for p, r, pl, _, st in stages]
     if enforce_floors and "missed" in stage_verdicts:
         return "missed"
-    weights = [Fraction(str(w)) for _, _, _, w, _ in stages]
-    total_w = sum(weights)
-    max_score = sum(w * Fraction(p + pl - r, pl) for (p, r, pl, _, _), w in zip(stages, weights)) / total_w
-    min_score = sum(w * Fraction(p, pl) for (p, _, pl, _, _), w in zip(stages, weights)) / total_w
+    params = [Fraction(str(param)) for _, _, _, param, _ in stages]
+    max_score = _combine_exact([Fraction(p + pl - r, pl) for p, r, pl, _, _ in stages], params, combine)
+    min_score = _combine_exact([Fraction(p, pl) for p, _, pl, _, _ in stages], params, combine)
     target = Fraction(str(case_target)) / 100
     if max_score < target:
         return "missed"
     if any(r < pl for _, r, pl, _, _ in stages):
-        if ci_low_target is None and min_score >= target and (not enforce_floors or all(v == "met" for v in stage_verdicts)):
+        if ci_low_target is None and min_score >= target and (
+            not enforce_floors or all(v == "met" for v in stage_verdicts)
+        ):
             return "met"
         return "undecided"
     if ci_low_target is not None:
-        _, low, _ = workflow_interval([(p, r, w) for p, r, _, w, _ in stages], seed=seed, draws=draws)
+        _, low, _ = workflow_interval(
+            [(p, r, param) for p, r, _, param, _ in stages], combine, seed=seed, draws=draws
+        )
         if low < ci_low_target:
             return "missed"
     return "met"
@@ -162,6 +187,8 @@ def _run_workflow(rows, args):
     grouped = defaultdict(list)
     for row in rows:
         grouped[row["case"]].append(row)
+    label = "w" if args.combine == "weighted" else "e"
+    param_col = "weight" if args.combine == "weighted" else "effectiveness"
     met, undecided = 0, []
     for case, stage_rows in grouped.items():
         first = stage_rows[0]
@@ -171,25 +198,25 @@ def _run_workflow(rows, args):
         for row in stage_rows:
             passed, run = int(row["passed"]), int(row["attempts"])
             planned = int(row.get("planned") or args.planned)
-            weight = row.get("weight") or "1"
+            param = row.get(param_col) or "1"
             stage_target = _target(row, "stage_target", "stage_priority")
-            stages.append((passed, run, planned, weight, stage_target))
+            stages.append((passed, run, planned, param, stage_target))
         result = workflow_verdict(
-            stages, case_target, not args.no_stage_floors, ci_low, args.seed, args.draws
+            stages, case_target, args.combine, not args.no_stage_floors, ci_low, args.seed, args.draws
         )
         met += result == "met"
         if result == "undecided":
             undecided.append(case)
         if all(r == pl for _, r, pl, _, _ in stages):
             mean, low, high = workflow_interval(
-                [(p, r, w) for p, r, _, w, _ in stages], args.seed, args.draws
+                [(p, r, param) for p, r, _, param, _ in stages], args.combine, args.seed, args.draws
             )
             print(f"{case}: {mean:.0f} [{low:.0f}-{high:.0f}], {result}")
         else:
             print(f"{case}: {result}")
-        for row, (passed, run, planned, weight, stage_target) in zip(stage_rows, stages):
+        for row, (passed, run, planned, param, stage_target) in zip(stage_rows, stages):
             detail = "not run" if run == 0 else describe(passed, run, planned, stage_target)
-            print(f"  {row['stage']} (w={weight}): {detail}")
+            print(f"  {row['stage']} ({label}={param}): {detail}")
     print(f"workflow: {met} of {len(grouped)} cases met their target")
     if undecided:
         print("undecided: " + " ".join(undecided))
@@ -201,6 +228,7 @@ def main(argv=None):
     parser.add_argument("--planned", type=int, default=3)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--draws", type=int, default=10000)
+    parser.add_argument("--combine", choices=("noisy-or", "weighted"), default="noisy-or")
     parser.add_argument("--no-stage-floors", action="store_true")
     args = parser.parse_args(argv)
 
