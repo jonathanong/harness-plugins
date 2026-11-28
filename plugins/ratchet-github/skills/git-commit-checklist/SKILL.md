@@ -32,12 +32,19 @@ editor. The push then overwrites commits you never read.
   ```bash
   git fetch origin main my-branch
   sha=$(git rev-parse origin/my-branch)
+  old_head=$(git rev-parse HEAD)
   # rebase or other rewrite
+  git diff $old_head HEAD   # read every hunk; see below
   git push --force-with-lease=my-branch:$sha origin my-branch
   ```
 
 - Name the remote and the branch in the push, so a configured push remote cannot change where it
   goes.
+- Before the force push, run `git diff $old_head HEAD`: the local head from before the rewrite,
+  not the remote tip, which lacks unpushed commits. `git range-diff` alone does not do, because
+  it skips merge commits. Read the content, not only `--stat`, and account for every hunk that
+  changed without being meant to. A rebase without `--rebase-merges` drops whatever lived only in a merge commit,
+  such as a resolution or a new file, and nothing fails at push time.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
 - Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
   say which hook is broken and ask. A slow hook is not a reason either, also when the person
@@ -59,6 +66,9 @@ other side's changes to that file, and only reading each hunk shows that nothing
   Once a file is staged, `git diff --check` no longer sees it; use `git diff --cached --check`.
 - Commit the merge with a message you wrote. `git commit --no-edit` keeps git's `# Conflicts:`
   list in the message.
+- A merge commit holds only the merge and its conflict resolutions. Commit a new file or any
+  other edit on its own, before or after the merge: a later rebase drops merge commits, and the
+  work goes with them.
 
 Read [a stacked branch after its base merges](references/stacked-branch-after-base-merges.md)
 when the pull request a branch was stacked on has merged, above all by squash.
