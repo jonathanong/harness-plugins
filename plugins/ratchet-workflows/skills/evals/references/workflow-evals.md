@@ -111,7 +111,7 @@ Keep one source row per `(case, stage)` in `cases.csv`, and generate the per-cas
 `README.md` from it so every score still has one source. Suggested workflow columns beside the
 standard tracking columns:
 
-- `stage`, `weight` (default `1`), `stage_priority`, `stage_target`, `attempts_planned`;
+- `stage`, `weight` (default `1`), `stage_priority`, `stage_target`, `planned`;
 - `case_priority`, `case_target`, and optionally `case_ci_low_target`;
 - `enforce_stage_floors` (default on; set in `AGENTS.md` rather than repeated per row when
   suite-wide).

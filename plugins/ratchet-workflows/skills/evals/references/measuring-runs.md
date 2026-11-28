@@ -85,7 +85,8 @@ Impact levels and default target pass rates for the arm under test:
   of the 95% interval — for example, requiring a critical case's 95% lower bound to exceed 50%.
   Always show the 95% interval either way. Because small samples have wide intervals, check that
   the planned attempt count can clear the bar: for a single stage, even 3 of 3 has a Wilson lower
-  bound of 44%, so clearing 50% needs at least 5 attempts (5 of 5 gives 57%; 7 of 8 gives 53%).
+  bound of 44%, so clearing 50% needs at least 4 attempts (4 of 4 gives 51%; 5 of 5 gives 57%; 7 of
+  8 gives 53%).
 - Report, per priority, how many cases meet their target.
 - Mark a case **required** when one failure is unacceptable or its result does not vary between
   runs, such as a deterministic evaluator over a labelled set of inputs. A required case must pass
