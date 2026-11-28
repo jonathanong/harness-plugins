@@ -47,6 +47,72 @@ Total $2.84.
   first measured run; that arm does not read the skill.
 - The other `bounded-iteration` rows were not re-measured after the skill changed.
 
+## 2026-11-28: `evals` sets priority from effort × impact, adds lower-bound targets and multi-stage workflow evals; one new case kept, one dropped
+
+Commit `f050f58`. Sonnet agent, Opus judge, Claude Code 2.1.332. Every `evals` case at three
+attempts with the plugin, plus the no-plugin arm of three of them. About $11.13 in all, with
+two superseded runs and two pilots: agent $4.94, judges $6.19.
+
+| Case                                    | With plugin | Without plugin | Loaded |
+| --------------------------------------- | ----------- | -------------- | ------ |
+| `evals/effort-impact-sets-priority`     | 3 of 3, met | 0 of 3         | 3 of 3 |
+| `evals/document-new-suite`              | 3 of 3, met | 0 of 3         | 3 of 3 |
+| `evals/loading-and-passing-are-two-...` | 3 of 3, met | 1 of 3 (11-26) | 3 of 3 |
+| `evals/met-target-column-uses-the-...`  | 3 of 3, met | 0 of 3 (11-26) | 3 of 3 |
+| `evals/record-partial-rerun`            | 3 of 3, met | 0 of 3         | 3 of 3 |
+
+The "With plugin" column is from the last run ($2.38: agent $1.19, judges $1.19). "Without
+plugin" marked 11-26 is from that day's run; the others are from this session. How the text got
+there:
+
+- The first three-attempt run ($2.32: agent $1.19, judges $1.12) scored
+  `effort-impact-sets-priority` 0 of 3. `SKILL.md` said to set priority "from effort and impact"
+  but not which way effort moves it, and the matrix is only in `references/measuring-runs.md`,
+  which the runner does not let the agent read (2026-11-26 entry). Two attempts gave the
+  easy-to-spot bug the lowest priority, and all three kept the hard-to-catch leak critical.
+- `SKILL.md` then said that priority orders what to run and improve first, so lower effort raises
+  it, with three cells of the matrix. That run (commit `1cdd346`, $2.82: agent $1.16, judges
+  $1.65) scored the case 2 of 3, but the three cells were the three answers the case asks for, so
+  it partly measured recall. Its failing attempt did not say that the suite adjusts its matrix or
+  documents it in `README.md`, which only the reference says.
+- `SKILL.md` now quotes three other cells (high impact at low and high effort, low impact at
+  medium effort). Each attempt of the last run filled in the rest of the matrix from them and
+  ranked the case's three bugs correctly.
+- The no-plugin run of the new case, at `1cdd346` ($1.15: agent $0.39, judges $0.76), failed 0 of
+  3: each attempt ranked by impact alone and let difficulty move only the pass target.
+- `evals/document-new-suite` and `evals/record-partial-rerun` had no no-plugin result on record,
+  so each ran with and without the plugin at `c92494a`, whose skill text is that of `f050f58`
+  ($1.03: agent $0.39, judges $0.64; $1.13: agent $0.42, judges $0.70). With the plugin both
+  passed 3 of 3 again. Without it, every attempt of the first proposed four files (a README and
+  catalogs of cases and graders) with no history log and no agent-rules file, and every attempt of
+  the second declined the "v14 fixes it" claim and marked the README row but logged the grader
+  change nowhere. Neither is a ceiling case.
+- `evals/workflow-case-combined-score-and-ci` is dropped. Its graders check the Beta draws, the
+  per-stage floor opt-out, and keeping early-stopped runs out of recorded numbers, which are only
+  in `references/workflow-evals.md`. In its one-attempt pilot ($0.19) both reads of the
+  references were denied and both outcome graders failed. The rules stay in the reference. The
+  pilot of the kept case cost $0.12 and passed.
+- The existing cases' priorities were set by impact alone and were not re-derived under the new
+  rule in `evals/AGENTS.md`.
+
+What changed:
+
+- `plugins/ratchet-workflows/skills/evals/references/measuring-runs.md`: priority now comes from a
+  4×4 effort × impact matrix (with suite-defined mapping in `AGENTS.md` and per-stage matrices in
+  workflow suites), and suites may target the 95% interval's lower bound while always reporting the
+  95% interval.
+- `plugins/ratchet-workflows/skills/evals/references/workflow-evals.md`: new reference for one case
+  evaluated across multiple stages (per-stage floors vs. case target, Noisy-OR catch rate for
+  sequential gates and weighted average for independent dimensions, Beta-posterior 95% credible
+  interval, and spend-optimization rules).
+- `plugins/ratchet-workflows/skills/evals/scripts/eval_stats.py`: added `ci_low_target` support,
+  `workflow_score`, `workflow_interval`, `workflow_verdict` (`noisy-or` and `weighted` modes), and
+  automatic workflow CSV mode with 100% line and branch coverage.
+- `evals/AGENTS.md`: this suite now sets each case's priority from the effort × impact matrix
+  instead of impact alone.
+- `workflow-evals.md`: code review at 10 of 10 with QA at 0 of 3 has a combined lower bound of about
+  80%; the draft gave 72%, the bound for code review alone.
+
 ## 2026-11-27: `bounded-iteration` allows a forward-only mutable cursor and names every outcome that holds the front; its drafted case is dropped
 
 Commit `df7c5b8` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. One

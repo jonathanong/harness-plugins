@@ -1,19 +1,22 @@
 #!/usr/bin/env -S python3 -I
 """Intervals, targets, and stopping decisions for eval results, as references/measuring-runs.md
-describes them.
+and references/workflow-evals.md describe them.
 
 Usage: eval_stats.py results.csv [--planned 3] [--seed 0] [--draws 10000]
+                                 [--combine noisy-or|weighted] [--no-stage-floors]
 
-The CSV has a header and one row per case. Columns: `case`, `passed`, `attempts` (the attempts
-that ran), and optionally `priority` (critical, high, medium, low, or required for a case that
-must pass every attempt; empty means medium), `planned` (attempts planned for the case), and
-`baseline_passed` with `baseline_attempts` for a second arm.
+Single-stage CSV: `case`, `passed`, `attempts`, and optionally `priority` (critical, high, medium,
+low, or required; empty means medium), `target` (overrides priority default), `ci_low_target`,
+`planned`, and `baseline_passed` with `baseline_attempts`.
 
-It prints one line per case with its rate, Wilson 95% interval, count, and verdict; then the
-suite's mean rate with a bootstrap interval, the cases that met their target, the gap between
-arms when the baseline columns are filled, and the cases that still need an attempt.
+Workflow CSV (detected by a `stage` column): `case`, `stage`, `passed`, `attempts`, and optionally
+`effectiveness` (for `--combine noisy-or`, in (0, 1], default 1) or `weight` (for `--combine
+weighted`, > 0, default 1), `planned`, `stage_priority`, `stage_target`, `case_priority`,
+`case_target`, and `case_ci_low_target`.
 """
 import argparse, csv, math, random, sys
+from collections import defaultdict
+from fractions import Fraction
 
 sys.dont_write_bytecode = True
 
@@ -37,13 +40,20 @@ def wilson(passed, attempts):
     return max(0.0, 100 * (centre - half)), min(100.0, 100 * (centre + half))
 
 
-def verdict(passed, run, planned, target):
+def verdict(passed, run, planned, target, ci_low_target=None):
     """met, missed, or undecided: whether the attempts left can still change the result."""
     need = needed(target, planned)
+    best = passed + planned - run
+    if best < need:
+        return "missed"
+    if ci_low_target is not None:
+        if wilson(best, planned)[0] < ci_low_target:
+            return "missed"
+        if passed >= need and wilson(passed, planned)[0] >= ci_low_target:
+            return "met"
+        return "undecided"
     if passed >= need:
         return "met"
-    if passed + planned - run < need:
-        return "missed"
     return "undecided"
 
 
@@ -87,15 +97,151 @@ def gap_interval(pairs, seed=0, draws=10000):
     return 100 * gap, 100 * low, 100 * high
 
 
-def describe(passed, run, planned, target):
+def _validate_params(raw_params, combine):
+    params = [Fraction(str(param)) for param in raw_params]
+    for param in params:
+        if param <= 0 or (combine != "weighted" and param > 1):
+            kind = "weight" if combine == "weighted" else "effectiveness"
+            rule = "> 0" if combine == "weighted" else "in (0, 1]"
+            raise ValueError(f"{kind} must be {rule}, got {param}")
+    return params
+
+
+def _combine_exact(rates, params, combine):
+    if combine == "weighted":
+        return sum(w * r for r, w in zip(rates, params)) / sum(params)
+    return 1 - math.prod(1 - e * r for r, e in zip(rates, params))
+
+
+def _combine_float(rates, params, combine):
+    if combine == "weighted":
+        return sum(w * r for r, w in zip(rates, params)) / sum(params)
+    return 1.0 - math.prod(1.0 - e * r for r, e in zip(rates, params))
+
+
+def workflow_score(stages, combine="noisy-or"):
+    """Exact combined score over (passed, attempts, param) stages as a Fraction.
+    `combine="noisy-or"` uses 1 - prod(1 - e_i * p_i) for sequential gates;
+    `combine="weighted"` uses sum(w_i * p_i) / sum(w_i) for independent dimensions."""
+    params = _validate_params([param for _, _, param in stages], combine)
+    rates = [Fraction(passed, attempts) for passed, attempts, _ in stages]
+    return _combine_exact(rates, params, combine)
+
+
+def workflow_interval(stages, combine="noisy-or", seed=0, draws=10000):
+    """Combined score over (passed, attempts, param) stages with a 95% credible interval from
+    Beta(passed + 0.5, failed + 0.5) draws per stage. Returns mean, low, high."""
+    params = [float(param) for param in _validate_params([p for _, _, p in stages], combine)]
+    rng = random.Random(seed)
+    samples = [
+        _combine_float([_rate(rng, passed, attempts) for passed, attempts, _ in stages], params, combine)
+        for _ in range(draws)
+    ]
+    low, high = _percentiles(samples)
+    return 100 * float(workflow_score(stages, combine)), 100 * low, 100 * high
+
+
+def workflow_verdict(
+    stages,
+    case_target,
+    combine="noisy-or",
+    enforce_floors=True,
+    ci_low_target=None,
+    seed=0,
+    draws=10000,
+):
+    """Verdict for one multi-stage workflow case over (passed, run, planned, param, stage_target)
+    tuples. Returns met, missed, or undecided."""
+    params = _validate_params([param for _, _, _, param, _ in stages], combine)
+    stage_verdicts = [verdict(p, r, pl, st) for p, r, pl, _, st in stages]
+    if enforce_floors and "missed" in stage_verdicts:
+        return "missed"
+    max_score = _combine_exact([Fraction(p + pl - r, pl) for p, r, pl, _, _ in stages], params, combine)
+    min_score = _combine_exact([Fraction(p, pl) for p, _, pl, _, _ in stages], params, combine)
+    target = Fraction(str(case_target)) / 100
+    if max_score < target:
+        return "missed"
+    if ci_low_target is not None:
+        _, best_low, _ = workflow_interval(
+            [(p + pl - r, pl, param) for p, r, pl, param, _ in stages],
+            combine,
+            seed=seed,
+            draws=draws,
+        )
+        if best_low < ci_low_target:
+            return "missed"
+    if any(r < pl for _, r, pl, _, _ in stages):
+        if ci_low_target is None and min_score >= target and (
+            not enforce_floors or all(v == "met" for v in stage_verdicts)
+        ):
+            return "met"
+        return "undecided"
+    return "met"
+
+
+def describe(passed, run, planned, target, ci_low_target=None):
     """One case's result as text. A case that stopped early gets its count and verdict with no
     interval, because the interval assumes the number of attempts was fixed before the run."""
-    result = verdict(passed, run, planned, target)
+    result = verdict(passed, run, planned, target, ci_low_target)
     count = f"{passed} of {run}"
     if run < planned:
         return f"{count}, {result}" + (", stopped early" if result != "undecided" else "")
     low, high = wilson(passed, run)
     return f"{100 * passed / run:.0f} [{low:.0f}-{high:.0f}], {count}, {result}"
+
+
+def _target(row, target_col, priority_col):
+    if row.get(target_col):
+        return int(row[target_col])
+    return TARGETS[row.get(priority_col) or "medium"]
+
+
+def _case_value(case, stage_rows, column):
+    values = {row[column] for row in stage_rows if row.get(column)}
+    if len(values) > 1:
+        raise ValueError(f"{case}: conflicting {column} values: {', '.join(sorted(values))}")
+    return next(iter(values), "")
+
+
+def _run_workflow(rows, args):
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[row["case"]].append(row)
+    label = "w" if args.combine == "weighted" else "e"
+    param_col = "weight" if args.combine == "weighted" else "effectiveness"
+    met, undecided = 0, []
+    for case, stage_rows in grouped.items():
+        case_target_raw = _case_value(case, stage_rows, "case_target")
+        case_priority_raw = _case_value(case, stage_rows, "case_priority")
+        case_target = int(case_target_raw) if case_target_raw else TARGETS[case_priority_raw or "medium"]
+        ci_low_raw = _case_value(case, stage_rows, "case_ci_low_target")
+        ci_low = float(ci_low_raw) if ci_low_raw else None
+        stages = []
+        for row in stage_rows:
+            passed, run = int(row["passed"]), int(row["attempts"])
+            planned = int(row.get("planned") or args.planned)
+            param = row.get(param_col) or "1"
+            stage_target = _target(row, "stage_target", "stage_priority")
+            stages.append((passed, run, planned, param, stage_target))
+        result = workflow_verdict(
+            stages, case_target, args.combine, not args.no_stage_floors, ci_low, args.seed, args.draws
+        )
+        met += result == "met"
+        if result == "undecided":
+            undecided.append(case)
+        if all(r == pl for _, r, pl, _, _ in stages):
+            mean, low, high = workflow_interval(
+                [(p, r, param) for p, r, _, param, _ in stages], args.combine, args.seed, args.draws
+            )
+            print(f"{case}: {mean:.0f} [{low:.0f}-{high:.0f}], {result}")
+        else:
+            print(f"{case}: {result}")
+        for row, (passed, run, planned, param, stage_target) in zip(stage_rows, stages):
+            detail = "not run" if run == 0 else describe(passed, run, planned, stage_target)
+            print(f"  {row['stage']} ({label}={param}): {detail}")
+    print(f"workflow: {met} of {len(grouped)} cases met their target")
+    if undecided:
+        print("undecided: " + " ".join(undecided))
 
 
 def main(argv=None):
@@ -104,21 +250,29 @@ def main(argv=None):
     parser.add_argument("--planned", type=int, default=3)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--draws", type=int, default=10000)
+    parser.add_argument("--combine", choices=("noisy-or", "weighted"), default="noisy-or")
+    parser.add_argument("--no-stage-floors", action="store_true")
     args = parser.parse_args(argv)
 
     with open(args.csv, newline="") as handle:
-        rows = list(csv.DictReader(handle))
+        reader = csv.DictReader(handle)
+        fields = reader.fieldnames or []
+        rows = list(reader)
+    if "stage" in fields:
+        _run_workflow(rows, args)
+        return
     cases, pairs, met, undecided = [], [], 0, []
     for row in rows:
         passed, run = int(row["passed"]), int(row["attempts"])
         planned = int(row.get("planned") or args.planned)
-        target = TARGETS[row.get("priority") or "medium"]
+        target = _target(row, "target", "priority")
+        ci_low = float(row["ci_low_target"]) if row.get("ci_low_target") else None
         if run == 0:
             print(f"{row['case']}: not run")
             undecided.append(row["case"])
             continue
-        print(f"{row['case']}: {describe(passed, run, planned, target)}")
-        result = verdict(passed, run, planned, target)
+        print(f"{row['case']}: {describe(passed, run, planned, target, ci_low)}")
+        result = verdict(passed, run, planned, target, ci_low)
         met += result == "met"
         if result == "undecided":
             undecided.append(row["case"])
