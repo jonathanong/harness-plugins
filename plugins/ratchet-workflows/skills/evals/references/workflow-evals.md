@@ -129,14 +129,14 @@ Beta-posterior model used for suite intervals in `references/measuring-runs.md`:
 3. Plug the drawn rates into the suite's combining formula (Noisy-OR or weighted average).
 4. Take the 2.5th and 97.5th percentiles.
 
-Step 2 assumes each stage's attempts were sampled **separately**. When multiple weighted dimensions
-are graded on the **same** attempts (such as parallel rubric scores on one set of runs),
-independent Beta draws count one body of evidence several times and produce an overly narrow
-interval, while a plain bootstrap over attempts collapses to `[100-100]` whenever every attempt
-scores 100%. For shared-trial rubrics, omit the weighted score's interval and lower-bound CI
-verdict (noting that the dimensions share trials); if you also want a 95% interval, report a
-per-attempt binary pass rate and its Wilson interval separately, not as an interval on the weighted
-score.
+Step 2 assumes each stage's attempts were sampled **separately** with independent outcomes. When
+stages or dimensions share attempts or otherwise have dependent outcomes — in either Noisy-OR or
+weighted mode — independent Beta draws can distort uncertainty (and a plain bootstrap over shared
+attempts collapses to `[100-100]` whenever every attempt scores 100%). In those cases, omit the
+independent-stage combined interval and do not use it for a lower-bound CI verdict (noting the
+dependence or shared trials); if you still want a 95% interval on shared attempts, report a
+per-attempt binary pass rate and its Wilson interval separately rather than as an interval on the
+combined score.
 
 Example at three attempts per stage (Noisy-OR with `e_plan = 0.5`, `e_cr = 1.0`, `e_qa = 1.0` vs.
 weighted average with `w = 1, 3, 2`):
