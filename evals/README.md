@@ -11,12 +11,12 @@ needed.
 
 <!-- evals:headline -->
 
-- **176 cases** across 51 skills.
+- **177 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.35, over the 174 cases measured both ways.
-- **138 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **166 of 176 cases** meet their target: critical 3 of 3, high 25 of 25, medium 116 of 124, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
-- **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
+- **Without it:** mean score 0.35, over the 175 cases measured both ways.
+- **139 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **167 of 177 cases** meet their target: critical 3 of 3, high 25 of 25, medium 117 of 125, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Loading** is counted for every case of 50 of 51 skills, and 37 of those load in at least 80% of attempts. For 1 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
 
@@ -45,7 +45,7 @@ averaged over attempts.
 | `dependabot`                       | `ratchet-github`    | 4     | 1.00        | 0.50           | 1                     | 12 of 12                             | 4 of 4     |
 | `documentation`                    | `ratchet-workflows` | 3     | 0.94        | 0.56           | 1                     | 8 of 9                               | 3 of 3     |
 | `error-handling`                   | `ratchet-backend`   | 3     | 1.00        | 0.33           | 1                     | 9 of 9                               | 3 of 3     |
-| `evals`                            | `ratchet-workflows` | 4     | 1.00        | 0.25           | 0                     | 6 of 6, from 2 of 4 cases            | 4 of 4     |
+| `evals`                            | `ratchet-workflows` | 5     | 0.97        | 0.20           | 0                     | 15 of 15                             | 5 of 5     |
 | `expand-contract-migrations`       | `ratchet-backend`   | 1     | 1.00        | 1.00           | 1                     | 3 of 3                               | 1 of 1     |
 | `feature-rollout`                  | `ratchet-backend`   | 3     | 1.00        | 0.33           | 1                     | 9 of 9                               | 3 of 3     |
 | `git-commit-checklist`             | `ratchet-github`    | 5     | 0.97        | 0.27           | 1                     | 14 of 15                             | 5 of 5     |
