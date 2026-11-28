@@ -99,6 +99,51 @@ UPDATE shipments_outbox
   more stuck rows than one run's capacity, all older than some healthy due rows, and assert that
   the healthy rows are dispatched.
 
+### Outcome times when the intervals are configured
+
+A stored `due_at`, as above, fits a backoff fixed when the failure is written. When the refresh and
+retry intervals come from configuration that can change, a stored next-attempt time would need a
+backfill on every change. Store the outcome times instead, `last_succeeded_at` and
+`last_failed_at`, and compute due-ness in the query from the configured intervals.
+
+Walk one lane per state, each with its own partial index, so due-ness is a range on the lane's
+sort key and each walk stops at its first row that is not due:
+
+```sql
+CREATE INDEX idx_items__healthy ON items (last_succeeded_at NULLS FIRST, id)
+  WHERE last_failed_at IS NULL OR last_failed_at < last_succeeded_at;
+CREATE INDEX idx_items__failing ON items (last_failed_at, id)
+  WHERE last_failed_at IS NOT NULL
+    AND (last_succeeded_at IS NULL OR last_failed_at >= last_succeeded_at);
+
+-- Healthy lane. $1 = now() - the configured refresh interval.
+SELECT id FROM items
+ WHERE (last_failed_at IS NULL OR last_failed_at < last_succeeded_at)
+   AND (last_succeeded_at IS NULL OR last_succeeded_at <= $1)
+ ORDER BY last_succeeded_at NULLS FIRST, id
+ LIMIT $2;
+
+-- Failing lane. $1 = now() - the configured retry interval.
+SELECT id FROM items
+ WHERE last_failed_at IS NOT NULL
+   AND (last_succeeded_at IS NULL OR last_failed_at >= last_succeeded_at)
+   AND last_failed_at <= $1
+ ORDER BY last_failed_at, id
+ LIMIT $2;
+```
+
+- A repeat failure advances the failing lane's sort key, so the row leaves the front without a
+  separate due time. Retirement after a set number of permanent rejections still applies.
+- One walk ordered by `last_succeeded_at` keeps failing rows at its front, and reads them on
+  every run even when it filters them out.
+- A rate limit or backoff that belongs to a host is an until-time on the host row, and the lanes
+  filter it in SQL. Do not record it on each item, and do not defer the item's job when the
+  dispatcher re-selects due rows and counts them against its capacity. When one host can hold
+  many due rows, cap the rows each walk reads as well as the rows it dispatches.
+- Test both properties: more failing rows than one run's capacity, older than the healthy due
+  rows, and the healthy rows are still dispatched; and a change to a configured interval changes
+  which rows are due with no write.
+
 ## Dirty marker or work item
 
 Do not walk every order to find the few that need reconciling. The writer that changes an order

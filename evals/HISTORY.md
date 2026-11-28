@@ -4,6 +4,29 @@ This log only grows, newest entry first. Scores in different entries are not com
 case, grader, fixture, or model changed between them; each entry says what changed. The current
 scores are in [EVALS.md](EVALS.md).
 
+## 2026-11-28: `bounded-iteration` stores outcome times when the intervals are configured; one new case
+
+Commit `a486e90` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. Two
+one-attempt pilots of both arms: $0.84. A measured run of both arms, three attempts each: $1.07.
+A rerun of the plugin arm after rule 17 changed: $0.93, of which $0.67 agent and $0.26 judges.
+Total $2.84.
+
+- `references/sweep-patterns.md` gains "Outcome times when the intervals are configured": store
+  the last success and failure times, compute due-ness in the query, walk one partial-indexed
+  lane per state, keep a host's backoff on the host row, and test that a config change moves due
+  rows with no write.
+- New case `bounded-iteration/dispatcher-intervals-from-config`: a feed dispatcher whose refresh
+  and retry intervals come from a config service. The first pilot's prompt said ops tune the
+  intervals often, and both arms passed; that sentence is removed.
+- The first measured run passed 0 of 3 with the plugin and 1 of 3 without. Every attempt with the
+  plugin loaded `SKILL.md`, did not open the reference, and followed rule 17's "push the due
+  time back", storing a `next_fetch_at`. Rule 17 now says that with configured intervals the row
+  stores outcome times and the query computes due-ness, one lane per state. Two reasons in it
+  moved to the reference, and one closing line was shortened, to stay at 150 lines.
+- After that change the plugin arm passed 3 of 3. The 1 of 3 without the plugin is from the
+  first measured run; that arm does not read the skill.
+- The other `bounded-iteration` rows were not re-measured after the skill changed.
+
 ## 2026-11-27: `bounded-iteration` allows a forward-only mutable cursor and names every outcome that holds the front; its drafted case is dropped
 
 Commit `df7c5b8` plus the changes below. Sonnet agent, Opus judge, Claude Code 2.1.332. One
