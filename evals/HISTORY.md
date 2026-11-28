@@ -10,9 +10,10 @@ Commit `a486e90` plus the changes below. Sonnet agent, Opus judge, Claude Code 2
 one-attempt pilots of both arms: $0.41. The measured run of the new case, three attempts with the
 plugin and three without: $0.63. Total $1.04.
 
-- "Before a rebase or a force push" gains a step: compare the old head with the new one
-  (`git diff --stat`, or `git range-diff`) and account for every file that disappeared or
-  changed. A rebase without `--rebase-merges` drops whatever lived only in a merge commit.
+- "Before a rebase or a force push" gains a step: compare the local head from before the rewrite
+  with the new one (`git diff`, or `git range-diff`) and account for every hunk that changed. The
+  measured run used an earlier wording that compared the remote tip by `--stat`; review moved it
+  to the local head and the content, and the case was not rerun, since it covers the other rule. A rebase without `--rebase-merges` drops whatever lived only in a merge commit.
 - "A conflict in a hand-written file" gains a rule: a merge commit holds only the merge and its
   conflict resolutions; new files and other edits get their own commit.
 - New case `git-commit-checklist/new-files-kept-out-of-the-merge`: asked to fold two new fixture

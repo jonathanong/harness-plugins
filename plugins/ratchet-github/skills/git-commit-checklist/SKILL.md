@@ -32,16 +32,19 @@ editor. The push then overwrites commits you never read.
   ```bash
   git fetch origin main my-branch
   sha=$(git rev-parse origin/my-branch)
+  old_head=$(git rev-parse HEAD)
   # rebase or other rewrite
+  git diff $old_head HEAD   # read every hunk; see below
   git push --force-with-lease=my-branch:$sha origin my-branch
   ```
 
 - Name the remote and the branch in the push, so a configured push remote cannot change where it
   goes.
-- Before the force push, compare the old head with the new one (`git diff --stat $sha HEAD`, or
-  `git range-diff`) and account for every file that disappeared or changed without being meant
-  to. A rebase without `--rebase-merges` drops whatever lived only in a merge commit, and
-  nothing fails at push time.
+- Before the force push, compare the local head from before the rewrite with the new one
+  (`git diff $old_head HEAD`, or `git range-diff`), not the remote tip, which lacks unpushed
+  commits. Read the content, not only `--stat`, and account for every hunk that changed without
+  being meant to. A rebase without `--rebase-merges` drops whatever lived only in a merge commit,
+  such as a resolution or a new file, and nothing fails at push time.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
 - Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or
   say which hook is broken and ask. A slow hook is not a reason either, also when the person
