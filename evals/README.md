@@ -11,11 +11,11 @@ needed.
 
 <!-- evals:headline -->
 
-- **174 cases** across 51 skills.
+- **175 cases** across 51 skills.
 - **With the plugin:** mean score 0.91.
-- **Without it:** mean score 0.36, over the 172 cases measured both ways.
-- **136 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
-- **164 of 174 cases** meet their target: critical 3 of 3, high 25 of 25, medium 114 of 122, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
+- **Without it:** mean score 0.35, over the 173 cases measured both ways.
+- **137 cases** are ones the model fails unaided. The other 36 it already gets right: 7 check that a skill stays out of the way, and 29 show at most that the skill loads.
+- **165 of 175 cases** meet their target: critical 3 of 3, high 25 of 25, medium 115 of 123, low 22 of 24. The rows come from different runs, and a row with fewer attempts than planned stopped early: read it as a verdict, not a rate.
 - **Loading** is counted for every case of 49 of 51 skills, and 36 of those load in at least 80% of attempts. For 2 more it is counted for some cases only, which does not show the skill meets the target. Under it on what was counted: `agent-coordination`, `debugging`, `deciding-or-asking`, `implementing-changes`, `llm-calls`, `planning`, `postgres-node-performance-tuning`, `pull-requests`, `resuming-work`, `review-ci-logs`, `service-boundaries`, `skill-authoring`, `status-reports`, `typescript-authoring`.
 
 <!-- /evals:headline -->
@@ -38,7 +38,7 @@ averaged over attempts.
 | ---------------------------------- | ------------------- | ----- | ----------- | -------------- | --------------------- | ------------------------------------ | ---------- |
 | `agent-coordination`               | `ratchet-workflows` | 1     | 0.50        | 1.00           | 1                     | 0 of 3, under 80%                    | 1 of 1     |
 | `agent-rules`                      | `ratchet-workflows` | 3     | 0.89        | 0.11           | 0                     | 8 of 9                               | 3 of 3     |
-| `bounded-iteration`                | `ratchet-backend`   | 9     | 0.94        | 0.11           | 0                     | 25 of 27                             | 9 of 9     |
+| `bounded-iteration`                | `ratchet-backend`   | 10    | 0.95        | 0.13           | 0                     | 28 of 30                             | 10 of 10   |
 | `change-review`                    | `ratchet-workflows` | 1     | 1.00        | 1.00           | 1                     | 3 of 3                               | 1 of 1     |
 | `debugging`                        | `ratchet-workflows` | 2     | 0.70        | 1.00           | 2                     | 0 of 3, from 1 of 2 cases, under 80% | 2 of 2     |
 | `deciding-or-asking`               | `ratchet-workflows` | 1     | 0.17        | 0.33           | 0                     | 0 of 3, under 80%                    | 0 of 1     |

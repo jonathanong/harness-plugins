@@ -134,11 +134,12 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     design, such as a scheduled materialized-view refresh, is exempt.
 17. **A failed row leaves the front.** A sweep that selects oldest first selects a failing row
     again first on every run, and once a batch's worth of rows fail for good nothing behind them
-    runs. On failure, or a skip, lost claim, or throw, push the due time back with backoff, and select only due rows. Count
-    toward retirement only a rejection a retry cannot fix; a timeout, 5xx, or 429 backs off
-    uncounted, so an outage does not retire every row in flight. After a set number of counted
-    rejections, mark it failed so it leaves the selection; retried forever, permanent failures
-    grow until they fill every run. See [failed rows](references/sweep-patterns.md#a-failed-row-leaves-the-front).
+    runs. On failure, or a skip, lost claim, or throw, push its due time back with backoff and
+    select only due rows. When the intervals come from configuration, store the success and
+    failure times instead, and compute due-ness in the query, one lane per state, so a config
+    change needs no backfill. Count toward retirement only a rejection a retry cannot fix; a
+    timeout, 5xx, or 429 backs off uncounted. After a set number of counted rejections, mark it
+    failed so it leaves the selection. See [failed rows](references/sweep-patterns.md#a-failed-row-leaves-the-front).
 18. **Verify with a plan.** EXPLAIN at representative cardinality shows no Seq Scan on an
     unbounded table, and an index that supplies the `ORDER BY`, so the scan stops at the
     `LIMIT` instead of reading and sorting every match. Compare rows read with rows returned.
@@ -146,5 +147,4 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
 For work-item, lease, and cursor tables, read [postgres-schema-design](../postgres-schema-design/SKILL.md).
 For query shape and streaming, read [performance patterns](../postgres-node-performance-tuning/references/performance-patterns.md).
 For UUIDv7 windows and pruning, use [UUIDv7 partitioning](../postgres-partitioning-uuid-v7/SKILL.md).
-A consuming repository owns run caps, tunable names and ceilings, schedules, and enforcement
-configuration.
+A consuming repository owns run caps, tunable names and ceilings, schedules, and enforcement.
