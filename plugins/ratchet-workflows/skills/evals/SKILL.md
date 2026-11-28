@@ -94,13 +94,13 @@ kinds of eval a skill suite runs and the attempts each needs, and
 **Runs and numbers**
 
 - Set each case's priority from impact and the effort to catch and fix the mistake. Priority orders
-  what to run and improve first, so lower effort raises it: medium impact is high at low effort and
-  low at high effort, and critical at very high effort is medium. Each suite writes its mapping in
-  `AGENTS.md`. Default targets are critical 80%, high 70%, medium 60%, low 50% (3 of 3 for critical
-  and high, 2 of 3 for medium and low), or a bar on the 95% interval's lower bound. Report the 95%
-  interval and count. Stop early once remaining attempts cannot change the verdict, and record the
-  attempts that ran ("2 of 2"). Read `references/measuring-runs.md` for the 4×4 matrix, intervals,
-  stopping rule, cost, and tracking CSV.
+  what to run and improve first, so lower effort raises it: high impact is critical at low effort
+  and medium at high effort, and low impact at medium effort is low. Each suite writes its mapping
+  in `AGENTS.md`. Default targets are critical 80%, high 70%, medium 60%, low 50% (3 of 3 for
+  critical and high, 2 of 3 for medium and low), or a bar on the 95% interval's lower bound. Report
+  the 95% interval and count. Stop early once remaining attempts cannot change the verdict, and
+  record the attempts that ran ("2 of 2"). Read `references/measuring-runs.md` for the 4×4 matrix,
+  intervals, stopping rule, cost, and tracking CSV.
 - When one case runs across workflow stages (planning, code review, QA), give each stage its own
   matrix and floor, and combine them by Noisy-OR (sequential gates) or weighted average (independent
   dimensions) with a 95% credible interval; see `references/workflow-evals.md`.
