@@ -45,7 +45,7 @@ averaged over attempts.
 | `dependabot`                       | `ratchet-github`    | 4     | 1.00        | 0.50           | 1                     | 12 of 12                             | 4 of 4     |
 | `documentation`                    | `ratchet-workflows` | 3     | 0.94        | 0.56           | 1                     | 8 of 9                               | 3 of 3     |
 | `error-handling`                   | `ratchet-backend`   | 3     | 1.00        | 0.33           | 1                     | 9 of 9                               | 3 of 3     |
-| `evals`                            | `ratchet-workflows` | 5     | 0.97        | 0.20           | 0                     | 15 of 15                             | 5 of 5     |
+| `evals`                            | `ratchet-workflows` | 5     | 1.00        | 0.20           | 0                     | 15 of 15                             | 5 of 5     |
 | `expand-contract-migrations`       | `ratchet-backend`   | 1     | 1.00        | 1.00           | 1                     | 3 of 3                               | 1 of 1     |
 | `feature-rollout`                  | `ratchet-backend`   | 3     | 1.00        | 0.33           | 1                     | 9 of 9                               | 3 of 3     |
 | `git-commit-checklist`             | `ratchet-github`    | 5     | 0.97        | 0.27           | 1                     | 14 of 15                             | 5 of 5     |
