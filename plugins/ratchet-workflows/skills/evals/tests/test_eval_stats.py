@@ -187,6 +187,20 @@ class Workflow(unittest.TestCase):
         self.assertEqual(
             eval_stats.workflow_verdict(weak_qa, 80, ci_low_target=70, draws=400), "missed"
         )
+        # Unreachable CI lower bound before running attempts -> missed immediately (saves spend).
+        capped = [(0, 0, 3, "0.2", 0), (0, 0, 3, "0.2", 0)]
+        self.assertEqual(
+            eval_stats.workflow_verdict(capped, 30, enforce_floors=False, ci_low_target=50, draws=400),
+            "missed",
+        )
+
+    def test_invalid_workflow_params_rejected(self):
+        with self.assertRaisesRegex(ValueError, "effectiveness must be in"):
+            eval_stats.workflow_score([(3, 3, 2)], combine="noisy-or")
+        with self.assertRaisesRegex(ValueError, "effectiveness must be in"):
+            eval_stats.workflow_score([(3, 3, 0)], combine="noisy-or")
+        with self.assertRaisesRegex(ValueError, "weight must be > 0"):
+            eval_stats.workflow_score([(3, 3, 0)], combine="weighted")
 
 
 class Describe(unittest.TestCase):
@@ -276,6 +290,15 @@ class Cli(unittest.TestCase):
         self.assertEqual(lines[1], "  planning (w=1): 67 [21-94], 2 of 3, met")
         self.assertEqual(lines[4], "workflow: 1 of 1 cases met their target")
         self.assertEqual(len(lines), 5)
+
+    def test_workflow_csv_rejects_conflicting_case_targets(self):
+        csv_text = (
+            "case,stage,effectiveness,case_target,passed,attempts\n"
+            "reg-1,code-review,1,80,3,3\n"
+            "reg-1,qa,1,70,2,3\n"
+        )
+        with self.assertRaisesRegex(ValueError, "reg-1: conflicting case_target values: 70, 80"):
+            run(csv_text)
 
 
 if __name__ == "__main__":

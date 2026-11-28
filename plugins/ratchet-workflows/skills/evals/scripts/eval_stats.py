@@ -97,6 +97,16 @@ def gap_interval(pairs, seed=0, draws=10000):
     return 100 * gap, 100 * low, 100 * high
 
 
+def _validate_params(raw_params, combine):
+    params = [Fraction(str(param)) for param in raw_params]
+    for param in params:
+        if param <= 0 or (combine != "weighted" and param > 1):
+            kind = "weight" if combine == "weighted" else "effectiveness"
+            rule = "> 0" if combine == "weighted" else "in (0, 1]"
+            raise ValueError(f"{kind} must be {rule}, got {param}")
+    return params
+
+
 def _combine_exact(rates, params, combine):
     if combine == "weighted":
         return sum(w * r for r, w in zip(rates, params)) / sum(params)
@@ -113,7 +123,7 @@ def workflow_score(stages, combine="noisy-or"):
     """Exact combined score over (passed, attempts, param) stages as a Fraction.
     `combine="noisy-or"` uses 1 - prod(1 - e_i * p_i) for sequential gates;
     `combine="weighted"` uses sum(w_i * p_i) / sum(w_i) for independent dimensions."""
-    params = [Fraction(str(param)) for _, _, param in stages]
+    params = _validate_params([param for _, _, param in stages], combine)
     rates = [Fraction(passed, attempts) for passed, attempts, _ in stages]
     return _combine_exact(rates, params, combine)
 
@@ -121,7 +131,7 @@ def workflow_score(stages, combine="noisy-or"):
 def workflow_interval(stages, combine="noisy-or", seed=0, draws=10000):
     """Combined score over (passed, attempts, param) stages with a 95% credible interval from
     Beta(passed + 0.5, failed + 0.5) draws per stage. Returns mean, low, high."""
-    params = [float(param) for _, _, param in stages]
+    params = [float(param) for param in _validate_params([p for _, _, p in stages], combine)]
     rng = random.Random(seed)
     samples = [
         _combine_float([_rate(rng, passed, attempts) for passed, attempts, _ in stages], params, combine)
@@ -142,27 +152,30 @@ def workflow_verdict(
 ):
     """Verdict for one multi-stage workflow case over (passed, run, planned, param, stage_target)
     tuples. Returns met, missed, or undecided."""
+    params = _validate_params([param for _, _, _, param, _ in stages], combine)
     stage_verdicts = [verdict(p, r, pl, st) for p, r, pl, _, st in stages]
     if enforce_floors and "missed" in stage_verdicts:
         return "missed"
-    params = [Fraction(str(param)) for _, _, _, param, _ in stages]
     max_score = _combine_exact([Fraction(p + pl - r, pl) for p, r, pl, _, _ in stages], params, combine)
     min_score = _combine_exact([Fraction(p, pl) for p, _, pl, _, _ in stages], params, combine)
     target = Fraction(str(case_target)) / 100
     if max_score < target:
         return "missed"
+    if ci_low_target is not None:
+        _, best_low, _ = workflow_interval(
+            [(p + pl - r, pl, param) for p, r, pl, param, _ in stages],
+            combine,
+            seed=seed,
+            draws=draws,
+        )
+        if best_low < ci_low_target:
+            return "missed"
     if any(r < pl for _, r, pl, _, _ in stages):
         if ci_low_target is None and min_score >= target and (
             not enforce_floors or all(v == "met" for v in stage_verdicts)
         ):
             return "met"
         return "undecided"
-    if ci_low_target is not None:
-        _, low, _ = workflow_interval(
-            [(p, r, param) for p, r, _, param, _ in stages], combine, seed=seed, draws=draws
-        )
-        if low < ci_low_target:
-            return "missed"
     return "met"
 
 
@@ -183,6 +196,13 @@ def _target(row, target_col, priority_col):
     return TARGETS[row.get(priority_col) or "medium"]
 
 
+def _case_value(case, stage_rows, column):
+    values = {row[column] for row in stage_rows if row.get(column)}
+    if len(values) > 1:
+        raise ValueError(f"{case}: conflicting {column} values: {', '.join(sorted(values))}")
+    return next(iter(values), "")
+
+
 def _run_workflow(rows, args):
     grouped = defaultdict(list)
     for row in rows:
@@ -191,9 +211,11 @@ def _run_workflow(rows, args):
     param_col = "weight" if args.combine == "weighted" else "effectiveness"
     met, undecided = 0, []
     for case, stage_rows in grouped.items():
-        first = stage_rows[0]
-        case_target = _target(first, "case_target", "case_priority")
-        ci_low = float(first["case_ci_low_target"]) if first.get("case_ci_low_target") else None
+        case_target_raw = _case_value(case, stage_rows, "case_target")
+        case_priority_raw = _case_value(case, stage_rows, "case_priority")
+        case_target = int(case_target_raw) if case_target_raw else TARGETS[case_priority_raw or "medium"]
+        ci_low_raw = _case_value(case, stage_rows, "case_ci_low_target")
+        ci_low = float(ci_low_raw) if ci_low_raw else None
         stages = []
         for row in stage_rows:
             passed, run = int(row["passed"]), int(row["attempts"])

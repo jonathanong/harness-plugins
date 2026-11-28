@@ -59,7 +59,9 @@ case passes through dependent defense-in-depth layers and only fails if every la
   QA combine to `1 - (1 - 0.70)(1 - 0.50) = 85%`, and 100% code review makes QA unnecessary.
 - **`0.3–0.6` for advisory or soft stages** that warn without blocking (planning review, design
   review, non-blocking bot comment). Pick roughly the fraction of flagged issues that get fixed
-  rather than ignored; even 100% in planning then caps at `e_plan` and cannot mask broken gates.
+  rather than ignored; even 100% in planning then caps the case score at `e_plan` (still keep stage
+  floors enabled when downstream gates are required to pass, since a low case target such as 50%
+  could otherwise pass on planning alone).
 - **`0.6–0.9` for discounted late or expensive gates** (optional): set `e_qa < 1.0` (for example
   `e_plan = 0.33`, `e_cr = 1.0`, `e_qa = 0.67`) when you want the combined score itself to penalize
   relying on slow, costly late catches. Alternatively, keep every hard gate at `1.0` so the score
@@ -77,9 +79,10 @@ case passes through dependent defense-in-depth layers and only fails if every la
   interval lower bound is only ~53%. Targeting the lower bound prevents small samples from passing
   on luck.
 - **State the independence caveat in `README.md` ("What the suite does not measure").** Multiplying
-  `(1 - e_i * p_i)` assumes stage misses are independent. When the same model or blind spot runs
-  across stages, misses correlate and the true catch rate is lower, so Noisy-OR is an optimistic
-  upper bound unless measured end-to-end.
+  `(1 - e_i * p_i)` assumes stage misses are independent. Positively correlated misses (for
+  example, the same model or blind spot running across stages) make Noisy-OR an optimistic upper
+  bound, while negatively correlated misses (stages catching disjoint failure modes) can make it
+  pessimistic, unless measured end-to-end.
 
 ### Independent dimensions: weighted average (`sum(w_i * p_i) / sum(w_i)`)
 
@@ -92,7 +95,9 @@ a weighted average when stages stand on their own and passing one does not cover
   correctness, and migration or documentation completeness — a strong spec does not cover broken
   code or missing docs.
 - **Parallel rubric dimensions on one output:** grading a single change on correctness, security,
-  and maintainability — acing maintainability does not offset a security miss.
+  and maintainability. Note that a weighted average alone can offset a low dimension (with equal
+  weights and floors off, 0% security and 100% on the other two yields 67%), so keep a stage floor
+  on any non-negotiable dimension such as security when a miss must block the case.
 - **Cross-surface coverage:** one behavior checked on web, mobile, and API — passing on web does
   not make a broken mobile client acceptable.
 - **Model or environment matrices:** the same case evaluated across several models, languages, or
@@ -105,14 +110,14 @@ a weighted average when stages stand on their own and passing one does not cover
 - **Use small integers (such as `1, 2, 3`)** rather than false-precision decimals:
   - By importance or cost of failure: primary requirement or core gate `3`, secondary requirement
     `2`, advisory or polish `1`.
-  - By workload share: if 60% of traffic is API, 30% web, and 10% CLI, use `6, 3, 1` (or `3, 2, 1`).
+  - By workload share: if 60% of traffic is API, 30% web, and 10% CLI, use `6, 3, 1`.
 - **Sanity check blocking power:** a dimension with share `w_i / sum(w)` caps the case score at
   `100% - share` when it scores 0%. With weights `1, 3, 2` (sum `6`), the weight-3 dimension holds
   50% of the score — failing it caps the case at 50% (cannot clear a 60–80% bar) — while failing
   the weight-1 dimension still leaves up to 83% reachable. Pick weights so the dimensions that must
   succeed carry enough share to block the case when they fail.
 - Stays conservative (three stages at 70% score 70%, never inflated), stays on the `0–100%` scale,
-  and requires no independence assumption.
+  and its point estimate requires no independence assumption between stages.
 
 ## Case 95% credible interval and verdict
 
@@ -123,6 +128,12 @@ Beta-posterior model used for suite intervals in `references/measuring-runs.md`:
 2. In each draw, sample each stage's rate independently from `Beta(passed_i + 0.5, failed_i + 0.5)`.
 3. Plug the drawn rates into the suite's combining formula (Noisy-OR or weighted average).
 4. Take the 2.5th and 97.5th percentiles.
+
+Step 2 assumes each stage's attempts were sampled **separately**. When multiple weighted dimensions
+are graded on the **same** attempts (such as parallel rubric scores on one set of runs),
+independent Beta draws count one body of evidence several times and produce an overly narrow
+interval; for shared-trial rubrics, compute the weighted score per attempt and bootstrap over
+attempts instead, or omit the independent-stage Beta interval and say so.
 
 Example at three attempts per stage (Noisy-OR with `e_plan = 0.5`, `e_cr = 1.0`, `e_qa = 1.0` vs.
 weighted average with `w = 1, 3, 2`):
@@ -140,7 +151,9 @@ weighted average with `w = 1, 3, 2`):
 - **Lower-bound CI verdict:** a suite may instead (or also) require the 95% credible interval's
   lower bound to meet a bar (for example, `> 50%` or `> 70%` for critical cases). Under Noisy-OR,
   clearing a higher lower-bound bar lets a team either add cheap attempts to code review (`10 of 10`
-  reaches 72% lower bound without needing QA) or backstop it with QA.
+  reaches a 72% lower bound even when QA scores 0 of 3 — still running QA's planned attempts if QA
+  is included in the recorded case, or omitting QA from that case's stages) or backstop code review
+  with passing QA runs.
 - **Early stopping:** if any stage stopped early or was skipped, do not report a combined rate or
   credible interval — stopping early biases the stage rate. Report stage counts and verdict only.
 
@@ -174,7 +187,8 @@ standard tracking columns:
 
 - `stage`, `effectiveness` (for `--combine noisy-or`, default `1`) or `weight` (for `--combine
   weighted`, default `1`), `stage_priority`, `stage_target`, `planned`;
-- `case_priority`, `case_target`, and optionally `case_ci_low_target`;
+- `case_priority`, `case_target`, and optionally `case_ci_low_target` (repeat consistently across a
+  case's rows or leave blank after the first row; conflicting values on the same case are rejected);
 - `combine` (`noisy-or` or `weighted`) and `enforce_stage_floors` (default on) live in `AGENTS.md`
   rather than repeated per row when suite-wide.
 

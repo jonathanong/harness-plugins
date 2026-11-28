@@ -5,7 +5,7 @@ max_turns: 10
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-We test our production regressions across a sequential workflow: engineering planning (advisory, effectiveness 0.5), then code review (hard gate, effectiveness 1.0), then QA (hard gate, effectiveness 1.0). If code review catches a bug, it does not reach QA; QA only needs to catch what escapes earlier stages.
+We test our production regressions across a sequential workflow: engineering planning (advisory, effectiveness 0.5), then code review (hard gate, effectiveness 1.0), then QA (hard gate, effectiveness 1.0). In production, a bug caught in code review never reaches QA; QA only needs to catch what escapes earlier stages. In our eval suite, each stage is sampled separately with 3 attempts on its own fixture for `regression-1` (measuring each stage's catch rate conditional on the bug reaching that stage).
 
 For `regression-1` (overall case priority: critical, target 80%), a 3-attempt run scored:
 
