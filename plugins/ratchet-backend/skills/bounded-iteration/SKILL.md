@@ -56,8 +56,9 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
    ([postgres-locking](../postgres-locking/SKILL.md))
 4. **A stream is not a bound.** A cursor or stream bounds memory, not work. Cap the rows streamed
    per run.
-5. **Resume without restarting.** Keep a keyset position on the UUIDv7 key or a
-   `<verb>_through_at` time position, fix the sweep's end when it starts, and rescan an overlap
+5. **Resume without restarting.** Keep a keyset position on the UUIDv7 key or a `(time, id)`
+   position on a time only the database sets and that only moves forward (`<verb>_through_at`;
+   see [sweep patterns](references/sweep-patterns.md#high-water-mark-window-with-an-overlap)), fix the sweep's end when it starts, and rescan an overlap
    when insert order differs from commit order. A run's position belongs to that run: keep it in
    the job's data and pass it to the job that continues the run. No two runs then write the same
    position, and overlapping runs repeat work at worst. A stored cursor that runs share is only
@@ -133,7 +134,7 @@ feeds, and pagination are in [list-reads](../list-reads/SKILL.md).
     design, such as a scheduled materialized-view refresh, is exempt.
 17. **A failed row leaves the front.** A sweep that selects oldest first selects a failing row
     again first on every run, and once a batch's worth of rows fail for good nothing behind them
-    runs. On failure, push the row's due time back with backoff, and select only due rows. Count
+    runs. On failure, or a skip, lost claim, or throw, push the due time back with backoff, and select only due rows. Count
     toward retirement only a rejection a retry cannot fix; a timeout, 5xx, or 429 backs off
     uncounted, so an outage does not retire every row in flight. After a set number of counted
     rejections, mark it failed so it leaves the selection; retried forever, permanent failures

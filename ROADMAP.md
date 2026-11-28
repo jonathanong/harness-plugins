@@ -67,6 +67,10 @@ Each still gets a loading case and an answer case.
       2026-11-27 needed to write in the run's workspace, which the runner mounts read-only, and
       the model named the right commands unaided. Try a review of a diff that hand-merged the
       lockfile.
+- [ ] **`bounded-iteration`, "every outcome that holds the front", has no case the model fails
+      unaided.** A review of a dispatcher whose skipped rows count toward its cap passed both
+      arms on 2026-11-27. Try a dispatcher whose skip is inside a helper, or one where only a
+      thrown fetch leaves the timestamp unwritten.
 - [ ] **`git-commit-checklist` needs a generated-file conflict the model fails unaided.**
       `generated-file-conflict-on-rebase` is a ceiling case. Try a fixture where the generator
       command is not in the file's header, or the conflict is in a generated project file.

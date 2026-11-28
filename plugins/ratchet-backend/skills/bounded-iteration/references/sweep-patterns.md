@@ -92,6 +92,12 @@ UPDATE shipments_outbox
   set of attempts.
 - A cursor that moves past failed rows also clears the head, but it needs another pass to retry
   them; prefer the due time.
+- A failure is not the only outcome that leaves a row at the front. A row skipped because its host
+  is backing off, a claim another worker won, a rate limit, or a throw before the due time is
+  written each leave the sort column where it was. Each such outcome either advances the column
+  or is filtered out by the selection before it takes a slot of the run's capacity. Test it with
+  more stuck rows than one run's capacity, all older than some healthy due rows, and assert that
+  the healthy rows are dispatched.
 
 ## Dirty marker or work item
 
@@ -205,6 +211,13 @@ position inside it, and read
 the window's end. Rows that share a timestamp are neither skipped nor repeated, and new arrivals
 wait for the next window. Advance `<verb>_through_at` to the window's end only after the window is
 drained, and start the next window an overlap earlier.
+
+The column may also change after insert, as in a dispatcher that walks oldest first by
+`(last_fetched_at, id)`, when two things hold. Only the database writes it, from the clock, so it
+moves only forward; and the run's due cutoff is fixed when the run starts. A row re-stamped during
+the run then jumps past both the cursor and the cutoff and waits for the next run, which is the
+intended result, not a skipped row. A business time, or any column a client can set, can move
+backward behind the cursor and is never a position.
 
 ## Capped batch loop with `hasMore`
 
