@@ -26,8 +26,7 @@ file that shows it is generated from that source.
 
 Write it for someone who has not seen the suite and will not read the cases. In this order:
 
-1. **What the suite evaluates.** One paragraph: the behavior under test, and the question a score
-   answers.
+1. **What the suite evaluates.** One paragraph: behavior under test and the question scores answer.
 2. **Current results.** One table from one run. Above it, state the run's date, commit, agent
    model, judge model, attempts per arm, and cost, split into agent and judges when the runner
    reports them apart.
@@ -42,16 +41,14 @@ Write it for someone who has not seen the suite and will not read the cases. In 
 Rules for the results table:
 
 - Report both arms when the suite has a baseline arm (with and without the thing under test). The
-  difference between the arms is the result. A high score with no difference means the model does
+  difference between the arms is the result; a high score with no difference means the model does
   as well without it.
 - Mark a case whose baseline arm already scores at the top as a ceiling case. It shows that the
-  thing under test fires and does no harm. It does not show that it helps.
-- Build the table from a single run. If one row must come from another run, mark the row and say
-  which run.
-- Do not keep older scores, the reasons behind a change, or a narrative of how the suite got here.
-  Those belong in `HISTORY.md`.
-- Do not round a small sample into a claim. Give the count beside the rate when attempts are few
-  ("2 of 3"), and say what difference the sample cannot resolve.
+  thing under test fires and does no harm, not that it helps.
+- Build the table from one run. If a row comes from another run, mark it and name that run.
+- Keep older scores, reasons behind a change, and history in `HISTORY.md`, not here.
+- Do not round a small sample into a claim. Give the count beside the rate ("2 of 3"), and say
+  what difference the sample cannot resolve.
 
 ## HISTORY.md: the log
 
@@ -85,8 +82,7 @@ directory, so leave out results and history. Cover:
 - how graders must be written (see below);
 - what a fixture may and may not do on the machine that runs it;
 - which actions a case must never perform for real;
-- that a change to a case, grader, fixture, or the thing under test updates `README.md` and
-  `HISTORY.md` in the same change;
+- that changing a case, grader, fixture, or subject updates `README.md` and `HISTORY.md` together;
 - anything generated: name the generator, and say not to edit its output.
 
 ## Rules worth putting in AGENTS.md
@@ -97,12 +93,16 @@ kinds of eval a skill suite runs and the attempts each needs, and
 
 **Runs and numbers**
 
-- Give each case a priority and a target pass rate: critical 80%, high 70%, medium 60%, low 50%.
-  At three attempts that is 3 of 3 for critical and high and 2 of 3 for medium and low. Report
-  every rate with its 95% interval and count. Stop a case early once its remaining attempts
-  cannot change its verdict, and record the attempts that ran ("2 of 2"), never a full count.
-  Read `references/measuring-runs.md` for the intervals, the stopping rule, cost, and the
-  tracking CSV.
+- Set each case's priority from effort and impact (each suite defines its mapping in `AGENTS.md`),
+  with default targets of critical 80%, high 70%, medium 60%, low 50% (3 of 3 for critical and
+  high, 2 of 3 for medium and low) or a target on the 95% interval's lower bound. Always report
+  the 95% interval and count. Stop early once remaining attempts cannot change the verdict, and
+  record the attempts that ran ("2 of 2"). Read `references/measuring-runs.md` for the 4×4 matrix,
+  intervals, stopping rule, cost, and tracking CSV.
+- When one case runs across multiple workflow stages (such as planning, code review, and QA), give
+  each stage its own effort-by-impact matrix, priority floor, and weight, and judge the case by
+  its weighted average score and 95% credible interval. Read `references/workflow-evals.md` for the
+  formula, per-stage floors, and spend-optimization rules.
 - For a skill that loads on demand, report two layers per case: how often it loaded, and how
   often the case passed when it did. 2 of 3 loaded and 1 of 2 passed when loaded is 1 of 3
   overall; the priority target is for the overall rate. Hold loading to its own target, 80% by
@@ -114,9 +114,8 @@ kinds of eval a skill suite runs and the attempts each needs, and
 - Keep every attempt's trace, and read the failing attempts before changing anything. Decide
   whether the case, the grader, or the thing under test is wrong. Never loosen a grader to pass.
 - When a change is aimed at one group of cases, also run the groups it does not target.
-- Keep raw results out of version control when they are large or hold transcripts. Then
-  `README.md` and `HISTORY.md` are the durable record, so update them before the raw results are
-  discarded.
+- Keep large raw results or transcripts out of git; update `README.md` and `HISTORY.md` before
+  discarding them.
 
 ## After a run
 
