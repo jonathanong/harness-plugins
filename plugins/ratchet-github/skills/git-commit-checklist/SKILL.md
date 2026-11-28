@@ -40,10 +40,10 @@ editor. The push then overwrites commits you never read.
 
 - Name the remote and the branch in the push, so a configured push remote cannot change where it
   goes.
-- Before the force push, compare the local head from before the rewrite with the new one
-  (`git diff $old_head HEAD`, or `git range-diff`), not the remote tip, which lacks unpushed
-  commits. Read the content, not only `--stat`, and account for every hunk that changed without
-  being meant to. A rebase without `--rebase-merges` drops whatever lived only in a merge commit,
+- Before the force push, run `git diff $old_head HEAD`: the local head from before the rewrite,
+  not the remote tip, which lacks unpushed commits. `git range-diff` alone does not do, because
+  it skips merge commits. Read the content, not only `--stat`, and account for every hunk that
+  changed without being meant to. A rebase without `--rebase-merges` drops whatever lived only in a merge commit,
   such as a resolution or a new file, and nothing fails at push time.
 - If the push is rejected, fetch and read the new commits. Do not retry with `--force`.
 - Do not commit or push with `--no-verify`. A hook that fails is reporting something; fix it, or

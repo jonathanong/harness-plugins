@@ -11,7 +11,7 @@ one-attempt pilots of both arms: $0.41. The measured run of the new case, three 
 plugin and three without: $0.63. Total $1.04.
 
 - "Before a rebase or a force push" gains a step: compare the local head from before the rewrite
-  with the new one (`git diff`, or `git range-diff`) and account for every hunk that changed. The
+  with the new one (`git diff`; `git range-diff` skips merges) and account for every hunk. The
   measured run used an earlier wording that compared the remote tip by `--stat`; review moved it
   to the local head and the content, and the case was not rerun, since it covers the other rule. A rebase without `--rebase-merges` drops whatever lived only in a merge commit.
 - "A conflict in a hand-written file" gains a rule: a merge commit holds only the merge and its
