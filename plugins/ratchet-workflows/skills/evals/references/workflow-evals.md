@@ -59,9 +59,9 @@ case passes through dependent defense-in-depth layers and only fails if every la
   QA combine to `1 - (1 - 0.70)(1 - 0.50) = 85%`, and 100% code review makes QA unnecessary.
 - **`0.3–0.6` for advisory or soft stages** that warn without blocking (planning review, design
   review, non-blocking bot comment). Pick roughly the fraction of flagged issues that get fixed
-  rather than ignored; even 100% in planning then caps the case score at `e_plan` (still keep stage
-  floors enabled when downstream gates are required to pass, since a low case target such as 50%
-  could otherwise pass on planning alone).
+  rather than ignored; planning alone then contributes at most `e_plan` to the case score (still
+  keep stage floors enabled when downstream gates are required to pass, since a low case target
+  such as 50% could otherwise pass on planning alone).
 - **`0.6–0.9` for discounted late or expensive gates** (optional): set `e_qa < 1.0` (for example
   `e_plan = 0.33`, `e_cr = 1.0`, `e_qa = 0.67`) when you want the combined score itself to penalize
   relying on slow, costly late catches. Alternatively, keep every hard gate at `1.0` so the score
@@ -80,9 +80,9 @@ case passes through dependent defense-in-depth layers and only fails if every la
   on luck.
 - **State the independence caveat in `README.md` ("What the suite does not measure").** Multiplying
   `(1 - e_i * p_i)` assumes stage misses are independent. Positively correlated misses (for
-  example, the same model or blind spot running across stages) make Noisy-OR an optimistic upper
-  bound, while negatively correlated misses (stages catching disjoint failure modes) can make it
-  pessimistic, unless measured end-to-end.
+  example, the same model or blind spot running across stages) can make Noisy-OR optimistic, while
+  negatively correlated misses (stages catching disjoint failure modes) can make it pessimistic,
+  unless measured end-to-end.
 
 ### Independent dimensions: weighted average (`sum(w_i * p_i) / sum(w_i)`)
 
@@ -133,9 +133,10 @@ Step 2 assumes each stage's attempts were sampled **separately**. When multiple 
 are graded on the **same** attempts (such as parallel rubric scores on one set of runs),
 independent Beta draws count one body of evidence several times and produce an overly narrow
 interval, while a plain bootstrap over attempts collapses to `[100-100]` whenever every attempt
-scores 100%. For shared-trial rubrics, either score each attempt as binary pass/fail and report its
-Wilson interval, or omit the combined interval and any lower-bound CI verdict and state that the
-dimensions share trials.
+scores 100%. For shared-trial rubrics, omit the weighted score's interval and lower-bound CI
+verdict (noting that the dimensions share trials); if you also want a 95% interval, report a
+per-attempt binary pass rate and its Wilson interval separately, not as an interval on the weighted
+score.
 
 Example at three attempts per stage (Noisy-OR with `e_plan = 0.5`, `e_cr = 1.0`, `e_qa = 1.0` vs.
 weighted average with `w = 1, 3, 2`):
